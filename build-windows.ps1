@@ -164,7 +164,7 @@ function Copy-ImportedDlls {
                 $queue.Enqueue($target)
             }
             else {
-                Write-Warning "dependency not found in $DependencyDir: $dll"
+                Write-Warning "dependency not found in ${DependencyDir}: $dll"
             }
         }
     }
