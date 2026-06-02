@@ -14,4 +14,4 @@ If the script can find Qt under `C:\Qt`, `-QtBin` can be omitted:
 powershell -NoProfile -ExecutionPolicy Bypass -File .\build-windows.ps1
 ```
 
-The packaged Windows build is written to `release/windows/`. The script runs `windeployqt` and then copies additional MinGW/MSYS2 runtime DLLs detected by `objdump`.
+The packaged Windows build is written to `release/windows/`. The script runs `windeployqt`, ensures the `platforms/qwindows.dll` plugin is present, and then copies additional MinGW/MSYS2 runtime DLLs detected by `objdump`.

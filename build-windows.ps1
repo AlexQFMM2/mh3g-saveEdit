@@ -170,6 +170,31 @@ function Copy-ImportedDlls {
     }
 }
 
+function Copy-QtPlatformPlugin {
+    param(
+        [string]$PackageDir,
+        [string]$QtRoot
+    )
+
+    $platformsDir = Join-Path $PackageDir "platforms"
+    New-Item -ItemType Directory -Force -Path $platformsDir | Out-Null
+
+    $candidates = @(
+        (Join-Path $QtRoot "share\qt5\plugins\platforms\qwindows.dll"),
+        (Join-Path $QtRoot "plugins\platforms\qwindows.dll")
+    )
+
+    foreach ($candidate in $candidates) {
+        if (Test-Path $candidate) {
+            Copy-Item $candidate (Join-Path $platformsDir "qwindows.dll") -Force
+            Write-Host "copied Qt platform plugin: qwindows.dll"
+            return
+        }
+    }
+
+    Write-Warning "qwindows.dll platform plugin not found. Checked: $($candidates -join ', ')"
+}
+
 $ResolvedQtBin = Find-QtRoot $QtBin
 $QtRoot = Split-Path -Parent $ResolvedQtBin
 $QtToolDirs = @(
@@ -229,6 +254,7 @@ Copy-Item $BuiltExe (Join-Path $PackageDir "$TargetName.exe")
 Copy-Item (Join-Path $Root "data") (Join-Path $PackageDir "data") -Recurse
 
 & $WinDeployQt (Join-Path $PackageDir "$TargetName.exe") "--$Configuration"
+Copy-QtPlatformPlugin $PackageDir $QtRoot
 Copy-ImportedDlls $PackageDir $ResolvedQtBin $Objdump
 
 $RunBat = Join-Path $PackageDir "run-windows.bat"
