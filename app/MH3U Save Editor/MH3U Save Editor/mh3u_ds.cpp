@@ -272,16 +272,17 @@ dataset_t* MH3U_DS::readFile(std::string filename)
 
 		dataset = new dataset_t();
 	
-		const uint32_t bufferSize = 32;
-		char* buffer = new char[bufferSize];
-
 		uint32_t count = 1;
-		while(ss.good())
+		std::string line;
+		while(std::getline(ss, line))
 		{
-			ss.getline(buffer, bufferSize);
+			if (!line.empty() && line[line.size() - 1] == '\r')
+			{
+				line.erase(line.size() - 1);
+			}
 
 			dataitem_t dataitem;
-			dataitem.identifier = buffer;
+			dataitem.identifier = line;
 			dataitem.count = count;
 			dataset->push_back(dataitem);
 
@@ -320,9 +321,9 @@ std::string MH3U_DS::folderLang(const lang_t &lang)
 		{
 			return "en/";
 		}
-		case LANG_FR:
+		case LANG_CN:
 		{
-			return "fr/";
+			return "cn/";
 		}
 		case LANG_NONE:
 		default:

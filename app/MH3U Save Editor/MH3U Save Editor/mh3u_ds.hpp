@@ -20,7 +20,7 @@ typedef enum lang_t
 {
 	LANG_NONE = 0,
 	LANG_EN = 1,
-	LANG_FR = 2,
+	LANG_CN = 2,
 } lang_t;
 
 /* --------- Class --------- */

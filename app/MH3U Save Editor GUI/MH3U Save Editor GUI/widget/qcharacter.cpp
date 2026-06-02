@@ -12,18 +12,21 @@ QCharacter::QCharacter(MH3U_SE *mh3u, QWidget *parent) : QDialog(parent)
     {
         m_sexs->addItem(QString(MH3U_DS::sexs()->at(i).identifier.c_str()), MH3U_DS::sexs()->at(i).count);
     }
+    configureSearchableComboBox(m_sexs);
 
     m_faces = new QComboBox(this);
     for (uint32_t i = 0; i < MH3U_DS::faces()->size(); i++)
     {
         m_faces->addItem(QString(MH3U_DS::faces()->at(i).identifier.c_str()), MH3U_DS::faces()->at(i).count);
     }
+    configureSearchableComboBox(m_faces);
 
     m_hairs = new QComboBox(this);
     for (uint32_t i = 0; i < MH3U_DS::hairs()->size(); i++)
     {
         m_hairs->addItem(QString(MH3U_DS::hairs()->at(i).identifier.c_str()), MH3U_DS::hairs()->at(i).count);
     }
+    configureSearchableComboBox(m_hairs);
 
     m_name = new QLineEdit(this);
     m_name->setMaxLength(NAME_SIZE);
@@ -36,6 +39,7 @@ QCharacter::QCharacter(MH3U_SE *mh3u, QWidget *parent) : QDialog(parent)
     {
         m_voices->addItem(QString(MH3U_DS::voices()->at(i).identifier.c_str()), MH3U_DS::voices()->at(i).count);
     }
+    configureSearchableComboBox(m_voices);
 
     m_mogapoint = new QSpinBox(this);
     m_mogapoint->setMinimum(0x0000000);
@@ -43,13 +47,13 @@ QCharacter::QCharacter(MH3U_SE *mh3u, QWidget *parent) : QDialog(parent)
 
 
     QGridLayout *layout = new QGridLayout(this);
-    layout->addWidget(new QLabel("Sex", this), 0, 0);
-    layout->addWidget(new QLabel("Face", this), 0, 1);
-    layout->addWidget(new QLabel("Hairstyle", this), 0, 2);
-    layout->addWidget(new QLabel("Name", this), 0, 3);
-    layout->addWidget(new QLabel("Money", this), 0, 4);
-    layout->addWidget(new QLabel("Voice", this), 0, 5);
-    layout->addWidget(new QLabel("Moga Point", this), 0, 6);
+    layout->addWidget(new QLabel(uiText("Sex"), this), 0, 0);
+    layout->addWidget(new QLabel(uiText("Face"), this), 0, 1);
+    layout->addWidget(new QLabel(uiText("Hairstyle"), this), 0, 2);
+    layout->addWidget(new QLabel(uiText("Name"), this), 0, 3);
+    layout->addWidget(new QLabel(uiText("Money"), this), 0, 4);
+    layout->addWidget(new QLabel(uiText("Voice"), this), 0, 5);
+    layout->addWidget(new QLabel(uiText("Moga Point"), this), 0, 6);
     layout->addWidget(m_sexs, 1, 0);
     layout->addWidget(m_faces, 1, 1);
     layout->addWidget(m_hairs, 1, 2);
@@ -58,7 +62,7 @@ QCharacter::QCharacter(MH3U_SE *mh3u, QWidget *parent) : QDialog(parent)
     layout->addWidget(m_voices, 1, 5);
     layout->addWidget(m_mogapoint, 1, 6);
     this->setLayout(layout);
-    this->setWindowTitle("Character data editor");
+    this->setWindowTitle(uiText("Character data editor"));
 
     this->load();
 }
@@ -82,12 +86,12 @@ void QCharacter::load()
 
 void QCharacter::save()
 {
-    mh3u->savedata->sex = m_sexs->currentData().toInt() -1;
-    mh3u->savedata->face = m_faces->currentData().toInt() -1;
-    mh3u->savedata->hair = m_hairs->currentData().toInt() -1;
+    mh3u->savedata->sex = searchableComboBoxCurrentData(m_sexs).toInt() -1;
+    mh3u->savedata->face = searchableComboBoxCurrentData(m_faces).toInt() -1;
+    mh3u->savedata->hair = searchableComboBoxCurrentData(m_hairs).toInt() -1;
     strncpy((char*) mh3u->savedata->name, m_name->text().toStdString().c_str(), NAME_SIZE);
     mh3u->savedata->money = m_money->value();
-    mh3u->savedata->voice = m_voices->currentData().toInt() -1;
+    mh3u->savedata->voice = searchableComboBoxCurrentData(m_voices).toInt() -1;
     mh3u->savedata->mogapoint = m_mogapoint->value();
 }
 

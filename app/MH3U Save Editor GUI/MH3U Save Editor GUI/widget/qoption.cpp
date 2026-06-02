@@ -1,4 +1,5 @@
 #include "qoption.hpp"
+#include "../main.hpp"
 
 #include <QGridLayout>
 #include <QLabel>
@@ -6,14 +7,15 @@
 QOption::QOption(QWidget *parent) : QDialog(parent)
 {
     m_languageButton = new QComboBox();
-    m_languageButton->addItem("English", LANG_EN);
-    m_languageButton->addItem("French", LANG_FR);
+    m_languageButton->addItem(uiText("English"), LANG_EN);
+    m_languageButton->addItem(uiText("Chinese"), LANG_CN);
+    configureSearchableComboBox(m_languageButton);
 
     QGridLayout *layout = new QGridLayout(this);
-    layout->addWidget(new QLabel("Language", this), 0, 0);
+    layout->addWidget(new QLabel(uiText("Language"), this), 0, 0);
     layout->addWidget(m_languageButton, 1, 0);
     this->setLayout(layout);
-    this->setWindowTitle("MH3U - Options");
+    this->setWindowTitle(uiText("MH3U - Options"));
 
     this->load();
 }
@@ -32,5 +34,5 @@ void QOption::load()
 
 void QOption::save()
 {
-    MH3U_DS::readData((lang_t) m_languageButton->currentData().toUInt());
+    MH3U_DS::readData((lang_t) searchableComboBoxCurrentData(m_languageButton).toUInt());
 }

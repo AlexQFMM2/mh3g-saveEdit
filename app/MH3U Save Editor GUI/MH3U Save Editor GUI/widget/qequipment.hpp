@@ -5,8 +5,8 @@
 
 #include <QWidget>
 #include <QDialog>
-#include <QSpinBox>
 #include <QComboBox>
+#include <QLabel>
 
 class QEquipment : public QDialog
 {
@@ -17,24 +17,16 @@ public:
 protected:
     void closeEvent(QCloseEvent *);
 
+private slots:
+    void equipmentTypeChanged(int index);
+
 private:
     equipment_t *equipment;
     QComboBox *m_equipmentType;
-    QSpinBox *m_foo12;
-    QSpinBox *m_foo21;
-    QSpinBox *m_foo22;
-    QSpinBox *m_foo31;
-    QSpinBox *m_foo32;
-    QSpinBox *m_foo41;
-    QSpinBox *m_foo42;
-    QSpinBox *m_foo51;
-    QSpinBox *m_foo52;
-    QSpinBox *m_foo61;
-    QSpinBox *m_foo62;
-    QSpinBox *m_foo71;
-    QSpinBox *m_foo72;
-    QSpinBox *m_foo81;
-    QSpinBox *m_foo82;
+    QLabel *m_rawBytes;
+    bool m_typeEditable;
+    bool m_loading;
+    bool m_saved;
 
     void load();
     void save();

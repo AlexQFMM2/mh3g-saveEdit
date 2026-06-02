@@ -17,23 +17,20 @@ public:
 protected:
     void closeEvent(QCloseEvent *);
 
+private slots:
+    void saveAndAccept();
+
 private:
     weapon_t *weapon;
     QComboBox *m_equipmentType;
-    QSpinBox *m_foo12;
     QComboBox *m_identifier;
-    QSpinBox *m_foo31;
-    QSpinBox *m_foo32;
-    QSpinBox *m_foo41;
-    QSpinBox *m_foo42;
     QComboBox *m_firstJewelIdentifier;
     QComboBox *m_secondJewelIdentifier;
     QComboBox *m_thirdJewelIdentifier;
-    QSpinBox *m_foo81;
-    QSpinBox *m_foo82;
 
     void load();
     void save();
+    bool validate();
 };
 
 #endif // QWEAPON_H

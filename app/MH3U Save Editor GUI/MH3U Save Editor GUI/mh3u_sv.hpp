@@ -33,6 +33,8 @@ private:
     QPushButton *loadButton;
     QPushButton *saveButton;
 
+    void updateText();
+
 public slots:
     void openQCharacter();
     void openQInventory();

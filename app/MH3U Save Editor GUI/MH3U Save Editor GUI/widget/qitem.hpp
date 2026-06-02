@@ -17,6 +17,9 @@ public:
 protected:
     void closeEvent(QCloseEvent *);
 
+private slots:
+    void saveAndAccept();
+
 private:
     item_t *item;
     QComboBox *m_id;
@@ -24,6 +27,7 @@ private:
 
     void load();
     void save();
+    bool validate();
 };
 
 #endif // QITEM_HPP

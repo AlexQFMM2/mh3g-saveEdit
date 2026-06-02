@@ -10,7 +10,7 @@
 
 MH3U_SV::MH3U_SV(QWidget *parent) : QWidget(parent)
 {
-    if (!MH3U_DS::readData(LANG_EN))
+    if (!MH3U_DS::readData(LANG_CN))
     {
         MH3U_DS::deleteData();
         return;
@@ -22,22 +22,22 @@ MH3U_SV::MH3U_SV(QWidget *parent) : QWidget(parent)
     this->mh3u->load("H:/Users/Gocario/Documents/Monster Hunter/Monster Hunter 3 Ultimate/save/analyse/user3_eq_2");
 #endif
 
-    characterButton = new QPushButton("Character", this);
+    characterButton = new QPushButton(this);
     connect(characterButton, SIGNAL(clicked(bool)), this, SLOT(openQCharacter()));
-    inventoryButton = new QPushButton("Inventory", this);
+    inventoryButton = new QPushButton(this);
     connect(inventoryButton, SIGNAL(clicked(bool)), this, SLOT(openQInventory()));
-    pouchButton = new QPushButton("Pouch", this);
+    pouchButton = new QPushButton(this);
     connect(pouchButton, SIGNAL(clicked(bool)), this, SLOT(openQPouch()));
-    chestButton = new QPushButton("Chest", this);
+    chestButton = new QPushButton(this);
     connect(chestButton, SIGNAL(clicked(bool)), this, SLOT(openQChest()));
-    boxButton = new QPushButton("Box", this);
+    boxButton = new QPushButton(this);
     connect(boxButton, SIGNAL(clicked(bool)), this, SLOT(openQBox()));
 
-    optButton = new QPushButton("Options", this);
+    optButton = new QPushButton(this);
     connect(optButton, SIGNAL(clicked(bool)), this, SLOT(openQOptions()));
-    loadButton = new QPushButton("Load file", this);
+    loadButton = new QPushButton(this);
     connect(loadButton, SIGNAL(clicked(bool)), this, SLOT(loadFile()));
-    saveButton = new QPushButton("Save file", this);
+    saveButton = new QPushButton(this);
     connect(saveButton, SIGNAL(clicked(bool)), this, SLOT(saveFile()));
 
     QHBoxLayout *saveloadLayout = new QHBoxLayout();
@@ -54,7 +54,7 @@ MH3U_SV::MH3U_SV(QWidget *parent) : QWidget(parent)
     mainLayout->addWidget(optButton);
     mainLayout->addLayout(saveloadLayout);
     this->setLayout(mainLayout);
-    this->setWindowTitle("MH3U - Save viewer/editor");
+    this->updateText();
 
     this->refresh();
 }
@@ -90,6 +90,19 @@ void MH3U_SV::refresh()
         loadButton->setDisabled(false);
         saveButton->setDisabled(true);
     }
+}
+
+void MH3U_SV::updateText()
+{
+    characterButton->setText(uiText("Character"));
+    inventoryButton->setText(uiText("Inventory"));
+    pouchButton->setText(uiText("Pouch"));
+    chestButton->setText(uiText("Chest"));
+    boxButton->setText(uiText("Box"));
+    optButton->setText(uiText("Options"));
+    loadButton->setText(uiText("Load file"));
+    saveButton->setText(uiText("Save file"));
+    this->setWindowTitle(uiText("MH3U - Save viewer/editor"));
 }
 
 
@@ -129,14 +142,16 @@ void MH3U_SV::openQOptions()
 {
     QOption *qOption = new QOption();
     qOption->setModal(true);
-    qOption->show();
+    qOption->exec();
+    qOption->deleteLater();
+    this->updateText();
 }
 
 void MH3U_SV::loadFile()
 {
     std::cout << "Loading file!" << std::endl;
 
-    QString filename = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString(), "User files (user1;user2;user3);;All files (*)");
+    QString filename = QFileDialog::getOpenFileName(this, uiText("Open file"), QString(), uiText("User files (user1 user2 user3);;All files (*)"));
 
     if (!filename.isNull())
     {
@@ -150,7 +165,7 @@ void MH3U_SV::saveFile()
 {
     std::cout << "Writing file!" << std::endl;
 
-    QString filename = QFileDialog::getSaveFileName(this, "Ouvrir un fichier", QString(), "User files (user1;user2;user3);;All files (*)");
+    QString filename = QFileDialog::getSaveFileName(this, uiText("Save file as"), QString(), uiText("User files (user1 user2 user3);;All files (*)"));
 
     if (!filename.isNull())
     {

@@ -1,45 +1,72 @@
 #include "qchest.hpp"
 
-#include <QSignalMapper>
+#include <QAbstractItemView>
 #include <QGridLayout>
-#include <QPushButton>
-#include <QTabWidget>
+#include <QHeaderView>
+#include <QHBoxLayout>
+#include <QMessageBox>
+#include <QTableWidgetItem>
+#include <QVBoxLayout>
 
 QChest::QChest(MH3U_SE *mh3u, QWidget *parent) : QWidget(parent)
 {
     this->mh3u = mh3u;
 
-    QSignalMapper *signalMapper = new QSignalMapper(this);
-    connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(buttonClicked(int)));
+    m_table = new QTableWidget(this);
+    m_table->setColumnCount(5);
+    m_table->setHorizontalHeaderLabels(QStringList() << "页" << "格" << "道具" << "数量" << "ID");
+    m_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    m_table->setSelectionBehavior(QAbstractItemView::SelectRows);
+    m_table->setSelectionMode(QAbstractItemView::SingleSelection);
+    m_table->setAlternatingRowColors(true);
+    m_table->verticalHeader()->setVisible(false);
+    m_table->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+    m_table->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
+    m_table->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+    m_table->horizontalHeader()->setSectionResizeMode(3, QHeaderView::ResizeToContents);
+    m_table->horizontalHeader()->setSectionResizeMode(4, QHeaderView::ResizeToContents);
 
-    QTabWidget *tabs = new QTabWidget(this);
-    QWidget *tab;
-    QGridLayout *tab_layout;
-    for (uint32_t i = 0; i < 10; i++)
-    {
-        tab = new QWidget(this);
-        tabs->addTab(tab, QString("Panel ") + QString::number(i+1));
+    connect(m_table, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(tableCellDoubleClicked(int,int)));
+    connect(m_table, SIGNAL(itemSelectionChanged()), this, SLOT(updateSelectedInfo()));
 
-        tab_layout = new QGridLayout(tab);
-        tab->setLayout(tab_layout);
+    m_search = new QLineEdit(this);
+    m_search->setPlaceholderText("搜索道具 / ID / 数量");
+    connect(m_search, SIGNAL(textChanged(QString)), this, SLOT(refreshFilters()));
 
-        for (uint32_t j = 0; j < 100; j++)
-        {
-            m_buttons[i][j] = new QPushButton(QString::number(mh3u->savedata->chest[i][j].id), tab);
-            m_buttons[i][j]->setFixedHeight(32);
-            m_buttons[i][j]->setFixedWidth(32);
+    m_nonEmptyOnly = new QCheckBox("只显示非空", this);
+    connect(m_nonEmptyOnly, SIGNAL(toggled(bool)), this, SLOT(refreshFilters()));
 
-            tab_layout->addWidget(m_buttons[i][j], j / 10, j % 10);
+    m_selectedInfo = new QLabel("(无)", this);
+    m_selectedInfo->setWordWrap(true);
+    m_selectedInfo->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    m_selectedInfo->setMinimumWidth(230);
 
-            signalMapper->setMapping(m_buttons[i][j], i * 100 + j);
-            connect(m_buttons[i][j], SIGNAL(clicked(bool)), signalMapper, SLOT(map()));
-        }
-    }
+    m_editButton = new QPushButton("编辑选中", this);
+    connect(m_editButton, SIGNAL(clicked(bool)), this, SLOT(editSelectedItem()));
 
-    QLayout *main_layout = new QGridLayout(this);
-    main_layout->addWidget(tabs);
-    this->setLayout(main_layout);
-    this->setWindowTitle("Chest editor");
+    m_addButton = new QPushButton("新增到空位", this);
+    connect(m_addButton, SIGNAL(clicked(bool)), this, SLOT(addItemToFirstEmptySlot()));
+
+    QVBoxLayout *sideLayout = new QVBoxLayout();
+    sideLayout->addWidget(new QLabel("筛选", this));
+    sideLayout->addWidget(m_search);
+    sideLayout->addWidget(m_nonEmptyOnly);
+    sideLayout->addSpacing(12);
+    sideLayout->addWidget(new QLabel("选中", this));
+    sideLayout->addWidget(m_selectedInfo);
+    sideLayout->addWidget(m_addButton);
+    sideLayout->addWidget(m_editButton);
+    sideLayout->addStretch(1);
+
+    QHBoxLayout *mainLayout = new QHBoxLayout(this);
+    mainLayout->addWidget(m_table, 1);
+    mainLayout->addLayout(sideLayout);
+    this->setLayout(mainLayout);
+    this->setWindowTitle(uiText("Chest editor"));
+    this->resize(980, 680);
+
+    populateTable();
+    updateSelectedInfo();
 }
 
 QChest::~QChest()
@@ -47,14 +74,160 @@ QChest::~QChest()
     this->mh3u = NULL;
 }
 
-
 void QChest::buttonClicked(int id)
 {
-    // std::cout << "Button " << id << " clicked!" << std::endl;
+    editSlot(id / 100, id % 100);
+}
 
-    QItem *qitem = new QItem(&(this->mh3u->savedata->chest[id / 100][id % 100]), this);
-    qitem->setModal(true);
-    qitem->exec();
+void QChest::tableCellDoubleClicked(int row, int)
+{
+    QTableWidgetItem *pageItem = m_table->item(row, 0);
+    if (pageItem == NULL)
+    {
+        return;
+    }
 
-    m_buttons[id / 100][id % 100]->setText(QString::number(this->mh3u->savedata->chest[id / 100][id % 100].id));
+    editSlot(pageItem->data(Qt::UserRole).toUInt(), pageItem->data(Qt::UserRole + 1).toUInt());
+}
+
+void QChest::editSelectedItem()
+{
+    int row = m_table->currentRow();
+    if (row < 0)
+    {
+        return;
+    }
+
+    tableCellDoubleClicked(row, 0);
+}
+
+void QChest::addItemToFirstEmptySlot()
+{
+    for (uint32_t panel = 0; panel < 10; panel++)
+    {
+        for (uint32_t slot = 0; slot < 100; slot++)
+        {
+            item_t &item = itemAt(panel, slot);
+            if (item.id == 0)
+            {
+                item.count = 1;
+                editSlot(panel, slot);
+                return;
+            }
+        }
+    }
+
+    QMessageBox::information(this, windowTitle(), "没有空道具格。");
+}
+
+void QChest::updateSelectedInfo()
+{
+    int row = m_table->currentRow();
+    if (row < 0)
+    {
+        m_selectedInfo->setText("(无)");
+        return;
+    }
+
+    QTableWidgetItem *pageItem = m_table->item(row, 0);
+    if (pageItem == NULL)
+    {
+        m_selectedInfo->setText("(无)");
+        return;
+    }
+
+    item_t &item = itemAt(pageItem->data(Qt::UserRole).toUInt(), pageItem->data(Qt::UserRole + 1).toUInt());
+    m_selectedInfo->setText(itemTooltipText(item));
+}
+
+void QChest::refreshFilters()
+{
+    populateTable();
+    updateSelectedInfo();
+}
+
+void QChest::populateTable()
+{
+    m_table->setRowCount(0);
+
+    for (uint32_t panel = 0; panel < 10; panel++)
+    {
+        for (uint32_t slot = 0; slot < 100; slot++)
+        {
+            item_t &item = itemAt(panel, slot);
+            if (!itemMatchesFilters(item))
+            {
+                continue;
+            }
+
+            QString name = localizedItemName(item.id);
+
+            int row = m_table->rowCount();
+            m_table->insertRow(row);
+
+            QTableWidgetItem *pageItem = new QTableWidgetItem(QString::number(panel + 1));
+            pageItem->setData(Qt::UserRole, panel);
+            pageItem->setData(Qt::UserRole + 1, slot);
+            m_table->setItem(row, 0, pageItem);
+            m_table->setItem(row, 1, new QTableWidgetItem(QString::number(slot + 1)));
+            m_table->setItem(row, 2, new QTableWidgetItem(name));
+            m_table->setItem(row, 3, new QTableWidgetItem(QString::number(item.count)));
+            m_table->setItem(row, 4, new QTableWidgetItem(QString::number(item.id)));
+        }
+    }
+
+    if (m_table->rowCount() > 0)
+    {
+        m_table->selectRow(0);
+    }
+}
+
+void QChest::editSlot(uint32_t panel, uint32_t slot)
+{
+    item_t editedItem = itemAt(panel, slot);
+    QItem qitem(&editedItem, this);
+    qitem.setModal(true);
+
+    item_t &item = itemAt(panel, slot);
+    if (qitem.exec() == QDialog::Accepted)
+    {
+        item = editedItem;
+        if (item.id == 0)
+        {
+            item.count = 0;
+        }
+    }
+    else if (item.id == 0)
+    {
+        item.count = 0;
+    }
+
+    populateTable();
+    updateSelectedInfo();
+}
+
+item_t& QChest::itemAt(uint32_t panel, uint32_t slot) const
+{
+    return this->mh3u->savedata->chest[panel][slot];
+}
+
+bool QChest::itemMatchesFilters(const item_t &item) const
+{
+    if (m_nonEmptyOnly->isChecked() && item.id == 0)
+    {
+        return false;
+    }
+
+    QString query = m_search->text().trimmed();
+    if (query.isEmpty())
+    {
+        return true;
+    }
+
+    QString name = datasetIdentifierName(MH3U_DS::items(), item.id);
+    QString englishName = englishItemName(item.id);
+    return name.contains(query, Qt::CaseInsensitive)
+        || englishName.contains(query, Qt::CaseInsensitive)
+        || QString::number(item.id).contains(query)
+        || QString::number(item.count).contains(query);
 }

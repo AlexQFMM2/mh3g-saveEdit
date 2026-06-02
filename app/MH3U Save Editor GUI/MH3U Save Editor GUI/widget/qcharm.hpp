@@ -19,6 +19,9 @@ public:
 protected:
     void closeEvent(QCloseEvent *);
 
+private slots:
+    void saveAndAccept();
+
 private:
     charm_t *charm;
     QComboBox *m_equipmentType;
@@ -31,11 +34,10 @@ private:
     QComboBox *m_firstJewelIdentifier;
     QComboBox *m_secondJewelIdentifier;
     QComboBox *m_thirdJewelIdentifier;
-    QSpinBox *m_foo81;
-    QSpinBox *m_foo82;
 
     void load();
     void save();
+    bool validate();
 };
 
 #endif // QCHARM_HPP

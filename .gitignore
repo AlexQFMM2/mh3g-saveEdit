@@ -15,7 +15,13 @@ app/MH3U\ Save\ Editor\ GUI/build-MH3USaveEditorGUI-Desktop_Qt_5_5_0_MinGW_32bit
 *.vcxproj
 *.vcxproj.filters
 *.pro
+!MH3USaveEditorGUI.pro
 *.pro.user
+.qmake.stash
+Makefile
+build/
+bin/
+dump/
 
 
 # Old Apps
@@ -29,6 +35,9 @@ wiki
 
 # Saves
 save/*
+/user1
+/user2
+/user3
 data/*.txt
 release/*
 screen/*

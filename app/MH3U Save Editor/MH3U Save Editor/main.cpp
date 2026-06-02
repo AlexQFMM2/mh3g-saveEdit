@@ -74,7 +74,7 @@ int mh3u_se(int argc, char* argv[])
 
 int mh3u_ds(int argc, char* argv[])
 {
-	MH3U_DS::readData(LANG_FR);
+	MH3U_DS::readData(LANG_CN);
 	MH3U_DS::deleteData();
 
 	return 0;

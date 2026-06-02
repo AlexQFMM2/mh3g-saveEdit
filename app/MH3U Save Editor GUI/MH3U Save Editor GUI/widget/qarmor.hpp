@@ -19,23 +19,24 @@ public:
 protected:
     void closeEvent(QCloseEvent *);
 
+private slots:
+    void saveAndAccept();
+
 private:
     armor_t *armor;
     QComboBox *m_equipmentType;
     QSpinBox *m_upgradeLevel;
     QComboBox *m_identifier;
-    QSpinBox *m_foo31;
     QSpinBox *m_blueComponent;
     QSpinBox *m_greenComponent;
     QSpinBox *m_redComponent;
     QComboBox *m_firstJewelIdentifier;
     QComboBox *m_secondJewelIdentifier;
     QComboBox *m_thirdJewelIdentifier;
-    QSpinBox *m_foo81;
-    QSpinBox *m_foo82;
 
     void load();
     void save();
+    bool validate();
 };
 
 #endif // QARMOR_HPP
