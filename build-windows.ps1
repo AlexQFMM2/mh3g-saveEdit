@@ -11,7 +11,35 @@ $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $ProjectFile = Join-Path $Root "MH3USaveEditorGUI.pro"
 $TargetName = "MH3USaveEditorGUI"
 
-function Find-QtBin {
+function Resolve-Tool {
+    param(
+        [string[]]$Names,
+        [string[]]$Directories
+    )
+
+    foreach ($directory in $Directories) {
+        if (-not $directory) {
+            continue
+        }
+        foreach ($name in $Names) {
+            $path = Join-Path $directory $name
+            if (Test-Path $path) {
+                return (Resolve-Path $path).Path
+            }
+        }
+    }
+
+    foreach ($name in $Names) {
+        $command = Get-Command $name -ErrorAction SilentlyContinue
+        if ($command) {
+            return $command.Source
+        }
+    }
+
+    return ""
+}
+
+function Find-QtRoot {
     param([string]$RequestedQtBin)
 
     $candidates = @()
@@ -29,16 +57,15 @@ function Find-QtBin {
         if (-not $candidate) {
             continue
         }
-        $qmake = Join-Path $candidate "qmake.exe"
-        $deploy = Join-Path $candidate "windeployqt.exe"
-        if ((Test-Path $qmake) -and (Test-Path $deploy)) {
+        $qmake = Resolve-Tool @("qmake.exe", "qmake-qt5.exe") @($candidate)
+        if ($qmake) {
             return (Resolve-Path $candidate).Path
         }
     }
 
     if (Test-Path "C:\Qt") {
-        $qmake = Get-ChildItem -Path "C:\Qt" -Filter "qmake.exe" -Recurse -ErrorAction SilentlyContinue |
-            Where-Object { $_.FullName -match "\\mingw[^\\]*\\bin\\qmake\.exe$" } |
+        $qmake = Get-ChildItem -Path "C:\Qt" -Filter "qmake*.exe" -Recurse -ErrorAction SilentlyContinue |
+            Where-Object { $_.FullName -match "\\mingw[^\\]*\\bin\\qmake(-qt5)?\.exe$" } |
             Sort-Object FullName -Descending |
             Select-Object -First 1
         if ($qmake) {
@@ -46,32 +73,42 @@ function Find-QtBin {
         }
     }
 
-    throw "Qt MinGW bin directory not found. Pass -QtBin, for example: -QtBin C:\Qt\5.15.2\mingw81_64\bin"
+    throw "Qt MinGW directory not found. Pass -QtBin, for example: -QtBin C:\msys64\mingw64\bin"
 }
 
 function Find-Make {
     param([string]$ResolvedQtBin)
 
-    $qtMake = Join-Path $ResolvedQtBin "mingw32-make.exe"
-    if (Test-Path $qtMake) {
-        return $qtMake
-    }
-
-    $command = Get-Command "mingw32-make.exe" -ErrorAction SilentlyContinue
-    if ($command) {
-        return $command.Source
+    $make = Resolve-Tool @("mingw32-make.exe") @($ResolvedQtBin)
+    if ($make) {
+        return $make
     }
 
     throw "mingw32-make.exe not found. Make sure the Qt MinGW toolchain is installed and available."
 }
 
-$ResolvedQtBin = Find-QtBin $QtBin
-$Qmake = Join-Path $ResolvedQtBin "qmake.exe"
-$WinDeployQt = Join-Path $ResolvedQtBin "windeployqt.exe"
+$ResolvedQtBin = Find-QtRoot $QtBin
+$QtRoot = Split-Path -Parent $ResolvedQtBin
+$QtToolDirs = @(
+    $ResolvedQtBin,
+    (Join-Path $QtRoot "share\qt5\bin"),
+    (Join-Path $QtRoot "lib\qt5\bin")
+)
+
+$Qmake = Resolve-Tool @("qmake.exe", "qmake-qt5.exe") $QtToolDirs
+$WinDeployQt = Resolve-Tool @("windeployqt.exe", "windeployqt-qt5.exe") $QtToolDirs
 $Make = Find-Make $ResolvedQtBin
+
+if (-not $Qmake) {
+    throw "qmake.exe/qmake-qt5.exe not found under: $($QtToolDirs -join ', ')"
+}
+if (-not $WinDeployQt) {
+    throw "windeployqt.exe/windeployqt-qt5.exe not found under: $($QtToolDirs -join ', ')"
+}
 
 Write-Host "Qt bin: $ResolvedQtBin"
 Write-Host "qmake: $Qmake"
+Write-Host "windeployqt: $WinDeployQt"
 Write-Host "make: $Make"
 Write-Host "configuration: $Configuration"
 
