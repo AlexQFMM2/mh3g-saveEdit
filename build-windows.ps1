@@ -87,6 +87,89 @@ function Find-Make {
     throw "mingw32-make.exe not found. Make sure the Qt MinGW toolchain is installed and available."
 }
 
+function Copy-ImportedDlls {
+    param(
+        [string]$PackageDir,
+        [string]$DependencyDir,
+        [string]$Objdump
+    )
+
+    if (-not (Test-Path $Objdump)) {
+        Write-Warning "objdump.exe not found; skipping MinGW runtime dependency scan."
+        return
+    }
+
+    $systemDlls = @{
+        "advapi32.dll" = $true
+        "bcrypt.dll" = $true
+        "comdlg32.dll" = $true
+        "crypt32.dll" = $true
+        "dwmapi.dll" = $true
+        "gdi32.dll" = $true
+        "imm32.dll" = $true
+        "iphlpapi.dll" = $true
+        "kernel32.dll" = $true
+        "mpr.dll" = $true
+        "netapi32.dll" = $true
+        "ole32.dll" = $true
+        "oleaut32.dll" = $true
+        "opengl32.dll" = $true
+        "rpcrt4.dll" = $true
+        "secur32.dll" = $true
+        "setupapi.dll" = $true
+        "shell32.dll" = $true
+        "shlwapi.dll" = $true
+        "user32.dll" = $true
+        "userenv.dll" = $true
+        "uxtheme.dll" = $true
+        "version.dll" = $true
+        "winmm.dll" = $true
+        "winspool.drv" = $true
+        "ws2_32.dll" = $true
+    }
+
+    $queue = New-Object System.Collections.Queue
+    Get-ChildItem -Path $PackageDir -Filter "*.exe" -File | ForEach-Object { $queue.Enqueue($_.FullName) }
+    Get-ChildItem -Path $PackageDir -Filter "*.dll" -File | ForEach-Object { $queue.Enqueue($_.FullName) }
+
+    $scanned = @{}
+    while ($queue.Count -gt 0) {
+        $binary = $queue.Dequeue()
+        $binaryKey = $binary.ToLowerInvariant()
+        if ($scanned.ContainsKey($binaryKey)) {
+            continue
+        }
+        $scanned[$binaryKey] = $true
+
+        $imports = & $Objdump -p $binary 2>$null |
+            Select-String "DLL Name:" |
+            ForEach-Object { ($_.Line -replace ".*DLL Name:\s*", "").Trim() } |
+            Where-Object { $_ }
+
+        foreach ($dll in $imports) {
+            $dllKey = $dll.ToLowerInvariant()
+            if ($systemDlls.ContainsKey($dllKey)) {
+                continue
+            }
+
+            $target = Join-Path $PackageDir $dll
+            if (Test-Path $target) {
+                continue
+            }
+
+            $source = Join-Path $DependencyDir $dll
+            if (Test-Path $source) {
+                Copy-Item $source $target
+                Write-Host "copied dependency: $dll"
+                $queue.Enqueue($target)
+            }
+            else {
+                Write-Warning "dependency not found in $DependencyDir: $dll"
+            }
+        }
+    }
+}
+
 $ResolvedQtBin = Find-QtRoot $QtBin
 $QtRoot = Split-Path -Parent $ResolvedQtBin
 $QtToolDirs = @(
@@ -98,6 +181,7 @@ $QtToolDirs = @(
 $Qmake = Resolve-Tool @("qmake.exe", "qmake-qt5.exe") $QtToolDirs
 $WinDeployQt = Resolve-Tool @("windeployqt.exe", "windeployqt-qt5.exe") $QtToolDirs
 $Make = Find-Make $ResolvedQtBin
+$Objdump = Resolve-Tool @("objdump.exe") @($ResolvedQtBin)
 
 if (-not $Qmake) {
     throw "qmake.exe/qmake-qt5.exe not found under: $($QtToolDirs -join ', ')"
@@ -110,6 +194,7 @@ Write-Host "Qt bin: $ResolvedQtBin"
 Write-Host "qmake: $Qmake"
 Write-Host "windeployqt: $WinDeployQt"
 Write-Host "make: $Make"
+Write-Host "objdump: $Objdump"
 Write-Host "configuration: $Configuration"
 
 Set-Location $Root
@@ -144,6 +229,7 @@ Copy-Item $BuiltExe (Join-Path $PackageDir "$TargetName.exe")
 Copy-Item (Join-Path $Root "data") (Join-Path $PackageDir "data") -Recurse
 
 & $WinDeployQt (Join-Path $PackageDir "$TargetName.exe") "--$Configuration"
+Copy-ImportedDlls $PackageDir $ResolvedQtBin $Objdump
 
 $RunBat = Join-Path $PackageDir "run-windows.bat"
 Set-Content -Path $RunBat -Encoding ASCII -Value @"
