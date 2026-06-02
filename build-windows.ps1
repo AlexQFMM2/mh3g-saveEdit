@@ -114,6 +114,18 @@ Write-Host "configuration: $Configuration"
 
 Set-Location $Root
 
+# qmake-generated Makefiles call tools such as g++ by name. Put the selected
+# Qt/MinGW bin first so another MinGW installation earlier in PATH is not used.
+$env:PATH = "$ResolvedQtBin;$env:PATH"
+Write-Host "compiler: $(& g++.exe --version | Select-Object -First 1)"
+
+foreach ($path in @("Makefile", "Makefile.Debug", "Makefile.Release", "build", "bin")) {
+    $fullPath = Join-Path $Root $path
+    if (Test-Path $fullPath) {
+        Remove-Item $fullPath -Recurse -Force
+    }
+}
+
 & $Qmake $ProjectFile "CONFIG+=$Configuration" "CONFIG-=debug_and_release"
 & $Make "-j$([Environment]::ProcessorCount)"
 
