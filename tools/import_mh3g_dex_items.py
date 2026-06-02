@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Import MH3G Dex item Chinese names into data/cn/items.txt.
+"""Import MH3G Dex item Chinese names into data/cn/items.csv.
 
 This importer matches by English item name instead of row order. The editor's
 item list contains historical gaps, typos, and extras, while the Dex dump uses
@@ -16,9 +16,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA_EN = ROOT / "data/en/items.txt"
-DATA_CN = ROOT / "data/cn/items.txt"
-DATA_SOURCES = ROOT / "data/cn/items_sources.txt"
+DATA_CN = ROOT / "data/cn/items.csv"
 DUMP_DIR = ROOT / "dump"
 DEX_CSV = Path("/mnt/DEX/mh3g-dex-dump/dump/mh3g-dex/direct_sql/items_id_zh_en.csv")
 REPORT_CSV = DUMP_DIR / "dex_items_import_report.csv"
@@ -67,12 +65,28 @@ def normalize_name(value: str) -> str:
     return re.sub(r"[^a-z0-9]+", "", value)
 
 
-def display_chinese(zh_cn: str, english: str) -> str:
-    return f"{zh_cn} ({english})"
-
-
 def is_placeholder(english: str) -> bool:
     return english == "DUMMY" or english.startswith("DUMMY ")
+
+
+def load_editor_items() -> list[dict[str, str]]:
+    with DATA_CN.open(encoding="utf-8", newline="") as fh:
+        rows = list(csv.DictReader(fh))
+
+    for row in rows:
+        row.setdefault("id", "")
+        row.setdefault("name", "")
+        row.setdefault("english", "")
+        row.setdefault("source", "")
+
+    return rows
+
+
+def write_editor_items(rows: list[dict[str, str]]) -> None:
+    with DATA_CN.open("w", encoding="utf-8", newline="") as fh:
+        writer = csv.DictWriter(fh, fieldnames=["id", "name", "english", "source"])
+        writer.writeheader()
+        writer.writerows(rows)
 
 
 def load_dex_items() -> dict[str, DexItem]:
@@ -109,15 +123,7 @@ def main() -> int:
     if not DEX_CSV.exists():
         raise SystemExit(f"Dex item dump not found: {DEX_CSV}")
 
-    english_lines = DATA_EN.read_text(encoding="utf-8").splitlines()
-    cn_lines = DATA_CN.read_text(encoding="utf-8").splitlines()
-    source_lines = DATA_SOURCES.read_text(encoding="utf-8").splitlines() if DATA_SOURCES.exists() else []
-
-    while len(cn_lines) < len(english_lines):
-        cn_lines.append("")
-    while len(source_lines) < len(english_lines):
-        source_lines.append("")
-
+    editor_rows = load_editor_items()
     dex_by_name = load_dex_items()
     report_rows: list[list[str]] = []
     unmatched_rows: list[list[str]] = []
@@ -127,17 +133,19 @@ def main() -> int:
     placeholder = 0
     unmatched = 0
 
-    for editor_id, english in enumerate(english_lines):
-        current = cn_lines[editor_id] if editor_id < len(cn_lines) else ""
+    for row in editor_rows:
+        editor_id = int(row["id"])
+        english = row.get("english", "")
+        current = row.get("name", "")
         if not english:
             report_rows.append([editor_id, "", "", "", current, "", "empty"])
             continue
 
         if is_placeholder(english):
             placeholder += 1
-            cn_lines[editor_id] = display_chinese(f"占位 {english[6:]}".rstrip(), english) if english.startswith("DUMMY ") else display_chinese("占位", english)
-            source_lines[editor_id] = "placeholder"
-            report_rows.append([editor_id, "", english, "", current, cn_lines[editor_id], "placeholder"])
+            row["name"] = f"占位 {english[6:]}".rstrip() if english.startswith("DUMMY ") else "占位"
+            row["source"] = "placeholder"
+            report_rows.append([editor_id, "", english, "", current, row["name"], "placeholder"])
             continue
 
         match_kind = "dex-exact"
@@ -152,11 +160,11 @@ def main() -> int:
             report_rows.append([editor_id, "", english, "", current, current, "unmatched"])
             continue
 
-        new_value = display_chinese(dex_item.zh_cn, english)
+        new_value = dex_item.zh_cn
         if current != new_value:
             changed += 1
-            cn_lines[editor_id] = new_value
-        source_lines[editor_id] = match_kind
+            row["name"] = new_value
+        row["source"] = match_kind
         if match_kind == "dex-exact":
             exact += 1
         else:
@@ -172,8 +180,7 @@ def main() -> int:
             match_kind,
         ])
 
-    DATA_CN.write_text("\n".join(cn_lines[: len(english_lines)]) + "\n", encoding="utf-8")
-    DATA_SOURCES.write_text("\n".join(source_lines[: len(english_lines)]) + "\n", encoding="utf-8")
+    write_editor_items(editor_rows)
 
     DUMP_DIR.mkdir(parents=True, exist_ok=True)
     with REPORT_CSV.open("w", encoding="utf-8", newline="") as fh:

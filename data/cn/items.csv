@@ -1,0 +1,1308 @@
+id,name,english,source
+2,调合书①入门篇,Book of Combos 1,dex-exact
+3,调合书②初级篇,Book of Combos 2,dex-exact
+4,调合书③中级篇,Book of Combos 3,dex-exact
+5,调合书④上级篇,Book of Combos 4,dex-exact
+6,调合书⑤达人篇,Book of Combos 5,dex-exact
+7,收纳上手・技之书,Organizer Guide,dex-exact
+8,收纳上手・力之书,Pack Rat Guide,dex-exact
+9,回复药,Potion,dex-exact
+10,回复药Ｇ,Mega Potion,dex-exact
+11,营养剂,Nutrients,dex-exact
+12,营养剂Ｇ,Mega Nutrients,dex-exact
+13,解毒药,Antidote,dex-exact
+14,活力剂,Immunizer,dex-exact
+15,强走药,Dash Juice,dex-exact
+16,强走药Ｇ,Mega Dash Juice,dex-exact
+17,鬼人药,Demondrug,dex-exact
+18,鬼人药Ｇ,Mega Demondrug,dex-exact
+19,怪力药丸,Might Pill,dex-exact
+20,硬化药,Armorskin,dex-exact
+21,硬化药Ｇ,Mega Armorskin,dex-exact
+22,忍耐药丸,Adamant Pill,dex-exact
+23,冷饮,Cool Drink,dex-exact
+24,热饮,Hot Drink,dex-exact
+25,消散剂,Cleanser,dex-exact
+26,千里眼药,Psychoserum,dex-exact
+27,汉方药,Herbal Medicine,dex-exact
+28,秘药,Max Potion,dex-exact
+29,远古秘药,Ancient Potion,dex-exact
+30,增强剂,Catalyst,dex-exact
+31,提神饮料,Energy Drink,dex-exact
+32,增息药,Air Philter,dex-exact
+33,增息药Ｇ,Mega Air Philter,dex-exact
+34,爆药,Gunpowder,dex-exact
+35,生命之粉,Lifecrystals,dex-exact
+36,生命粉尘,Lifepowder,dex-exact
+37,谜之护符,Mystery Charm,dex-exact
+38,闪光护符,Shining Charm,dex-exact
+39,古老护符,Timeworn Charm,dex-exact
+40,风化护符,Enduring Charm,dex-exact
+41,力之护符,Powercharm,dex-exact
+42,力之爪,Powertalon,dex-exact
+43,守之护符,Armorcharm,dex-exact
+44,守之爪,Armortalon,dex-exact
+45,捕获用麻醉药,Tranquilizer,dex-exact
+46,生肉,Raw Meat,dex-exact
+47,毒生肉,Poisoned Meat,dex-exact
+48,麻痹生肉,Tinged Meat,dex-exact
+49,睡眠生肉,Durgged Meat,dex-alias
+50,没烤熟的肉,Rare Steak,dex-exact
+51,烤熟的肉,Well-done Steak,dex-exact
+52,焦肉,Burnt Meat,dex-exact
+53,热肉,Hot Meat,dex-exact
+54,冷肉,Chilled Meat,dex-exact
+55,天然粉色肝,Pink Liver,dex-exact
+56,异国的角龙肉,Ethnic Wyvrnmeat,dex-exact
+57,回旋镖,Boomerang,dex-exact
+58,投掷匕首,Throwing Knife,dex-exact
+59,毒投掷匕首,Poison Knife,dex-exact
+60,催眠投掷匕首,Slee Knife,dex-alias
+61,麻痹投掷匕首,Paralysis Knife,dex-exact
+62,捕获用麻醉匕首,Tranq Knife,dex-exact
+63,素材弹,Bomb Casing,dex-exact
+64,染色球,Paintball,dex-exact
+65,闪光弹,Flash Bomb,dex-exact
+66,音爆弹,Sonic Bomb,dex-exact
+67,怪物的粪,Dung,dex-exact
+68,特大尺寸的粪便,Super-sized Dung,dex-exact
+69,肥沃的泥巴,Fertile Mud,dex-exact
+70,肥料弹,Dung Bomb,dex-exact
+71,烟雾弹,Smoke Bomb,dex-exact
+72,毒烟雾弹,Poison Smoke Bmb,dex-exact
+73,返回弹,Farcaster,dex-exact
+74,捕获用麻醉弹,Tranq Bomb,dex-exact
+75,氧气弹,Oxygen Supply,dex-exact
+76,蜘蛛巢,Spider Web,dex-exact
+77,网,Net,dex-exact
+78,陷阱工具,Trap Tool,dex-exact
+79,陷阱,Pitfall Trap,dex-exact
+80,麻痹陷阱,Shock Trap,dex-exact
+81,小桶,Small Barrel,dex-exact
+82,大桶,Large Barrel,dex-exact
+83,小桶爆弹,Barrel Bomb S,dex-exact
+84,小桶爆弹Ｇ,Barrel Bomb S +,dex-exact
+85,大桶爆弹,Barrel Bomb L,dex-exact
+86,大桶爆弹Ｇ,Barrel Bomb L +,dex-exact
+87,飞空爆弹,Bounce Bomb,dex-exact
+88,飞空爆弹Ｇ,Bounce Bomb +,dex-exact
+89,木天蓼爆弾,Felvine Bomb,dex-exact
+90,空心果,Huskberry,dex-exact
+91,空心骨【小】,Bone Husk S,dex-exact
+92,空心骨【大】,Bone Husk L,dex-exact
+93,LV1 通常弹,Normal S Lv1,dex-exact
+94,LV2 通常弹,Normal S Lv2,dex-exact
+95,LV3 通常弹,NOrmal S Lv3,dex-exact
+96,LV1 贯通弹,Pierce S Lv1,dex-exact
+97,LV2 贯通弹,Pierce S Lv2,dex-exact
+98,LV3 贯通弹,Pierce S Lv3,dex-exact
+99,LV1 散弹,Pellet S Lv1,dex-exact
+100,LV2 散弹,Pellet S Lv2,dex-exact
+101,LV3 散弹,Pellet S Lv3,dex-exact
+102,LV1 穿甲榴弹,Crag S Lv1,dex-exact
+103,LV2 穿甲榴弹,Crag S Lv2,dex-exact
+104,LV3 穿甲榴弹,Crag S Lv3,dex-exact
+105,LV1 扩散弹,Clust S Lv1,dex-exact
+106,LV2 扩散弹,Clust S Lv2,dex-exact
+107,LV3 扩散弹,Clust S Lv3,dex-exact
+108,火炎弹,Flaming S,dex-exact
+109,水冷弹,Water S,dex-exact
+110,电击弹,Thunder S,dex-exact
+111,冰结弹,Freeze S,dex-exact
+112,灭龙弹,Draong S,dex-alias
+113,LV1 回复弹,Recov S Lv1,dex-exact
+114,LV2 回复弹,Recov S Lv2,dex-exact
+115,LV1 毒弹,Poison S Lv1,dex-exact
+116,LV2 毒弹,Poison S Lv2,dex-exact
+117,LV1 麻痹弹,Para S Lv1,dex-exact
+118,LV2 麻痹弹,Para S Lv2,dex-exact
+119,LV1 睡眠弹,Sleep S Lv1,dex-exact
+120,LV2 睡眠弹,Sleep S Lv2,dex-exact
+121,捕获用麻醉弹,Tranq S,dex-exact
+122,染色弹,Paint S,dex-exact
+123,鬼人弹,Demon S,dex-exact
+125,硬化弹,Armor S,dex-exact
+127,LV1 水中弹,Sub S Lv1,dex-exact
+128,LV2 水中弹,Sub S Lv2,dex-exact
+129,LV1 灭气弹,Exhaust S Lv1,dex-exact
+130,LV2 灭气弹,Exhaust S Lv2,dex-exact
+131,斩裂弹,Slicing S,dex-exact
+134,龙击弹,WyvernFire,dex-exact
+135,水中用弩弹,UW Ballista Ammo,dex-exact
+136,(无瓶),(No Coating),need-review
+137,空瓶,Empty Phial,dex-exact
+138,强击瓶,Power Coating,dex-exact
+139,接击瓶,C. Range Coating,dex-exact
+140,毒瓶,Poison Coating,dex-exact
+141,麻痹瓶,Para Coating,dex-exact
+142,睡眠瓶,Sleep Coating,dex-exact
+143,灭气瓶,Exhaust Coating,dex-exact
+144,染色瓶,Paint Coating,dex-exact
+146,蚯蚓鱼饵,Worm,dex-exact
+148,苍蝇鱼饵,Mega Fishing Fly,dex-exact
+149,青蛙鱼饵,Frog,dex-exact
+150,切味鱼团子,Whetfish Bait,dex-exact
+151,刺身鱼团子,Shushifish Bait,dex-alias
+152,金枪鱼团子,Tuna Bait,dex-exact
+154,黄金团子,Goldenfish Bait,dex-exact
+155,龙鱼团子,Burst Bait,dex-exact
+157,破铁镐,Old Pickaxe,dex-exact
+158,铁镐,Iron Pickaxe,dex-exact
+159,铁镐Ｇ,Mega Pickaxe,dex-exact
+160,破虫网,Old Bug Net,dex-exact
+161,虫网,Bug Net,dex-exact
+162,虫网Ｇ,Mega Bug Net,dex-exact
+163,捕鱼鱼叉,Fishing Harpoon,dex-exact
+164,捕鱼鱼叉Ｇ,Mega Harpoon,dex-exact
+165,烤肉架,BBQ Spit,dex-exact
+166,连续烤肉架,Double BBQ Spit,dex-exact
+167,砥石,Whetstone,dex-exact
+168,望远镜,Binoculars,dex-exact
+169,不可燃垃圾,Carbage,dex-alias
+170,角笛,Field Horn,dex-exact
+171,回复笛,Health Horn,dex-exact
+172,解毒笛,Antidote Horn,dex-exact
+173,鬼人笛,Demon Horn,dex-exact
+174,硬化笛,Armor Horn,dex-exact
+175,蜂蜜,Honey,dex-exact
+176,药草,Herb,dex-exact
+177,解毒草,Antidote Herb,dex-exact
+178,火药草,Fire Herb,dex-exact
+180,常春藤叶,Ivy,dex-exact
+181,睡眠草,Sleep Herb,dex-exact
+182,粘着草,Sap Plant,dex-exact
+183,木天蓼,Felvine,dex-exact
+184,仙人掌的花,Cactus Flower,dex-exact
+185,氧气藻,Airweed,dex-exact
+186,辣椒,Hot Pepper,dex-exact
+188,蓝蘑菇,Blue Mushroom,dex-exact
+189,硝化菇,Nitroshroom,dex-exact
+190,麻痹菇,Parashroom,dex-exact
+191,毒伞菇,Toadstool,dex-exact
+192,心跳蘑菇,Exciteshroom,dex-exact
+194,曼陀罗,Dragon Toadstool,dex-exact
+195,大麻痹菇,Bindshroom,dex-exact
+196,染色果,Paintberry,dex-exact
+197,怪力之种,Might Seed,dex-exact
+198,忍耐之种,Adamant Seed,dex-exact
+199,杀龙果,Dragonfell Berry,dex-exact
+200,爆裂核桃,Scatternut,dex-exact
+201,针果,Needleberry,dex-exact
+203,扩散果,Bomberry,dex-exact
+208,抵消果实,Nulberry,dex-exact
+209,大南瓜,Bumblepumpkin,dex-exact
+210,残缺的贝壳,Broken Shell,dex-exact
+211,黑珍珠,Black Pearl,dex-exact
+212,巨大珍珠,Jumbo Pearl,dex-exact
+213,石子,Stone,dex-exact
+214,铁矿石,Iron Ore,dex-exact
+215,大地结晶,Earth Crystal,dex-exact
+216,燕雀石,Machalite Ore,dex-exact
+217,辉龙石,Dragonite Ore,dex-exact
+218,彩水晶,Pelagicite Ore,dex-exact
+222,灵鹤石,Carbalite Ore,dex-exact
+223,绯鸢石,Eltalite Ore,dex-exact
+224,白鹭石,Fucium Ore,dex-exact
+225,云鸠石,Meldspar Ore,dex-exact
+226,渊水晶,Bathycite Ore,dex-exact
+227,溶岩块,Lava Nugget,dex-exact
+228,红莲石,Firestone,dex-exact
+229,狱炎石,Firecell Stone,dex-exact
+230,真红莲石,Allfire Stone,dex-exact
+231,光水晶,Lightcrystal,dex-exact
+232,闪亮金属,Isisium,dex-exact
+234,冰晶金属,Gracium,dex-exact
+235,抗菌石,Antiseptic Stone,dex-exact
+236,冰结晶,Ice Crystal,dex-exact
+237,铠石,Armor Stone,dex-exact
+238,铠玉,Armor Sphere,dex-exact
+239,上铠玉,Armor Sphere +,dex-exact
+240,尖铠玉,Adv Armor Sphere,dex-exact
+241,坚铠玉,Hrd Armor Sphere,dex-exact
+242,重铠玉,Hvy Armor Sphere,dex-exact
+244,真铠玉,Tru Armor Sphere,dex-exact
+245,切味鱼,Whetfish,dex-exact
+246,刺身鱼,Sushifish,dex-exact
+247,眠鱼,Sleepyfish,dex-exact
+248,针金枪鱼,Pin Tuna,dex-exact
+249,爆裂沙丁鱼,Popfish,dex-exact
+250,扩散凸眼金鱼,Scatterfish,dex-exact
+251,破裂龙鱼,Burst Arowana,dex-exact
+252,爆裂龙鱼,Bomb Arowana,dex-exact
+253,贪吃金枪鱼,Glutton Tuna,dex-exact
+254,小金鱼,Small Goldenfish,dex-exact
+255,深水沙丁鱼,Wanchovy,dex-exact
+257,太刀鱼,Blue Cutthroat,dex-exact
+258,低吟贝,Humspun Conch,dex-exact
+260,虫的死骸,Insect Husk,dex-exact
+261,山青虫,Yambug,dex-exact
+262,圆蚱蜢,Bughopper,dex-exact
+264,骨蚱蜢,Stinkhopper,dex-exact
+265,土蜂的幼虫,Snakebee Larva,dex-exact
+266,不死虫,Godbug,dex-exact
+267,苦虫,Bitterbug,dex-exact
+268,光虫,Flashbug,dex-exact
+269,雷光虫,Thunderbug,dex-exact
+270,超电雷光虫,Fulgurbug,dex-exact
+271,粘着白蚁,Carpenterbug,dex-exact
+272,杀人蜂幼虫,Killer Beetle,dex-exact
+273,独角甲虫王,Hercudrome,dex-exact
+275,王族金龟子,King Scarab,dex-exact
+276,稀有金龟子,Rare Scarab,dex-exact
+278,幻之蝶,Flutterfly,dex-exact
+280,素材袋,Bomb Sac,dex-exact
+281,鸣袋,Screamer,dex-exact
+282,毒袋,Poison Sac,dex-exact
+283,猛毒袋,Toxin Sac,dex-exact
+285,麻痹袋,Paralysis Sac,dex-exact
+286,强力麻痹袋,Omniplegia Sac,dex-exact
+287,睡眠袋,Sleep Sac,dex-exact
+288,昏睡袋,Coma Sec,dex-alias
+289,火炎袋,Flame Sac,dex-exact
+290,爆炎袋,Inferno Sac,dex-exact
+291,业炎袋,Conflagrant Sac,dex-exact
+292,水袋,Aqua Sac,dex-exact
+293,大水袋,Torrent Sac,dex-exact
+295,电击袋,Thunder Sac,dex-exact
+296,雷电袋,Lightning Sac,dex-exact
+297,冰结袋,Frost Sac,dex-exact
+298,冻结袋,Freezer Sac,dex-exact
+299,狂走浸出物,Dash Extract,dex-exact
+300,白色浸出物,Pale Extract,dex-exact
+301,龙骨【小】,Monster Bone S,dex-exact
+302,龙骨【中】,Monster Bone M,dex-exact
+303,龙骨【大】,Monster Bone L,dex-exact
+304,谜之骨,Mystery Bone,dex-exact
+305,谜之头骨,Unknown Skull,dex-exact
+306,棒状的骨,Bone,dex-exact
+307,坚固的鸟龙骨,Avian Shoutbone,dex-alias
+309,上龙骨,Monster Bone +,dex-exact
+310,尖龙骨,Monster Keenbone,dex-exact
+311,坚龙骨,Monster hardbone,dex-exact
+312,重龙骨,Monster slogbne,dex-alias
+313,上质的鸟龙骨,Avian Finebone,dex-exact
+314,大骨,Jumbo Bone,dex-exact
+315,坚固之骨,Stoutbone,dex-exact
+316,远古龙骨,Dragonbone Relic,dex-exact
+317,龙牙,Wyvern Fang,dex-exact
+318,龙爪,Wyvern Claw,dex-exact
+319,龙玉,Wyvern Stone,dex-exact
+320,大龙玉,Lrg Wyvern Stone,dex-exact
+321,鸟龙玉,Bird Wyvern Gem,dex-exact
+322,幻鸟龙玉,Fey Wyvern Gem,dex-exact
+323,古龙血,ElderDragonBlood,dex-exact
+325,琉璃色的龙玉,Azure Dragongem,dex-exact
+326,琉璃色的龙神玉,Azure Drgnsphire,dex-exact
+327,漂亮的鱼鳞,Beautiful Scale,dex-exact
+328,闪亮海星,Shining Starfish,dex-exact
+329,珍味・甲胄鱼,Armorfish Morsel,dex-exact
+330,气派的毛皮,Fine Pelt,dex-exact
+331,强力的水蹼,Power Paddle,dex-exact
+332,小而弯曲的牙,Curved Fang,dex-exact
+333,龙骨的碎片,Dragonbone Piece,dex-exact
+334,鲍鱼的碎片,Abalone Piece,dex-exact
+335,化石的碎片,Fossil Piece,dex-exact
+336,漂亮的尾羽,Stunning Quill,dex-exact
+337,土蜂,Saturnian,dex-exact
+338,大幻鱼一角,Mystic Narwhal,dex-exact
+339,强韧的水蹼,Perfect Paddle,dex-exact
+340,月夜的发光牙,Moonlight Fang,dex-exact
+341,闪光的龙鳞,Glittering Scale,dex-exact
+342,巨大的头骨,Giant Skull,dex-exact
+343,龙宫蟹,Atlantis Crab,dex-exact
+344,女王刺针,Queen Needle,dex-exact
+345,太古的油,Ancient Skin Oil,dex-exact
+346,华丽的尾羽,Flamboyant Quill,dex-exact
+347,老年土蜂,Eldest Saturnian,dex-exact
+348,女王的灵药,Queen's Spirit,dex-exact
+349,真红的大龙鳞,Vermilion Scale,dex-alias
+350,海王的大龙鳞,Sea-King's Scale,dex-exact
+351,奇妙的蛋,Odd Egg,dex-exact
+352,土蜂陷阱,Saturnian Trap,dex-exact
+353,药用养虫剂,BugMaker! Pro,dex-exact
+354,强烈的费洛蒙,Funky Pheromones,dex-exact
+355,蘑菇培菌,Shroom Germ,dex-exact
+356,蘑菇倍倍菌,Shroom Germ +,dex-exact
+357,嗞嗞蜜蜂,Bizzy Bees,dex-exact
+358,渔饵,Fish Finder,dex-exact
+359,财宝的海图,Treasure Tracker,dex-exact
+360,预备的大枪,Spare Spear,dex-exact
+361,小金牙,Pittance Fang,dex-exact
+362,大金牙,Fortune Fang,dex-exact
+363,金针,Gold Needle,dex-exact
+364,金龙石,Wyverngold,dex-exact
+365,海贼的财宝,Pirate Booty,dex-exact
+366,钢蛋,Steel Egg,dex-exact
+367,银蛋,Silver Egg,dex-exact
+368,金蛋,Golden Egg,dex-exact
+369,羚鹿的角饰,Kelbi Horn Objet,dex-exact
+370,扭曲的角饰,Twstd Horn Objet,dex-exact
+371,峯山的龙牙饰,MohranFang Objet,dex-exact
+372,小猪,Poogie,dex-exact
+373,鸡蛋小猪,Eggie Poogie,dex-exact
+374,火龙小猪,Rath Poogie,dex-exact
+375,砂岩的花盆,Sandstone Plant,dex-exact
+376,湿地的花盆,Marshland Plant,dex-exact
+377,雪结晶的花盆,Snowflake Plant,dex-exact
+378,彩虹蘑菇灯,Primshroom Lamp,dex-alias
+379,极彩彩鸟灯,Qurupeco Lamp,dex-exact
+380,魅惑的深海灯,Sirensea Lamp,dex-exact
+381,苍海的喷水像,Oceanic Fountain,dex-exact
+382,泡沫的喷水像,Bubbly Fountain,dex-exact
+383,岩浆的喷水像,Magma Fountain,dex-exact
+384,铁矿石雕,Iron Figure,dex-exact
+385,燕雀石雕,Machalite Figure,dex-exact
+386,辉龙石雕,Dragonite Figure,dex-exact
+387,模型・砂上船,Model Sandskiff,dex-exact
+388,模型・飞行船,Model Airship,dex-exact
+389,模型・小猪船,Model Poogieship,dex-alias
+390,公会人偶【红】,Guildie (Red),dex-exact
+391,公会人偶【绿】,Guildie (Green),dex-exact
+392,公会人偶【蓝】,Guildie (Blue),dex-exact
+393,伟大猪猪,Great Poogi,dex-exact
+394,有洞的王冠,Incomplete Crown,dex-exact
+395,王冠上的辉石,Crown's Gemstone,dex-exact
+396,光辉的王冠,Dazzling Crown,dex-exact
+397,黄金的宝剑,Prize Gold Sword,dex-exact
+398,黄金的大硬币,Golden Medallion,dex-exact
+399,羚鹿的角,Kelbi Horn,dex-exact
+400,羚鹿的苍角,Blue Kelbi Horn,dex-exact
+401,暖毛皮,Warm Pelt,dex-exact
+402,上质的毛皮,High-qualty Pelt,dex-exact
+403,丸鸟的羽,Gargwa Feather,dex-exact
+406,长毛鹿的角,Anteka Antler,dex-exact
+408,飞甲虫的甲壳,Bnahabra Shell,dex-exact
+410,飞甲虫的坚壳,Bnaha Carapace,dex-exact
+411,飞甲虫之羽,Bnahabra Wing,dex-exact
+413,飞甲虫的斩羽,Bnahabra Cutwing,dex-exact
+414,飞甲虫的麻痹针,Bnahabra Spine,dex-exact
+415,甲虫的大颚,Altaroth Jaw,dex-exact
+417,甲虫的腹袋,Altaroth Stomach,dex-exact
+418,极上的腹袋,Prized Stomach,dex-exact
+419,上质的腹袋,Quality Sac,dex-exact
+420,野猪的毛皮,Bullfango Pelt,dex-exact
+422,野猪的头,Bullfango Head,dex-exact
+423,怪物体液,Monster Fluid,dex-exact
+424,怪物浓汁,Monster Broth,dex-exact
+425,草食龙的甲壳,Rhenoplos Shell,dex-exact
+426,草食龙的重骨,Rhenoplos Bone,dex-exact
+427,草食龙的头壳,Rhenoplos Scalp,dex-exact
+429,草食龙的坚壳,Rheno Carapace,dex-exact
+431,垂皮龙的上皮,Slagtoth Hide+,dex-exact
+433,大鳍,Big Fin,dex-exact
+435,上质的鳍,Quality Fin,dex-exact
+436,巨大的鳍,Giant Fin,dex-exact
+437,尖牙,Sharpened Fang,dex-exact
+438,光滑的皮,Velvety Hide,dex-exact
+439,古代鲨鱼皮,Sharqskin,dex-exact
+440,小狗龙的鳞,Jaggi Scale,dex-exact
+441,小狗龙的上鳞,Jaggi Scale +,dex-exact
+443,小狗龙的皮,Jaggi Hide,dex-exact
+446,鸟龙种的牙,Bird Wyvern Fang,dex-exact
+447,狗龙的皮,G. Jaggi Hide,dex-exact
+448,狗龙的上皮,G. Jaggi Hide +,dex-exact
+449,狗龙的厚皮,Great Jaggi Piel,dex-exact
+450,狗龙的爪,G. Jaggi Claw,dex-exact
+451,狗龙的尖爪,G. Jaggi Claw +,dex-exact
+453,王者的褶边,King's Frill,dex-exact
+454,伟大的褶边,Imperial Frill,dex-exact
+455,狗龙的头,Great Jaggi Head,dex-exact
+457,小眠狗龙的皮,Baggi Hide,dex-exact
+458,小眠狗龙的鳞,Baggi Scale,dex-exact
+459,小眠狗龙的上鳞,Baggi Scale +,dex-exact
+461,眠狗龙的皮,G. Baggi Hide,dex-exact
+462,眠狗龙的上皮,G. Baggi Hide +,dex-exact
+463,眠狗龙的厚皮,Great Baggi Piel,dex-exact
+464,眠狗龙的爪,G. Baggi Claw,dex-exact
+465,眠狗龙的尖爪,G. Baggi Claw +,dex-exact
+467,王者的头冠,King's Crest,dex-exact
+468,伟大的头冠,Imperial Crest,dex-exact
+469,小毒狗龙的鳞,Wroggi Scale,dex-exact
+470,小毒狗龙的上鳞,Wroggi Scale +,dex-exact
+472,小毒狗龙的皮,Wroggi Hide,dex-exact
+473,小毒狗龙的毒牙,Wroggi Fang,dex-exact
+474,毒狗龙的皮,G. Wroggi Hide,dex-exact
+475,毒狗龙的厚皮,G. Wroggi Piel,dex-exact
+476,毒狗龙的上皮,G. Wroggi Hide +,dex-exact
+477,毒狗龙的腕甲,G. Wroggi Brace,dex-exact
+479,毒狗龙的坚腕甲,G. Wroggi Brace +,dex-exact
+480,王者的喙,King's Beak,dex-exact
+481,伟大的喙,Imperial Beak,dex-exact
+482,彩鸟的鳞,Qurupeco Scale,dex-exact
+483,彩鸟的上鳞,Qurupeco Scale +,dex-exact
+484,彩鸟的厚鳞,Qurupeco Shard,dex-exact
+485,彩鸟的羽毛,Qurupeco Feather,dex-exact
+486,极彩色的艳丽羽毛,Lustrous Feather,dex-exact
+487,彩鸟的翼,Qurupeco Wing,dex-exact
+488,彩鸟的刚翼,Peco Fellwing,dex-exact
+489,物品 Vivid Fellwing,Vivid Fellwing,need-review
+490,奇怪的喙,Strange Beak,dex-exact
+491,极好的喙,Wonderful Beak,dex-exact
+492,魅惑的喙,Alluring Beak,dex-exact
+493,火打石,Flintstone,dex-exact
+494,高级火打石,Quality Flint,dex-exact
+495,红彩鸟的上鳞,C. Peco Scale +,dex-exact
+496,红彩鸟的厚鳞,C. Peco Shard,dex-exact
+497,红彩鸟的翼,C. Peco Wing,dex-exact
+498,红彩鸟的刚翼,C. Peco Fellwing,dex-exact
+499,电气石,Voltstone,dex-exact
+500,高压电气石,High Voltstone,dex-exact
+501,水生兽的皮,Hydro Hide,dex-exact
+502,水生兽的上皮,Hydro Hide +,dex-exact
+504,不成熟海绵质,Immature Sponge,dex-exact
+505,优质的海绵质,Quality Sponge,dex-exact
+506,海绵质的皮,Spongy Hide,dex-exact
+507,海绵质的上皮,Spongy Hide +,dex-exact
+508,海绵质的厚皮,Spongy Piel,dex-exact
+509,水兽的鳞,R. Ludroth Scale,dex-exact
+510,水兽的上鳞,R. Ludroth Scale +,dex-exact
+511,水兽的厚鳞,R. Ludroth Shard,dex-exact
+512,水兽的爪,R. Ludroth Claw,dex-exact
+513,水兽的锐爪,R. Ludroth Claw +,dex-exact
+514,水兽的刚爪,R. Ludroth Talon,dex-exact
+515,水兽的冠,R. Ludroth Crest,dex-exact
+516,高级头冠,R. Ludroth Crest +,dex-exact
+517,别致的头冠,Chic Crest,dex-exact
+518,水兽的尾巴,R. Ludroth Tail,dex-exact
+519,海绵质的紫皮,Plum Spongy Hide,dex-exact
+520,海绵质的紫厚皮,Plum Spongy Piel,dex-exact
+521,紫水兽的上鳞,P. Ludroth Scale +,dex-exact
+522,紫水兽的厚鳞,P. Ludroth Shard,dex-exact
+523,紫水兽的锐爪,P. Ludroth Claw +,dex-exact
+524,紫水兽的刚爪,P. Ludroth Talon,dex-exact
+525,土砂龙的甲壳,Barroth Shell,dex-exact
+526,土砂龙的坚壳,Barroth Carapace,dex-exact
+527,土砂龙的重壳,Barroth Cortex,dex-exact
+528,土砂龙的背甲,Barroth Ridge,dex-exact
+529,土砂龙的坚甲,Barroth Ridge +,dex-exact
+530,土砂龙的重甲,Barroth Chine,dex-exact
+531,土砂龙的爪,Barroth Claw,dex-exact
+532,土砂龙的锐爪,Barroth Claw +,dex-exact
+533,土砂龙的刚爪,Barroth Talon,dex-exact
+534,土砂龙的头壳,Barroth Scalp,dex-exact
+535,土砂龙的重头壳,Barroth Crown,dex-exact
+536,土砂龙的尾巴,Barroth Tail,dex-exact
+537,冰碎龙的坚壳,J. Barr Carapace,dex-exact
+538,冰碎龙的重壳,J. Barroth Cortex,dex-exact
+539,冰碎龙的坚甲,J. Barroth Ridge +,dex-exact
+540,冰碎龙的重甲,J. Barroth Chine,dex-exact
+541,冰碎龙的锐爪,J. Barroth Claw +,dex-exact
+542,冰碎龙的刚爪,J. Barroth Talon,dex-exact
+543,冰碎龙鳞,J. Barroth Scale,rule
+544,冰碎龙的重头壳,J. Barroth Crown,dex-exact
+545,冰碎龙的尾巴,J. Barroth Tail,dex-exact
+546,冰碎龙的韧尾,J. Barroth Lash,dex-exact
+547,冻结的粘液块,Frozen Glob,dex-exact
+549,灯鱼龙的皮,Gobul Hide,dex-exact
+550,灯鱼龙的上皮,Gobul Hide +,dex-exact
+551,灯鱼龙的厚皮,Gobul Piel,dex-exact
+552,灯鱼龙的鳍,Gobul Fin,dex-exact
+553,灯鱼龙的上鳍,Gobul Fin +,dex-exact
+554,灯鱼龙的特上鳍,Fine Gobul Fin,dex-exact
+555,灯鱼龙的棘,Gobul Spike,dex-exact
+556,灯鱼龙的上棘,Gobul Spike +,dex-exact
+557,灯鱼龙的秘棘,Gobul Surspike,dex-exact
+558,灯鱼龙的髭须,Gobul Whisker,dex-exact
+559,灯鱼龙的大王髭须,Gobul Kingwhiskr,dex-exact
+560,提灯球,Gobul Lantern,dex-exact
+561,高级提灯球,Gobul Lantern +,dex-exact
+562,最高级提灯球,Gobul Beacon,dex-exact
+563,雌火龙的鳞,Rathian Scale,dex-exact
+564,雌火龙的上鳞,Rathian Scale +,dex-exact
+565,雌火龙的厚鳞,Rathian Shard,dex-exact
+566,雌火龙的甲壳,Rathian Shell,dex-exact
+567,雌火龙的坚壳,Rathian Carapace,dex-exact
+568,雌火龙的重壳,Rathian Cortex,dex-exact
+569,雌火龙的翼膜,Rathian Webbing,dex-exact
+570,雌火龙的棘,Rathian Spike,dex-exact
+571,雌火龙的上棘,Rathian Spike +,dex-exact
+572,雌火龙的秘棘,Rathian Surspike,dex-exact
+573,雌火龙的逆鳞,Rathian Plate,dex-exact
+574,雌火龙的天鳞,Rathian Mantle,dex-exact
+575,雌火龙的红玉,Rathian Ruby,dex-exact
+577,樱火龙的上鳞,P. Rathian Scale +,dex-exact
+578,樱火龙的厚鳞,P. Rathian Shard,dex-exact
+579,樱火龙的坚壳,P. Rath Carapace,dex-exact
+580,樱火龙的重壳,P. Rathian Cortex,dex-exact
+581,金火龙的厚鳞,G. Rathian Shard,dex-exact
+582,金火龙的重壳,G. Rathian Cortex,dex-exact
+583,金火龙的秘棘,G. Rath Surspike,dex-exact
+584,火龙的鳞,Rathalos Scale,dex-exact
+585,火龙的上鳞,Rathalos Scale +,dex-exact
+586,火龙的厚鳞,Rathalos Shard,dex-exact
+587,火龙的甲壳,Rathalos Shell,dex-exact
+588,火龙的坚壳,Rathalos Carapace,dex-alias
+589,火龙的重壳,Rathalos Cortex,dex-exact
+590,火龙的翼膜,Rathalos Webbing,dex-exact
+591,火龙的刚翼,Rathalos Fellwing,dex-alias
+592,火龙的尾巴,Rathalos Tail,dex-exact
+593,火龙的韧尾,Rathalos Lash,dex-exact
+594,火龙的逆鳞,Rathalos Plate,dex-exact
+595,火龙的天鳞,Rathalos Mantle,dex-exact
+596,火龙的红玉,Rathalos Ruby,dex-exact
+597,火龙的翼爪,Rath Talon,dex-exact
+598,火龙的刚翼爪,Rath Ripper,dex-exact
+599,火龙的骨髓,Rath Marrow,dex-exact
+600,火龙的延髓,Rath Medulla,dex-exact
+601,火龙的煌液,Rath Gleem,dex-exact
+602,苍火龙的上鳞,A. Rath Scale +,dex-exact
+603,苍火龙的厚鳞,A. Rathalos Shard,dex-exact
+604,苍火龙的坚壳,A. Rath Carapace,dex-exact
+605,苍火龙的重壳,A. Rath Cortex,dex-exact
+606,苍火龙的尾巴,A. Rathalos Tail,dex-exact
+607,苍火龙的韧尾,A. Rathalos Lash,dex-exact
+608,苍火龙的翼,A. Rathalos Wing,dex-exact
+609,银火龙的厚鳞,S. Rathalos Shard,dex-exact
+610,银火龙的重壳,S. Rath Cortex,dex-exact
+611,银火龙的韧尾,S. Rathalos Lash,dex-exact
+615,毒怪龙的皮,Gigginox Hide,dex-exact
+616,毒怪龙的上皮,Gigginox Hide +,dex-exact
+617,毒怪龙的厚皮,Gigginox Piel,dex-exact
+618,可怕的皮,Uncanny Hide,dex-exact
+619,可怕的上皮,Uncanny Hide +,dex-exact
+620,毒怪龙的爪,Gigginox Claw,dex-exact
+621,毒怪龙的锐爪,Gigginox Claw +,dex-exact
+622,毒怪龙的刚爪,Gigginox Talon,dex-exact
+625,恐怖的嘴,Fearsome Maw,dex-exact
+626,可怕的毒腺,Venom Gland,dex-exact
+627,可怕的猛毒腺,Grim Venom Gland,dex-exact
+628,恐怖的毒腺,Foul Venom Gland,dex-exact
+629,电怪龙的上皮,B. Giggi Hide +,dex-exact
+630,电怪龙的厚皮,B. Giggi Piel,dex-exact
+631,电怪龙的锐爪,B. Giggi Claw +,dex-exact
+632,电怪龙的刚爪,B. Giggi Talon,dex-exact
+633,海龙的鳞,Lagiacrus Scale,dex-exact
+634,海龙的上鳞,Lagiacrus Scale +,dex-exact
+635,海龙的厚鳞,Lagiacrus Shard,dex-exact
+636,海龙的背电壳,Shell Shocker,dex-exact
+637,海龙的高电壳,Shell Shocker +,dex-exact
+638,海龙的雷电壳,Deathly Shocker,dex-exact
+639,海龙的皮,Lagiacrus Hide,dex-exact
+640,海龙的上皮,Lagiacrus Hide +,dex-exact
+641,海龙的爪,Lagiacrus Claw,dex-exact
+642,海龙的锐爪,Lagiacrus Claw +,dex-exact
+643,海龙的刚爪,Lagiacrus Talon,dex-exact
+644,海龙的刚爪,Lagiacrus Talon,dex-exact
+645,海龙的刚尾,Lagiacrus Flail,dex-exact
+646,海龙的角,Lagiacrus Horn,dex-exact
+647,海龙的尖角,Lagiacrus Horn +,dex-exact
+648,海龙的苍玉,Lagia Sapphire,dex-exact
+649,海龙的苍天鳞,Lagiacrus Mantle,dex-exact
+650,海龙的逆鳞,Lagiacrus Plate,dex-exact
+651,白海龙的上鳞,I. Lagi Scale +,dex-exact
+652,白海龙的厚鳞,I. Lagi Shard,dex-exact
+653,白海龙的高电壳,I. Lagi Shocker +,dex-exact
+654,白海龙的雷电壳,I. Lagi D-Shocker,dex-exact
+655,白海龙的上皮,I. Lagi Hide +,dex-exact
+656,白海龙的厚皮,I. Lagi Piel,dex-exact
+661,白海龙的尖角,I. Lagi Horn +,dex-exact
+662,白海龙的刚角,I. Lagi Hardhorn,dex-exact
+666,冥海龙的厚鳞,A. Lagi Shard,dex-exact
+667,冥海龙的雷电壳,A. Lagi D-Shocker,dex-exact
+668,冥海龙的厚皮,A. Lagi Piel,dex-exact
+671,冥海龙的刚角,A. Lagi Hardhorn,dex-exact
+672,冥海龙的雷魂,A. Lagi Dynamo,dex-exact
+673,冰牙龙的甲壳,Barioth Shell,dex-exact
+674,冰牙龙的坚壳,Barioth Carapace,dex-exact
+675,冰牙龙的重壳,Barioth Cortex,dex-exact
+676,冰牙龙的毛皮,Barioth Pelt,dex-exact
+677,冰牙龙的上毛皮,Barioth Pelt +,dex-exact
+678,冰牙龙的厚毛皮,Barioth Fur,dex-exact
+679,冰牙龙的爪,Barioth Claw,dex-exact
+680,冰牙龙的锐爪,Barioth Claw +,dex-exact
+681,冰牙龙的刚爪,Barioth Talon,dex-exact
+682,冰牙龙的棘,Barioth Spike,dex-exact
+684,冰牙龙的尾巴,Barioth Tail,dex-exact
+685,冰牙龙的韧尾,Barioth Lash,dex-exact
+686,琥珀色的牙,Amber Tusks,dex-exact
+687,琥珀色的锐牙,Amber Tusks +,dex-exact
+688,琥珀色的重牙,Hvy Amber Tusks,dex-exact
+689,风牙龙的坚壳,S. Bari Carapace,dex-exact
+690,风牙龙的重壳,S. Barioth Cortex,dex-exact
+691,风牙龙的上毛皮,S. Barioth Pelt +,dex-exact
+692,风牙龙的厚毛皮,S. Barioth Fur,dex-exact
+693,风牙龙的锐爪,S. Barioth Claw +,dex-exact
+694,风牙龙的刚爪,S. Barioth Talon,dex-exact
+695,风牙龙的尾巴,S. Barioth Tail,dex-exact
+696,风牙龙的韧尾,S. Barioth Lash,dex-exact
+697,群青色的锐牙,Indigo Tusks +,dex-exact
+698,群青色的重牙,Hvy Indigo Tusks,dex-exact
+699,强韧的胸膜,Rugged Pleura,dex-exact
+700,强韧的大胸膜,Rugged Pleura +,dex-exact
+701,角龙的甲壳,Diablos Shell,dex-exact
+702,角龙的坚壳,Diablos Carapace,dex-exact
+703,角龙的重壳,Diablos Cortex,dex-exact
+704,角龙的背甲,Diablos Ridge,dex-exact
+705,角龙的坚甲,Diablos Ridge +,dex-exact
+706,角龙的重甲,Diablos Chine,dex-exact
+707,角龙的尾甲,Diablos Tailcase,dex-exact
+709,角龙的牙,Diablos Fang,dex-exact
+710,扭曲的角,Twisted Horn,dex-exact
+711,优质的扭曲角,Majestic Horn,dex-exact
+712,坚固的扭曲角,Stout Horn,dex-exact
+713,角龙的骨髓,Diablos Marrow,dex-exact
+714,角龙的延髓,Diablos Medulla,dex-exact
+715,黑角龙的坚壳,B. Diab Carapace,dex-exact
+716,黑角龙的重壳,B. Diablos Cortex,dex-exact
+717,黑角龙的坚甲,B. Diablos Ridge +,dex-exact
+718,黑角龙的重甲,B. Diablos Chine,dex-exact
+721,优质黑卷角,Blackcurl Horn,dex-exact
+722,坚固黑卷角,Blackcurl Horn +,dex-exact
+723,爆锤龙的鳞,Uragaan Scale,dex-exact
+724,爆锤龙的上鳞,Uragaan Scale +,dex-exact
+725,爆锤龙的厚鳞,Uragaan Shard,dex-exact
+726,爆锤龙的甲壳,Uragaan Shell,dex-exact
+727,爆锤龙的坚壳,Uragaan Carapace,dex-exact
+728,爆锤龙的重壳,Uragaan Cortex,dex-exact
+729,爆锤龙的颚,Uragaan Jaw,dex-exact
+730,爆锤龙的重颚,Uragaan Jaw +,dex-exact
+731,爆锤龙的耐热壳,Uragaan Scute,dex-exact
+732,爆锤龙的重耐热壳,Uragaan Scute +,dex-exact
+733,爆锤龙的骨髓,Uragaan Marrow,dex-exact
+734,爆锤龙的红玉,Uragaan Ruby,dex-exact
+735,爆锤龙的天壳,Uragaan Pallium,dex-exact
+736,钢锤龙的上鳞,S. Uragaan Scale +,dex-exact
+737,钢锤龙的厚鳞,S. Uragaan Shard,dex-exact
+738,钢锤龙的坚壳,S. Urag Carapace,dex-exact
+739,钢锤龙的重壳,S. Uragaan Cortex,dex-exact
+740,钢锤龙的刚颚,S. Uragaan Maw,dex-exact
+741,钢锤龙的重颚,S. Uragaan Jaw +,dex-exact
+742,钢锤龙的耐热壳,S. Uragaan Scute ,dex-exact
+743,钢锤龙的重耐热壳,S. Uragaan Scute +,dex-exact
+744,熔岩兽的鳞,Uroktor Scale,dex-exact
+745,爆锤龙的上鳞,Uragaan Scale +,dex-exact
+746,柔软的厚皮,Supple Piel,dex-exact
+747,炎戈龙的燃鳞,Agnaktor Scale,dex-exact
+749,炎戈龙的甲壳,Agnaktor Shell,dex-exact
+750,炎戈龙的坚壳,Agnak Carapace,dex-exact
+751,炎戈龙的皮,Agnaktor Hide,dex-exact
+752,炎戈龙的上皮,Agnaktor Hide +,dex-exact
+753,炎戈龙的厚皮,Agnaktor Piel,dex-exact
+754,炎戈龙的爪,Agnaktor Claw,dex-exact
+755,炎戈龙的锐爪,Agnaktor Claw +,dex-exact
+756,炎戈龙的刚爪,Agnaktor Talon,dex-exact
+757,炎戈龙的鳍,Agnaktor Fin,dex-exact
+758,炎戈龙的上鳍,Agnaktor Fin +,dex-exact
+759,炎戈龙的特上鳍,Fine Agnak Fin,dex-exact
+760,炎戈龙的锚嘴,Agnaktor Beak,dex-exact
+762,炎戈龙的尾巴,Agnaktor Tail,dex-exact
+764,赤热的坚胸壳,Scalding Pleura +,dex-exact
+765,赤热的重胸壳,Scorching Pleura,dex-exact
+766,冻戈龙的坚壳,G. Agnak Carapace,dex-exact
+767,冻戈龙的重壳,G. Agnak Cortex,dex-exact
+768,冻戈龙的上皮,G. Agnak Hide +,dex-exact
+769,冻戈龙的厚皮,G. Agnak Piel,dex-exact
+770,冻戈龙的锐爪,G. Agnak Claw +,dex-exact
+771,冻戈龙的刚爪,G. Agnak Talon,dex-exact
+772,冻戈龙的上鳍,G. Agnak Fin +,dex-exact
+773,冻戈龙的特上鳍,Fine G. Agnak Fin,dex-exact
+774,冻戈龙的锚嘴,G. Agnak Beak,dex-exact
+776,冻戈龙的尾巴,G. Agnak Tail,dex-exact
+778,湿润的坚胸壳,Dewy Pleura +,dex-exact
+779,湿润的重胸壳,Drenched Pleura,dex-exact
+780,大海龙的鳞,Ceadeus Scale,dex-exact
+781,大海龙的甲皮,Ceadeus Hide,dex-exact
+782,大海龙的铠毛,Ceadeus Fur,dex-exact
+783,大海龙的尾巴,Ceadeus Tail,dex-exact
+784,弯曲的龙角,Crooked Horn,dex-exact
+785,神秘的发光体,Luminous Organ,dex-exact
+786,深渊的龙玉,Deep Dragongem,dex-exact
+787,皇海龙的厚鳞,G. Ceadeus Shard,dex-exact
+788,皇海龙的重甲皮,G. Ceadeus Coat,dex-exact
+789,皇海龙的豪铠毛,G. Ceadeus Fur,dex-exact
+791,弯曲的刚龙角,Crooked Hardhorn,dex-exact
+793,深渊的皇龙玉,Dark Dragongem,dex-exact
+795,峯山龙的上苍鳞,Mohran Scale +,dex-exact
+797,峯山龙的坚岩壳,Mohran Carapace,dex-exact
+799,峯山龙的上腕甲,Mohran Brace +,dex-exact
+801,勇猛的龙锐牙,Sturdy Fang +,dex-exact
+802,大地的龙玉,Earth Dragongem,dex-exact
+804,灵山龙的重苍鳞,H. Jhen Shard,dex-exact
+806,灵山龙的重岩壳,H. Jhen Rocksin,dex-alias
+808,灵山龙的重腕甲,H. Jhen Allbrace,dex-exact
+810,神圣的龙牙,Deific Fang,dex-exact
+811,大地的龙神玉,Earth Drgnsphire,dex-exact
+812,恐暴龙的黑鳞,Deviljho Scale,dex-exact
+813,恐暴龙的厚黑鳞,Deviljho Shard,dex-exact
+814,恐暴龙的黑皮,Deviljho Hide,dex-exact
+815,恐暴龙的厚黑皮,Deviljho Coat,dex-exact
+816,恐暴龙的大牙,Deviljho Fang,dex-exact
+817,极恶之牙,Vile Fang,dex-exact
+818,恐暴龙的钩爪,Deviljho Talon,dex-exact
+819,恐暴龙的刚钩爪,Deviljho Ripper,dex-exact
+820,恐暴龙的黑鳞,Deviljho Scale,dex-exact
+822,恐暴龙的尾巴,Deviljho Tail,dex-exact
+823,恐暴龙的重尾,Deviljho Flail,dex-exact
+824,恐暴龙的唾液,Deviljho Saliva,dex-exact
+825,漆黑的血,Black Blood,dex-exact
+826,恐暴龙的宝玉,Deviljho Gem,dex-exact
+827,恐暴龙的灭鳞,Deviljho Crook,dex-exact
+828,煌黑龙的坚逆壳,Alatreon Scute,dex-exact
+829,煌黑龙的天壳,Alatreon Pallium,dex-exact
+830,煌黑龙的逆鳞,Alatreon Plate,dex-exact
+831,煌黑龙的天鳞,Alatreon Mantle,dex-exact
+832,煌黑龙的尖爪,Alatreon Talon,dex-exact
+833,煌黑龙的凶爪,Alatreon Ripper,dex-exact
+834,煌黑龙的翼膜,Alatreon Webbing,dex-exact
+835,煌黑龙的邪翼,Alatreo Direwing,dex-exact
+836,煌黑龙的尾巴,Alatreon Tail,dex-exact
+837,煌黑龙的妖尾,Alatreo Diretail,dex-exact
+838,破碎的天角,Brkn Skypiercer,dex-exact
+840,贯天之角,Skypiercer,dex-exact
+841,天统御角,Skyswayer,dex-exact
+842,青熊兽的毛,Arzuros Pelt,dex-exact
+843,青熊兽的刚毛,Arzuros Pelt +,dex-exact
+845,青熊兽的甲壳,Arzuros Shell,dex-exact
+846,青熊兽的坚壳,Arzuros Carapace,dex-exact
+847,青熊兽的重壳,Arzuros Cortex,dex-exact
+848,青熊兽的腕甲,Arzuros Brace,dex-exact
+849,青熊兽的坚腕甲,Arzuros Brace +,dex-exact
+850,青熊兽的重腕甲,Arzuros Allbrace,dex-exact
+851,白兔兽的毛,Lagombi Pelt,dex-exact
+852,白兔兽的刚毛,Lagombi Pelt +,dex-exact
+853,白兔兽的豪刚毛,Lagombi Fur,dex-exact
+854,白兔兽的耳,Lagombi Ear,dex-exact
+855,白兔兽的大耳,Lagombi Ear +,dex-exact
+856,白兔兽的地狱耳,Lagombi Auricle,dex-exact
+857,白兔兽的腹甲,Lagombi Plastron,dex-alias
+858,白兔兽的坚腹甲,Lagombi Plastron +,dex-alias
+860,白兔兽的冰爪,Lagombi Claw,dex-exact
+861,白兔兽的冻爪,Lagombi Claw +,dex-exact
+863,赤甲兽的甲壳,Volvidon Shell,dex-exact
+864,赤甲兽的坚壳,Volvi Carapace,dex-exact
+865,赤甲兽的重壳,Volvidon Cortex,dex-exact
+866,赤甲兽的爪,Volvidon Claw,dex-exact
+867,赤甲兽的尖爪,Volvidon Claw +,dex-exact
+868,赤甲兽的刚爪,Volvidon Talon,dex-exact
+869,赤甲兽的蛇腹甲,Volvi Rickrack,dex-exact
+871,潜口龙的甲壳,Nibelsnarf Shell,dex-exact
+872,潜口龙的坚壳,Nibel Carapace,dex-exact
+873,潜口龙的重壳,Nibel Cortex,dex-exact
+874,潜口龙的皮,Nibelsnarf Hide,dex-exact
+875,潜口龙的上皮,Nibelsnarf Hide +,dex-exact
+876,潜口龙的厚皮,Nibelsnarf Piel,dex-exact
+877,潜口龙的爪,Nibelsnarf Claw,dex-exact
+878,潜口龙的尖爪,Nibelsnarf Claw +,dex-exact
+879,潜口龙的刚爪,Nibelsnarf Talon,dex-exact
+880,潜口龙的头壳,Nibelsnarf Scalp,dex-exact
+882,鲜艳的体液,Vivid Fluid,dex-exact
+883,极彩色的体液,Brilliant Fluid,dex-exact
+884,光辉的体液,Dazzling Fluid,dex-exact
+886,雷狼龙的坚壳,Zinogre Carapace,dex-exact
+887,雷狼龙的重壳,Zinogre Cortex,dex-exact
+889,雷狼龙的高电壳,Zinogre Shocker +,dex-exact
+890,雷狼龙的雷电毛,Zin Eletrofur +,dex-alias
+892,雷狼龙的尖角,Zinogre Horn +,dex-exact
+893,雷狼龙的刚角,Zinogre Hardhorn,dex-exact
+895,雷狼龙的尖爪,Zinogre Claw +,dex-exact
+896,雷狼龙的刚爪,Zinogre Talon,dex-exact
+897,雷狼龙的尾巴,Zinogre Tail,dex-exact
+898,雷狼龙的韧尾,Zinogre Lash,dex-exact
+900,雷狼龙的高电毛,Zin Eletrofur,dex-alias
+901,雷狼龙的雷电壳,Zin D-Shocker,dex-exact
+903,雷狼龙的碧玉,Zinogre Jasper,dex-exact
+904,雷狼龙的天玉,Zin Skymerald,dex-exact
+905,狱狼龙的重壳,S. Zin Cortex,dex-exact
+906,狱狼龙的龙毛,S. Zin Dragonhair,dex-exact
+907,狱狼龙的刚角,S. Zin Hardhorn,dex-exact
+908,狱狼龙的刚爪,S. Zinogre Talon,dex-exact
+909,狱狼龙的韧尾,S. Zinogre Lash,dex-exact
+910,狱狼龙的龙壳,S. Zin Dragnshell,dex-exact
+911,狱狼龙的天玉,S. Zin Skymerald,dex-exact
+912,迅龙的上鳞,Nargacuga Scale +,dex-exact
+913,迅龙的厚鳞,Nargacuga Shard,dex-exact
+914,迅龙的天鳞,Nargacuga Mantle,dex-exact
+916,迅龙的豪黑毛,Nargacuga Fur,dex-exact
+917,迅龙的尾巴,Nargacuga Tail,dex-exact
+918,迅龙的韧尾,Nargacuga Lash,dex-exact
+919,迅龙的尾棘,Narga Tailspike,dex-exact
+920,迅龙的重尾棘,Narga Tailspear,dex-exact
+922,迅龙的刚刃翼,Narga Razor +,dex-exact
+923,迅龙的锐牙,Nargacuga Fang +,dex-exact
+924,迅龙的重牙,Hvy Narga Fang,dex-exact
+925,迅龙的延髓,Narga Medulla,dex-exact
+927,绿迅龙的厚鳞,G. Narga Shard,dex-exact
+929,绿迅龙的豪斑毛,G. Narga Dapples,dex-exact
+931,绿迅龙的刚刃翼,G. Narga Razor +,dex-exact
+933,绿迅龙的重牙,Hvy G. Narga Fang,dex-exact
+934,月迅龙的厚鳞,L. Narga Shard,dex-exact
+935,月迅龙的豪斑毛,L. Narha Dapples,dex-alias
+936,月迅龙的透刃翼,L. Narga Razor,dex-exact
+937,月迅龙的重牙,Hvy L. Narga Fang,dex-exact
+938,尾槌龙的甲壳,Duramboros Shell,dex-exact
+939,尾槌龙的坚壳,Duram Carapace,dex-exact
+940,尾槌龙的重壳,Duram Cortex,dex-exact
+941,尾槌龙的苔甲,Duram Mossplate,dex-exact
+942,尾槌龙的坚苔甲,Hard Mossplate,dex-exact
+943,尾槌龙的重苔甲,Heavy Mossplate,dex-exact
+944,尾槌龙的驼峰,Duramboros Hump,dex-exact
+945,霜降的驼峰,Marbled Hump,dex-exact
+946,尾槌龙的尾甲,Duram Tailcase,dex-exact
+947,尾槌龙的坚尾甲,Duram Tailcase +,dex-exact
+948,尾槌龙的重尾甲,Duram Hardtail,dex-exact
+949,尾槌龙的角,Duramboros Horn,dex-exact
+950,尾槌龙的尖角,Duramboros Horn +,dex-exact
+951,尾槌龙的刚角,Duram Hardhorn,dex-exact
+952,尾槌龙的尾骨,Duram Tailbone,dex-exact
+953,尾槌龙的仙骨,Duram Sacrum,dex-exact
+954,尾槌龙之石,Durambolite,dex-exact
+955,尾斧龙的赤铜壳,R. Duram Shell,dex-exact
+956,尾斧龙的赤铜甲,R. Duram Plate,dex-exact
+958,尾斧龙的重尾甲,R. Duram Hardtail,dex-exact
+961,虾的大壳,Lrg Lobstershell,dex-exact
+963,水龙的锐牙,Plesioth Fang +,dex-exact
+964,水龙的重牙,Hvy Plesio Fang,dex-exact
+965,水龙的上鳞,Plesioth Scale +,dex-exact
+966,水龙的厚鳞,Plesioth Shard,dex-exact
+967,水龙的上鳍,Plesioth Fin +,dex-exact
+968,水龙的特上鳍,Fine Plesio Fin,dex-exact
+970,翠水龙的厚鳞,G. Plesio Shard,dex-exact
+972,翠水龙的特上鳍,Fine G. Plesi Fin,dex-exact
+973,碎龙的坚壳,Brach Carapace,dex-exact
+974,碎龙的重壳,Brach Cortex,dex-exact
+975,碎龙的黑曜甲,Brach Ebonshell,dex-exact
+976,碎龙的重黑曜甲,Brach Ebonshell +,dex-exact
+979,碎龙的头壳,Brach Scalp,dex-exact
+980,碎龙的尖头壳,Brach Scalp +,dex-exact
+981,谜之粘菌,Mystery Slime,dex-exact
+982,光之粘菌,Glowing Slime,dex-exact
+983,碎龙的刚拳,Brach Pounder,dex-exact
+984,碎龙的刚铁拳,Brach Pounder +,dex-exact
+985,碎龙的尾巴,Brachydios Tail,dex-exact
+987,碎龙的宝玉,Brachydios Gem,dex-exact
+988,碎龙的天壳,Brach Pallium,dex-exact
+989,炼黑龙的黑鳞,Miralis Scale,dex-exact
+990,炼黑龙的燃壳,Miralis Fireback,dex-exact
+991,炼黑龙的炎爪,Miralis Fireclaw,dex-exact
+994,炼黑龙的凶眼,Miralis Evil Eye,dex-exact
+996,炼黑龙的重翼,Miralis Hellwing,dex-exact
+999,炼黑龙的灼热核,Miralis Smelter,dex-exact
+1000,不死的心脏,Immortal Heart,dex-exact
+1002,涌出的岩浆,Gushing Magma,dex-exact
+1003,光炎的大龙玉,Dire Dragongem,dex-exact
+1004,锈块,Rustshard,dex-exact
+1005,太古之块,Ancient Shard,dex-exact
+1006,锈破片,Rusted Fragment,dex-exact
+1007,大的太古破片,Large Fragment,dex-exact
+1008,细的太古破片,Slender Fragment,dex-exact
+1009,长的太古破片,Long Fragment,dex-exact
+1010,地图,Map,dex-exact
+1011,应急药,First-aid Med,dex-exact
+1012,携带食料,Ration,dex-exact
+1014,携带砥石,Mini Whetstone,dex-exact
+1015,携带麻痹陷阱,EZ Shock Trap,dex-exact
+1016,支给专用闪光弹,EZ Flash Bomb,dex-exact
+1017,支给专用音爆弹,EZ Sonic Bomb,dex-exact
+1018,支给专用秘药,EZ Max Potion,dex-exact
+1019,支给专用陷阱,EZ Pitfall Trap,dex-exact
+1020,携帯氧气弹,Mini Oxy Supply,dex-exact
+1021,支给用大桶爆弹,EZ Barrel Bomb L,dex-exact
+1022,大弩弹,Ballista Ammo,dex-exact
+1023,弩用拘束弹,Ballista Binder,dex-exact
+1025,大炮弹,Cannon Ammo,dex-exact
+1026,对巨龙爆弹,Anti-dragon Bomb,dex-exact
+1027,火把,Torch,dex-exact
+1028,猫券,Paw Pass Ticket,dex-exact
+1029,皇家蜂蜜,Royal Honey,dex-exact
+1030,特产蘑菇,Unique Mushroom,dex-exact
+1031,严选蘑菇,Choice Mushroom,dex-exact
+1032,熟成蘑菇,Ripened Mushroom,dex-exact
+1033,松茸王,Great Shroom,dex-exact
+1034,特产竹笋,Super Sprout,dex-exact
+1037,白金鱼,Silverfish,dex-exact
+1040,黄金鱼,Goldenfish,dex-exact
+1041,皇家甲虫,Royal Rhino,dex-exact
+1042,神之虫,Divine Rhino,dex-exact
+1043,银色蟋蟀,Silver Cricket,dex-exact
+1044,金色蟋蟀,Gold Cricket,dex-exact
+1045,黄金石碎片,Auristone Piece,dex-exact
+1046,黄金石块,Auristone Chunk,dex-exact
+1047,花香石碎片,Balmstone Piece,dex-exact
+1048,花香石之块,Balmstone Chunk,dex-exact
+1049,龙骨结晶,Crystal Bone,dex-exact
+1050,黄金骨,Golden Bone,dex-exact
+1051,血石,Bloodstone,dex-exact
+1052,深血石,Deep Bloodstone,dex-exact
+1053,燃石炭,Coal,dex-exact
+1054,强燃石炭,Volatile Coal,dex-exact
+1055,龙蛋,Wyvern Egg,dex-exact
+1056,草食龙的蛋,Herbivore Egg,dex-exact
+1057,丸鸟的蛋,Gargwa Egg,dex-exact
+1058,丸鸟的金蛋,Gold Gargwa Egg,dex-exact
+1060,火药岩,Powderstone,dex-exact
+1061,丸鸟的粪,Gargwa Guano,dex-exact
+1062,白肝,White Liver,dex-exact
+1063,垂皮油,Slagtoth Oil,dex-exact
+1064,猛犸的舌头,Popo Tongue,dex-exact
+1065,秘密的口袋,Secret Stash,dex-exact
+1066,圆滚滚的团栗,Round Acorn,dex-exact
+1067,物品 Fine Stomach,Fine Stomach,need-review
+1068,物品 Luminous Stomach,Luminous Stomach,need-review
+1069,小毒怪龙提取物,Giggi Extract,dex-exact
+1070,怪物的肝,Monster Guts,dex-exact
+1071,红色珊瑚石,Red Coral Stone,dex-exact
+1072,龙泪,Wyvern Tear,dex-exact
+1073,龙的大粒泪,Lrg Wyvern Tear,dex-exact
+1074,牙兽泪,Beast Tear,dex-exact
+1075,牙兽的大粒泪,Lrg Beast Tear,dex-exact
+1076,鸟龙硬币,Bird Coin,dex-exact
+1083,海龙硬币,Leviathan Coin,dex-exact
+1089,斗技王的硬币,Pinnacle Coin,dex-exact
+1090,狩猎王的硬币,Hunter King Coin,dex-exact
+1091,餐券,Voucher,dex-exact
+1092,高级餐券,Gourmet Voucher,dex-exact
+1093,古代鲛票,Sharq Ticket,dex-exact
+1096,电击票,Thunderclap Diploma,dex-exact
+1100,古代大妖的牙,Shadowed Edge,dex-exact
+1101,法米通票,Medal Voucher L,dex-exact
+1102,Magazine票,Lion's Claw,dex-exact
+1103,霸王之证,Conqueror's Seal,dex-exact
+1105,勇气之证,Commendation,dex-exact
+1106,物品 DMMY 136,DMMY 136,need-review
+1107,肉球印章,Pawprint Stamp,dex-exact
+1108,水光原珠,Aquaglow Jewel,dex-exact
+1109,阳翔原珠,Sunspire Jewel,dex-exact
+1110,修罗原珠,Bloodrun Jewel,dex-exact
+1111,瑠璃原珠,Lazurite Jewel,dex-exact
+1112,耐痹珠【１】,Paralysis Jwl 1,dex-exact
+1113,耐痹珠【２】,Paralysis Jwl 2,dex-exact
+1114,耐眠珠【１】,Pep Jewel 1,dex-exact
+1115,耐眠珠【２】,Pep Jewel 2,dex-exact
+1116,耐绝珠【１】,Steadfast Jwl 1,dex-exact
+1117,制绝珠【１】,Standfast Jwl 1,dex-exact
+1118,耐毒珠【１】,Antidote Jewel 1,dex-exact
+1119,耐毒珠【２】,Antidote Jewel 2,dex-exact
+1120,耐粘珠【１】,Tracker Jewel 1,dex-exact
+1121,抗粘珠【１】,Trekker Jewel 1,dex-exact
+1122,忍脚珠【１】,Ninja Jewel 1,dex-exact
+1123,体力珠【１】,Vitality Jewel 1,dex-exact
+1124,早复珠【１】,Recovery Jewel 1,dex-exact
+1125,早复珠【２】,Recovery Jewel 2,dex-exact
+1126,斩铁珠【１】,Razor Jewel 1,dex-exact
+1127,斩铁珠【３】,Razor Jewel 3,dex-exact
+1128,匠珠【２】,Handicraft Jwl 2,dex-exact
+1129,匠珠【３】,Handicarft Jwl 3,dex-alias
+1130,剑豪珠【１】,Fencer Jewel 1,dex-exact
+1131,剑豪珠【３】,Fencer Jewel 3,dex-exact
+1132,达人珠【１】,Expert Jewel 1,dex-exact
+1133,达人珠【２】,Expert Jewel 2,dex-exact
+1134,达人珠【３】,Expert Jewel 3,dex-exact
+1135,研磨珠【１】,Grinder Jewel 1,dex-exact
+1136,铁壁珠【１】,Ironwall Jewel 1,dex-exact
+1137,铁壁珠【２】,Ironwall Jewel 2,dex-exact
+1138,强壁珠【１】,Shield Jewel 1,dex-exact
+1139,强壁珠【２】,Shield Jewel 2,dex-exact
+1140,早填珠【１】,Quickload Jwl 1,dex-exact
+1141,早填珠【２】,Quickload Jwl 2,dex-exact
+1142,抑反珠【１】,Absorber Jewel 1,dex-exact
+1143,抑反珠【３】,Absorber Jewel 3,dex-exact
+1144,强弹珠【１】,Forceshot Jwl 1,dex-exact
+1145,强弹珠【３】,Forceshot Jwl 3,dex-exact
+1146,贯通珠【１】,Pierce Jewel 1,dex-exact
+1147,贯通珠【３】,Pierce Jewel 3,dex-exact
+1148,散弹珠【１】,Pellet Jewel 1,dex-exact
+1149,散弹珠【３】,Pellet Jewel 3,dex-exact
+1150,加弹珠【１】,ShotPlus Jewel 1,dex-exact
+1151,加弹珠【２】,ShotPlus Jewel 2,dex-exact
+1152,加贯珠【１】,PiercePlus Jwl 1,dex-exact
+1154,加散珠【１】,PelletPlus Jwl 1,dex-exact
+1155,加榴珠【１】,CragPlus Jewel 1,dex-exact
+1156,加扩珠【１】,ClustPlus Jwl 1,dex-exact
+1157,特攻珠【１】,Disabler Jewel 1,dex-exact
+1158,特攻珠【２】,Disabler Jewel 2,dex-exact
+1159,属攻珠【１】,Element Jewel 1,dex-exact
+1160,属攻珠【３】,Element Jewel 3,dex-exact
+1161,爆师珠【１】,Bombardier Jwl 1,dex-exact
+1163,无食珠【１】,Hungerless Jwl 1,dex-exact
+1164,食汉珠【１】,Metabolism Jwl 1,dex-exact
+1165,攻击珠【１】,Attack Jewel 1,dex-exact
+1166,攻击珠【２】,Attack Jewel 2,dex-exact
+1167,攻击珠【３】,Attack Jewel 3,dex-exact
+1168,防御珠【１】,Defense Jewel 1,dex-exact
+1169,防御珠【２】,Defense Jewel 2,dex-exact
+1170,加护珠【１】,Protection Jwl 1,dex-exact
+1171,神护珠【１】,Asylum Jewel 1,dex-exact
+1172,防音珠【１】,Earplug Jewel 1,dex-exact
+1173,防音珠【３】,Earplug Jewel 3,dex-exact
+1174,防盗珠【１】,Alarm Jewel 1,dex-exact
+1175,友爱珠【１】,Friendship Jwl 1,dex-exact
+1176,友爱珠【２】,Friendship Jwl 2,dex-exact
+1177,运搬珠【１】,Transportr Jwl 1,dex-exact
+1178,耐火珠【１】,Fire Res Jewel 1,dex-exact
+1179,耐水珠【１】,Water Res Jwl 1,dex-exact
+1180,耐冰珠【１】,Ice Res Jewel 1,dex-exact
+1181,耐雷珠【１】,ThunderRes Jwl 1,dex-exact
+1182,耐龙珠【１】,Dragon Res Jwl 1,dex-exact
+1183,耐暑珠【１】,Heat Res Jewel 1,dex-exact
+1184,耐寒珠【１】,Cold Res Jewel 1,dex-exact
+1185,防风珠【１】,Wind Res Jewel 1,dex-exact
+1186,防风珠【２】,Wind Res Jewel 2,dex-exact
+1188,采取珠【１】,Gathering Jwl 1,dex-exact
+1189,速集珠【１】,Spree Jewel 1,dex-exact
+1190,祝福珠【１】,Blessing Jewel 1,dex-exact
+1191,运气珠【１】,Fate Jewel 1,dex-exact
+1192,运气珠【３】,Fate Jewel 3,dex-exact
+1194,千里珠【１】,Psychic Jewel 1,dex-exact
+1195,治愈珠【１】,Medicine Jewel 1,dex-exact
+1196,治愈珠【２】,Medicine Jewel 2,dex-exact
+1197,博士珠【１】,Professor Jwl 1,dex-exact
+1198,弹制珠【１】,Factory Jewel 1,dex-exact
+1199,回避珠【１】,Evasion Jewel 1,dex-exact
+1200,回避珠【２】,Evasion Jewel 2,dex-exact
+1201,底力珠【１】,Potential Jwl 1,dex-exact
+1202,底力珠【２】,Potential Jwl 2,dex-exact
+1203,持续珠【１】,Enduring Jewel 1,dex-exact
+1204,强走珠【１】,Sprinter Jewel 1,dex-exact
+1205,强走珠【３】,Sprinter Jewel 3,dex-exact
+1206,装填珠【２】,Capacity Jewel 2,dex-exact
+1207,装填珠【３】,Capacity Jewel 3,dex-exact
+1208,点射珠【１】,Sniper Jewel 1,dex-exact
+1209,早食珠【１】,Gobbler Jewel 1,dex-exact
+1210,早食珠【３】,Gobbler Jewel 3,dex-exact
+1211,皮剥珠【１】,Carver Jewel 1,dex-exact
+1212,皮剥珠【３】,Carver Jewel 3,dex-exact
+1213,耐震珠【１】,Footing Jewel 1,dex-exact
+1214,抗震珠【１】,Tectonic Jewel 1,dex-exact
+1216,跳跃珠【１】,Jumping Jewel 1,dex-exact
+1218,拔刀珠【１】,Draw Jewel 1,dex-exact
+1219,拔刀珠【２】,Draw Jewel 2,dex-exact
+1220,罠师珠【１】,Trapmaster Jwl 1,dex-exact
+1221,体术珠【１】,Physique Jewel 1,dex-exact
+1222,体术珠【２】,Physique Jewel 2,dex-exact
+1223,捕获珠【１】,Capture Jewel 1,dex-exact
+1224,捕获珠【３】,Capture Jewel 3,dex-exact
+1225,观察珠【１】,Perception Jwl 1,dex-exact
+1226,短缩珠【１】,Charger Jewel 1,dex-exact
+1227,短缩珠【３】,Charger Jewel 3,dex-exact
+1228,空气珠【１】,Fresh Air Jwl 1,dex-exact
+1229,抑水珠【１】,Stopflow Jewel 1,dex-exact
+1230,水泳珠【１】,Swimmer Jewel 1,dex-exact
+1231,远泳珠【１】,Diver Jewel 1,dex-exact
+1232,拔打珠【１】,Gambit Jewel 1,dex-exact
+1233,拔打珠【３】,Gambit Jewel 3,dex-exact
+1234,属耐珠【１】,Resistor Jewel 1,dex-exact
+1235,解放珠【２】,Release Jewel 2,dex-exact
+1236,觉醒珠【３】,Catalyst Jewel 3,dex-exact
+1237,逆境珠【１】,Fortitude Jwl 1,dex-exact
+1238,逆境珠【２】,Fortitude Jwl 2,dex-exact
+1239,速射珠【１】,Salvo Jewel 1,dex-exact
+1240,速射珠【３】,Salvo Jewel 3,dex-exact
+1241,肥师珠【１】,Dungmaster Jwl 1,dex-exact
+1242,燃烧珠【１】,Torchlight Jwl 1,dex-exact
+1243,物品 (No Mask),(No Mask),need-review
+1244,物品 BBQ with Mask,BBQ with Mask,need-review
+1245,物品 Sharpen w/ Mask,Sharpen w/ Mask,need-review
+1246,物品 Return via Mask,Return via Mask,need-review
+1247,爆破弹,Slime S,dex-exact
+1249,飞龙种之书【１卷】,Flying Wyverns Vol 1,dex-exact
+1250,飞龙种之书【２卷】,Flying Wyverns Vol 2,dex-exact
+1251,飞龙种之书【３卷】,Flying Wyverns Vol 3,dex-exact
+1252,鸟龙种之书【１卷】,Bird Wyverns Vol 1,dex-exact
+1253,鸟龙种之书【２卷】,Bird Wyverns Vol 2,dex-exact
+1254,兽龙种之书【１卷】,Brute Wyverns Vol 1,dex-exact
+1255,兽龙种之书【２卷】,Brute Wyverns Vol 2,dex-exact
+1256,兽龙种之书【３卷】,Brute Wyverns Vol 3,dex-exact
+1257,海龙种之书【１卷】,Leviathans Vol 1,dex-exact
+1258,海龙种之书【２卷】,Leviathans Vol 2,dex-exact
+1259,海龙种之书【３卷】,Leviathans Vol 3,dex-exact
+1260,牙龙种之书【１卷】,Fanged Wyverns Vol 1,dex-exact
+1261,牙龙种之书【２卷】,Fanged Wyverns Vol 2,dex-exact
+1262,牙兽种之书,Fanged Beasts,dex-exact
+1263,物品 Invalid Message,Invalid Message,need-review
+1264,鱼龙种之书,Piscine Wyverns,dex-exact
+1265,古龙种之书【１卷】,Elder Dragons Vol 1,dex-exact
+1266,古龙种之书【２卷】,Elder Dragons Vol 2,dex-exact
+1267,古龙种之书【３卷】,Elder Dragons Vol 3,dex-exact
+1268,兽人种之书,Lynians,dex-exact
+1269,甲虫种之书,Neopteron,dex-exact
+1270,草食种之书【１卷】,Herbivores Vol 1,dex-exact
+1271,草食种之书【２卷】,Herbivores Vol 2,dex-exact
+1272,恐暴龙之书,Deviljho,dex-exact
+1273,碎龙之书,Brachydios,dex-exact
+1274,炼黑龙之书,Dire Miralis,dex-exact
+1275,水龙之书【１卷】,Plesioth Vol 1,dex-exact
+1276,水龙之书【２卷】,Plesioth Vol 2,dex-exact
+1277,消臭玉,Deodorant,dex-exact
+1278,皇帝蚱蜢,Emperor Hopper,dex-exact
+1279,太古的龙骨,Elder Dragonbone,dex-exact
+1281,纯水晶,Purecrystal,dex-exact
+1282,金刚原珠,Adamant Orb,dex-exact
+1283,海龙的厚皮,Lagiacrus Piel,dex-exact
+1285,恶梦的嘴,Nightmarish Maw,dex-exact
+1289,爆破瓶,Slime Coating,dex-exact
+1291,花铃虫,Blossom Cricket,dex-exact
+1292,月迅龙的重尾棘,L. Narg Tailspear,dex-exact
+1294,绿迅龙的重尾棘,G. Narg Tailspear,dex-exact
+1296,炎戈龙的重壳,Agnaktor Cortex,dex-exact
+1297,恐怖的厚皮,Revolting Piel,dex-exact
+1298,瞬间冻结袋,Cryo Sac,dex-exact
+1299,特大水袋,Flood Sac,dex-exact
+1300,怪物的特浓汁,Monster Essence,dex-exact
+1302,厚重的骨,Massive Bone,dex-exact
+1304,极上的毛皮,Prized Pelt,dex-exact
+1307,旗金枪鱼,Speartuna,dex-exact
+1308,迅龙的上黑毛,Nargacuga Pelt +,dex-exact
+1309,迅龙的锐刃翼,Narga Razor,dex-exact
+1310,山菜组交换券,VE Ticket,dex-exact
+1311,山菜组交换券Ｇ,VE Deluxe Ticket,dex-exact
+1312,钢之山菜组交换券,VE Bronze Ticket,dex-exact
+1313,银之山菜组交换券,VE Silver Ticket,dex-exact
+1314,金之山菜组交换券,VE Golden Ticket,dex-exact
+1315,天之山菜组交换券,VE Cosmic Ticket,dex-exact
+1318,大津纹凤蝶,Maiden Butterfly,dex-exact
+1324,朋友票,Chum-Chum Ticket,dex-exact
+1326,海龙的刚角,Lagia Hardhorn,dex-exact
+1330,大玉米,Heftcorn,dex-exact
+1333,野猪的大牙,Bullfango Tusk,dex-exact
+1337,大锹扬羽虫,Butterfly Beetle,dex-exact
+1340,角龙的重尾甲,Diablos Hardtail,dex-exact
+1341,土砂龙的韧尾,Barroth Lash,dex-exact
+1345,赤热的胸壳,Scalding Pleura,dex-exact
+1347,带纹章的王冠,Crested Crown,dex-exact
+1348,王家的纹章,Royal Crest,dex-exact
+1349,亡国的王冠,Realmless Crown,dex-exact
+1350,巨大的化石,Giant Fossil,dex-exact
+1352,水兽的韧尾,R. Ludroth Lash,dex-exact
+1353,峯山龙的重苍鳞,Mohran Shard,dex-exact
+1354,峯山龙的重岩壳,Mohran Rockskin,dex-exact
+1355,峯山龙的重腕甲,Mohran Allbrace,dex-exact
+1356,火龙的翼,Rathalos Wing,dex-exact
+1357,水龙的翼膜,Plesioth Webbing,dex-exact
+1358,水龙的刚翼膜,Hrd Ples Webbing,dex-exact
+1359,鱼类之书,Fish,dex-exact
+1362,小金蛋,Small Golden Egg,dex-exact
+1363,10円硬币,Bronze Coin,dex-exact
+1364,100円硬币,Silver Coin,dex-exact
+1365,500円硬币,Gold Coin,dex-exact
+1366,龟友优惠券,Sparkly Fragment,dex-exact
+1367,水龙的头,Plesioth Head,dex-exact
+1368,水龙的绝品头,Uber Plesio Head,dex-exact
+1369,牙兽硬币,Beast Coin,dex-exact
+1370,飞龙硬币,Flying Coin,dex-exact
+1371,水龙硬币,Piscine Coin,dex-exact
+1372,兽龙硬币,Brute Coin,dex-exact
+1373,港娘【赤】,Port Gal (Red),dex-exact
+1374,港娘【青】,Port Gal (Blue),dex-exact
+1375,港娘【绿】,Port Gal (Green),dex-exact
+1376,港娘【白】,Port Gal (White),dex-exact
+1377,增殖镐,Slickaxe,dex-exact
+1378,月夜的发光锐牙,Mooncatcher Fang,dex-exact
+1379,有光泽的兽鳞,Glossy Scale,dex-exact
+1392,顽强的头骨,Thick Skull,dex-exact
+1393,珍味・熊之手,Savory Bear Paw,dex-exact
+1394,空空的号角,Peco Pipes,dex-exact
+1395,毛茸茸的鬃毛,Billowy Mane,dex-exact
+1396,长长的舌头,Volvidon Tongue,dex-exact
+1397,高级泥块,Quality Mud Pack,dex-exact
+1400,雌火龙的里脊肉,Rathian Loin,dex-exact
+1401,肥美的鮟鱇肝,Tender Liver,dex-exact
+1402,雌火龙的樱里脊,P. Rathian Loin,dex-exact
+1403,海王的特大龙鳞,Supersize Scale,dex-alias
+1404,火龙的上肋排,Rathalos Ribs,dex-exact
+1405,水龙的腹肉,Prime Plesioth,dex-exact
+1406,角龙的心脏,Diablos Heart,dex-exact
+1407,安眠瓦斯袋,Bag of Zs,dex-exact
+1408,大块黑曜石,Large Obsidian,dex-exact
+1409,尾槌龙松露,Duram Truffle,dex-exact
+1411,雷狼龙的头,Zinogre Head,dex-exact
+1413,迅龙的眼睛,Nargacuga Eye,dex-exact
+1414,天空的苍龙鳞,Celestial Scale,dex-exact
+1415,海王的白龙鳞,Alabaster Scale,dex-exact
+1416,吞食世界的胃袋,Worldeater Belly,dex-exact
+1427,KERORO小队入队证,Exquisite Meat,dex-exact
+1429,财宝Ｊ票,Top Secret Formula,dex-exact
+1430,电击Ｇ票,Flashbolt Diploma,dex-exact
+1433,怪猎入部申请书,Captain's IOU,dex-exact
+1434,秘宝Ｊ票,Hades's Skull,dex-exact
+1436,不碎的钻石,Crown of Glory,dex-exact
+1439,发动机票,Medal Voucher G,dex-exact
+1440,超硬质钢,Far East Sword,dex-exact
+1443,克罗克罗票,Miniature Ticket,dex-exact
+1444,任侠的画,Fierce Soul,dex-exact
+1446,飞龙种之书【４卷】,Flying Wyverns Vol 4,dex-exact
+1447,飞龙种之书【５卷】,Flying Wyverns Vol 5,dex-exact
+1448,耐防珠【１】,Def Lock Jewel 1,dex-exact
+1449,耐菌珠【１】,Sterile Jewel 1,dex-exact
+1450,抗菌珠【１】,Aseptic Jewel 1,dex-exact
+1451,火炎珠【１】,Blaze Jewel 1,dex-exact
+1452,火炎珠【２】,Blaze Jewel 2,dex-exact
+1453,流水珠【１】,Stream Jewel 1,dex-exact
+1454,流水珠【２】,Stream Jewel 2,dex-exact
+1455,雷光珠【１】,Bolt Jewel 1,dex-exact
+1456,雷光珠【２】,Bolt Jewel 2,dex-exact
+1457,冰结珠【１】,Frost Jewel 1,dex-exact
+1458,冰结珠【２】,Frost Jewel 2,dex-exact
+1459,破龙珠【１】,Dragon Jewel 1,dex-exact
+1460,破龙珠【２】,Dragon Jewel 2,dex-exact
+1461,痛击珠【１】,Tenderizer Jwl 1,dex-exact
+1462,痛击珠【３】,Tenderizer Jwl 3,dex-exact
+1463,重击珠【１】,Destroyer Jwl 1,dex-exact
+1464,重击珠【３】,Destroyer Jwl 3,dex-exact
+1465,全开珠【１】,Throttle Jewel 1,dex-exact
+1466,全开珠【２】,Throttle Jewel 2,dex-exact
+1467,ＫＯ珠【１】,KO Jewel 1,dex-exact
+1468,夺气珠【１】,Drain Jewel 1,dex-exact
+1469,夺气珠【２】,Drain Jewel 2,dex-exact
+1470,鼓笛珠【１】,Sonorous Jewel 1,dex-exact
+1471,炮术珠【１】,Artillery Jwl 1,dex-exact
+1472,属耐珠【３】,Resistor Jewel 3,dex-exact
+1473,制火珠【１】,Nul-Fire Jewel 1,dex-exact
+1474,制水珠【１】,Nul-Water Jwl 1,dex-exact
+1475,制雷珠【１】,Nul-Thundr Jwl 1,dex-exact
+1476,制冰珠【１】,Nul-Ice Jewel 1,dex-exact
+1477,制龙珠【１】,Nul-Dragon Jwl 1,dex-exact
+1478,速纳珠【１】,Sheath Jewel 1,dex-exact
+1479,速纳珠【２】,Sheath Jewel 2,dex-exact
+1480,早气珠【１】,Refresh Jewel 1,dex-exact
+1481,早气珠【２】,Refresh Jewel 2,dex-exact
+1482,狩人珠【１】,Ranger Jewel 1,dex-exact
+1483,加斩珠【１】,SlicePlus jwl 1,dex-exact
+1484,痹瓶珠【１】,Paracoat Jewel 1,dex-alias
+1485,痹瓶珠【２】,Paracoat Jewel 2,dex-alias
+1486,眠瓶珠【１】,Sleepcoat Jwl 1,dex-exact
+1487,毒瓶珠【１】,Poisoncoat Jwl 1,dex-exact
+1488,强瓶珠【１】,Powercoat Jwl 1,dex-exact
+1489,强瓶珠【２】,Powercoat Jwl 2,dex-exact
+1490,接瓶珠【１】,Rangecoat Jwl 1,dex-exact
+1491,灭瓶珠【１】,Draincoat Jwl 1,dex-exact
+1492,抑水珠【２】,Stopflow Jewel 2,dex-exact
+1493,根性珠【１】,Guts Jewel 1,dex-exact
+1494,根性珠【２】,Guts Jewel 2,dex-exact
+1495,肉食珠【１】,Meateater Jwl 1,dex-exact
+1496,肉好珠【１】,Meatlover Jwl 1,dex-exact
+1497,滑走珠【１】,Slider Jewel 1,dex-exact
+1498,滑空珠【１】,Glider Jewel 1,dex-exact
+1499,蜜集珠【１】,Honeybee Jewel 1,dex-exact
+1500,蜜占珠【１】,Queenbee Jewel 1,dex-exact
+1501,菌学珠【１】,Biology Jewel 1,dex-exact
+1502,菌究珠【１】,Microbio Jewel 1,dex-exact
+1503,斗魂珠【１】,Spirit Jewel 1,dex-exact
+1504,斗魂珠【２】,Spirit Jewel 2,dex-exact
+1505,无伤珠【１】,Flawless Jewel 1,dex-exact
+1506,无伤珠【２】,Flawless Jewel 2,dex-exact
+1507,刚体珠【１】,Steady Jewel 1,dex-exact
+1508,刚体珠【３】,Steady Jewel 3,dex-exact
+1509,水心珠【１】,Fish Jewel 1,dex-exact
+1510,水心珠【２】,Fish Jewel 2,dex-exact
+1511,采配珠【１】,Player Jewel 1,dex-exact
+1512,名采配珠【１】,Morale Jewel 1,dex-exact
+1513,号令珠【１】,Leader Jewel 1,dex-exact
+1514,号令珠【２】,Leader Jewel 2,dex-exact
+1515,生命的大粉尘,Dust of Life,dex-exact
+1516,ＫＯ珠【２】,KO Jewel 2,dex-exact
+1517,贯穿大地的刚角,Diablos Hardhorn,dex-exact
+1518,灵水晶,Ghostly Quartz,dex-exact
+1519,厚重的牙,Crushing Fang,dex-exact
+1520,胧月的碎片,Cloudy Moonshard,dex-exact
+1521,肉厚的毛皮,Bulky Pelt,dex-exact
+1522,优良的牙,Excellent Fang,dex-exact
+1523,鱼 with mask,Fish with mask,need-review
+1524,落阳草的花,Gloamgrass Bud,dex-exact
+1525,白金针,Platinum Needle,dex-exact
+1526,千金之牙,Goldmine Fang,dex-exact
+1527,金龙石的结晶,Wyverngold Lode,dex-exact
+1528,护石珠【１】,Charmer Jewel 1,dex-exact
+1529,蚀龙虫,Dracophage Bug,dex-exact
+1530,坦吉亚薯条,Tamzia Chips,dex-alias
+1531,加爆珠【１】,SlimePlus Jwl 1,dex-exact
+1532,爆瓶珠【１】,Slimecoat Jwl 1,dex-exact

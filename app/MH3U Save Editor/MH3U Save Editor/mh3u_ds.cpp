@@ -1,5 +1,7 @@
 #include "mh3u_ds.hpp"
 
+#include <cstdlib>
+
 lang_t MH3U_DS::_lang = LANG_NONE;
 
 dataset_t* MH3U_DS::_faces = NULL;
@@ -244,14 +246,100 @@ const dataset_t* MH3U_DS::hhWeapons(void)
 		 | Private |
 		\*---------*/
 
+static std::vector<std::string> parseCsvLine(const std::string &line)
+{
+	std::vector<std::string> fields;
+	std::string field;
+	bool inQuotes = false;
+
+	for (std::size_t i = 0; i < line.size(); i++)
+	{
+		char c = line[i];
+		if (inQuotes)
+		{
+			if (c == '"')
+			{
+				if (i + 1 < line.size() && line[i + 1] == '"')
+				{
+					field += '"';
+					i++;
+				}
+				else
+				{
+					inQuotes = false;
+				}
+			}
+			else
+			{
+				field += c;
+			}
+		}
+		else
+		{
+			if (c == '"')
+			{
+				inQuotes = true;
+			}
+			else if (c == ',')
+			{
+				fields.push_back(field);
+				field.clear();
+			}
+			else
+			{
+				field += c;
+			}
+		}
+	}
+
+	fields.push_back(field);
+	return fields;
+}
+
+static int csvColumnIndex(const std::vector<std::string> &header, const std::string &name)
+{
+	for (std::size_t i = 0; i < header.size(); i++)
+	{
+		if (header[i] == name)
+		{
+			return (int) i;
+		}
+	}
+
+	return -1;
+}
+
+static std::string csvValue(const std::vector<std::string> &row, int index)
+{
+	if (index < 0 || (std::size_t) index >= row.size())
+	{
+		return "";
+	}
+
+	return row[(std::size_t) index];
+}
+
+static std::string displayIdentifier(const std::string &name, const std::string &english)
+{
+	if (name.empty())
+	{
+		return english;
+	}
+
+	if (!english.empty() && name != english)
+	{
+		return name + " (" + english + ")";
+	}
+
+	return name;
+}
+
 
 dataset_t* MH3U_DS::readFile(std::string filename)
 {
 	dataset_t* dataset = NULL;
-	
-	std::stringstream ss;
+
 	std::ifstream fs;
-	uint8_t tmp_c;
 
 	try
 	{
@@ -262,33 +350,58 @@ dataset_t* MH3U_DS::readFile(std::string filename)
 			std::cout << "File not found: " << filename << std::endl;
 			return NULL;
 		}
-		
-		while(fs.good())
-		{
-			fs.read((char*)&tmp_c, 1);
-			if (fs.good()) ss.write((char*)&tmp_c, 1);
-		}
-		fs.close();
 
 		dataset = new dataset_t();
-	
-		uint32_t count = 1;
+
 		std::string line;
-		while(std::getline(ss, line))
+		if (!std::getline(fs, line))
+		{
+			fs.close();
+			return dataset;
+		}
+		if (!line.empty() && line[line.size() - 1] == '\r')
+		{
+			line.erase(line.size() - 1);
+		}
+
+		std::vector<std::string> header = parseCsvLine(line);
+		int idIndex = csvColumnIndex(header, "id");
+		int nameIndex = csvColumnIndex(header, "name");
+		int englishIndex = csvColumnIndex(header, "english");
+		int sourceIndex = csvColumnIndex(header, "source");
+
+		if (idIndex < 0 || nameIndex < 0)
+		{
+			std::cout << "Invalid CSV header: " << filename << std::endl;
+			fs.close();
+			cdelete(dataset);
+			return NULL;
+		}
+
+		while(std::getline(fs, line))
 		{
 			if (!line.empty() && line[line.size() - 1] == '\r')
 			{
 				line.erase(line.size() - 1);
 			}
 
-			dataitem_t dataitem;
-			dataitem.identifier = line;
-			dataitem.count = count;
-			dataset->push_back(dataitem);
+			std::vector<std::string> row = parseCsvLine(line);
+			std::string idValue = csvValue(row, idIndex);
+			if (idValue.empty())
+			{
+				continue;
+			}
 
-			count++;
+			dataitem_t dataitem;
+			dataitem.count = (uint32_t) std::strtoul(idValue.c_str(), NULL, 10);
+			dataitem.name = csvValue(row, nameIndex);
+			dataitem.english = csvValue(row, englishIndex);
+			dataitem.source = csvValue(row, sourceIndex);
+			dataitem.identifier = displayIdentifier(dataitem.name, dataitem.english);
+			dataset->push_back(dataitem);
 		}
 
+		fs.close();
 		return dataset;
 	}
 	catch(std::exception e)
@@ -303,9 +416,9 @@ dataset_t* MH3U_DS::readFile(std::string filename)
 bool MH3U_DS::readFile(dataset_t* &dataset, std::string filename, const lang_t &lang)
 {
 #ifdef DEBUG
-	filename = "H:/Users/Gocario/Documents/Monster Hunter/Monster Hunter 3 Ultimate/data/" + folderLang(lang) + filename + ".txt";
+	filename = "H:/Users/Gocario/Documents/Monster Hunter/Monster Hunter 3 Ultimate/data/" + folderLang(lang) + filename + ".csv";
 #else
-	filename = "data/" + folderLang(lang) + filename + ".txt";
+	filename = "data/" + folderLang(lang) + filename + ".csv";
 #endif
 	delete(dataset);
 	dataset = MH3U_DS::readFile(filename);

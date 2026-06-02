@@ -11,6 +11,9 @@ typedef struct dataitem_t
 {
 	uint32_t count;
 	std::string identifier;
+	std::string name;
+	std::string english;
+	std::string source;
 } dataitem_t;
 
 typedef std::vector<dataitem_t> dataset_t;

@@ -7,11 +7,8 @@
 
 #include <QComboBox>
 #include <QCompleter>
-#include <QFile>
 #include <QRegExp>
 #include <QString>
-#include <QStringList>
-#include <QTextStream>
 #include <QVariant>
 #include <QtGlobal>
 
@@ -101,6 +98,24 @@ static inline QString datasetIdentifierName(const dataset_t *dataset, uint32_t i
     return QString();
 }
 
+static inline const dataitem_t* datasetItem(const dataset_t *dataset, uint32_t identifier)
+{
+    if (identifier == 0 || dataset == NULL)
+    {
+        return NULL;
+    }
+
+    for (uint32_t i = 0; i < dataset->size(); i++)
+    {
+        if (dataset->at(i).count == identifier)
+        {
+            return &(dataset->at(i));
+        }
+    }
+
+    return NULL;
+}
+
 static inline bool containsLatinLetter(const QString &text)
 {
     for (int i = 0; i < text.length(); i++)
@@ -127,66 +142,24 @@ static inline bool containsSuspiciousLatinLetter(const QString &text)
 
 static inline QString englishItemName(uint32_t identifier)
 {
-    if (identifier == 0)
+    const dataitem_t *item = datasetItem(MH3U_DS::items(), identifier);
+    if (item == NULL)
     {
         return QString();
     }
 
-    static QStringList names;
-    static bool loaded = false;
-    if (!loaded)
-    {
-        QFile file("data/en/items.txt");
-        if (file.open(QIODevice::ReadOnly | QIODevice::Text))
-        {
-            QTextStream stream(&file);
-            stream.setCodec("UTF-8");
-            while (!stream.atEnd())
-            {
-                names << stream.readLine();
-            }
-        }
-        loaded = true;
-    }
-
-    if (identifier < (uint32_t) names.size())
-    {
-        return names.at(identifier);
-    }
-
-    return QString();
+    return QString(item->english.c_str());
 }
 
 static inline QString itemSourceStatus(uint32_t identifier)
 {
-    if (identifier == 0)
+    const dataitem_t *item = datasetItem(MH3U_DS::items(), identifier);
+    if (item == NULL)
     {
         return QString();
     }
 
-    static QStringList sources;
-    static bool loaded = false;
-    if (!loaded)
-    {
-        QFile file("data/cn/items_sources.txt");
-        if (file.open(QIODevice::ReadOnly | QIODevice::Text))
-        {
-            QTextStream stream(&file);
-            stream.setCodec("UTF-8");
-            while (!stream.atEnd())
-            {
-                sources << stream.readLine().trimmed();
-            }
-        }
-        loaded = true;
-    }
-
-    if (identifier < (uint32_t) sources.size())
-    {
-        return sources.at(identifier);
-    }
-
-    return QString();
+    return QString(item->source.c_str());
 }
 
 static inline QString localizedItemName(uint32_t identifier)

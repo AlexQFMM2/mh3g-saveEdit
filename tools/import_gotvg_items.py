@@ -22,9 +22,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA_EN = ROOT / "data/en/items.txt"
-DATA_CN = ROOT / "data/cn/items.txt"
-DATA_SOURCES = ROOT / "data/cn/items_sources.txt"
+DATA_CN = ROOT / "data/cn/items.csv"
 DUMP_DIR = ROOT / "dump"
 PAGE_DIR = DUMP_DIR / "gotvg_pages"
 RAW_CSV = DUMP_DIR / "gotvg_items.csv"
@@ -286,12 +284,6 @@ EXACT_MAP = {
 }
 
 
-def display_name(line: str) -> str:
-    if " (" in line and line.endswith(")"):
-        return line.rsplit(" (", 1)[0].strip()
-    return line.strip()
-
-
 def has_suspicious_latin(text: str) -> bool:
     normalized = re.sub(r"LV[0-9]+", "", text)
     normalized = re.sub(r"(^|[^A-Za-z])KO([^A-Za-z]|$)", " ", normalized)
@@ -350,6 +342,26 @@ def write_raw_csv(rows: list[GotvgRow]) -> None:
             writer.writerow([row.page, row.section, row.japanese, row.chinese, " | ".join(row.fields)])
 
 
+def load_editor_items() -> list[dict[str, str]]:
+    with DATA_CN.open(encoding="utf-8", newline="") as fp:
+        rows = list(csv.DictReader(fp))
+
+    for row in rows:
+        row.setdefault("id", "")
+        row.setdefault("name", "")
+        row.setdefault("english", "")
+        row.setdefault("source", "")
+
+    return rows
+
+
+def write_editor_items(rows: list[dict[str, str]]) -> None:
+    with DATA_CN.open("w", encoding="utf-8", newline="") as fp:
+        writer = csv.DictWriter(fp, fieldnames=["id", "name", "english", "source"])
+        writer.writeheader()
+        writer.writerows(rows)
+
+
 def main() -> int:
     titles = list(SEED_TITLES)
     pages: dict[str, str] = {}
@@ -372,18 +384,14 @@ def main() -> int:
     for row in all_rows:
         gotvg_by_name.setdefault(row.chinese, []).append(row)
 
-    english_lines = DATA_EN.read_text(encoding="utf-8").splitlines()
-    current_lines = DATA_CN.read_text(encoding="utf-8").splitlines()
-    if len(english_lines) != len(current_lines):
-        raise RuntimeError(f"line count mismatch: en={len(english_lines)} cn={len(current_lines)}")
-
-    new_lines: list[str] = []
-    source_lines: list[str] = []
+    editor_rows = load_editor_items()
     candidate_rows: list[list[str]] = []
     changed = confirmed = high = rule = review = placeholder = 0
 
-    for index, (english, current) in enumerate(zip(english_lines, current_lines)):
-        current_display = display_name(current)
+    for row in editor_rows:
+        index = int(row["id"])
+        english = row.get("english", "")
+        current_display = row.get("name", "").strip()
         generated = translate_english_item(english)
         source = "need-review"
         output_display = current_display
@@ -420,14 +428,10 @@ def main() -> int:
 
         if output_display != current_display:
             changed += 1
-        if english:
-            new_lines.append(f"{output_display} ({english})")
-        else:
-            new_lines.append(output_display)
-        source_lines.append(source)
+        row["name"] = output_display
+        row["source"] = source
 
-    DATA_CN.write_text("\n".join(new_lines) + "\n", encoding="utf-8")
-    DATA_SOURCES.write_text("\n".join(source_lines) + "\n", encoding="utf-8")
+    write_editor_items(editor_rows)
 
     with CANDIDATES_CSV.open("w", encoding="utf-8", newline="") as fp:
         writer = csv.writer(fp)
