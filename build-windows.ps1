@@ -129,8 +129,8 @@ function Copy-ImportedDlls {
     }
 
     $queue = New-Object System.Collections.Queue
-    Get-ChildItem -Path $PackageDir -Filter "*.exe" -File | ForEach-Object { $queue.Enqueue($_.FullName) }
-    Get-ChildItem -Path $PackageDir -Filter "*.dll" -File | ForEach-Object { $queue.Enqueue($_.FullName) }
+    Get-ChildItem -Path $PackageDir -Filter "*.exe" -File -Recurse | ForEach-Object { $queue.Enqueue($_.FullName) }
+    Get-ChildItem -Path $PackageDir -Filter "*.dll" -File -Recurse | ForEach-Object { $queue.Enqueue($_.FullName) }
 
     $scanned = @{}
     while ($queue.Count -gt 0) {
