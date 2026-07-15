@@ -1,0 +1,57 @@
+name: Windows Portable Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    name: Build Windows portable package
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Qt 5 MinGW
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: >-
+            mingw-w64-x86_64-binutils
+            mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-make
+            mingw-w64-x86_64-qt5
+
+      - name: Build portable package
+        shell: pwsh
+        run: |
+          .\build-windows.ps1 -QtBin C:\msys64\mingw64\bin
+
+      - name: Create zip
+        shell: pwsh
+        run: |
+          Compress-Archive `
+            -Path .\release\windows\* `
+            -DestinationPath .\MH3USaveEditorGUI-windows-portable.zip `
+            -Force
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MH3USaveEditorGUI-windows-portable
+          path: MH3USaveEditorGUI-windows-portable.zip
+
+      - name: Upload release asset
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: MH3USaveEditorGUI-windows-portable.zip
