@@ -7,6 +7,9 @@
 
 #include <QComboBox>
 #include <QCompleter>
+#include <QEvent>
+#include <QLineEdit>
+#include <QObject>
 #include <QRegExp>
 #include <QString>
 #include <QVariant>
@@ -15,6 +18,30 @@
 #include <cstring>
 
 static inline QString uiText(const char *text);
+
+class SearchableComboBoxPopupFilter : public QObject
+{
+    public:
+        explicit SearchableComboBoxPopupFilter(QComboBox *comboBox) : QObject(comboBox), m_comboBox(comboBox)
+        {
+        }
+
+    protected:
+        bool eventFilter(QObject *, QEvent *event)
+        {
+            if (event->type() == QEvent::MouseButtonPress && m_comboBox != NULL && m_comboBox->isEnabled())
+            {
+                m_comboBox->setFocus();
+                m_comboBox->showPopup();
+                return true;
+            }
+
+            return false;
+        }
+
+    private:
+        QComboBox *m_comboBox;
+};
 
 static inline void configureSearchableComboBox(QComboBox *comboBox)
 {
@@ -28,6 +55,10 @@ static inline void configureSearchableComboBox(QComboBox *comboBox)
     comboBox->setMaxVisibleItems(20);
     comboBox->setMinimumContentsLength(20);
     comboBox->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength);
+    if (comboBox->lineEdit() != NULL)
+    {
+        comboBox->lineEdit()->installEventFilter(new SearchableComboBoxPopupFilter(comboBox));
+    }
 
     QCompleter *completer = new QCompleter(comboBox->model(), comboBox);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
