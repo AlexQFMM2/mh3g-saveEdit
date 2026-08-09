@@ -32,6 +32,8 @@ private:
     QLabel *m_selectedInfo;
     QPushButton *m_editButton;
     QPushButton *m_addButton;
+    QPushButton *m_exportButton;
+    QPushButton *m_importButton;
 
     QString equipmentTooltip(equipment_t &equipment) const;
     QString equipmentTypeName(uint8_t equipmentType) const;
@@ -54,6 +56,8 @@ public slots:
     void addEquipmentToFirstEmptySlot();
     void updateSelectedInfo();
     void refreshFilters();
+    void exportEquipmentForm();
+    void importEquipmentForm();
 };
 
 #endif // QBOX_HPP

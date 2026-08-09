@@ -8,6 +8,12 @@ The editor automatically detects both supported character-file formats:
 
 Always keep an untouched backup of the complete save directory before editing.
 
+## 3DS / Wii U item and equipment transfer
+
+The item-chest and equipment-box windows can export all 1,000 slots to versioned CSV transfer forms. Open the destination character file (3DS or Wii U), import the matching form, confirm the listed-slot replacement, and then save the character file from the main window.
+
+The forms contain normalized logical values rather than platform-specific save bytes. This lets the editor recreate items and equipment with the destination platform's correct byte order without attempting an unsafe full-save conversion. Import is validated before any slot is changed; listed slots are overwritten and slots omitted from a form are left unchanged.
+
 ## Linux build
 
 Install the Qt 5 development tools, then run:
@@ -42,4 +48,4 @@ Pass known-good 3DS and Wii U character files to the test runner:
 ./tests/run-save-format-tests.sh /path/to/3ds/user1 /path/to/wiiu/user1
 ```
 
-The test verifies byte-identical unchanged round trips and read/write byte-order conversion for money, Moga Points, items, equipment, and jewels. Test inputs are never overwritten.
+The test verifies byte-identical unchanged round trips, read/write byte-order conversion for money, Moga Points, items, equipment, and jewels, and item/equipment transfers in both directions. Test inputs are never overwritten.

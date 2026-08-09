@@ -27,6 +27,8 @@ private:
     QLabel *m_selectedInfo;
     QPushButton *m_editButton;
     QPushButton *m_addButton;
+    QPushButton *m_exportButton;
+    QPushButton *m_importButton;
 
     void populateTable();
     void editSlot(uint32_t panel, uint32_t slot);
@@ -40,6 +42,8 @@ public slots:
     void addItemToFirstEmptySlot();
     void updateSelectedInfo();
     void refreshFilters();
+    void exportChestForm();
+    void importChestForm();
 };
 
 #endif // QCHEST_HPP

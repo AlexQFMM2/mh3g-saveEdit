@@ -1,7 +1,9 @@
 #include "mh3u_se.hpp"
+#include "mh3u_transfer.hpp"
 
 #include <algorithm>
 #include <cstdio>
+#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
@@ -109,6 +111,79 @@ static void testSave(const std::string &path, save_format_e expectedFormat)
     std::remove(output.c_str());
 }
 
+static void requireTransferredDataMatches(const save_t &source, const save_t &target, const std::string &direction)
+{
+    require(std::memcmp(source.chest, target.chest, sizeof(source.chest)) == 0,
+        "item chest differs after " + direction + " transfer");
+    require(std::memcmp(source.box, target.box, sizeof(source.box)) == 0,
+        "equipment box differs after " + direction + " transfer");
+}
+
+static void testTransfer(const std::string &sourcePath, const std::string &targetPath,
+    save_format_e expectedTargetFormat, const std::string &direction)
+{
+    const std::string output = targetPath + ".transfer-test.tmp";
+    std::remove(output.c_str());
+
+    try
+    {
+        MH3U_SE source;
+        MH3U_SE target;
+        require(source.load(sourcePath), source.lastError());
+        require(target.load(targetPath), target.lastError());
+
+        std::vector<MH3U_Transfer::chest_entry_t> chestEntries;
+        std::vector<MH3U_Transfer::equipment_entry_t> equipmentEntries;
+        std::string error;
+        require(MH3U_Transfer::parseChest(MH3U_Transfer::exportChest(*source.savedata), chestEntries, error), error);
+        require(chestEntries.size() == 1000, "item form did not contain all 1000 slots");
+        require(MH3U_Transfer::parseEquipmentBox(MH3U_Transfer::exportEquipmentBox(*source.savedata), equipmentEntries, error), error);
+        require(equipmentEntries.size() == 1000, "equipment form did not contain all 1000 slots");
+
+        std::memset(target.savedata->chest, 0, sizeof(target.savedata->chest));
+        std::memset(target.savedata->box, 0, sizeof(target.savedata->box));
+        MH3U_Transfer::applyChest(chestEntries, *target.savedata);
+        MH3U_Transfer::applyEquipmentBox(equipmentEntries, *target.savedata);
+        requireTransferredDataMatches(*source.savedata, *target.savedata, direction);
+
+        require(target.save(output), target.lastError());
+        MH3U_SE reloaded;
+        require(reloaded.load(output), reloaded.lastError());
+        require(reloaded.format() == expectedTargetFormat, "target format changed after " + direction + " transfer");
+        requireTransferredDataMatches(*source.savedata, *reloaded.savedata, direction + " saved");
+    }
+    catch (...)
+    {
+        std::remove(output.c_str());
+        throw;
+    }
+
+    std::remove(output.c_str());
+}
+
+static void testMalformedTransferForms()
+{
+    std::vector<MH3U_Transfer::chest_entry_t> chestEntries;
+    std::vector<MH3U_Transfer::equipment_entry_t> equipmentEntries;
+    std::string error;
+
+    const std::string duplicateChest =
+        "MH3U_TRANSFER,1,ITEM_CHEST\n"
+        "page,slot,item_id,count\n"
+        "1,1,10,20\n"
+        "1,1,11,21\n";
+    require(!MH3U_Transfer::parseChest(duplicateChest, chestEntries, error), "duplicate item slot was accepted");
+    require(chestEntries.empty(), "failed item parse returned partial entries");
+
+    const std::string wrongEquipmentType =
+        "MH3U_TRANSFER,1,EQUIPMENT_BOX\n"
+        "page,slot,equipment_type,byte_0,byte_1,byte_2,byte_3,byte_4,byte_5,byte_6,byte_7,byte_8,byte_9,byte_10,byte_11,byte_12,byte_13,byte_14,byte_15\n"
+        "1,1,7,8,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0\n";
+    require(!MH3U_Transfer::parseEquipmentBox(wrongEquipmentType, equipmentEntries, error),
+        "equipment type mismatch was accepted");
+    require(equipmentEntries.empty(), "failed equipment parse returned partial entries");
+}
+
 int main(int argc, char **argv)
 {
     if (argc != 3)
@@ -121,7 +196,10 @@ int main(int argc, char **argv)
     {
         testSave(argv[1], SAVE_FORMAT_N3DS);
         testSave(argv[2], SAVE_FORMAT_WIIU);
-        std::cout << "3DS and Wii U save format tests passed" << std::endl;
+        testTransfer(argv[1], argv[2], SAVE_FORMAT_WIIU, "3DS to Wii U");
+        testTransfer(argv[2], argv[1], SAVE_FORMAT_N3DS, "Wii U to 3DS");
+        testMalformedTransferForms();
+        std::cout << "3DS/Wii U save format and transfer-form tests passed" << std::endl;
         return 0;
     }
     catch (const std::exception &error)

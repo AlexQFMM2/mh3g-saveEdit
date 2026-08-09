@@ -1,8 +1,12 @@
 #include "qbox.hpp"
 
+#include "mh3u_transfer.hpp"
+
 #include <QAbstractItemView>
 #include <QDialog>
 #include <QDialogButtonBox>
+#include <QFile>
+#include <QFileDialog>
 #include <QHeaderView>
 #include <QHBoxLayout>
 #include <QMessageBox>
@@ -63,6 +67,12 @@ QBox::QBox(MH3U_SE *mh3u, QWidget *parent) : QWidget(parent)
     m_addButton = new QPushButton("新增装备", this);
     connect(m_addButton, SIGNAL(clicked(bool)), this, SLOT(addEquipmentToFirstEmptySlot()));
 
+    m_exportButton = new QPushButton("导出装备箱表单", this);
+    connect(m_exportButton, SIGNAL(clicked(bool)), this, SLOT(exportEquipmentForm()));
+
+    m_importButton = new QPushButton("导入装备箱表单", this);
+    connect(m_importButton, SIGNAL(clicked(bool)), this, SLOT(importEquipmentForm()));
+
     QVBoxLayout *sideLayout = new QVBoxLayout();
     sideLayout->addWidget(new QLabel("筛选", this));
     sideLayout->addWidget(m_search);
@@ -73,6 +83,10 @@ QBox::QBox(MH3U_SE *mh3u, QWidget *parent) : QWidget(parent)
     sideLayout->addWidget(m_selectedInfo);
     sideLayout->addWidget(m_addButton);
     sideLayout->addWidget(m_editButton);
+    sideLayout->addSpacing(12);
+    sideLayout->addWidget(new QLabel("跨平台批量迁移", this));
+    sideLayout->addWidget(m_exportButton);
+    sideLayout->addWidget(m_importButton);
     sideLayout->addStretch(1);
 
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
@@ -173,6 +187,74 @@ void QBox::refreshFilters()
 {
     populateTable();
     updateSelectedInfo();
+}
+
+void QBox::exportEquipmentForm()
+{
+    QString filename = QFileDialog::getSaveFileName(this, "导出装备箱表单", "mh3u-equipment-box.csv", "CSV 表单 (*.csv);;所有文件 (*)");
+    if (filename.isEmpty())
+    {
+        return;
+    }
+
+    QFile file(filename);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate))
+    {
+        QMessageBox::critical(this, windowTitle(), QString("无法写入表单：\n%1").arg(file.errorString()));
+        return;
+    }
+
+    std::string form = MH3U_Transfer::exportEquipmentBox(*mh3u->savedata);
+    qint64 written = file.write(form.data(), (qint64) form.size());
+    if (written != (qint64) form.size() || !file.flush())
+    {
+        QMessageBox::critical(this, windowTitle(), QString("表单没有完整写入：\n%1").arg(file.errorString()));
+        return;
+    }
+
+    QMessageBox::information(this, windowTitle(), "已导出全部 1000 个装备格。此表单可导入 3DS 或 Wii U 存档。");
+}
+
+void QBox::importEquipmentForm()
+{
+    QString filename = QFileDialog::getOpenFileName(this, "导入装备箱表单", QString(), "CSV 表单 (*.csv);;所有文件 (*)");
+    if (filename.isEmpty())
+    {
+        return;
+    }
+
+    QFile file(filename);
+    if (!file.open(QIODevice::ReadOnly))
+    {
+        QMessageBox::critical(this, windowTitle(), QString("无法读取表单：\n%1").arg(file.errorString()));
+        return;
+    }
+    QByteArray contents = file.readAll();
+    if (file.error() != QFile::NoError)
+    {
+        QMessageBox::critical(this, windowTitle(), QString("表单没有完整读出：\n%1").arg(file.errorString()));
+        return;
+    }
+
+    std::vector<MH3U_Transfer::equipment_entry_t> entries;
+    std::string error;
+    if (!MH3U_Transfer::parseEquipmentBox(std::string(contents.constData(), (size_t) contents.size()), entries, error))
+    {
+        QMessageBox::critical(this, windowTitle(), QString("表单格式错误，未修改存档：\n%1").arg(QString::fromStdString(error)));
+        return;
+    }
+
+    QString prompt = QString("表单包含 %1 个装备格。\n\n导入会覆盖表单中列出的格子，未列出的格子保持不变。是否继续？")
+        .arg(entries.size());
+    if (QMessageBox::question(this, "确认导入装备箱", prompt, QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes)
+    {
+        return;
+    }
+
+    MH3U_Transfer::applyEquipmentBox(entries, *mh3u->savedata);
+    populateTable();
+    updateSelectedInfo();
+    QMessageBox::information(this, windowTitle(), "装备箱已批量导入。请回到主窗口保存存档后再退出。");
 }
 
 void QBox::populateTable()

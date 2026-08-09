@@ -14,6 +14,7 @@ g++ -std=c++11 -Wall -Wextra \
     -I"$project_dir/app/MH3U Save Editor/MH3U Save Editor" \
     "$project_dir/tests/test_save_formats.cpp" \
     "$project_dir/app/MH3U Save Editor/MH3U Save Editor/mh3u_se.cpp" \
+    "$project_dir/app/MH3U Save Editor/MH3U Save Editor/mh3u_transfer.cpp" \
     -o "$test_dir/test_save_formats"
 
 "$test_dir/test_save_formats" "$1" "$2"
