@@ -12,7 +12,9 @@
 #define SEX_SIZE BYTE_SIZE
 #define FACE_SIZE BYTE_SIZE
 #define HAIR_SIZE BYTE_SIZE
-#define NAME_SIZE 0x000a
+#define N3DS_NAME_SIZE 0x000a
+#define WIIU_NAME_SIZE 0x0010
+#define NAME_SIZE WIIU_NAME_SIZE
 #define MONEY_SIZE INT_SIZE
 #define VOICE_SIZE BYTE_SIZE
 #define ITEM_SIZE INT_SIZE
@@ -22,7 +24,9 @@
 #define CHEST_SIZE 0x0fa0
 #define BOX_SIZE 0x1f40
 #define MOGAPOINT_SIZE INT_SIZE
-#define SAVEFILE_SIZE  0x8a00
+#define SAVEFILE_SIZE 0x8a00
+#define WIIU_HEADER_SIZE 0x0024
+#define WIIU_SAVEFILE_SIZE (WIIU_HEADER_SIZE + SAVEFILE_SIZE)
 
 #define SEX_OFFSET 0x0004
 #define FACE_OFFSET 0x0005
@@ -60,8 +64,16 @@ typedef struct item_t
 	uint16_t count;
 } item_t;
 
-typedef uint8_t name_t[NAME_SIZE];
+// One extra byte guarantees a terminator for the GUI without writing it to disk.
+typedef uint8_t name_t[NAME_SIZE + 1];
 typedef uint8_t equipment_t[EQUIPMENT_SIZE];
+
+typedef enum save_format_e
+{
+	SAVE_FORMAT_UNKNOWN = 0,
+	SAVE_FORMAT_N3DS = 1,
+	SAVE_FORMAT_WIIU = 2,
+} save_format_e;
 
 typedef struct armor_t
 {
@@ -127,9 +139,6 @@ typedef struct save_t
 	uint32_t mogapoint;
 } save_t;
 
-typedef uint8_t save_buffer_t[SAVEFILE_SIZE];
-
-
 /* --------- Class --------- */
 
 class MH3U_SE
@@ -142,6 +151,10 @@ class MH3U_SE
 		void setFilename(std::string output);
 		// Propriété bool : `savedata`
 		bool loaded();
+		save_format_e format() const;
+		std::string formatName() const;
+		std::string lastError() const;
+		uint32_t nameSize() const;
 
 
 		// Convertit un fichier en savedata et en buffer
@@ -155,10 +168,18 @@ class MH3U_SE
 	private:
 		// Ecrit le contenu du buffer dans la variable savedata
 		bool writeBuffer();
-		// Permet de modifier par bout le buffer
-		void editBuffer(uint32_t pos, uint8_t* ptr, uint8_t size);
-		save_buffer_t buffer;
+		uint32_t physicalOffset(uint32_t logicalPos) const;
+		uint16_t readUInt16(uint32_t logicalPos) const;
+		uint32_t readUInt32(uint32_t logicalPos) const;
+		void writeUInt16(uint32_t logicalPos, uint16_t value);
+		void writeUInt32(uint32_t logicalPos, uint32_t value);
+		void editBuffer(uint32_t logicalPos, const uint8_t* ptr, uint32_t size);
+		void setError(const std::string &message);
+		std::vector<uint8_t> buffer;
 		std::string filename;
+		std::string errorMessage;
+		save_format_e saveFormat;
+		uint32_t dataOffset;
 		
 };
 

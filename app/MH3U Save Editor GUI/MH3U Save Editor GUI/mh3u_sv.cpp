@@ -5,6 +5,7 @@
 #include <QPushButton>
 
 #include <QFileDialog>
+#include <QMessageBox>
 
 //#define DEBUG
 
@@ -102,7 +103,12 @@ void MH3U_SV::updateText()
     optButton->setText(uiText("Options"));
     loadButton->setText(uiText("Load file"));
     saveButton->setText(uiText("Save file"));
-    this->setWindowTitle(uiText("MH3U - Save viewer/editor"));
+    QString title = uiText("MH3U - Save viewer/editor");
+    if (this->mh3u->loaded())
+    {
+        title += QString(" [%1]").arg(QString::fromStdString(this->mh3u->formatName()));
+    }
+    this->setWindowTitle(title);
 }
 
 
@@ -155,10 +161,14 @@ void MH3U_SV::loadFile()
 
     if (!filename.isNull())
     {
-        mh3u->load(filename.toStdString());
+        if (!mh3u->load(filename.toStdString()))
+        {
+            QMessageBox::critical(this, uiText("Load failed"), QString::fromStdString(mh3u->lastError()));
+        }
     }
 
     this->refresh();
+    this->updateText();
 }
 
 void MH3U_SV::saveFile()
@@ -169,7 +179,10 @@ void MH3U_SV::saveFile()
 
     if (!filename.isNull())
     {
-        mh3u->save(filename.toStdString());
+        if (!mh3u->save(filename.toStdString()))
+        {
+            QMessageBox::critical(this, uiText("Save failed"), QString::fromStdString(mh3u->lastError()));
+        }
     }
 
     this->refresh();

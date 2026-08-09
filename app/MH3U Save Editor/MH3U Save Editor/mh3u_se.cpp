@@ -1,9 +1,25 @@
 #include "mh3u_se.hpp"
 
+#include <algorithm>
+#include <cstring>
+
+namespace
+{
+	void swapEquipmentByteOrder(equipment_t &equipment)
+	{
+		std::swap(equipment[2], equipment[3]);
+		std::swap(equipment[8], equipment[9]);
+		std::swap(equipment[10], equipment[11]);
+		std::swap(equipment[12], equipment[13]);
+	}
+}
+
 
 MH3U_SE::MH3U_SE()
 {
 	savedata = NULL;
+	saveFormat = SAVE_FORMAT_UNKNOWN;
+	dataOffset = 0;
 }
 
 
@@ -25,107 +41,165 @@ bool MH3U_SE::loaded()
 }
 
 
+save_format_e MH3U_SE::format() const
+{
+	return saveFormat;
+}
+
+
+std::string MH3U_SE::formatName() const
+{
+	switch (saveFormat)
+	{
+		case SAVE_FORMAT_N3DS:
+			return "Nintendo 3DS";
+		case SAVE_FORMAT_WIIU:
+			return "Wii U";
+		case SAVE_FORMAT_UNKNOWN:
+		default:
+			return "Unknown";
+	}
+}
+
+
+std::string MH3U_SE::lastError() const
+{
+	return errorMessage;
+}
+
+
+uint32_t MH3U_SE::nameSize() const
+{
+	return saveFormat == SAVE_FORMAT_WIIU ? WIIU_NAME_SIZE : N3DS_NAME_SIZE;
+}
+
+
 bool MH3U_SE::load(std::string input)
 {
-	std::stringstream ss;
 	std::ifstream fs;
-	uint8_t tmp_c;
+	errorMessage.clear();
 
 	try
 	{
-		fs.open(input.c_str(), std::fstream::in | std::fstream::binary);
+		fs.open(input.c_str(), std::fstream::in | std::fstream::binary | std::fstream::ate);
 	
 		if (!fs)
 		{
+			setError("Unable to open the selected file.");
 			return false;
 		}
 
-		while(fs.good())
+		std::streamoff fileLength = fs.tellg();
+		save_format_e detectedFormat = SAVE_FORMAT_UNKNOWN;
+		uint32_t detectedDataOffset = 0;
+		if (fileLength == SAVEFILE_SIZE)
 		{
-			fs.read((char*)&tmp_c, 1);
-			ss.write((char*)&tmp_c, 1);
+			detectedFormat = SAVE_FORMAT_N3DS;
+		}
+		else if (fileLength == WIIU_SAVEFILE_SIZE)
+		{
+			detectedFormat = SAVE_FORMAT_WIIU;
+			detectedDataOffset = WIIU_HEADER_SIZE;
+		}
+		else
+		{
+			std::stringstream message;
+			message << "Unsupported save size: " << fileLength
+			        << " bytes. Expected " << SAVEFILE_SIZE
+			        << " (3DS) or " << WIIU_SAVEFILE_SIZE << " (Wii U).";
+			setError(message.str());
+			return false;
+		}
+
+		std::vector<uint8_t> fileBuffer((size_t) fileLength);
+		fs.seekg(0, fs.beg);
+		fs.read((char*) fileBuffer.data(), fileLength);
+		if (!fs || fs.gcount() != fileLength)
+		{
+			setError("The save file could not be read completely.");
+			return false;
 		}
 		fs.close();
 
+		if (detectedFormat == SAVE_FORMAT_WIIU &&
+			!(fileBuffer[0x1c] == 0x00 && fileBuffer[0x1d] == 0x00 &&
+			  fileBuffer[0x1e] == 0x8a && fileBuffer[0x1f] == 0x00))
+		{
+			setError("The file size matches Wii U, but its header is invalid.");
+			return false;
+		}
+
+		buffer.swap(fileBuffer);
+		saveFormat = detectedFormat;
+		dataOffset = detectedDataOffset;
 		this->filename = input;
 
 		cdelete(savedata);
 		savedata = new save_t();
-	
-		ss.seekg(SEX_OFFSET, ss.beg);
-		ss.read((char*)&(savedata->sex), SEX_SIZE);
+		std::memset(savedata, 0, sizeof(save_t));
 
-		ss.seekg(FACE_OFFSET, ss.beg);
-		ss.read((char*)&(savedata->face), FACE_SIZE);
+		savedata->sex = buffer[physicalOffset(SEX_OFFSET)];
+		savedata->face = buffer[physicalOffset(FACE_OFFSET)];
+		savedata->hair = buffer[physicalOffset(HAIR_OFFSET)];
+		std::memcpy(savedata->name, &buffer[physicalOffset(NAME_OFFSET)], nameSize());
+		savedata->name[nameSize()] = 0;
+		savedata->money = readUInt32(MONEY_OFFSET);
+		savedata->voice = buffer[physicalOffset(VOICE_OFFSET)];
 
-		ss.seekg(HAIR_OFFSET, ss.beg);
-		ss.read((char*)&(savedata->hair), HAIR_SIZE);
-
-		ss.seekg(NAME_OFFSET, ss.beg);
-		ss.read((char*) (savedata->name), NAME_SIZE);
-
-		ss.seekg(MONEY_OFFSET, ss.beg);
-		ss.read((char*)&(savedata->money), MONEY_SIZE);
-	
-		ss.seekg(VOICE_OFFSET, ss.beg);
-		ss.read((char*)&(savedata->voice), VOICE_SIZE);
-
-		ss.seekg(INVENTORY_OFFSET, ss.beg);
 		for (uint32_t i = 0; i < 3; i++)
 		{
 			for (uint32_t j = 0; j < 8; j++)
 			{
-				ss.read((char*)&(savedata->inventory[i][j].id), SHORT_SIZE);
-				ss.read((char*)&(savedata->inventory[i][j].count), SHORT_SIZE);
+				uint32_t pos = INVENTORY_OFFSET + ITEM_SIZE * (j + i * 8);
+				savedata->inventory[i][j].id = readUInt16(pos);
+				savedata->inventory[i][j].count = readUInt16(pos + SHORT_SIZE);
 			}
 		}
 
-		ss.seekg(POUCH_OFFSET, ss.beg);
 		for (uint32_t i = 0; i < 4; i++)
 		{
 			for (uint32_t j = 0; j < 8; j++)
 			{
-				ss.read((char*)&(savedata->pouch[i][j].id), SHORT_SIZE);
-				ss.read((char*)&(savedata->pouch[i][j].count), SHORT_SIZE);
+				uint32_t pos = POUCH_OFFSET + ITEM_SIZE * (j + i * 8);
+				savedata->pouch[i][j].id = readUInt16(pos);
+				savedata->pouch[i][j].count = readUInt16(pos + SHORT_SIZE);
 			}
 		}
 	
-		ss.seekg(CHEST_OFFSET, ss.beg);
 		for (uint32_t i = 0; i < 10; i++)
 		{
 			for (uint32_t j = 0; j < 100; j++)
 			{
-				ss.read((char*)&(savedata->chest[i][j].id), SHORT_SIZE);
-				ss.read((char*)&(savedata->chest[i][j].count), SHORT_SIZE);
+				uint32_t pos = CHEST_OFFSET + ITEM_SIZE * (j + i * 100);
+				savedata->chest[i][j].id = readUInt16(pos);
+				savedata->chest[i][j].count = readUInt16(pos + SHORT_SIZE);
 			}
 		}
 
-		ss.seekg(BOX_OFFSET, ss.beg);
 		for (uint32_t i = 0; i < 10; i++)
 		{
 			for (uint32_t j = 0; j < 100; j++)
 			{
-				ss.read((char*)&(savedata->box[i][j]), EQUIPMENT_SIZE);
+				uint32_t pos = physicalOffset(BOX_OFFSET + EQUIPMENT_SIZE * (j + i * 100));
+				std::memcpy(savedata->box[i][j], &buffer[pos], EQUIPMENT_SIZE);
+				if (saveFormat == SAVE_FORMAT_WIIU)
+				{
+					swapEquipmentByteOrder(savedata->box[i][j]);
+				}
 			}
 		}
-		
-		ss.seekg(MOGAPOINT_OFFSET, ss.beg);
-		ss.read((char*)&(savedata->mogapoint), MOGAPOINT_SIZE);
 
-
-		ss.seekg(0, ss.beg);
-		for (uint32_t i = 0; ss.good() && i < SAVEFILE_SIZE; i++)
-		{
-			ss.read((char*)&tmp_c, BYTE_SIZE);
-			buffer[i] = tmp_c;
-		}
+		savedata->mogapoint = readUInt32(MOGAPOINT_OFFSET);
 		
 		return true;
 	}
-	catch (std::exception e)
+	catch (const std::exception &e)
 	{
 		cdelete(savedata);
-		std::cout << "Problem with ::load!" << std::endl;
+		buffer.clear();
+		saveFormat = SAVE_FORMAT_UNKNOWN;
+		dataOffset = 0;
+		setError(std::string("Problem loading save: ") + e.what());
 		return false;
 	}
 }
@@ -140,31 +214,38 @@ bool MH3U_SE::save()
 bool MH3U_SE::save(std::string output)
 {
 	std::ofstream fs;
+	errorMessage.clear();
 
 	try
 	{
-		if (!writeBuffer()) return false;
-
-		fs.open(output.c_str(), std::fstream::out | std::fstream::binary);
-
-		if (!fs)
+		if (!writeBuffer())
 		{
+			if (errorMessage.empty()) setError("No save is currently loaded.");
 			return false;
 		}
 
-		for (uint32_t i = 0; i < SAVEFILE_SIZE; i++)
+		fs.open(output.c_str(), std::fstream::out | std::fstream::binary | std::fstream::trunc);
+
+		if (!fs)
 		{
-			// std::cout << "Writing: " << std::hex << (int)(buffer[i]) << " @"<< i << std::endl;
-			fs.write((char*)&(buffer[i]), BYTE_SIZE);
+			setError("Unable to open the output file for writing.");
+			return false;
 		}
 
+		fs.write((char*) buffer.data(), buffer.size());
 		fs.close();
+		if (!fs)
+		{
+			setError("The save file could not be written completely.");
+			return false;
+		}
 
+		filename = output;
 		return true;
 	}
-	catch(std::exception e)
+	catch(const std::exception &e)
 	{
-		std::cout << "Problem with ::save!" << std::endl;
+		setError(std::string("Problem saving file: ") + e.what());
 		return false;
 	}
 }
@@ -180,8 +261,8 @@ bool MH3U_SE::writeBuffer()
 	editBuffer(SEX_OFFSET, (uint8_t*)&(savedata->sex), SEX_SIZE);
 	editBuffer(FACE_OFFSET, (uint8_t*)&(savedata->face), FACE_SIZE);
 	editBuffer(HAIR_OFFSET, (uint8_t*)&(savedata->hair), HAIR_SIZE);
-	editBuffer(NAME_OFFSET, (uint8_t*)(savedata->name), NAME_SIZE);
-	editBuffer(MONEY_OFFSET, (uint8_t*)&(savedata->money), MONEY_SIZE);
+	editBuffer(NAME_OFFSET, (uint8_t*)(savedata->name), nameSize());
+	writeUInt32(MONEY_OFFSET, savedata->money);
 	editBuffer(VOICE_OFFSET, (uint8_t*)&(savedata->voice), VOICE_SIZE);
 
 	
@@ -189,8 +270,9 @@ bool MH3U_SE::writeBuffer()
 	{
 		for (uint32_t j = 0; j < 8; j++)
 		{
-			editBuffer(INVENTORY_OFFSET + ITEM_SIZE * (j + i*8), (uint8_t*)&(savedata->inventory[i][j].id), SHORT_SIZE);
-			editBuffer(INVENTORY_OFFSET + ITEM_SIZE * (j + i*8) + SHORT_SIZE, (uint8_t*)&(savedata->inventory[i][j].count), SHORT_SIZE);
+			uint32_t pos = INVENTORY_OFFSET + ITEM_SIZE * (j + i * 8);
+			writeUInt16(pos, savedata->inventory[i][j].id);
+			writeUInt16(pos + SHORT_SIZE, savedata->inventory[i][j].count);
 		}
 	}
 
@@ -199,8 +281,9 @@ bool MH3U_SE::writeBuffer()
 	{
 		for (uint32_t j = 0; j < 8; j++)
 		{
-			editBuffer(POUCH_OFFSET + ITEM_SIZE * (j + i*8), (uint8_t*)&(savedata->pouch[i][j].id), SHORT_SIZE);
-			editBuffer(POUCH_OFFSET + ITEM_SIZE * (j + i*8) + SHORT_SIZE, (uint8_t*)&(savedata->pouch[i][j].count), SHORT_SIZE);
+			uint32_t pos = POUCH_OFFSET + ITEM_SIZE * (j + i * 8);
+			writeUInt16(pos, savedata->pouch[i][j].id);
+			writeUInt16(pos + SHORT_SIZE, savedata->pouch[i][j].count);
 		}
 	}
 
@@ -209,8 +292,9 @@ bool MH3U_SE::writeBuffer()
 	{
 		for (uint32_t j = 0; j < 100; j++)
 		{
-			editBuffer(CHEST_OFFSET + ITEM_SIZE * (j + i*100), (uint8_t*)&(savedata->chest[i][j].id), SHORT_SIZE);
-			editBuffer(CHEST_OFFSET + ITEM_SIZE * (j + i*100) + SHORT_SIZE, (uint8_t*)&(savedata->chest[i][j].count), SHORT_SIZE);
+			uint32_t pos = CHEST_OFFSET + ITEM_SIZE * (j + i * 100);
+			writeUInt16(pos, savedata->chest[i][j].id);
+			writeUInt16(pos + SHORT_SIZE, savedata->chest[i][j].count);
 		}
 	}
 
@@ -219,24 +303,111 @@ bool MH3U_SE::writeBuffer()
 	{
 		for (uint32_t j = 0; j < 100; j++)
 		{
-			editBuffer(BOX_OFFSET + EQUIPMENT_SIZE * (j + i*100), (uint8_t*)(savedata->box[i][j]), EQUIPMENT_SIZE);
+			equipment_t diskEquipment;
+			std::memcpy(diskEquipment, savedata->box[i][j], EQUIPMENT_SIZE);
+			if (saveFormat == SAVE_FORMAT_WIIU)
+			{
+				swapEquipmentByteOrder(diskEquipment);
+			}
+			editBuffer(BOX_OFFSET + EQUIPMENT_SIZE * (j + i * 100), diskEquipment, EQUIPMENT_SIZE);
 		}
 	}
 	
-	editBuffer(MOGAPOINT_OFFSET, (uint8_t*)&(savedata->mogapoint), MOGAPOINT_SIZE);
+	writeUInt32(MOGAPOINT_OFFSET, savedata->mogapoint);
 
-	return true;
+	return errorMessage.empty();
 }
 
 
-void MH3U_SE::editBuffer(uint32_t pos, uint8_t* ptr, uint8_t size)
+uint32_t MH3U_SE::physicalOffset(uint32_t logicalPos) const
 {
-	if (!savedata) return;
+	return dataOffset + logicalPos;
+}
 
-	for (uint32_t i = pos; i < SAVEFILE_SIZE && pos >= 0 && i < pos + size; i++)
+
+uint16_t MH3U_SE::readUInt16(uint32_t logicalPos) const
+{
+	uint32_t pos = physicalOffset(logicalPos);
+	if (saveFormat == SAVE_FORMAT_WIIU)
 	{
-		buffer[i] = ptr[i-pos];
+		return ((uint16_t) buffer[pos] << 8) | buffer[pos + 1];
 	}
+	return buffer[pos] | ((uint16_t) buffer[pos + 1] << 8);
+}
+
+
+uint32_t MH3U_SE::readUInt32(uint32_t logicalPos) const
+{
+	uint32_t pos = physicalOffset(logicalPos);
+	if (saveFormat == SAVE_FORMAT_WIIU)
+	{
+		return ((uint32_t) buffer[pos] << 24) |
+		       ((uint32_t) buffer[pos + 1] << 16) |
+		       ((uint32_t) buffer[pos + 2] << 8) |
+		       buffer[pos + 3];
+	}
+	return buffer[pos] |
+	       ((uint32_t) buffer[pos + 1] << 8) |
+	       ((uint32_t) buffer[pos + 2] << 16) |
+	       ((uint32_t) buffer[pos + 3] << 24);
+}
+
+
+void MH3U_SE::writeUInt16(uint32_t logicalPos, uint16_t value)
+{
+	uint8_t bytes[SHORT_SIZE];
+	if (saveFormat == SAVE_FORMAT_WIIU)
+	{
+		bytes[0] = (value >> 8) & 0xff;
+		bytes[1] = value & 0xff;
+	}
+	else
+	{
+		bytes[0] = value & 0xff;
+		bytes[1] = (value >> 8) & 0xff;
+	}
+	editBuffer(logicalPos, bytes, SHORT_SIZE);
+}
+
+
+void MH3U_SE::writeUInt32(uint32_t logicalPos, uint32_t value)
+{
+	uint8_t bytes[INT_SIZE];
+	if (saveFormat == SAVE_FORMAT_WIIU)
+	{
+		bytes[0] = (value >> 24) & 0xff;
+		bytes[1] = (value >> 16) & 0xff;
+		bytes[2] = (value >> 8) & 0xff;
+		bytes[3] = value & 0xff;
+	}
+	else
+	{
+		bytes[0] = value & 0xff;
+		bytes[1] = (value >> 8) & 0xff;
+		bytes[2] = (value >> 16) & 0xff;
+		bytes[3] = (value >> 24) & 0xff;
+	}
+	editBuffer(logicalPos, bytes, INT_SIZE);
+}
+
+
+void MH3U_SE::editBuffer(uint32_t logicalPos, const uint8_t* ptr, uint32_t size)
+{
+	if (!savedata || ptr == NULL) return;
+
+	uint32_t pos = physicalOffset(logicalPos);
+	if (pos > buffer.size() || size > buffer.size() - pos)
+	{
+		setError("An edited field is outside the save file bounds.");
+		return;
+	}
+	std::copy(ptr, ptr + size, buffer.begin() + pos);
+}
+
+
+void MH3U_SE::setError(const std::string &message)
+{
+	errorMessage = message;
 }
 
 

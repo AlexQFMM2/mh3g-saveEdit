@@ -2,6 +2,9 @@
 
 #include <QGridLayout>
 #include <QLabel>
+#include <QTextCodec>
+
+#include <algorithm>
 
 QCharacter::QCharacter(MH3U_SE *mh3u, QWidget *parent) : QDialog(parent)
 {
@@ -29,7 +32,7 @@ QCharacter::QCharacter(MH3U_SE *mh3u, QWidget *parent) : QDialog(parent)
     configureSearchableComboBox(m_hairs);
 
     m_name = new QLineEdit(this);
-    m_name->setMaxLength(NAME_SIZE);
+    m_name->setMaxLength(mh3u->nameSize());
     m_money = new QSpinBox(this);
     m_money->setMinimum(0x0000000);
     m_money->setMaximum(0xfffffff);
@@ -78,7 +81,21 @@ void QCharacter::load()
     m_sexs->setCurrentIndex(m_sexs->findData(mh3u->savedata->sex +1));
     m_faces->setCurrentIndex(m_faces->findData(mh3u->savedata->face +1));
     m_hairs->setCurrentIndex(m_hairs->findData(mh3u->savedata->hair +1));
-    m_name->setText(reinterpret_cast<const char*>(mh3u->savedata->name));
+    QByteArray nameBytes(reinterpret_cast<const char*>(mh3u->savedata->name), mh3u->nameSize());
+    int terminator = nameBytes.indexOf('\0');
+    if (terminator >= 0)
+    {
+        nameBytes.truncate(terminator);
+    }
+    if (mh3u->format() == SAVE_FORMAT_WIIU)
+    {
+        QTextCodec *codec = QTextCodec::codecForName("GB2312");
+        m_name->setText(codec == NULL ? QString::fromLocal8Bit(nameBytes) : codec->toUnicode(nameBytes));
+    }
+    else
+    {
+        m_name->setText(QString::fromUtf8(nameBytes));
+    }
     m_money->setValue(mh3u->savedata->money);
     m_voices->setCurrentIndex(m_voices->findData(mh3u->savedata->voice +1));
     m_mogapoint->setValue(mh3u->savedata->mogapoint);
@@ -89,7 +106,19 @@ void QCharacter::save()
     mh3u->savedata->sex = searchableComboBoxCurrentData(m_sexs).toInt() -1;
     mh3u->savedata->face = searchableComboBoxCurrentData(m_faces).toInt() -1;
     mh3u->savedata->hair = searchableComboBoxCurrentData(m_hairs).toInt() -1;
-    strncpy((char*) mh3u->savedata->name, m_name->text().toStdString().c_str(), NAME_SIZE);
+    QByteArray nameBytes;
+    if (mh3u->format() == SAVE_FORMAT_WIIU)
+    {
+        QTextCodec *codec = QTextCodec::codecForName("GB2312");
+        nameBytes = codec == NULL ? m_name->text().toLocal8Bit() : codec->fromUnicode(m_name->text());
+    }
+    else
+    {
+        nameBytes = m_name->text().toUtf8();
+    }
+    std::memset(mh3u->savedata->name, 0, sizeof(name_t));
+    std::memcpy(mh3u->savedata->name, nameBytes.constData(),
+        std::min((uint32_t) nameBytes.size(), mh3u->nameSize()));
     mh3u->savedata->money = m_money->value();
     mh3u->savedata->voice = searchableComboBoxCurrentData(m_voices).toInt() -1;
     mh3u->savedata->mogapoint = m_mogapoint->value();

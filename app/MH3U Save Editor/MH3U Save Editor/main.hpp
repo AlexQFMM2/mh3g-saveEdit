@@ -11,5 +11,6 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <vector>
 
 #endif // MAIN_HPP_INCLUDED

@@ -313,6 +313,8 @@ static inline QString uiText(const char *text)
         {"Save file", "保存文件"},
         {"Open file", "打开文件"},
         {"Save file as", "另存文件"},
+        {"Load failed", "读取失败"},
+        {"Save failed", "保存失败"},
         {"User files (user1 user2 user3);;All files (*)", "用户文件 (user1 user2 user3);;所有文件 (*)"},
         {"Character data editor", "角色数据编辑器"},
         {"Inventory editor", "道具栏编辑器"},

@@ -41,3 +41,6 @@ save/*
 data/*.txt
 release/*
 screen/*
+
+# Local reverse-engineering inputs can contain private console saves.
+wiiu-research/
