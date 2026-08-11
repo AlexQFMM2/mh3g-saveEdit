@@ -5,6 +5,7 @@
 #include <QHeaderView>
 #include <QHBoxLayout>
 #include <QMessageBox>
+#include <QScrollBar>
 #include <QTableWidgetItem>
 #include <QVBoxLayout>
 
@@ -148,6 +149,21 @@ void QPouch::refreshFilters()
 
 void QPouch::populateTable()
 {
+    const int previousRow = m_table->currentRow();
+    int selectedPanel = -1;
+    int selectedSlot = -1;
+    if (previousRow >= 0)
+    {
+        QTableWidgetItem *selectedItem = m_table->item(previousRow, 0);
+        if (selectedItem != NULL)
+        {
+            selectedPanel = selectedItem->data(Qt::UserRole).toInt();
+            selectedSlot = selectedItem->data(Qt::UserRole + 1).toInt();
+        }
+    }
+    const int scrollPosition = m_table->verticalScrollBar()->value();
+    int restoredRow = -1;
+
     m_table->setRowCount(0);
 
     for (uint32_t panel = 0; panel < 4; panel++)
@@ -169,6 +185,10 @@ void QPouch::populateTable()
             pageItem->setData(Qt::UserRole, panel);
             pageItem->setData(Qt::UserRole + 1, slot);
             m_table->setItem(row, 0, pageItem);
+            if ((int) panel == selectedPanel && (int) slot == selectedSlot)
+            {
+                restoredRow = row;
+            }
             m_table->setItem(row, 1, new QTableWidgetItem(QString::number(slot + 1)));
             m_table->setItem(row, 2, new QTableWidgetItem(name));
             m_table->setItem(row, 3, new QTableWidgetItem(QString::number(item.count)));
@@ -178,7 +198,12 @@ void QPouch::populateTable()
 
     if (m_table->rowCount() > 0)
     {
-        m_table->selectRow(0);
+        if (restoredRow < 0)
+        {
+            restoredRow = previousRow >= 0 ? qMin(previousRow, m_table->rowCount() - 1) : 0;
+        }
+        m_table->selectRow(restoredRow);
+        m_table->verticalScrollBar()->setValue(scrollPosition);
     }
 }
 
