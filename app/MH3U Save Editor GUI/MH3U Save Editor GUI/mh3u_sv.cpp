@@ -1,8 +1,12 @@
 #include "mh3u_sv.hpp"
 
+#include <QFrame>
+#include <QGridLayout>
 #include <QHBoxLayout>
-#include <QVBoxLayout>
+#include <QLabel>
 #include <QPushButton>
+#include <QStyle>
+#include <QVBoxLayout>
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -11,6 +15,8 @@
 
 MH3U_SV::MH3U_SV(QWidget *parent) : QWidget(parent)
 {
+    this->setObjectName("mainSurface");
+
     if (!MH3U_DS::readData(LANG_CN))
     {
         MH3U_DS::deleteData();
@@ -41,20 +47,76 @@ MH3U_SV::MH3U_SV(QWidget *parent) : QWidget(parent)
     saveButton = new QPushButton(this);
     connect(saveButton, SIGNAL(clicked(bool)), this, SLOT(saveFile()));
 
+    characterButton->setObjectName("navigationButton");
+    inventoryButton->setObjectName("navigationButton");
+    pouchButton->setObjectName("navigationButton");
+    chestButton->setObjectName("navigationButton");
+    boxButton->setObjectName("navigationButton");
+    loadButton->setObjectName("primaryButton");
+    saveButton->setObjectName("saveButton");
+
+    characterButton->setCursor(Qt::PointingHandCursor);
+    inventoryButton->setCursor(Qt::PointingHandCursor);
+    pouchButton->setCursor(Qt::PointingHandCursor);
+    chestButton->setCursor(Qt::PointingHandCursor);
+    boxButton->setCursor(Qt::PointingHandCursor);
+    optButton->setCursor(Qt::PointingHandCursor);
+    loadButton->setCursor(Qt::PointingHandCursor);
+    saveButton->setCursor(Qt::PointingHandCursor);
+
+    QLabel *titleLabel = new QLabel("MH3G / MH3U 存档修改器", this);
+    titleLabel->setObjectName("appTitle");
+    QLabel *subtitleLabel = new QLabel("Nintendo 3DS / Wii U · 角色存档编辑", this);
+    subtitleLabel->setObjectName("appSubtitle");
+    statusLabel = new QLabel(this);
+    statusLabel->setObjectName("statusLabel");
+
+    QFrame *contentCard = new QFrame(this);
+    contentCard->setObjectName("contentCard");
+    QVBoxLayout *contentLayout = new QVBoxLayout(contentCard);
+    contentLayout->setContentsMargins(18, 16, 18, 18);
+    contentLayout->setSpacing(10);
+    QLabel *contentTitle = new QLabel("存档内容", contentCard);
+    contentTitle->setObjectName("sectionTitle");
+    contentLayout->addWidget(contentTitle);
+
+    QGridLayout *contentGrid = new QGridLayout();
+    contentGrid->setHorizontalSpacing(10);
+    contentGrid->setVerticalSpacing(10);
+    contentGrid->addWidget(characterButton, 0, 0, 1, 2);
+    contentGrid->addWidget(inventoryButton, 1, 0);
+    contentGrid->addWidget(pouchButton, 1, 1);
+    contentGrid->addWidget(chestButton, 2, 0);
+    contentGrid->addWidget(boxButton, 2, 1);
+    contentLayout->addLayout(contentGrid);
+
+    QFrame *actionCard = new QFrame(this);
+    actionCard->setObjectName("contentCard");
+    QVBoxLayout *actionLayout = new QVBoxLayout(actionCard);
+    actionLayout->setContentsMargins(18, 16, 18, 18);
+    actionLayout->setSpacing(10);
+    QLabel *actionTitle = new QLabel("存档文件", actionCard);
+    actionTitle->setObjectName("sectionTitle");
+    actionLayout->addWidget(actionTitle);
+
     QHBoxLayout *saveloadLayout = new QHBoxLayout();
+    saveloadLayout->setSpacing(10);
     saveloadLayout->addWidget(loadButton);
     saveloadLayout->addWidget(saveButton);
+    actionLayout->addLayout(saveloadLayout);
+    actionLayout->addWidget(optButton);
 
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
-    mainLayout->addWidget(characterButton);
-    mainLayout->addWidget(inventoryButton);
-    mainLayout->addWidget(pouchButton);
-    mainLayout->addWidget(chestButton);
-    mainLayout->addWidget(boxButton);
-    mainLayout->addSpacing(10);
-    mainLayout->addWidget(optButton);
-    mainLayout->addLayout(saveloadLayout);
+    mainLayout->setContentsMargins(28, 24, 28, 26);
+    mainLayout->setSpacing(15);
+    mainLayout->addWidget(titleLabel);
+    mainLayout->addWidget(subtitleLabel);
+    mainLayout->addWidget(statusLabel);
+    mainLayout->addWidget(contentCard);
+    mainLayout->addWidget(actionCard);
     this->setLayout(mainLayout);
+    this->setMinimumSize(470, 550);
+    this->resize(500, 570);
     this->updateText();
 
     this->refresh();
@@ -69,7 +131,8 @@ MH3U_SV::~MH3U_SV()
 
 void MH3U_SV::refresh()
 {
-    if (this->mh3u->loaded())
+    const bool loaded = this->mh3u->loaded();
+    if (loaded)
     {
         characterButton->setDisabled(false);
         inventoryButton->setDisabled(false);
@@ -91,6 +154,13 @@ void MH3U_SV::refresh()
         loadButton->setDisabled(false);
         saveButton->setDisabled(true);
     }
+
+    statusLabel->setText(loaded
+        ? QString("已读取存档 · %1").arg(QString::fromStdString(this->mh3u->formatName()))
+        : QString("尚未读取存档，请先打开 user1 / user2 / user3"));
+    statusLabel->setProperty("loaded", loaded);
+    statusLabel->style()->unpolish(statusLabel);
+    statusLabel->style()->polish(statusLabel);
 }
 
 void MH3U_SV::updateText()

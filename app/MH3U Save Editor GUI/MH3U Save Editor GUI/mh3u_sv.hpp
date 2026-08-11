@@ -12,6 +12,7 @@
 #include "widget/qoption.hpp"
 
 #include <QWidget>
+#include <QLabel>
 
 class MH3U_SV : public QWidget
 {
@@ -32,6 +33,7 @@ private:
     QPushButton *optButton;
     QPushButton *loadButton;
     QPushButton *saveButton;
+    QLabel *statusLabel;
 
     void updateText();
 
