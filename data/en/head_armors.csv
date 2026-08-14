@@ -1,329 +1,381 @@
 id,name,english,source
-1,Leather Headgear,Leather Headgear,
-2,Piscine Mask,Piscine Mask,
-3,Chainmail Headgear,Chainmail Headgear,
-4,Hunter's Helm,Hunter's Helm,
-5,Hunter's Cap,Hunter's Cap,
-6,Bone Helm,Bone Helm,
-7,Bone Cap,Bone Cap,
-8,Alloy Helm,Alloy Helm,
-9,Alloy Cap,Alloy Cap,
-10,Jaggi Helm,Jaggi Helm,
-11,Jaggi Cap,Jaggi Cap,
-12,Bnahabra Hat,Bnahabra Hat,
-13,Bnahabra Headpiece,Bnahabra Headpiece,
-14,Rhenoplos Helm,Rhenoplos Helm,
-15,Rhenoplos Cap,Rhenoplos Cap,
-16,Qurupeco Helm,Qurupeco Helm,
-17,Qurupeco Cap,Qurupeco Cap,
-18,Ludroth Helm,Ludroth Helm,
-19,Ludroth Cap,Ludroth Cap,
-20,Baggi Helm,Baggi Helm,
-21,Baggi Cap,Baggi Cap,
-22,Barroth Helm,Barroth Helm,
-23,Barroth Cap,Barroth Cap,
-24,Gobul Helm,Gobul Helm,
-25,Gobul Cap,Gobul Cap,
-28,Guild Bard Lobos,Guild Bard Lobos,
-29,Guild Bard Hat,Guild Bard Hat,
-30,Scholar's Beret,Scholar's Beret,
-31,Scholar's Cap,Scholar's Cap,
-32,Rathian Helm,Rathian Helm,
-33,Rathian Cap,Rathian Cap,
-34,Gigginox Helm,Gigginox Helm,
-35,Gigginox Cap,Gigginox Cap,
-36,Ingot Helm,Ingot Helm,
-37,Ingot Cap,Ingot Cap,
-38,Lagiacrus Helm,Lagiacrus Helm,
-39,Lagiacrus Cap,Lagiacrus Cap,
-40,Rathalos Helm,Rathalos Helm,
-41,Rathalos Cap,Rathalos Cap,
-42,Barioth Helm,Barioth Helm,
-43,Barioth Cap,Barioth Cap,
-44,Diablos Helm,Diablos Helm,
-45,Diablos Cap,Diablos Cap,
-46,Uragaan Helm,Uragaan Helm,
-47,Uragaan Cap,Uragaan Cap,
-48,Agnaktor Helm,Agnaktor Helm,
-49,Agnaktor Cap,Agnaktor Cap,
-50,Helios Helm,Helios Helm,
-51,Helios Cap,Helios Cap,
-52,Selene Helm,Selene Helm,
-53,Selene Cap,Selene Cap,
-54,Wroggi Hat,Wroggi Hat,
-55,Wroggi Cap,Wroggi Cap,
-56,Arzuros Helm,Arzuros Helm,
-57,Arzuros Cap,Arzuros Cap,
-58,Lagombi Helm,Lagombi Helm,
-59,Lagombi Cap,Lagombi Cap,
-60,Volvidon Helm,Volvidon Helm,
-61,Volvidon Cap,Volvidon Cap,
-62,Nibelsnarf Helm,Nibelsnarf Helm,
-63,Nibelsnarf Cap,Nibelsnarf Cap,
-64,Duramboros Helm,Duramboros Helm,
-65,Duramboros Cap,Duramboros Cap,
-66,Yukumo Kasa,Yukumo Kasa,
-73,Leather Helm S,Leather Helm S,
-74,Leather Cap S,Leather Cap S,
-75,Piscine Mask S,Piscine Mask S,
-76,Piscine Snorket S,Piscine Snorket S,
-77,Chainmail Helm S,Chainmail Helm S,
-78,Chainmail Cap S,Chainmail Cap S,
-79,Hunter's Helm S,Hunter's Helm S,
-80,Hunter's Cap S,Hunter's Cap S,
-81,Bone Helm S,Bone Helm S,
-82,Bone Cap S,Bone Cap S,
-83,Alloy Helm S,Alloy Helm S,
-84,Alloy Cap S,Alloy Cap S,
-85,Jaggi Helm S,Jaggi Helm S,
-86,Jaggi Cap S,Jaggi Cap S,
-87,Bnahabra Hat S,Bnahabra Hat S,
-88,Bnahabra Headpiece S,Bnahabra Headpiece S,
-89,Rhenoplos Helm S,Rhenoplos Helm S,
-90,Rhenoplos Cap S,Rhenoplos Cap S,
-91,Slagtoth Hood,Slagtoth Hood,
-92,Slagtoth Cowl,Slagtoth Cowl,
-93,Qurupeco Helm S,Qurupeco Helm S,
-94,Qurupeco Cap S,Qurupeco Cap S,
-95,Qurupeco Helm U,Qurupeco Helm U,
-96,Qurupeco Cap U,Qurupeco Cap U,
-97,Ludroth Helm S,Ludroth Helm S,
-98,Ludroth Cap S,Ludroth Cap S,
-99,Ludroth Helm U,Ludroth Helm U,
-100,Ludroth Cap U,Ludroth Cap U,
-101,Baggi Helm S,Baggi Helm S,
-102,Baggi Cap S,Baggi Cap S,
-103,Wroggi Hat S,Wroggi Hat S,
-104,Wroggi Cap S,Wroggi Cap S,
-105,Arzuros Helm S,Arzuros Helm S,
-106,Arzuros Cap S,Arzuros Cap S,
-107,Lagombi Helm S,Lagombi Helm S,
-108,Lagombi Cap S,Lagombi Cap S,
-109,Volvidon Helm S,Volvidon Helm S,
-110,Volvidon Cap S,Volvidon Cap S,
-111,Barroth Helm S,Barroth Helm S,
-112,Barroth Cap S,Barroth Cap S,
-113,Barroth Helm U,Barroth Helm U,
-114,Barroth Cap U,Barroth Cap U,
-115,Gobul Helm S,Gobul Helm S,
-116,Gobul Cap S,Gobul Cap S,
-117,Guild Bard Lobos S,Guild Bard Lobos S,
-118,Guild Bard Hat S,Guild Bard Hat S,
-119,Scholar's Beret S,Scholar's Beret S,
-120,Scholar's Cap S,Scholar's Cap S,
-121,Rathian Helm S,Rathian Helm S,
-122,Rathian Cap S,Rathian Cap S,
-123,Rath Heart Helm,Rath Heart Helm,
-124,Rath Helm Cap,Rath Helm Cap,
-125,Gigginox Helm S,Gigginox Helm S,
-126,Gigginox Cap S,Gigginox Cap S,
-127,Gigginox Helm U,Gigginox Helm U,
-128,Gigginox Cap U,Gigginox Cap U,
-129,Ingot Helm S,Ingot Helm S,
-130,Ingot Cap S,Ingot Cap S,
-131,Dober Helm,Dober Helm,
-132,Dober Cap,Dober Cap,
-133,Yukumo Sky Kasa,Yukumo Sky Kasa,
-134,Yukumo Land Kasa,Yukumo Land Kasa,
-135,Aelucanth Vertex,Aelucanth Vertex,
-136,Aelucanth Clypeus,Aelucanth Clypeus,
-137,Rhopessa Vertex,Rhopessa Vertex,
-138,Rhopessa Clypeus,Rhopessa Clypeus,
-139,Mosgharl Vizor,Mosgharl Vizor,
-140,Mosgharl Brim,Mosgharl Brim,
-141,Lagiacrus Helm S,Lagiacrus Helm S,
-142,Lagiacrus Cap S,Lagiacrus Cap S,
-143,Lagiacrus Helm U,Lagiacrus Helm U,
-144,Lagiacrus Cap U,Lagiacrus Cap U,
-145,Rathalos Helm S,Rathalos Helm S,
-146,Rathalos Cap S,Rathalos Cap S,
-147,Rath Soul Helm,Rath Soul Helm,
-148,Rath Soul Cap,Rath Soul Cap,
-149,Barioth Helm S,Barioth Helm S,
-150,Barioth Cap S,Barioth Cap S,
-151,Barioth Helm U,Barioth Helm U,
-152,Barioth Cap U,Barioth Cap U,
-153,Diablos Helm S,Diablos Helm S,
-154,Diablos Cap S,Diablos Cap S,
-155,Diablos Helm U,Diablos Helm U,
-156,Diablos Cap U,Diablos Cap U,
-157,Uragaan Helm S,Uragaan Helm S,
-158,Uragaan Cap S,Uragaan Cap S,
-159,Uragaan Helm U,Uragaan Helm U,
-160,Uragaan Cap U,Uragaan Cap U,
-161,Agnaktor Helm S,Agnaktor Helm S,
-162,Agnaktor Cap S,Agnaktor Cap S,
-163,Agnaktor Helm U,Agnaktor Helm U,
-164,Agnaktor Cap U,Agnaktor Cap U,
-165,Vangis Helm,Vangis Helm,
-166,Vangis Cap,Vangis Cap,
-167,Damascus Helm,Damascus Helm,
-168,Damascus Cap,Damascus Cap,
-173,Yamato Kabuto,Yamato Kabuto,
-174,Mutsu Eboshi,Mutsu Eboshi,
-175,Hyuga Hachigane,Hyuga Hachigane,
-176,Amagi Hachigane,Amagi Hachigane,
-177,Escadora Wisdom,Escadora Wisdom,
-178,Escadora Sagesse,Escadora Sagesse,
-179,Zinogre Helm,Zinogre Helm,
-180,Zinogre Cap,Zinogre Cap,
-181,Nibelsnarf Helm S,Nibelsnarf Helm S,
-182,Nibelsnarf Cap S,Nibelsnarf Cap S,
-183,Duramboros Helm S,Duramboros Helm S,
-184,Duramboros Cap S,Duramboros Cap S,
-185,Nargacuga Helm,Nargacuga Helm,
-186,Nargacuga Cap,Nargacuga Cap,
-187,Plesioth Helm,Plesioth Helm,
-188,Plesioth Cap,Plesioth Cap,
-189,Brachydios Helm,Brachydios Helm,
-190,Brachydios Cap,Brachydios Cap,
-191,Dianthus Cappa,Dianthus Cappa,
-192,Campanile Cappa,Campanile Cappa,
-193,Ranger's Headgear,Ranger's Headgear,
-194,Archer's Turban,Archer's Turban,
-207,Ingot Helm X,Ingot Helm X,
-208,Ingot Cap X,Ingot Cap X,
-209,Bnahabra Hat X,Bnahabra Hat X,
-210,Bnahabra Headpiece X,Bnahabra Headpiece X,
-211,Rhenoplos Helm X,Rhenoplos Helm X,
-212,Rhenoplos Cap X,Rhenoplos Cap X,
-213,Slagtoth Hood X,Slagtoth Hood X,
-214,Slagtoth Cowl X,Slagtoth Cowl X,
-215,Jaggi Helm X,Jaggi Helm X,
-216,Jaggi Cap X,Jaggi Cap X,
-217,Baggi Helm X,Baggi Helm X,
-218,Baggi Cap X,Baggi Cap X,
-219,Wroggi Hat X,Wroggi Hat X,
-220,Wroggi Cap X,Wroggi Cap X,
-221,Arzuros Helm X,Arzuros Helm X,
-222,Arzuros Cap X,Arzuros Cap X,
-223,Lagombi Helm X,Lagombi Helm X,
-224,Lagombi Cap X,Lagombi Cap X,
-225,Volvidon Helm X,Volvidon Helm X,
-226,Volvidon Cap X,Volvidon Cap X,
-227,Qurupeco Helm X,Qurupeco Helm X,
-228,Qurupeco Cap X,Qurupeco Cap X,
-229,Qurupeco Helm Z,Qurupeco Helm Z,
-230,Qurupeco Cap Z,Qurupeco Cap Z,
-231,Ludroth Helm X,Ludroth Helm X,
-232,Ludroth Cap X,Ludroth Cap X,
-233,Ludroth Helm Z,Ludroth Helm Z,
-234,Ludroth Cap Z,Ludroth Cap Z,
-235,Barroth Helm X,Barroth Helm X,
-236,Barroth Cap X,Barroth Cap X,
-237,Barroth Helm Z,Barroth Helm Z,
-238,Barroth Cap Z,Barroth Cap Z,
-239,Gobul Helm X,Gobul Helm X,
-240,Gobul Cap X,Gobul Cap X,
-241,Rhenoplos Helm X,Rhenoplos Helm X,
-242,Rhenoplos Cap X,Rhenoplos Cap X,
-243,Rath Soul Helm Z,Rath Soul Helm Z,
-244,Rath Soul Cap Z,Rath Soul Cap Z,
-245,Silver Solhelm,Silver Solhelm,
-246,Silver Solcap,Silver Solcap,
-247,Rathian Helm X,Rathian Helm X,
-248,Rathian Cap X,Rathian Cap X,
-249,Rath Heart Helm Z,Rath Heart Helm Z,
-250,Rath Heart Cap Z,Rath Heart Cap Z,
-251,Golden Lunehelm,Golden Lunehelm,
-252,Golden Lunecap,Golden Lunecap,
-253,Lagiacrus Helm X,Lagiacrus Helm X,
-254,Lagiacrus Cap X,Lagiacrus Cap X,
-255,Lagiacrus Helm Z,Lagiacrus Helm Z,
-256,Lagiacrus Cap Z,Lagiacrus Cap Z,
-257,Nether Helm,Nether Helm,
-258,Nether Cap,Nether Cap,
-259,Gigginox Helm X,Gigginox Helm X,
-260,Gigginox Cap X,Gigginox Cap X,
-261,Gigginox Helm Z,Gigginox Helm Z,
-262,Gigginox Cap Z,Gigginox Cap Z,
-263,Barioth Helm X,Barioth Helm X,
-264,Barioth Cap X,Barioth Cap X,
-265,Barioth Helm Z,Barioth Helm Z,
-266,Barioth Cap Z,Barioth Cap Z,
-267,Diablos Helm X,Diablos Helm X,
-268,Diablos Cap X,Diablos Cap X,
-269,Diablos Helm Z,Diablos Helm Z,
-270,Diablos Cap Z,Diablos Cap Z,
-271,Uragaan Helm X,Uragaan Helm X,
-272,Uragaan Cap X,Uragaan Cap X,
-273,Uragaan Helm Z,Uragaan Helm Z,
-274,Uragaan Cap Z,Uragaan Cap Z,
-275,Agnaktor Helm X,Agnaktor Helm X,
-276,Agnaktor Cap X,Agnaktor Cap X,
-277,Agnaktor Helm Z,Agnaktor Helm Z,
-278,Agnaktor Cap Z,Agnaktor Cap Z,
-279,Helios Helm X,Helios Helm X,
-280,Helios Cap X,Helios Cap X,
-281,Helios Helm Z,Helios Helm Z,
-282,Helios Cap Z,Helios Cap Z,
-283,Selene Helm X,Selene Helm X,
-284,Selene Cap X,Selene Cap X,
-285,Selene Helm Z,Selene Helm Z,
-286,Selene Cap Z,Selene Cap Z,
-287,Grand Yamato Kabuto,Grand Yamato Kabuto,
-288,Grand Mutsu Eboshi,Grand Mutsu Eboshi,
-289,Grand H. Hachigane,Grand H. Hachigane,
-290,Grand Amagi Jingasa,Grand Amagi Jingasa,
-291,Yamato Kabuto Prime,Yamato Kabuto Prime,
-292,Mutsu Eboshi Prime,Mutsu Eboshi Prime,
-293,H. Hachigane Prime,H. Hachigane Prime,
-294,Amagi Jingasa Prime,Amagi Jingasa Prime,
-295,Vangis Helm X,Vangis Helm X,
-296,Vangis Cap X,Vangis Cap X,
-297,Escadora Wisdom X,Escadora Wisdom X,
-298,Escadora Sagesse X,Escadora Sagesse X,
-299,Zinogre Helm X,Zinogre Helm X,
-300,Zinogre Cap X,Zinogre Cap X,
-301,Zinogre Helm Z,Zinogre Helm Z,
-302,Zinogre Cap Z,Zinogre Cap Z,
-303,Nibelsnarf Helm X,Nibelsnarf Helm X,
-304,Nibelsnarf Cap X,Nibelsnarf Cap X,
-305,Duramboros Helm X,Duramboros Helm X,
-306,Duramboros Cap X,Duramboros Cap X,
-307,Duramboros Helm Z,Duramboros Helm Z,
-308,Duramboros Cap Z,Duramboros Cap Z,
-309,Nargacuga Helm X,Nargacuga Helm X,
-310,Nargacuga Cap X,Nargacuga Cap X,
-311,Nargacuga Helm Z,Nargacuga Helm Z,
-312,Nargacuga Cap Z,Nargacuga Cap Z,
-313,Lambent Casque,Lambent Casque,
-314,Silhouette Casque,Silhouette Casque,
-315,Plesioth Helm X,Plesioth Helm X,
-316,Plesioth Cap X,Plesioth Cap X,
-317,Plesioth Helm Z,Plesioth Helm Z,
-318,Plesioth Cap Z,Plesioth Cap Z,
-319,Brachydios Helm X,Brachydios Helm X,
-320,Brachydios Cap X,Brachydios Cap X,
-321,Miralis Diadem,Miralis Diadem,
-322,Miralis Crown,Miralis Crown,
-323,Damascus Helm X,Damascus Helm X,
-324,Damascus Cap X,Damascus Cap X,
-325,Dober Helm X,Dober Helm X,
-326,Dober Cap X,Dober Cap X,
-329,Aelucanth Vertex X,Aelucanth Vertex X,
-330,Aelucanth Clypeus X,Aelucanth Clypeus X,
-331,Rhopessa Vertex X,Rhopessa Vertex X,
-332,Rhopessa Clypeus X,Rhopessa Clypeus X,
-333,Mosgharl Vizor X,Mosgharl Vizor X,
-334,Mosgharl Brim X,Mosgharl Brim X,
-335,Dianthus Wealcap,Dianthus Wealcap,
-336,Campanile Wealcap,Campanile Wealcap,
-337,Strider's Headgear,Strider's Headgear,
-338,Deadeye's Turban,Deadeye's Turban,
-339,Guild Bard Lobos X,Guild Bard Lobos X,
-340,Guild Bard Hat X,Guild Bard Hat X,
-341,Scholar's Beret X,Scholar's Beret X,
-342,Scholar's Cap X,Scholar's Cap X,
-345,Sailor Hat,Sailor Hat,
-346,Sailor Cap,Sailor Cap,
-347,Shadow Shades,Shadow Shades,
-348,Jaggi Mask,Jaggi Mask,
-349,Gargwa Mask,Gargwa Mask,
-350,Bullfango Mask,Bullfango Mask,
-351,Skull Mask,Skull Mask,
-352,Chakra Earring,Chakra Earring,
-376,Sword Saint Earring,Sword Saint Earring,
-377,Barrage Earring,Barrage Earring,
-378,Skull Visage,Skull Visage,
-379,Sword Saint Earring,Sword Saint Earring,
+0,None,None,mh3g-id-res-game-array+placeholder
+1,Leather Headgear,Leather Headgear,mh3g-id-res-game-array+mh3u-legacy-display-list
+2,Piscine Mask,Piscine Mask,mh3g-id-res-game-array+mh3u-legacy-display-list
+3,Chainmail Headgear,Chainmail Headgear,mh3g-id-res-game-array+mh3u-legacy-display-list
+4,Hunter's Helm,Hunter's Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+5,Hunter's Cap,Hunter's Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+6,Bone Helm,Bone Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+7,Bone Cap,Bone Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+8,Alloy Helm,Alloy Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+9,Alloy Cap,Alloy Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+10,Jaggi Helm,Jaggi Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+11,Jaggi Cap,Jaggi Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+12,Bnahabra Hat,Bnahabra Hat,mh3g-id-res-game-array+mh3u-legacy-display-list
+13,Bnahabra Headpiece,Bnahabra Headpiece,mh3g-id-res-game-array+mh3u-legacy-display-list
+14,Rhenoplos Helm,Rhenoplos Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+15,Rhenoplos Cap,Rhenoplos Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+16,Qurupeco Helm,Qurupeco Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+17,Qurupeco Cap,Qurupeco Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+18,Ludroth Helm,Ludroth Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+19,Ludroth Cap,Ludroth Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+20,Baggi Helm,Baggi Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+21,Baggi Cap,Baggi Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+22,Barroth Helm,Barroth Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+23,Barroth Cap,Barroth Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+24,Gobul Helm,Gobul Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+25,Gobul Cap,Gobul Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+26,DUMMY 26,DUMMY 26,mh3g-id-res-game-array+placeholder
+27,DUMMY 27,DUMMY 27,mh3g-id-res-game-array+placeholder
+28,Guild Bard Lobos,Guild Bard Lobos,mh3g-id-res-game-array+mh3u-legacy-display-list
+29,Guild Bard Hat,Guild Bard Hat,mh3g-id-res-game-array+mh3u-legacy-display-list
+30,Scholar's Beret,Scholar's Beret,mh3g-id-res-game-array+mh3u-legacy-display-list
+31,Scholar's Cap,Scholar's Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+32,Rathian Helm,Rathian Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+33,Rathian Cap,Rathian Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+34,Gigginox Helm,Gigginox Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+35,Gigginox Cap,Gigginox Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+36,Ingot Helm,Ingot Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+37,Ingot Cap,Ingot Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+38,Lagiacrus Helm,Lagiacrus Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+39,Lagiacrus Cap,Lagiacrus Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+40,Rathalos Helm,Rathalos Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+41,Rathalos Cap,Rathalos Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+42,Barioth Helm,Barioth Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+43,Barioth Cap,Barioth Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+44,Diablos Helm,Diablos Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+45,Diablos Cap,Diablos Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+46,Uragaan Helm,Uragaan Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+47,Uragaan Cap,Uragaan Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+48,Agnaktor Helm,Agnaktor Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+49,Agnaktor Cap,Agnaktor Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+50,Helios Helm,Helios Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+51,Helios Cap,Helios Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+52,Selene Helm,Selene Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+53,Selene Cap,Selene Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+54,Wroggi Hat,Wroggi Hat,mh3g-id-res-game-array+mh3u-legacy-display-list
+55,Wroggi Cap,Wroggi Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+56,Arzuros Helm,Arzuros Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+57,Arzuros Cap,Arzuros Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+58,Lagombi Helm,Lagombi Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+59,Lagombi Cap,Lagombi Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+60,Volvidon Helm,Volvidon Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+61,Volvidon Cap,Volvidon Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+62,Nibelsnarf Helm,Nibelsnarf Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+63,Nibelsnarf Cap,Nibelsnarf Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+64,Duramboros Helm,Duramboros Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+65,Duramboros Cap,Duramboros Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+66,Yukumo Kasa,Yukumo Kasa,mh3g-id-res-game-array+mh3u-legacy-display-list
+67,DUMMY 67,DUMMY 67,mh3g-id-res-game-array+placeholder
+68,DUMMY 68,DUMMY 68,mh3g-id-res-game-array+placeholder
+69,DUMMY 69,DUMMY 69,mh3g-id-res-game-array+placeholder
+70,DUMMY 70,DUMMY 70,mh3g-id-res-game-array+placeholder
+71,DUMMY 71,DUMMY 71,mh3g-id-res-game-array+placeholder
+72,DUMMY 72,DUMMY 72,mh3g-id-res-game-array+placeholder
+73,Leather Helm S,Leather Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+74,Leather Cap S,Leather Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+75,Piscine Mask S,Piscine Mask S,mh3g-id-res-game-array+mh3u-legacy-display-list
+76,Piscine Snorket S,Piscine Snorket S,mh3g-id-res-game-array+mh3u-legacy-display-list
+77,Chainmail Helm S,Chainmail Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+78,Chainmail Cap S,Chainmail Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+79,Hunter's Helm S,Hunter's Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+80,Hunter's Cap S,Hunter's Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+81,Bone Helm S,Bone Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+82,Bone Cap S,Bone Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+83,Alloy Helm S,Alloy Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+84,Alloy Cap S,Alloy Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+85,Jaggi Helm S,Jaggi Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+86,Jaggi Cap S,Jaggi Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+87,Bnahabra Hat S,Bnahabra Hat S,mh3g-id-res-game-array+mh3u-legacy-display-list
+88,Bnahabra Headpiece S,Bnahabra Headpiece S,mh3g-id-res-game-array+mh3u-legacy-display-list
+89,Rhenoplos Helm S,Rhenoplos Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+90,Rhenoplos Cap S,Rhenoplos Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+91,Slagtoth Hood,Slagtoth Hood,mh3g-id-res-game-array+mh3u-legacy-display-list
+92,Slagtoth Cowl,Slagtoth Cowl,mh3g-id-res-game-array+mh3u-legacy-display-list
+93,Qurupeco Helm S,Qurupeco Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+94,Qurupeco Cap S,Qurupeco Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+95,Qurupeco Helm U,Qurupeco Helm U,mh3g-id-res-game-array+mh3u-legacy-display-list
+96,Qurupeco Cap U,Qurupeco Cap U,mh3g-id-res-game-array+mh3u-legacy-display-list
+97,Ludroth Helm S,Ludroth Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+98,Ludroth Cap S,Ludroth Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+99,Ludroth Helm U,Ludroth Helm U,mh3g-id-res-game-array+mh3u-legacy-display-list
+100,Ludroth Cap U,Ludroth Cap U,mh3g-id-res-game-array+mh3u-legacy-display-list
+101,Baggi Helm S,Baggi Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+102,Baggi Cap S,Baggi Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+103,Wroggi Hat S,Wroggi Hat S,mh3g-id-res-game-array+mh3u-legacy-display-list
+104,Wroggi Cap S,Wroggi Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+105,Arzuros Helm S,Arzuros Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+106,Arzuros Cap S,Arzuros Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+107,Lagombi Helm S,Lagombi Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+108,Lagombi Cap S,Lagombi Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+109,Volvidon Helm S,Volvidon Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+110,Volvidon Cap S,Volvidon Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+111,Barroth Helm S,Barroth Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+112,Barroth Cap S,Barroth Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+113,Barroth Helm U,Barroth Helm U,mh3g-id-res-game-array+mh3u-legacy-display-list
+114,Barroth Cap U,Barroth Cap U,mh3g-id-res-game-array+mh3u-legacy-display-list
+115,Gobul Helm S,Gobul Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+116,Gobul Cap S,Gobul Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+117,Guild Bard Lobos S,Guild Bard Lobos S,mh3g-id-res-game-array+mh3u-legacy-display-list
+118,Guild Bard Hat S,Guild Bard Hat S,mh3g-id-res-game-array+mh3u-legacy-display-list
+119,Scholar's Beret S,Scholar's Beret S,mh3g-id-res-game-array+mh3u-legacy-display-list
+120,Scholar's Cap S,Scholar's Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+121,Rathian Helm S,Rathian Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+122,Rathian Cap S,Rathian Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+123,Rath Heart Helm,Rath Heart Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+124,Rath Helm Cap,Rath Helm Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+125,Gigginox Helm S,Gigginox Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+126,Gigginox Cap S,Gigginox Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+127,Gigginox Helm U,Gigginox Helm U,mh3g-id-res-game-array+mh3u-legacy-display-list
+128,Gigginox Cap U,Gigginox Cap U,mh3g-id-res-game-array+mh3u-legacy-display-list
+129,Ingot Helm S,Ingot Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+130,Ingot Cap S,Ingot Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+131,Dober Helm,Dober Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+132,Dober Cap,Dober Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+133,Yukumo Sky Kasa,Yukumo Sky Kasa,mh3g-id-res-game-array+mh3u-legacy-display-list
+134,Yukumo Land Kasa,Yukumo Land Kasa,mh3g-id-res-game-array+mh3u-legacy-display-list
+135,Aelucanth Vertex,Aelucanth Vertex,mh3g-id-res-game-array+mh3u-legacy-display-list
+136,Aelucanth Clypeus,Aelucanth Clypeus,mh3g-id-res-game-array+mh3u-legacy-display-list
+137,Rhopessa Vertex,Rhopessa Vertex,mh3g-id-res-game-array+mh3u-legacy-display-list
+138,Rhopessa Clypeus,Rhopessa Clypeus,mh3g-id-res-game-array+mh3u-legacy-display-list
+139,Mosgharl Vizor,Mosgharl Vizor,mh3g-id-res-game-array+mh3u-legacy-display-list
+140,Mosgharl Brim,Mosgharl Brim,mh3g-id-res-game-array+mh3u-legacy-display-list
+141,Lagiacrus Helm S,Lagiacrus Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+142,Lagiacrus Cap S,Lagiacrus Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+143,Lagiacrus Helm U,Lagiacrus Helm U,mh3g-id-res-game-array+mh3u-legacy-display-list
+144,Lagiacrus Cap U,Lagiacrus Cap U,mh3g-id-res-game-array+mh3u-legacy-display-list
+145,Rathalos Helm S,Rathalos Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+146,Rathalos Cap S,Rathalos Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+147,Rath Soul Helm,Rath Soul Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+148,Rath Soul Cap,Rath Soul Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+149,Barioth Helm S,Barioth Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+150,Barioth Cap S,Barioth Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+151,Barioth Helm U,Barioth Helm U,mh3g-id-res-game-array+mh3u-legacy-display-list
+152,Barioth Cap U,Barioth Cap U,mh3g-id-res-game-array+mh3u-legacy-display-list
+153,Diablos Helm S,Diablos Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+154,Diablos Cap S,Diablos Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+155,Diablos Helm U,Diablos Helm U,mh3g-id-res-game-array+mh3u-legacy-display-list
+156,Diablos Cap U,Diablos Cap U,mh3g-id-res-game-array+mh3u-legacy-display-list
+157,Uragaan Helm S,Uragaan Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+158,Uragaan Cap S,Uragaan Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+159,Uragaan Helm U,Uragaan Helm U,mh3g-id-res-game-array+mh3u-legacy-display-list
+160,Uragaan Cap U,Uragaan Cap U,mh3g-id-res-game-array+mh3u-legacy-display-list
+161,Agnaktor Helm S,Agnaktor Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+162,Agnaktor Cap S,Agnaktor Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+163,Agnaktor Helm U,Agnaktor Helm U,mh3g-id-res-game-array+mh3u-legacy-display-list
+164,Agnaktor Cap U,Agnaktor Cap U,mh3g-id-res-game-array+mh3u-legacy-display-list
+165,Vangis Helm,Vangis Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+166,Vangis Cap,Vangis Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+167,Damascus Helm,Damascus Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+168,Damascus Cap,Damascus Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+169,DUMMY 169,DUMMY 169,mh3g-id-res-game-array+placeholder
+170,DUMMY 170,DUMMY 170,mh3g-id-res-game-array+placeholder
+171,DUMMY 171,DUMMY 171,mh3g-id-res-game-array+placeholder
+172,DUMMY 172,DUMMY 172,mh3g-id-res-game-array+placeholder
+173,Yamato Kabuto,Yamato Kabuto,mh3g-id-res-game-array+mh3u-legacy-display-list
+174,Mutsu Eboshi,Mutsu Eboshi,mh3g-id-res-game-array+mh3u-legacy-display-list
+175,Hyuga Hachigane,Hyuga Hachigane,mh3g-id-res-game-array+mh3u-legacy-display-list
+176,Amagi Hachigane,Amagi Hachigane,mh3g-id-res-game-array+mh3u-legacy-display-list
+177,Escadora Wisdom,Escadora Wisdom,mh3g-id-res-game-array+mh3u-legacy-display-list
+178,Escadora Sagesse,Escadora Sagesse,mh3g-id-res-game-array+mh3u-legacy-display-list
+179,Zinogre Helm,Zinogre Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+180,Zinogre Cap,Zinogre Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+181,Nibelsnarf Helm S,Nibelsnarf Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+182,Nibelsnarf Cap S,Nibelsnarf Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+183,Duramboros Helm S,Duramboros Helm S,mh3g-id-res-game-array+mh3u-legacy-display-list
+184,Duramboros Cap S,Duramboros Cap S,mh3g-id-res-game-array+mh3u-legacy-display-list
+185,Nargacuga Helm,Nargacuga Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+186,Nargacuga Cap,Nargacuga Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+187,Plesioth Helm,Plesioth Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+188,Plesioth Cap,Plesioth Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+189,Brachydios Helm,Brachydios Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+190,Brachydios Cap,Brachydios Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+191,Dianthus Cappa,Dianthus Cappa,mh3g-id-res-game-array+mh3u-legacy-display-list
+192,Campanile Cappa,Campanile Cappa,mh3g-id-res-game-array+mh3u-legacy-display-list
+193,Ranger's Headgear,Ranger's Headgear,mh3g-id-res-game-array+mh3u-legacy-display-list
+194,Archer's Turban,Archer's Turban,mh3g-id-res-game-array+mh3u-legacy-display-list
+195,DUMMY 195,DUMMY 195,mh3g-id-res-game-array+placeholder
+196,DUMMY 196,DUMMY 196,mh3g-id-res-game-array+placeholder
+197,DUMMY 197,DUMMY 197,mh3g-id-res-game-array+placeholder
+198,DUMMY 198,DUMMY 198,mh3g-id-res-game-array+placeholder
+199,DUMMY 199,DUMMY 199,mh3g-id-res-game-array+placeholder
+200,DUMMY 200,DUMMY 200,mh3g-id-res-game-array+placeholder
+201,DUMMY 201,DUMMY 201,mh3g-id-res-game-array+placeholder
+202,DUMMY 202,DUMMY 202,mh3g-id-res-game-array+placeholder
+203,DUMMY 203,DUMMY 203,mh3g-id-res-game-array+placeholder
+204,DUMMY 204,DUMMY 204,mh3g-id-res-game-array+placeholder
+205,DUMMY 205,DUMMY 205,mh3g-id-res-game-array+placeholder
+206,DUMMY 206,DUMMY 206,mh3g-id-res-game-array+placeholder
+207,Ingot Helm X,Ingot Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+208,Ingot Cap X,Ingot Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+209,Bnahabra Hat X,Bnahabra Hat X,mh3g-id-res-game-array+mh3u-legacy-display-list
+210,Bnahabra Headpiece X,Bnahabra Headpiece X,mh3g-id-res-game-array+mh3u-legacy-display-list
+211,Rhenoplos Helm X,Rhenoplos Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+212,Rhenoplos Cap X,Rhenoplos Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+213,Slagtoth Hood X,Slagtoth Hood X,mh3g-id-res-game-array+mh3u-legacy-display-list
+214,Slagtoth Cowl X,Slagtoth Cowl X,mh3g-id-res-game-array+mh3u-legacy-display-list
+215,Jaggi Helm X,Jaggi Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+216,Jaggi Cap X,Jaggi Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+217,Baggi Helm X,Baggi Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+218,Baggi Cap X,Baggi Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+219,Wroggi Hat X,Wroggi Hat X,mh3g-id-res-game-array+mh3u-legacy-display-list
+220,Wroggi Cap X,Wroggi Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+221,Arzuros Helm X,Arzuros Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+222,Arzuros Cap X,Arzuros Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+223,Lagombi Helm X,Lagombi Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+224,Lagombi Cap X,Lagombi Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+225,Volvidon Helm X,Volvidon Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+226,Volvidon Cap X,Volvidon Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+227,Qurupeco Helm X,Qurupeco Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+228,Qurupeco Cap X,Qurupeco Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+229,Qurupeco Helm Z,Qurupeco Helm Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+230,Qurupeco Cap Z,Qurupeco Cap Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+231,Ludroth Helm X,Ludroth Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+232,Ludroth Cap X,Ludroth Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+233,Ludroth Helm Z,Ludroth Helm Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+234,Ludroth Cap Z,Ludroth Cap Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+235,Barroth Helm X,Barroth Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+236,Barroth Cap X,Barroth Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+237,Barroth Helm Z,Barroth Helm Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+238,Barroth Cap Z,Barroth Cap Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+239,Gobul Helm X,Gobul Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+240,Gobul Cap X,Gobul Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+241,Rhenoplos Helm X,Rhenoplos Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+242,Rhenoplos Cap X,Rhenoplos Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+243,Rath Soul Helm Z,Rath Soul Helm Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+244,Rath Soul Cap Z,Rath Soul Cap Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+245,Silver Solhelm,Silver Solhelm,mh3g-id-res-game-array+mh3u-legacy-display-list
+246,Silver Solcap,Silver Solcap,mh3g-id-res-game-array+mh3u-legacy-display-list
+247,Rathian Helm X,Rathian Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+248,Rathian Cap X,Rathian Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+249,Rath Heart Helm Z,Rath Heart Helm Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+250,Rath Heart Cap Z,Rath Heart Cap Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+251,Golden Lunehelm,Golden Lunehelm,mh3g-id-res-game-array+mh3u-legacy-display-list
+252,Golden Lunecap,Golden Lunecap,mh3g-id-res-game-array+mh3u-legacy-display-list
+253,Lagiacrus Helm X,Lagiacrus Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+254,Lagiacrus Cap X,Lagiacrus Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+255,Lagiacrus Helm Z,Lagiacrus Helm Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+256,Lagiacrus Cap Z,Lagiacrus Cap Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+257,Nether Helm,Nether Helm,mh3g-id-res-game-array+mh3u-legacy-display-list
+258,Nether Cap,Nether Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+259,Gigginox Helm X,Gigginox Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+260,Gigginox Cap X,Gigginox Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+261,Gigginox Helm Z,Gigginox Helm Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+262,Gigginox Cap Z,Gigginox Cap Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+263,Barioth Helm X,Barioth Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+264,Barioth Cap X,Barioth Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+265,Barioth Helm Z,Barioth Helm Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+266,Barioth Cap Z,Barioth Cap Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+267,Diablos Helm X,Diablos Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+268,Diablos Cap X,Diablos Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+269,Diablos Helm Z,Diablos Helm Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+270,Diablos Cap Z,Diablos Cap Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+271,Uragaan Helm X,Uragaan Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+272,Uragaan Cap X,Uragaan Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+273,Uragaan Helm Z,Uragaan Helm Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+274,Uragaan Cap Z,Uragaan Cap Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+275,Agnaktor Helm X,Agnaktor Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+276,Agnaktor Cap X,Agnaktor Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+277,Agnaktor Helm Z,Agnaktor Helm Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+278,Agnaktor Cap Z,Agnaktor Cap Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+279,Helios Helm X,Helios Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+280,Helios Cap X,Helios Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+281,Helios Helm Z,Helios Helm Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+282,Helios Cap Z,Helios Cap Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+283,Selene Helm X,Selene Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+284,Selene Cap X,Selene Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+285,Selene Helm Z,Selene Helm Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+286,Selene Cap Z,Selene Cap Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+287,Grand Yamato Kabuto,Grand Yamato Kabuto,mh3g-id-res-game-array+mh3u-legacy-display-list
+288,Grand Mutsu Eboshi,Grand Mutsu Eboshi,mh3g-id-res-game-array+mh3u-legacy-display-list
+289,Grand H. Hachigane,Grand H. Hachigane,mh3g-id-res-game-array+mh3u-legacy-display-list
+290,Grand Amagi Jingasa,Grand Amagi Jingasa,mh3g-id-res-game-array+mh3u-legacy-display-list
+291,Yamato Kabuto Prime,Yamato Kabuto Prime,mh3g-id-res-game-array+mh3u-legacy-display-list
+292,Mutsu Eboshi Prime,Mutsu Eboshi Prime,mh3g-id-res-game-array+mh3u-legacy-display-list
+293,H. Hachigane Prime,H. Hachigane Prime,mh3g-id-res-game-array+mh3u-legacy-display-list
+294,Amagi Jingasa Prime,Amagi Jingasa Prime,mh3g-id-res-game-array+mh3u-legacy-display-list
+295,Vangis Helm X,Vangis Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+296,Vangis Cap X,Vangis Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+297,Escadora Wisdom X,Escadora Wisdom X,mh3g-id-res-game-array+mh3u-legacy-display-list
+298,Escadora Sagesse X,Escadora Sagesse X,mh3g-id-res-game-array+mh3u-legacy-display-list
+299,Zinogre Helm X,Zinogre Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+300,Zinogre Cap X,Zinogre Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+301,Zinogre Helm Z,Zinogre Helm Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+302,Zinogre Cap Z,Zinogre Cap Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+303,Nibelsnarf Helm X,Nibelsnarf Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+304,Nibelsnarf Cap X,Nibelsnarf Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+305,Duramboros Helm X,Duramboros Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+306,Duramboros Cap X,Duramboros Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+307,Duramboros Helm Z,Duramboros Helm Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+308,Duramboros Cap Z,Duramboros Cap Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+309,Nargacuga Helm X,Nargacuga Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+310,Nargacuga Cap X,Nargacuga Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+311,Nargacuga Helm Z,Nargacuga Helm Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+312,Nargacuga Cap Z,Nargacuga Cap Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+313,Lambent Casque,Lambent Casque,mh3g-id-res-game-array+mh3u-legacy-display-list
+314,Silhouette Casque,Silhouette Casque,mh3g-id-res-game-array+mh3u-legacy-display-list
+315,Plesioth Helm X,Plesioth Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+316,Plesioth Cap X,Plesioth Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+317,Plesioth Helm Z,Plesioth Helm Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+318,Plesioth Cap Z,Plesioth Cap Z,mh3g-id-res-game-array+mh3u-legacy-display-list
+319,Brachydios Helm X,Brachydios Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+320,Brachydios Cap X,Brachydios Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+321,Miralis Diadem,Miralis Diadem,mh3g-id-res-game-array+mh3u-legacy-display-list
+322,Miralis Crown,Miralis Crown,mh3g-id-res-game-array+mh3u-legacy-display-list
+323,Damascus Helm X,Damascus Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+324,Damascus Cap X,Damascus Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+325,Dober Helm X,Dober Helm X,mh3g-id-res-game-array+mh3u-legacy-display-list
+326,Dober Cap X,Dober Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+327,DUMMY 327,DUMMY 327,mh3g-id-res-game-array+placeholder
+328,DUMMY 328,DUMMY 328,mh3g-id-res-game-array+placeholder
+329,Aelucanth Vertex X,Aelucanth Vertex X,mh3g-id-res-game-array+mh3u-legacy-display-list
+330,Aelucanth Clypeus X,Aelucanth Clypeus X,mh3g-id-res-game-array+mh3u-legacy-display-list
+331,Rhopessa Vertex X,Rhopessa Vertex X,mh3g-id-res-game-array+mh3u-legacy-display-list
+332,Rhopessa Clypeus X,Rhopessa Clypeus X,mh3g-id-res-game-array+mh3u-legacy-display-list
+333,Mosgharl Vizor X,Mosgharl Vizor X,mh3g-id-res-game-array+mh3u-legacy-display-list
+334,Mosgharl Brim X,Mosgharl Brim X,mh3g-id-res-game-array+mh3u-legacy-display-list
+335,Dianthus Wealcap,Dianthus Wealcap,mh3g-id-res-game-array+mh3u-legacy-display-list
+336,Campanile Wealcap,Campanile Wealcap,mh3g-id-res-game-array+mh3u-legacy-display-list
+337,Strider's Headgear,Strider's Headgear,mh3g-id-res-game-array+mh3u-legacy-display-list
+338,Deadeye's Turban,Deadeye's Turban,mh3g-id-res-game-array+mh3u-legacy-display-list
+339,Guild Bard Lobos X,Guild Bard Lobos X,mh3g-id-res-game-array+mh3u-legacy-display-list
+340,Guild Bard Hat X,Guild Bard Hat X,mh3g-id-res-game-array+mh3u-legacy-display-list
+341,Scholar's Beret X,Scholar's Beret X,mh3g-id-res-game-array+mh3u-legacy-display-list
+342,Scholar's Cap X,Scholar's Cap X,mh3g-id-res-game-array+mh3u-legacy-display-list
+343,DUMMY 343,DUMMY 343,mh3g-id-res-game-array+placeholder
+344,DUMMY 344,DUMMY 344,mh3g-id-res-game-array+placeholder
+345,Sailor Hat,Sailor Hat,mh3g-id-res-game-array+mh3u-legacy-display-list
+346,Sailor Cap,Sailor Cap,mh3g-id-res-game-array+mh3u-legacy-display-list
+347,Shadow Shades,Shadow Shades,mh3g-id-res-game-array+mh3u-legacy-display-list
+348,Jaggi Mask,Jaggi Mask,mh3g-id-res-game-array+mh3u-legacy-display-list
+349,Gargwa Mask,Gargwa Mask,mh3g-id-res-game-array+mh3u-legacy-display-list
+350,Bullfango Mask,Bullfango Mask,mh3g-id-res-game-array+mh3u-legacy-display-list
+351,Skull Mask,Skull Mask,mh3g-id-res-game-array+mh3u-legacy-display-list
+352,Chakra Earring,Chakra Earring,mh3g-id-res-game-array+mh3u-legacy-display-list
+353,DUMMY 353,DUMMY 353,mh3g-id-res-game-array+placeholder
+354,DUMMY 354,DUMMY 354,mh3g-id-res-game-array+placeholder
+355,DUMMY 355,DUMMY 355,mh3g-id-res-game-array+placeholder
+356,Captain J Hat,Captain J Hat,mh3g-id-res-game-array+reviewed-japan-only-crosswalk
+357,Captain J Cap,Captain J Cap,mh3g-id-res-game-array+reviewed-japan-only-crosswalk
+358,Captain J Hat,Captain J Hat,mh3g-id-res-game-array+reviewed-japan-only-crosswalk
+359,Captain J Cap,Captain J Cap,mh3g-id-res-game-array+reviewed-japan-only-crosswalk
+360,Blue Star Top Hat,Blue Star Top Hat,mh3g-id-res-game-array+reviewed-japan-only-crosswalk
+361,Blue Star Cap,Blue Star Cap,mh3g-id-res-game-array+reviewed-japan-only-crosswalk
+362,Blue Star Top Hat,Blue Star Top Hat,mh3g-id-res-game-array+reviewed-japan-only-crosswalk
+363,Blue Star Cap,Blue Star Cap,mh3g-id-res-game-array+reviewed-japan-only-crosswalk
+364,Grand Pirate J Hat,Grand Pirate J Hat,mh3g-id-res-game-array+reviewed-japan-only-crosswalk
+365,Grand Pirate J Cap,Grand Pirate J Cap,mh3g-id-res-game-array+reviewed-japan-only-crosswalk
+366,DUMMY 366,DUMMY 366,mh3g-id-res-game-array+placeholder
+367,DUMMY 367,DUMMY 367,mh3g-id-res-game-array+placeholder
+368,Giroro Fake,Giroro Fake,mh3g-id-res-game-array+reviewed-japan-only-crosswalk
+369,DUMMY 369,DUMMY 369,mh3g-id-res-game-array+placeholder
+370,DUMMY 370,DUMMY 370,mh3g-id-res-game-array+placeholder
+371,DUMMY 371,DUMMY 371,mh3g-id-res-game-array+placeholder
+372,DUMMY 372,DUMMY 372,mh3g-id-res-game-array+placeholder
+373,DUMMY 373,DUMMY 373,mh3g-id-res-game-array+placeholder
+374,DUMMY 374,DUMMY 374,mh3g-id-res-game-array+placeholder
+375,DUMMY 375,DUMMY 375,mh3g-id-res-game-array+placeholder
+376,Sword Saint Earring,Sword Saint Earring,mh3g-id-res-game-array+mh3u-legacy-display-list
+377,Barrage Earring,Barrage Earring,mh3g-id-res-game-array+mh3u-legacy-display-list
+378,Skull Visage,Skull Visage,mh3g-id-res-game-array+mh3u-legacy-display-list
+379,Sword Saint Earring,Sword Saint Earring,mh3g-id-res-game-array+mh3u-legacy-display-list

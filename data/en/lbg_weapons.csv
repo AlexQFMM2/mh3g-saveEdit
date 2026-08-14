@@ -1,97 +1,98 @@
 id,name,english,source
-1,Cross Bowgun,Cross Bowgun,
-2,Cross Bowgun +,Cross Bowgun +,
-3,Cross Blitz,Cross Blitz,
-4,Hunter's Rifle,Hunter's Rifle,
-5,Sniper Shot,Sniper Shot,
-6,Sniper Ascension,Sniper Ascension,
-7,Barro Barrel,Barro Barrel,
-8,Barrel Barrel +,Barrel Barrel +,
-9,Barrozooka,Barrozooka,
-10,Aurora Flare,Aurora Flare,
-11,Avalauncher,Avalauncher,
-12,Glacialahti,Glacialahti,
-13,Arctica Cannon,Arctica Cannon,
-14,Dios Blaster,Dios Blaster,
-15,Dios Blaster +,Dios Blaster +,
-16,Demolition Gun,Demolition Gun,
-17,Ballista Demolisher,Ballista Demolisher,
-18,Jaggid Fire,Jaggid Fire,
-19,Bandit Fire,Bandit Fire,
-20,Bandit's Rage,Bandit's Rage,
-21,Merciless Rage,Merciless Rage,
-22,Royal Launcher,Royal Launcher,
-23,Royal Torrent,Royal Torrent,
-24,Royal Inundation,Royal Inundation,
-25,Maelstrom,Maelstrom,
-26,Maelstrom +,Maelstrom +,
-27,Plesioth Drencher,Plesioth Drencher,
-28,Jade Storm,Jade Storm,
-29,Jade Tempest,Jade Tempest,
-30,Gobul Shooter,Gobul Shooter,
-31,Crimson Angler,Crimson Angler,
-32,Crimson Angler +,Crimson Angler +,
-33,Zhen Angler,Zhen Angler,
-34,Gobul Ganador,Gobul Ganador,
-35,Poison Stinger,Poison Stinger,
-36,Poison Aftermath,Poison Aftermath,
-37,Immortal Shackle,Immortal Shackle,
-38,Immortal Gaol,Immortal Gaol,
-39,Immortal Prison,Immortal Prison,
-40,Bloothirsty Binder,Bloothirsty Binder,
-41,Crimson Seeker,Crimson Seeker,
-42,Deadly Chaser,Deadly Chaser,
-43,Specter of Grief,Specter of Grief,
-44,Blizzard Cannon,Blizzard Cannon,
-45,Blizzard Volley,Blizzard Volley,
-46,Tabula Blizzara,Tabula Blizzara,
-47,Diamon Frost,Diamon Frost,
-48,Diamon Crest,Diamon Crest,
-49,Valkyrie Fire,Valkyrie Fire,
-50,Valkyrie Flame,Valkyrie Flame,
-51,Valkyrie Blaze,Valkyrie Blaze,
-52,Valkyrie's Heart,Valkyrie's Heart,
-53,Pinkocutioner,Pinkocutioner,
-54,Blossomayhem,Blossomayhem,
-55,Hidden Eye,Hidden Eye,
-56,Night Owl,Night Owl,
-57,Vimar Gazer,Vimar Gazer,
-58,Squallhawk,Squallhawk,
-59,Eclipse Gazer,Eclipse Gazer,
-60,Thundacrus,Thundacrus,
-61,Thundacrus +,Thundacrus +,
-62,Thundacrus Rex,Thundacrus Rex,
-63,Neo Thundacrus,Neo Thundacrus,
-64,Eclair Whitebolt,Eclair Whitebolt,
-65,Rathling Gun,Rathling Gun,
-66,Rathling Doombringer,Rathling Doombringer,
-67,Rathling Phoenix,Rathling Phoenix,
-68,Azurathling Skysear,Azurathling Skysear,
-69,Azurathling Sunsear,Azurathling Sunsear,
-70,Usurper's Crime,Usurper's Crime,
-71,Despot's Wildfire,Despot's Wildfire,
-72,Oppressor's Rift,Oppressor's Rift,
-73,Orcus Barqus,Orcus Barqus,
-74,Nether Phloxion,Nether Phloxion,
-75,Stygian Invidia,Stygian Invidia,
-76,Durambarrel,Durambarrel,
-77,Taurambarrel,Taurambarrel,
-78,Aldebaran Dreadgun,Aldebaran Dreadgun,
-79,Horn of Taurus,Horn of Taurus,
-80,Crown of Taurus,Crown of Taurus,
-81,Devil's Grin,Devil's Grin,
-82,Devil's Madness,Devil's Madness,
-83,"Diregun ""Dementia""","Diregun ""Dementia""",
-84,"Doomgun ""Dementia""","Doomgun ""Dementia""",
-85,Demon's Isle,Demon's Isle,
-86,Demon's Island,Demon's Island,
-87,Kettleblower,Kettleblower,
-88,Kettleblower Deluxe,Kettleblower Deluxe,
-89,Master Kettleblower,Master Kettleblower,
-90,God's Isle,God's Isle,
-91,God's Island,God's Island,
-92,God's Archipelago,God's Archipelago,
-93,Gourd Shot,Gourd Shot,
-94,Teasel Shot,Teasel Shot,
-95,Crookneck Shot,Crookneck Shot,
-96,The Willuminator,The Willuminator,
+0,None,None,mh3g-id-res-game-array+placeholder
+1,Cross Bowgun,Cross Bowgun,mh3g-id-res-game-array+mh3u-legacy-display-list
+2,Cross Bowgun +,Cross Bowgun +,mh3g-id-res-game-array+mh3u-legacy-display-list
+3,Cross Blitz,Cross Blitz,mh3g-id-res-game-array+mh3u-legacy-display-list
+4,Hunter's Rifle,Hunter's Rifle,mh3g-id-res-game-array+mh3u-legacy-display-list
+5,Sniper Shot,Sniper Shot,mh3g-id-res-game-array+mh3u-legacy-display-list
+6,Sniper Ascension,Sniper Ascension,mh3g-id-res-game-array+mh3u-legacy-display-list
+7,Barro Barrel,Barro Barrel,mh3g-id-res-game-array+mh3u-legacy-display-list
+8,Barrel Barrel +,Barrel Barrel +,mh3g-id-res-game-array+mh3u-legacy-display-list
+9,Barrozooka,Barrozooka,mh3g-id-res-game-array+mh3u-legacy-display-list
+10,Aurora Flare,Aurora Flare,mh3g-id-res-game-array+mh3u-legacy-display-list
+11,Avalauncher,Avalauncher,mh3g-id-res-game-array+mh3u-legacy-display-list
+12,Glacialahti,Glacialahti,mh3g-id-res-game-array+mh3u-legacy-display-list
+13,Arctica Cannon,Arctica Cannon,mh3g-id-res-game-array+mh3u-legacy-display-list
+14,Dios Blaster,Dios Blaster,mh3g-id-res-game-array+mh3u-legacy-display-list
+15,Dios Blaster +,Dios Blaster +,mh3g-id-res-game-array+mh3u-legacy-display-list
+16,Demolition Gun,Demolition Gun,mh3g-id-res-game-array+mh3u-legacy-display-list
+17,Ballista Demolisher,Ballista Demolisher,mh3g-id-res-game-array+mh3u-legacy-display-list
+18,Jaggid Fire,Jaggid Fire,mh3g-id-res-game-array+mh3u-legacy-display-list
+19,Bandit Fire,Bandit Fire,mh3g-id-res-game-array+mh3u-legacy-display-list
+20,Bandit's Rage,Bandit's Rage,mh3g-id-res-game-array+mh3u-legacy-display-list
+21,Merciless Rage,Merciless Rage,mh3g-id-res-game-array+mh3u-legacy-display-list
+22,Royal Launcher,Royal Launcher,mh3g-id-res-game-array+mh3u-legacy-display-list
+23,Royal Torrent,Royal Torrent,mh3g-id-res-game-array+mh3u-legacy-display-list
+24,Royal Inundation,Royal Inundation,mh3g-id-res-game-array+mh3u-legacy-display-list
+25,Maelstrom,Maelstrom,mh3g-id-res-game-array+mh3u-legacy-display-list
+26,Maelstrom +,Maelstrom +,mh3g-id-res-game-array+mh3u-legacy-display-list
+27,Plesioth Drencher,Plesioth Drencher,mh3g-id-res-game-array+mh3u-legacy-display-list
+28,Jade Storm,Jade Storm,mh3g-id-res-game-array+mh3u-legacy-display-list
+29,Jade Tempest,Jade Tempest,mh3g-id-res-game-array+mh3u-legacy-display-list
+30,Gobul Shooter,Gobul Shooter,mh3g-id-res-game-array+mh3u-legacy-display-list
+31,Crimson Angler,Crimson Angler,mh3g-id-res-game-array+mh3u-legacy-display-list
+32,Crimson Angler +,Crimson Angler +,mh3g-id-res-game-array+mh3u-legacy-display-list
+33,Zhen Angler,Zhen Angler,mh3g-id-res-game-array+mh3u-legacy-display-list
+34,Gobul Ganador,Gobul Ganador,mh3g-id-res-game-array+mh3u-legacy-display-list
+35,Poison Stinger,Poison Stinger,mh3g-id-res-game-array+mh3u-legacy-display-list
+36,Poison Aftermath,Poison Aftermath,mh3g-id-res-game-array+mh3u-legacy-display-list
+37,Immortal Shackle,Immortal Shackle,mh3g-id-res-game-array+mh3u-legacy-display-list
+38,Immortal Gaol,Immortal Gaol,mh3g-id-res-game-array+mh3u-legacy-display-list
+39,Immortal Prison,Immortal Prison,mh3g-id-res-game-array+mh3u-legacy-display-list
+40,Bloothirsty Binder,Bloothirsty Binder,mh3g-id-res-game-array+mh3u-legacy-display-list
+41,Crimson Seeker,Crimson Seeker,mh3g-id-res-game-array+mh3u-legacy-display-list
+42,Deadly Chaser,Deadly Chaser,mh3g-id-res-game-array+mh3u-legacy-display-list
+43,Specter of Grief,Specter of Grief,mh3g-id-res-game-array+mh3u-legacy-display-list
+44,Blizzard Cannon,Blizzard Cannon,mh3g-id-res-game-array+mh3u-legacy-display-list
+45,Blizzard Volley,Blizzard Volley,mh3g-id-res-game-array+mh3u-legacy-display-list
+46,Tabula Blizzara,Tabula Blizzara,mh3g-id-res-game-array+mh3u-legacy-display-list
+47,Diamon Frost,Diamon Frost,mh3g-id-res-game-array+mh3u-legacy-display-list
+48,Diamon Crest,Diamon Crest,mh3g-id-res-game-array+mh3u-legacy-display-list
+49,Valkyrie Fire,Valkyrie Fire,mh3g-id-res-game-array+mh3u-legacy-display-list
+50,Valkyrie Flame,Valkyrie Flame,mh3g-id-res-game-array+mh3u-legacy-display-list
+51,Valkyrie Blaze,Valkyrie Blaze,mh3g-id-res-game-array+mh3u-legacy-display-list
+52,Valkyrie's Heart,Valkyrie's Heart,mh3g-id-res-game-array+mh3u-legacy-display-list
+53,Pinkocutioner,Pinkocutioner,mh3g-id-res-game-array+mh3u-legacy-display-list
+54,Blossomayhem,Blossomayhem,mh3g-id-res-game-array+mh3u-legacy-display-list
+55,Hidden Eye,Hidden Eye,mh3g-id-res-game-array+mh3u-legacy-display-list
+56,Night Owl,Night Owl,mh3g-id-res-game-array+mh3u-legacy-display-list
+57,Vimar Gazer,Vimar Gazer,mh3g-id-res-game-array+mh3u-legacy-display-list
+58,Squallhawk,Squallhawk,mh3g-id-res-game-array+mh3u-legacy-display-list
+59,Eclipse Gazer,Eclipse Gazer,mh3g-id-res-game-array+mh3u-legacy-display-list
+60,Thundacrus,Thundacrus,mh3g-id-res-game-array+mh3u-legacy-display-list
+61,Thundacrus +,Thundacrus +,mh3g-id-res-game-array+mh3u-legacy-display-list
+62,Thundacrus Rex,Thundacrus Rex,mh3g-id-res-game-array+mh3u-legacy-display-list
+63,Neo Thundacrus,Neo Thundacrus,mh3g-id-res-game-array+mh3u-legacy-display-list
+64,Eclair Whitebolt,Eclair Whitebolt,mh3g-id-res-game-array+mh3u-legacy-display-list
+65,Rathling Gun,Rathling Gun,mh3g-id-res-game-array+mh3u-legacy-display-list
+66,Rathling Doombringer,Rathling Doombringer,mh3g-id-res-game-array+mh3u-legacy-display-list
+67,Rathling Phoenix,Rathling Phoenix,mh3g-id-res-game-array+mh3u-legacy-display-list
+68,Azurathling Skysear,Azurathling Skysear,mh3g-id-res-game-array+mh3u-legacy-display-list
+69,Azurathling Sunsear,Azurathling Sunsear,mh3g-id-res-game-array+mh3u-legacy-display-list
+70,Usurper's Crime,Usurper's Crime,mh3g-id-res-game-array+mh3u-legacy-display-list
+71,Despot's Wildfire,Despot's Wildfire,mh3g-id-res-game-array+mh3u-legacy-display-list
+72,Oppressor's Rift,Oppressor's Rift,mh3g-id-res-game-array+mh3u-legacy-display-list
+73,Orcus Barqus,Orcus Barqus,mh3g-id-res-game-array+mh3u-legacy-display-list
+74,Nether Phloxion,Nether Phloxion,mh3g-id-res-game-array+mh3u-legacy-display-list
+75,Stygian Invidia,Stygian Invidia,mh3g-id-res-game-array+mh3u-legacy-display-list
+76,Durambarrel,Durambarrel,mh3g-id-res-game-array+mh3u-legacy-display-list
+77,Taurambarrel,Taurambarrel,mh3g-id-res-game-array+mh3u-legacy-display-list
+78,Aldebaran Dreadgun,Aldebaran Dreadgun,mh3g-id-res-game-array+mh3u-legacy-display-list
+79,Horn of Taurus,Horn of Taurus,mh3g-id-res-game-array+mh3u-legacy-display-list
+80,Crown of Taurus,Crown of Taurus,mh3g-id-res-game-array+mh3u-legacy-display-list
+81,Devil's Grin,Devil's Grin,mh3g-id-res-game-array+mh3u-legacy-display-list
+82,Devil's Madness,Devil's Madness,mh3g-id-res-game-array+mh3u-legacy-display-list
+83,"Diregun ""Dementia""","Diregun ""Dementia""",mh3g-id-res-game-array+mh3u-legacy-display-list
+84,"Doomgun ""Dementia""","Doomgun ""Dementia""",mh3g-id-res-game-array+mh3u-legacy-display-list
+85,Demon's Isle,Demon's Isle,mh3g-id-res-game-array+mh3u-legacy-display-list
+86,Demon's Island,Demon's Island,mh3g-id-res-game-array+mh3u-legacy-display-list
+87,Kettleblower,Kettleblower,mh3g-id-res-game-array+mh3u-legacy-display-list
+88,Kettleblower Deluxe,Kettleblower Deluxe,mh3g-id-res-game-array+mh3u-legacy-display-list
+89,Master Kettleblower,Master Kettleblower,mh3g-id-res-game-array+mh3u-legacy-display-list
+90,God's Isle,God's Isle,mh3g-id-res-game-array+mh3u-legacy-display-list
+91,God's Island,God's Island,mh3g-id-res-game-array+mh3u-legacy-display-list
+92,God's Archipelago,God's Archipelago,mh3g-id-res-game-array+mh3u-legacy-display-list
+93,Gourd Shot,Gourd Shot,mh3g-id-res-game-array+mh3u-legacy-display-list
+94,Teasel Shot,Teasel Shot,mh3g-id-res-game-array+mh3u-legacy-display-list
+95,Crookneck Shot,Crookneck Shot,mh3g-id-res-game-array+mh3u-legacy-display-list
+96,The Willuminator,The Willuminator,mh3g-id-res-game-array+mh3u-legacy-display-list

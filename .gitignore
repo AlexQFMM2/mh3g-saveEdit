@@ -22,6 +22,8 @@ Makefile
 build/
 bin/
 dump/
+__pycache__/
+*.pyc
 
 
 # Old Apps

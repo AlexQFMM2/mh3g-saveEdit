@@ -1,102 +1,103 @@
 id,name,english,source
-1,Metal Bagpipe,Metal Bagpipe,
-2,Metal Bagpipe +,Metal Bagpipe +,
-3,Great Bagpipe,Great Bagpipe,
-4,Heavy Bagpipe,Heavy Bagpipe,
-5,Heavy Bagpipe +,Heavy Bagpipe +,
-6,Fortissimo,Fortissimo,
-7,Rinforzato,Rinforzato,
-8,Usurper's Growl,Usurper's Growl,
-9,Despot's Thunderclap,Despot's Thunderclap,
-10,Brimstren Drakesong,Brimstren Drakesong,
-11,Stygian Tristitia,Stygian Tristitia,
-12,Hidden Harmonic,Hidden Harmonic,
-13,Cry in the Night,Cry in the Night,
-14,Eclipse Tone,Eclipse Tone,
-15,Qurupeco Horn,Qurupeco Horn,
-16,Qurupeco Trumpet,Qurupeco Trumpet,
-17,Qurupeco Honker,Qurupeco Honker,
-18,Magnifico Trumpet,Magnifico Trumpet,
-19,Imperilude,Imperilude,
-20,Type 63 Warmonica,Type 63 Warmonica,
-21,Snarfonix,Snarfonix,
-22,Soldier's Snarfonica,Soldier's Snarfonica,
-23,Sandpipe,Sandpipe,
-24,Sandcrier,Sandcrier,
-25,Sandscreecher,Sandscreecher,
-26,Sandsinger,Sandsinger,
-27,Sandsoother,Sandsoother,
-28,Ice Kazoo,Ice Kazoo,
-29,Glacial Kazoo,Glacial Kazoo,
-30,Frost Groaner,Frost Groaner,
-31,Frost General,Frost General,
-32,Agnakdion,Agnakdion,
-33,Brandoneon,Brandoneon,
-34,Scaldertina,Scaldertina,
-35,Bone Horn,Bone Horn,
-36,Bone Horn +,Bone Horn +,
-37,Hunter's Horn,Hunter's Horn,
-38,Hunter's Horn +,Hunter's Horn +,
-39,Swell Shell,Swell Shell,
-40,Vertex Shell,Vertex Shell,
-41,Turban Shell,Turban Shell,
-42,Zurogong Primo,Zurogong Primo,
-43,Zurogong Secundo,Zurogong Secundo,
-44,Zurogong Tertio,Zurogong Tertio,
-45,Bariguiro,Bariguiro,
-46,Algiguiro,Algiguiro,
-47,Frigiguiro,Frigiguiro,
-48,Brazengaita,Brazengaita,
-49,Gigas Gaita,Gigas Gaita,
-50,Archgigas Gaita,Archgigas Gaita,
-51,Droth Drone,Droth Drone,
-52,Droth Drone +,Droth Drone +,
-53,Droth Roar,Droth Roar,
-54,Black Coffin,Black Coffin,
-55,Shadow Coffin,Shadow Coffin,
-56,Darkest Coffin,Darkest Coffin,
-57,Bloodstopper,Bloodstopper,
-58,Bloodcurtler,Bloodcurtler,
-59,Bloodfreezer,Bloodfreezer,
-60,Valkyrie Chordrmaker,Valkyrie Chordrmaker,
-61,Valkyrie Chordrmaker +,Valkyrie Chordrmaker +,
-62,Queen's Chordrmaker,Queen's Chordrmaker,
-63,Coral Chordrmaker,Coral Chordrmaker,
-64,Coral Chordrmaker +,Coral Chordrmaker +,
-65,Gold Chordrmaker,Gold Chordrmaker,
-66,Lunar Chordrmaker,Lunar Chordrmaker,
-67,Vicello Nulo,Vicello Nulo,
-68,Vicello Unu,Vicello Unu,
-69,Vicello Nulo (W),Vicello Nulo (W),
-70,Vicello Unu (W),Vicello Unu (W),
-71,Vicello Du (W),Vicello Du (W),
-72,Vicello Nulo (Y),Vicello Nulo (Y),
-73,Vicello Unu (Y),Vicello Unu (Y),
-74,Vicello Du (Y),Vicello Du (Y),
-75,Vicello Nulo (G),Vicello Nulo (G),
-76,Vicello Unu (G),Vicello Unu (G),
-77,Vicello Du (G),Vicello Du (G),
-78,Vicello Tri (G),Vicello Tri (G),
-79,Cindervone,Cindervone,
-80,Scaldrovone,Scaldrovone,
-81,Meltrovone,Meltrovone,
-82,Magia Charm,Magia Charm,
-83,Magia Charmbell,Magia Charmbell,
-84,Aria Rhota,Aria Rhota,
-85,Worn Horn,Worn Horn,
-86,Weathered Horn,Weathered Horn,
-87,Avenir's Music Box,Avenir's Music Box,
-88,Eternal Music Box,Eternal Music Box,
-89,Dios Bell,Dios Bell,
-90,Dios Bell +,Dios Bell +,
-91,Demolition Chime,Demolition Chime,
-92,Timbral Demolisher,Timbral Demolisher,
-93,Lagia Horn,Lagia Horn,
-94,Lagia Horn +,Lagia Horn +,
-95,Lagia Thunderpeal,Lagia Thunderpeal,
-96,Nether Flute,Nether Flute,
-97,Nether Sinphony,Nether Sinphony,
-98,Megiddo Mode,Megiddo Mode,
-99,The Apocalypso,The Apocalypso,
-100,Voltage Verve,Voltage Verve,
-101,High Voltage Verve,High Voltage Verve,
+0,None,None,mh3g-id-res-game-array+placeholder
+1,Metal Bagpipe,Metal Bagpipe,mh3g-id-res-game-array+mh3u-legacy-display-list
+2,Metal Bagpipe +,Metal Bagpipe +,mh3g-id-res-game-array+mh3u-legacy-display-list
+3,Great Bagpipe,Great Bagpipe,mh3g-id-res-game-array+mh3u-legacy-display-list
+4,Heavy Bagpipe,Heavy Bagpipe,mh3g-id-res-game-array+mh3u-legacy-display-list
+5,Heavy Bagpipe +,Heavy Bagpipe +,mh3g-id-res-game-array+mh3u-legacy-display-list
+6,Fortissimo,Fortissimo,mh3g-id-res-game-array+mh3u-legacy-display-list
+7,Rinforzato,Rinforzato,mh3g-id-res-game-array+mh3u-legacy-display-list
+8,Usurper's Growl,Usurper's Growl,mh3g-id-res-game-array+mh3u-legacy-display-list
+9,Despot's Thunderclap,Despot's Thunderclap,mh3g-id-res-game-array+mh3u-legacy-display-list
+10,Brimstren Drakesong,Brimstren Drakesong,mh3g-id-res-game-array+mh3u-legacy-display-list
+11,Stygian Tristitia,Stygian Tristitia,mh3g-id-res-game-array+mh3u-legacy-display-list
+12,Hidden Harmonic,Hidden Harmonic,mh3g-id-res-game-array+mh3u-legacy-display-list
+13,Cry in the Night,Cry in the Night,mh3g-id-res-game-array+mh3u-legacy-display-list
+14,Eclipse Tone,Eclipse Tone,mh3g-id-res-game-array+mh3u-legacy-display-list
+15,Qurupeco Horn,Qurupeco Horn,mh3g-id-res-game-array+mh3u-legacy-display-list
+16,Qurupeco Trumpet,Qurupeco Trumpet,mh3g-id-res-game-array+mh3u-legacy-display-list
+17,Qurupeco Honker,Qurupeco Honker,mh3g-id-res-game-array+mh3u-legacy-display-list
+18,Magnifico Trumpet,Magnifico Trumpet,mh3g-id-res-game-array+mh3u-legacy-display-list
+19,Imperilude,Imperilude,mh3g-id-res-game-array+mh3u-legacy-display-list
+20,Type 63 Warmonica,Type 63 Warmonica,mh3g-id-res-game-array+mh3u-legacy-display-list
+21,Snarfonix,Snarfonix,mh3g-id-res-game-array+mh3u-legacy-display-list
+22,Soldier's Snarfonica,Soldier's Snarfonica,mh3g-id-res-game-array+mh3u-legacy-display-list
+23,Sandpipe,Sandpipe,mh3g-id-res-game-array+mh3u-legacy-display-list
+24,Sandcrier,Sandcrier,mh3g-id-res-game-array+mh3u-legacy-display-list
+25,Sandscreecher,Sandscreecher,mh3g-id-res-game-array+mh3u-legacy-display-list
+26,Sandsinger,Sandsinger,mh3g-id-res-game-array+mh3u-legacy-display-list
+27,Sandsoother,Sandsoother,mh3g-id-res-game-array+mh3u-legacy-display-list
+28,Ice Kazoo,Ice Kazoo,mh3g-id-res-game-array+mh3u-legacy-display-list
+29,Glacial Kazoo,Glacial Kazoo,mh3g-id-res-game-array+mh3u-legacy-display-list
+30,Frost Groaner,Frost Groaner,mh3g-id-res-game-array+mh3u-legacy-display-list
+31,Frost General,Frost General,mh3g-id-res-game-array+mh3u-legacy-display-list
+32,Agnakdion,Agnakdion,mh3g-id-res-game-array+mh3u-legacy-display-list
+33,Brandoneon,Brandoneon,mh3g-id-res-game-array+mh3u-legacy-display-list
+34,Scaldertina,Scaldertina,mh3g-id-res-game-array+mh3u-legacy-display-list
+35,Bone Horn,Bone Horn,mh3g-id-res-game-array+mh3u-legacy-display-list
+36,Bone Horn +,Bone Horn +,mh3g-id-res-game-array+mh3u-legacy-display-list
+37,Hunter's Horn,Hunter's Horn,mh3g-id-res-game-array+mh3u-legacy-display-list
+38,Hunter's Horn +,Hunter's Horn +,mh3g-id-res-game-array+mh3u-legacy-display-list
+39,Swell Shell,Swell Shell,mh3g-id-res-game-array+mh3u-legacy-display-list
+40,Vertex Shell,Vertex Shell,mh3g-id-res-game-array+mh3u-legacy-display-list
+41,Turban Shell,Turban Shell,mh3g-id-res-game-array+mh3u-legacy-display-list
+42,Zurogong Primo,Zurogong Primo,mh3g-id-res-game-array+mh3u-legacy-display-list
+43,Zurogong Secundo,Zurogong Secundo,mh3g-id-res-game-array+mh3u-legacy-display-list
+44,Zurogong Tertio,Zurogong Tertio,mh3g-id-res-game-array+mh3u-legacy-display-list
+45,Bariguiro,Bariguiro,mh3g-id-res-game-array+mh3u-legacy-display-list
+46,Algiguiro,Algiguiro,mh3g-id-res-game-array+mh3u-legacy-display-list
+47,Frigiguiro,Frigiguiro,mh3g-id-res-game-array+mh3u-legacy-display-list
+48,Brazengaita,Brazengaita,mh3g-id-res-game-array+mh3u-legacy-display-list
+49,Gigas Gaita,Gigas Gaita,mh3g-id-res-game-array+mh3u-legacy-display-list
+50,Archgigas Gaita,Archgigas Gaita,mh3g-id-res-game-array+mh3u-legacy-display-list
+51,Droth Drone,Droth Drone,mh3g-id-res-game-array+mh3u-legacy-display-list
+52,Droth Drone +,Droth Drone +,mh3g-id-res-game-array+mh3u-legacy-display-list
+53,Droth Roar,Droth Roar,mh3g-id-res-game-array+mh3u-legacy-display-list
+54,Black Coffin,Black Coffin,mh3g-id-res-game-array+mh3u-legacy-display-list
+55,Shadow Coffin,Shadow Coffin,mh3g-id-res-game-array+mh3u-legacy-display-list
+56,Darkest Coffin,Darkest Coffin,mh3g-id-res-game-array+mh3u-legacy-display-list
+57,Bloodstopper,Bloodstopper,mh3g-id-res-game-array+mh3u-legacy-display-list
+58,Bloodcurtler,Bloodcurtler,mh3g-id-res-game-array+mh3u-legacy-display-list
+59,Bloodfreezer,Bloodfreezer,mh3g-id-res-game-array+mh3u-legacy-display-list
+60,Valkyrie Chordrmaker,Valkyrie Chordrmaker,mh3g-id-res-game-array+mh3u-legacy-display-list
+61,Valkyrie Chordrmaker +,Valkyrie Chordrmaker +,mh3g-id-res-game-array+mh3u-legacy-display-list
+62,Queen's Chordrmaker,Queen's Chordrmaker,mh3g-id-res-game-array+mh3u-legacy-display-list
+63,Coral Chordrmaker,Coral Chordrmaker,mh3g-id-res-game-array+mh3u-legacy-display-list
+64,Coral Chordrmaker +,Coral Chordrmaker +,mh3g-id-res-game-array+mh3u-legacy-display-list
+65,Gold Chordrmaker,Gold Chordrmaker,mh3g-id-res-game-array+mh3u-legacy-display-list
+66,Lunar Chordrmaker,Lunar Chordrmaker,mh3g-id-res-game-array+mh3u-legacy-display-list
+67,Vicello Nulo,Vicello Nulo,mh3g-id-res-game-array+mh3u-legacy-display-list
+68,Vicello Unu,Vicello Unu,mh3g-id-res-game-array+mh3u-legacy-display-list
+69,Vicello Nulo (W),Vicello Nulo (W),mh3g-id-res-game-array+mh3u-legacy-display-list
+70,Vicello Unu (W),Vicello Unu (W),mh3g-id-res-game-array+mh3u-legacy-display-list
+71,Vicello Du (W),Vicello Du (W),mh3g-id-res-game-array+mh3u-legacy-display-list
+72,Vicello Nulo (Y),Vicello Nulo (Y),mh3g-id-res-game-array+mh3u-legacy-display-list
+73,Vicello Unu (Y),Vicello Unu (Y),mh3g-id-res-game-array+mh3u-legacy-display-list
+74,Vicello Du (Y),Vicello Du (Y),mh3g-id-res-game-array+mh3u-legacy-display-list
+75,Vicello Nulo (G),Vicello Nulo (G),mh3g-id-res-game-array+mh3u-legacy-display-list
+76,Vicello Unu (G),Vicello Unu (G),mh3g-id-res-game-array+mh3u-legacy-display-list
+77,Vicello Du (G),Vicello Du (G),mh3g-id-res-game-array+mh3u-legacy-display-list
+78,Vicello Tri (G),Vicello Tri (G),mh3g-id-res-game-array+mh3u-legacy-display-list
+79,Cindervone,Cindervone,mh3g-id-res-game-array+mh3u-legacy-display-list
+80,Scaldrovone,Scaldrovone,mh3g-id-res-game-array+mh3u-legacy-display-list
+81,Meltrovone,Meltrovone,mh3g-id-res-game-array+mh3u-legacy-display-list
+82,Magia Charm,Magia Charm,mh3g-id-res-game-array+mh3u-legacy-display-list
+83,Magia Charmbell,Magia Charmbell,mh3g-id-res-game-array+mh3u-legacy-display-list
+84,Aria Rhota,Aria Rhota,mh3g-id-res-game-array+mh3u-legacy-display-list
+85,Worn Horn,Worn Horn,mh3g-id-res-game-array+mh3u-legacy-display-list
+86,Weathered Horn,Weathered Horn,mh3g-id-res-game-array+mh3u-legacy-display-list
+87,Avenir's Music Box,Avenir's Music Box,mh3g-id-res-game-array+mh3u-legacy-display-list
+88,Eternal Music Box,Eternal Music Box,mh3g-id-res-game-array+mh3u-legacy-display-list
+89,Dios Bell,Dios Bell,mh3g-id-res-game-array+mh3u-legacy-display-list
+90,Dios Bell +,Dios Bell +,mh3g-id-res-game-array+mh3u-legacy-display-list
+91,Demolition Chime,Demolition Chime,mh3g-id-res-game-array+mh3u-legacy-display-list
+92,Timbral Demolisher,Timbral Demolisher,mh3g-id-res-game-array+mh3u-legacy-display-list
+93,Lagia Horn,Lagia Horn,mh3g-id-res-game-array+mh3u-legacy-display-list
+94,Lagia Horn +,Lagia Horn +,mh3g-id-res-game-array+mh3u-legacy-display-list
+95,Lagia Thunderpeal,Lagia Thunderpeal,mh3g-id-res-game-array+mh3u-legacy-display-list
+96,Nether Flute,Nether Flute,mh3g-id-res-game-array+mh3u-legacy-display-list
+97,Nether Sinphony,Nether Sinphony,mh3g-id-res-game-array+mh3u-legacy-display-list
+98,Megiddo Mode,Megiddo Mode,mh3g-id-res-game-array+mh3u-legacy-display-list
+99,The Apocalypso,The Apocalypso,mh3g-id-res-game-array+mh3u-legacy-display-list
+100,Voltage Verve,Voltage Verve,mh3g-id-res-game-array+mh3u-legacy-display-list
+101,High Voltage Verve,High Voltage Verve,mh3g-id-res-game-array+mh3u-legacy-display-list

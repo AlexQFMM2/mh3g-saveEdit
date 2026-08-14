@@ -12,6 +12,22 @@ The Chinese management interface keeps Character, Item Chest, and Equipment Box 
 Saving atomically replaces the currently opened file; there is no Save As command and the editor
 does not create a backup. A successful save is confirmed by a message box.
 
+## Game-resource ID tables
+
+The item, five armor-part, and twelve weapon CSV tables are generated from the
+zero-based GMD arrays in the audited MH3G `ID_res.arc`; Dex database keys and
+filtered third-party row numbers are not treated as save IDs. The full arrays
+include all `DUMMY` and unused slots so later names can never shift when a
+placeholder is hidden in the UI.
+
+The authoritative counts are 1,533 item slots; 380 head, 382 chest, 363 arms,
+371 waist, and 377 legs slots; plus the complete 12 weapon arrays. The rebuild
+restores 7 valid collaboration weapons, 9 valid collaboration items, and the
+late collaboration armor entries omitted by the old lists.
+
+See [`data/README.md`](data/README.md) for source hashes, the replacement-font
+limitation, deterministic rebuild commands, and validation details.
+
 ## 3DS / Wii U item and equipment transfer
 
 The item-chest and equipment-box windows can export all 1,000 slots to versioned CSV transfer forms. Open the destination character file (3DS or Wii U), import the matching form, confirm the listed-slot replacement, and then save the character file from the main window.

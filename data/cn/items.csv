@@ -1,1308 +1,1534 @@
 id,name,english,source
-2,调合书①入门篇,Book of Combos 1,dex-exact
-3,调合书②初级篇,Book of Combos 2,dex-exact
-4,调合书③中级篇,Book of Combos 3,dex-exact
-5,调合书④上级篇,Book of Combos 4,dex-exact
-6,调合书⑤达人篇,Book of Combos 5,dex-exact
-7,收纳上手・技之书,Organizer Guide,dex-exact
-8,收纳上手・力之书,Pack Rat Guide,dex-exact
-9,回复药,Potion,dex-exact
-10,回复药Ｇ,Mega Potion,dex-exact
-11,营养剂,Nutrients,dex-exact
-12,营养剂Ｇ,Mega Nutrients,dex-exact
-13,解毒药,Antidote,dex-exact
-14,活力剂,Immunizer,dex-exact
-15,强走药,Dash Juice,dex-exact
-16,强走药Ｇ,Mega Dash Juice,dex-exact
-17,鬼人药,Demondrug,dex-exact
-18,鬼人药Ｇ,Mega Demondrug,dex-exact
-19,怪力药丸,Might Pill,dex-exact
-20,硬化药,Armorskin,dex-exact
-21,硬化药Ｇ,Mega Armorskin,dex-exact
-22,忍耐药丸,Adamant Pill,dex-exact
-23,冷饮,Cool Drink,dex-exact
-24,热饮,Hot Drink,dex-exact
-25,消散剂,Cleanser,dex-exact
-26,千里眼药,Psychoserum,dex-exact
-27,汉方药,Herbal Medicine,dex-exact
-28,秘药,Max Potion,dex-exact
-29,远古秘药,Ancient Potion,dex-exact
-30,增强剂,Catalyst,dex-exact
-31,提神饮料,Energy Drink,dex-exact
-32,增息药,Air Philter,dex-exact
-33,增息药Ｇ,Mega Air Philter,dex-exact
-34,爆药,Gunpowder,dex-exact
-35,生命之粉,Lifecrystals,dex-exact
-36,生命粉尘,Lifepowder,dex-exact
-37,谜之护符,Mystery Charm,dex-exact
-38,闪光护符,Shining Charm,dex-exact
-39,古老护符,Timeworn Charm,dex-exact
-40,风化护符,Enduring Charm,dex-exact
-41,力之护符,Powercharm,dex-exact
-42,力之爪,Powertalon,dex-exact
-43,守之护符,Armorcharm,dex-exact
-44,守之爪,Armortalon,dex-exact
-45,捕获用麻醉药,Tranquilizer,dex-exact
-46,生肉,Raw Meat,dex-exact
-47,毒生肉,Poisoned Meat,dex-exact
-48,麻痹生肉,Tinged Meat,dex-exact
-49,睡眠生肉,Durgged Meat,dex-alias
-50,没烤熟的肉,Rare Steak,dex-exact
-51,烤熟的肉,Well-done Steak,dex-exact
-52,焦肉,Burnt Meat,dex-exact
-53,热肉,Hot Meat,dex-exact
-54,冷肉,Chilled Meat,dex-exact
-55,天然粉色肝,Pink Liver,dex-exact
-56,异国的角龙肉,Ethnic Wyvrnmeat,dex-exact
-57,回旋镖,Boomerang,dex-exact
-58,投掷匕首,Throwing Knife,dex-exact
-59,毒投掷匕首,Poison Knife,dex-exact
-60,催眠投掷匕首,Slee Knife,dex-alias
-61,麻痹投掷匕首,Paralysis Knife,dex-exact
-62,捕获用麻醉匕首,Tranq Knife,dex-exact
-63,素材弹,Bomb Casing,dex-exact
-64,染色球,Paintball,dex-exact
-65,闪光弹,Flash Bomb,dex-exact
-66,音爆弹,Sonic Bomb,dex-exact
-67,怪物的粪,Dung,dex-exact
-68,特大尺寸的粪便,Super-sized Dung,dex-exact
-69,肥沃的泥巴,Fertile Mud,dex-exact
-70,肥料弹,Dung Bomb,dex-exact
-71,烟雾弹,Smoke Bomb,dex-exact
-72,毒烟雾弹,Poison Smoke Bmb,dex-exact
-73,返回弹,Farcaster,dex-exact
-74,捕获用麻醉弹,Tranq Bomb,dex-exact
-75,氧气弹,Oxygen Supply,dex-exact
-76,蜘蛛巢,Spider Web,dex-exact
-77,网,Net,dex-exact
-78,陷阱工具,Trap Tool,dex-exact
-79,陷阱,Pitfall Trap,dex-exact
-80,麻痹陷阱,Shock Trap,dex-exact
-81,小桶,Small Barrel,dex-exact
-82,大桶,Large Barrel,dex-exact
-83,小桶爆弹,Barrel Bomb S,dex-exact
-84,小桶爆弹Ｇ,Barrel Bomb S +,dex-exact
-85,大桶爆弹,Barrel Bomb L,dex-exact
-86,大桶爆弹Ｇ,Barrel Bomb L +,dex-exact
-87,飞空爆弹,Bounce Bomb,dex-exact
-88,飞空爆弹Ｇ,Bounce Bomb +,dex-exact
-89,木天蓼爆弾,Felvine Bomb,dex-exact
-90,空心果,Huskberry,dex-exact
-91,空心骨【小】,Bone Husk S,dex-exact
-92,空心骨【大】,Bone Husk L,dex-exact
-93,LV1 通常弹,Normal S Lv1,dex-exact
-94,LV2 通常弹,Normal S Lv2,dex-exact
-95,LV3 通常弹,NOrmal S Lv3,dex-exact
-96,LV1 贯通弹,Pierce S Lv1,dex-exact
-97,LV2 贯通弹,Pierce S Lv2,dex-exact
-98,LV3 贯通弹,Pierce S Lv3,dex-exact
-99,LV1 散弹,Pellet S Lv1,dex-exact
-100,LV2 散弹,Pellet S Lv2,dex-exact
-101,LV3 散弹,Pellet S Lv3,dex-exact
-102,LV1 穿甲榴弹,Crag S Lv1,dex-exact
-103,LV2 穿甲榴弹,Crag S Lv2,dex-exact
-104,LV3 穿甲榴弹,Crag S Lv3,dex-exact
-105,LV1 扩散弹,Clust S Lv1,dex-exact
-106,LV2 扩散弹,Clust S Lv2,dex-exact
-107,LV3 扩散弹,Clust S Lv3,dex-exact
-108,火炎弹,Flaming S,dex-exact
-109,水冷弹,Water S,dex-exact
-110,电击弹,Thunder S,dex-exact
-111,冰结弹,Freeze S,dex-exact
-112,灭龙弹,Draong S,dex-alias
-113,LV1 回复弹,Recov S Lv1,dex-exact
-114,LV2 回复弹,Recov S Lv2,dex-exact
-115,LV1 毒弹,Poison S Lv1,dex-exact
-116,LV2 毒弹,Poison S Lv2,dex-exact
-117,LV1 麻痹弹,Para S Lv1,dex-exact
-118,LV2 麻痹弹,Para S Lv2,dex-exact
-119,LV1 睡眠弹,Sleep S Lv1,dex-exact
-120,LV2 睡眠弹,Sleep S Lv2,dex-exact
-121,捕获用麻醉弹,Tranq S,dex-exact
-122,染色弹,Paint S,dex-exact
-123,鬼人弹,Demon S,dex-exact
-125,硬化弹,Armor S,dex-exact
-127,LV1 水中弹,Sub S Lv1,dex-exact
-128,LV2 水中弹,Sub S Lv2,dex-exact
-129,LV1 灭气弹,Exhaust S Lv1,dex-exact
-130,LV2 灭气弹,Exhaust S Lv2,dex-exact
-131,斩裂弹,Slicing S,dex-exact
-134,龙击弹,WyvernFire,dex-exact
-135,水中用弩弹,UW Ballista Ammo,dex-exact
-136,(无瓶),(No Coating),need-review
-137,空瓶,Empty Phial,dex-exact
-138,强击瓶,Power Coating,dex-exact
-139,接击瓶,C. Range Coating,dex-exact
-140,毒瓶,Poison Coating,dex-exact
-141,麻痹瓶,Para Coating,dex-exact
-142,睡眠瓶,Sleep Coating,dex-exact
-143,灭气瓶,Exhaust Coating,dex-exact
-144,染色瓶,Paint Coating,dex-exact
-146,蚯蚓鱼饵,Worm,dex-exact
-148,苍蝇鱼饵,Mega Fishing Fly,dex-exact
-149,青蛙鱼饵,Frog,dex-exact
-150,切味鱼团子,Whetfish Bait,dex-exact
-151,刺身鱼团子,Shushifish Bait,dex-alias
-152,金枪鱼团子,Tuna Bait,dex-exact
-154,黄金团子,Goldenfish Bait,dex-exact
-155,龙鱼团子,Burst Bait,dex-exact
-157,破铁镐,Old Pickaxe,dex-exact
-158,铁镐,Iron Pickaxe,dex-exact
-159,铁镐Ｇ,Mega Pickaxe,dex-exact
-160,破虫网,Old Bug Net,dex-exact
-161,虫网,Bug Net,dex-exact
-162,虫网Ｇ,Mega Bug Net,dex-exact
-163,捕鱼鱼叉,Fishing Harpoon,dex-exact
-164,捕鱼鱼叉Ｇ,Mega Harpoon,dex-exact
-165,烤肉架,BBQ Spit,dex-exact
-166,连续烤肉架,Double BBQ Spit,dex-exact
-167,砥石,Whetstone,dex-exact
-168,望远镜,Binoculars,dex-exact
-169,不可燃垃圾,Carbage,dex-alias
-170,角笛,Field Horn,dex-exact
-171,回复笛,Health Horn,dex-exact
-172,解毒笛,Antidote Horn,dex-exact
-173,鬼人笛,Demon Horn,dex-exact
-174,硬化笛,Armor Horn,dex-exact
-175,蜂蜜,Honey,dex-exact
-176,药草,Herb,dex-exact
-177,解毒草,Antidote Herb,dex-exact
-178,火药草,Fire Herb,dex-exact
-180,常春藤叶,Ivy,dex-exact
-181,睡眠草,Sleep Herb,dex-exact
-182,粘着草,Sap Plant,dex-exact
-183,木天蓼,Felvine,dex-exact
-184,仙人掌的花,Cactus Flower,dex-exact
-185,氧气藻,Airweed,dex-exact
-186,辣椒,Hot Pepper,dex-exact
-188,蓝蘑菇,Blue Mushroom,dex-exact
-189,硝化菇,Nitroshroom,dex-exact
-190,麻痹菇,Parashroom,dex-exact
-191,毒伞菇,Toadstool,dex-exact
-192,心跳蘑菇,Exciteshroom,dex-exact
-194,曼陀罗,Dragon Toadstool,dex-exact
-195,大麻痹菇,Bindshroom,dex-exact
-196,染色果,Paintberry,dex-exact
-197,怪力之种,Might Seed,dex-exact
-198,忍耐之种,Adamant Seed,dex-exact
-199,杀龙果,Dragonfell Berry,dex-exact
-200,爆裂核桃,Scatternut,dex-exact
-201,针果,Needleberry,dex-exact
-203,扩散果,Bomberry,dex-exact
-208,抵消果实,Nulberry,dex-exact
-209,大南瓜,Bumblepumpkin,dex-exact
-210,残缺的贝壳,Broken Shell,dex-exact
-211,黑珍珠,Black Pearl,dex-exact
-212,巨大珍珠,Jumbo Pearl,dex-exact
-213,石子,Stone,dex-exact
-214,铁矿石,Iron Ore,dex-exact
-215,大地结晶,Earth Crystal,dex-exact
-216,燕雀石,Machalite Ore,dex-exact
-217,辉龙石,Dragonite Ore,dex-exact
-218,彩水晶,Pelagicite Ore,dex-exact
-222,灵鹤石,Carbalite Ore,dex-exact
-223,绯鸢石,Eltalite Ore,dex-exact
-224,白鹭石,Fucium Ore,dex-exact
-225,云鸠石,Meldspar Ore,dex-exact
-226,渊水晶,Bathycite Ore,dex-exact
-227,溶岩块,Lava Nugget,dex-exact
-228,红莲石,Firestone,dex-exact
-229,狱炎石,Firecell Stone,dex-exact
-230,真红莲石,Allfire Stone,dex-exact
-231,光水晶,Lightcrystal,dex-exact
-232,闪亮金属,Isisium,dex-exact
-234,冰晶金属,Gracium,dex-exact
-235,抗菌石,Antiseptic Stone,dex-exact
-236,冰结晶,Ice Crystal,dex-exact
-237,铠石,Armor Stone,dex-exact
-238,铠玉,Armor Sphere,dex-exact
-239,上铠玉,Armor Sphere +,dex-exact
-240,尖铠玉,Adv Armor Sphere,dex-exact
-241,坚铠玉,Hrd Armor Sphere,dex-exact
-242,重铠玉,Hvy Armor Sphere,dex-exact
-244,真铠玉,Tru Armor Sphere,dex-exact
-245,切味鱼,Whetfish,dex-exact
-246,刺身鱼,Sushifish,dex-exact
-247,眠鱼,Sleepyfish,dex-exact
-248,针金枪鱼,Pin Tuna,dex-exact
-249,爆裂沙丁鱼,Popfish,dex-exact
-250,扩散凸眼金鱼,Scatterfish,dex-exact
-251,破裂龙鱼,Burst Arowana,dex-exact
-252,爆裂龙鱼,Bomb Arowana,dex-exact
-253,贪吃金枪鱼,Glutton Tuna,dex-exact
-254,小金鱼,Small Goldenfish,dex-exact
-255,深水沙丁鱼,Wanchovy,dex-exact
-257,太刀鱼,Blue Cutthroat,dex-exact
-258,低吟贝,Humspun Conch,dex-exact
-260,虫的死骸,Insect Husk,dex-exact
-261,山青虫,Yambug,dex-exact
-262,圆蚱蜢,Bughopper,dex-exact
-264,骨蚱蜢,Stinkhopper,dex-exact
-265,土蜂的幼虫,Snakebee Larva,dex-exact
-266,不死虫,Godbug,dex-exact
-267,苦虫,Bitterbug,dex-exact
-268,光虫,Flashbug,dex-exact
-269,雷光虫,Thunderbug,dex-exact
-270,超电雷光虫,Fulgurbug,dex-exact
-271,粘着白蚁,Carpenterbug,dex-exact
-272,杀人蜂幼虫,Killer Beetle,dex-exact
-273,独角甲虫王,Hercudrome,dex-exact
-275,王族金龟子,King Scarab,dex-exact
-276,稀有金龟子,Rare Scarab,dex-exact
-278,幻之蝶,Flutterfly,dex-exact
-280,素材袋,Bomb Sac,dex-exact
-281,鸣袋,Screamer,dex-exact
-282,毒袋,Poison Sac,dex-exact
-283,猛毒袋,Toxin Sac,dex-exact
-285,麻痹袋,Paralysis Sac,dex-exact
-286,强力麻痹袋,Omniplegia Sac,dex-exact
-287,睡眠袋,Sleep Sac,dex-exact
-288,昏睡袋,Coma Sec,dex-alias
-289,火炎袋,Flame Sac,dex-exact
-290,爆炎袋,Inferno Sac,dex-exact
-291,业炎袋,Conflagrant Sac,dex-exact
-292,水袋,Aqua Sac,dex-exact
-293,大水袋,Torrent Sac,dex-exact
-295,电击袋,Thunder Sac,dex-exact
-296,雷电袋,Lightning Sac,dex-exact
-297,冰结袋,Frost Sac,dex-exact
-298,冻结袋,Freezer Sac,dex-exact
-299,狂走浸出物,Dash Extract,dex-exact
-300,白色浸出物,Pale Extract,dex-exact
-301,龙骨【小】,Monster Bone S,dex-exact
-302,龙骨【中】,Monster Bone M,dex-exact
-303,龙骨【大】,Monster Bone L,dex-exact
-304,谜之骨,Mystery Bone,dex-exact
-305,谜之头骨,Unknown Skull,dex-exact
-306,棒状的骨,Bone,dex-exact
-307,坚固的鸟龙骨,Avian Shoutbone,dex-alias
-309,上龙骨,Monster Bone +,dex-exact
-310,尖龙骨,Monster Keenbone,dex-exact
-311,坚龙骨,Monster hardbone,dex-exact
-312,重龙骨,Monster slogbne,dex-alias
-313,上质的鸟龙骨,Avian Finebone,dex-exact
-314,大骨,Jumbo Bone,dex-exact
-315,坚固之骨,Stoutbone,dex-exact
-316,远古龙骨,Dragonbone Relic,dex-exact
-317,龙牙,Wyvern Fang,dex-exact
-318,龙爪,Wyvern Claw,dex-exact
-319,龙玉,Wyvern Stone,dex-exact
-320,大龙玉,Lrg Wyvern Stone,dex-exact
-321,鸟龙玉,Bird Wyvern Gem,dex-exact
-322,幻鸟龙玉,Fey Wyvern Gem,dex-exact
-323,古龙血,ElderDragonBlood,dex-exact
-325,琉璃色的龙玉,Azure Dragongem,dex-exact
-326,琉璃色的龙神玉,Azure Drgnsphire,dex-exact
-327,漂亮的鱼鳞,Beautiful Scale,dex-exact
-328,闪亮海星,Shining Starfish,dex-exact
-329,珍味・甲胄鱼,Armorfish Morsel,dex-exact
-330,气派的毛皮,Fine Pelt,dex-exact
-331,强力的水蹼,Power Paddle,dex-exact
-332,小而弯曲的牙,Curved Fang,dex-exact
-333,龙骨的碎片,Dragonbone Piece,dex-exact
-334,鲍鱼的碎片,Abalone Piece,dex-exact
-335,化石的碎片,Fossil Piece,dex-exact
-336,漂亮的尾羽,Stunning Quill,dex-exact
-337,土蜂,Saturnian,dex-exact
-338,大幻鱼一角,Mystic Narwhal,dex-exact
-339,强韧的水蹼,Perfect Paddle,dex-exact
-340,月夜的发光牙,Moonlight Fang,dex-exact
-341,闪光的龙鳞,Glittering Scale,dex-exact
-342,巨大的头骨,Giant Skull,dex-exact
-343,龙宫蟹,Atlantis Crab,dex-exact
-344,女王刺针,Queen Needle,dex-exact
-345,太古的油,Ancient Skin Oil,dex-exact
-346,华丽的尾羽,Flamboyant Quill,dex-exact
-347,老年土蜂,Eldest Saturnian,dex-exact
-348,女王的灵药,Queen's Spirit,dex-exact
-349,真红的大龙鳞,Vermilion Scale,dex-alias
-350,海王的大龙鳞,Sea-King's Scale,dex-exact
-351,奇妙的蛋,Odd Egg,dex-exact
-352,土蜂陷阱,Saturnian Trap,dex-exact
-353,药用养虫剂,BugMaker! Pro,dex-exact
-354,强烈的费洛蒙,Funky Pheromones,dex-exact
-355,蘑菇培菌,Shroom Germ,dex-exact
-356,蘑菇倍倍菌,Shroom Germ +,dex-exact
-357,嗞嗞蜜蜂,Bizzy Bees,dex-exact
-358,渔饵,Fish Finder,dex-exact
-359,财宝的海图,Treasure Tracker,dex-exact
-360,预备的大枪,Spare Spear,dex-exact
-361,小金牙,Pittance Fang,dex-exact
-362,大金牙,Fortune Fang,dex-exact
-363,金针,Gold Needle,dex-exact
-364,金龙石,Wyverngold,dex-exact
-365,海贼的财宝,Pirate Booty,dex-exact
-366,钢蛋,Steel Egg,dex-exact
-367,银蛋,Silver Egg,dex-exact
-368,金蛋,Golden Egg,dex-exact
-369,羚鹿的角饰,Kelbi Horn Objet,dex-exact
-370,扭曲的角饰,Twstd Horn Objet,dex-exact
-371,峯山的龙牙饰,MohranFang Objet,dex-exact
-372,小猪,Poogie,dex-exact
-373,鸡蛋小猪,Eggie Poogie,dex-exact
-374,火龙小猪,Rath Poogie,dex-exact
-375,砂岩的花盆,Sandstone Plant,dex-exact
-376,湿地的花盆,Marshland Plant,dex-exact
-377,雪结晶的花盆,Snowflake Plant,dex-exact
-378,彩虹蘑菇灯,Primshroom Lamp,dex-alias
-379,极彩彩鸟灯,Qurupeco Lamp,dex-exact
-380,魅惑的深海灯,Sirensea Lamp,dex-exact
-381,苍海的喷水像,Oceanic Fountain,dex-exact
-382,泡沫的喷水像,Bubbly Fountain,dex-exact
-383,岩浆的喷水像,Magma Fountain,dex-exact
-384,铁矿石雕,Iron Figure,dex-exact
-385,燕雀石雕,Machalite Figure,dex-exact
-386,辉龙石雕,Dragonite Figure,dex-exact
-387,模型・砂上船,Model Sandskiff,dex-exact
-388,模型・飞行船,Model Airship,dex-exact
-389,模型・小猪船,Model Poogieship,dex-alias
-390,公会人偶【红】,Guildie (Red),dex-exact
-391,公会人偶【绿】,Guildie (Green),dex-exact
-392,公会人偶【蓝】,Guildie (Blue),dex-exact
-393,伟大猪猪,Great Poogi,dex-exact
-394,有洞的王冠,Incomplete Crown,dex-exact
-395,王冠上的辉石,Crown's Gemstone,dex-exact
-396,光辉的王冠,Dazzling Crown,dex-exact
-397,黄金的宝剑,Prize Gold Sword,dex-exact
-398,黄金的大硬币,Golden Medallion,dex-exact
-399,羚鹿的角,Kelbi Horn,dex-exact
-400,羚鹿的苍角,Blue Kelbi Horn,dex-exact
-401,暖毛皮,Warm Pelt,dex-exact
-402,上质的毛皮,High-qualty Pelt,dex-exact
-403,丸鸟的羽,Gargwa Feather,dex-exact
-406,长毛鹿的角,Anteka Antler,dex-exact
-408,飞甲虫的甲壳,Bnahabra Shell,dex-exact
-410,飞甲虫的坚壳,Bnaha Carapace,dex-exact
-411,飞甲虫之羽,Bnahabra Wing,dex-exact
-413,飞甲虫的斩羽,Bnahabra Cutwing,dex-exact
-414,飞甲虫的麻痹针,Bnahabra Spine,dex-exact
-415,甲虫的大颚,Altaroth Jaw,dex-exact
-417,甲虫的腹袋,Altaroth Stomach,dex-exact
-418,极上的腹袋,Prized Stomach,dex-exact
-419,上质的腹袋,Quality Sac,dex-exact
-420,野猪的毛皮,Bullfango Pelt,dex-exact
-422,野猪的头,Bullfango Head,dex-exact
-423,怪物体液,Monster Fluid,dex-exact
-424,怪物浓汁,Monster Broth,dex-exact
-425,草食龙的甲壳,Rhenoplos Shell,dex-exact
-426,草食龙的重骨,Rhenoplos Bone,dex-exact
-427,草食龙的头壳,Rhenoplos Scalp,dex-exact
-429,草食龙的坚壳,Rheno Carapace,dex-exact
-431,垂皮龙的上皮,Slagtoth Hide+,dex-exact
-433,大鳍,Big Fin,dex-exact
-435,上质的鳍,Quality Fin,dex-exact
-436,巨大的鳍,Giant Fin,dex-exact
-437,尖牙,Sharpened Fang,dex-exact
-438,光滑的皮,Velvety Hide,dex-exact
-439,古代鲨鱼皮,Sharqskin,dex-exact
-440,小狗龙的鳞,Jaggi Scale,dex-exact
-441,小狗龙的上鳞,Jaggi Scale +,dex-exact
-443,小狗龙的皮,Jaggi Hide,dex-exact
-446,鸟龙种的牙,Bird Wyvern Fang,dex-exact
-447,狗龙的皮,G. Jaggi Hide,dex-exact
-448,狗龙的上皮,G. Jaggi Hide +,dex-exact
-449,狗龙的厚皮,Great Jaggi Piel,dex-exact
-450,狗龙的爪,G. Jaggi Claw,dex-exact
-451,狗龙的尖爪,G. Jaggi Claw +,dex-exact
-453,王者的褶边,King's Frill,dex-exact
-454,伟大的褶边,Imperial Frill,dex-exact
-455,狗龙的头,Great Jaggi Head,dex-exact
-457,小眠狗龙的皮,Baggi Hide,dex-exact
-458,小眠狗龙的鳞,Baggi Scale,dex-exact
-459,小眠狗龙的上鳞,Baggi Scale +,dex-exact
-461,眠狗龙的皮,G. Baggi Hide,dex-exact
-462,眠狗龙的上皮,G. Baggi Hide +,dex-exact
-463,眠狗龙的厚皮,Great Baggi Piel,dex-exact
-464,眠狗龙的爪,G. Baggi Claw,dex-exact
-465,眠狗龙的尖爪,G. Baggi Claw +,dex-exact
-467,王者的头冠,King's Crest,dex-exact
-468,伟大的头冠,Imperial Crest,dex-exact
-469,小毒狗龙的鳞,Wroggi Scale,dex-exact
-470,小毒狗龙的上鳞,Wroggi Scale +,dex-exact
-472,小毒狗龙的皮,Wroggi Hide,dex-exact
-473,小毒狗龙的毒牙,Wroggi Fang,dex-exact
-474,毒狗龙的皮,G. Wroggi Hide,dex-exact
-475,毒狗龙的厚皮,G. Wroggi Piel,dex-exact
-476,毒狗龙的上皮,G. Wroggi Hide +,dex-exact
-477,毒狗龙的腕甲,G. Wroggi Brace,dex-exact
-479,毒狗龙的坚腕甲,G. Wroggi Brace +,dex-exact
-480,王者的喙,King's Beak,dex-exact
-481,伟大的喙,Imperial Beak,dex-exact
-482,彩鸟的鳞,Qurupeco Scale,dex-exact
-483,彩鸟的上鳞,Qurupeco Scale +,dex-exact
-484,彩鸟的厚鳞,Qurupeco Shard,dex-exact
-485,彩鸟的羽毛,Qurupeco Feather,dex-exact
-486,极彩色的艳丽羽毛,Lustrous Feather,dex-exact
-487,彩鸟的翼,Qurupeco Wing,dex-exact
-488,彩鸟的刚翼,Peco Fellwing,dex-exact
-489,物品 Vivid Fellwing,Vivid Fellwing,need-review
-490,奇怪的喙,Strange Beak,dex-exact
-491,极好的喙,Wonderful Beak,dex-exact
-492,魅惑的喙,Alluring Beak,dex-exact
-493,火打石,Flintstone,dex-exact
-494,高级火打石,Quality Flint,dex-exact
-495,红彩鸟的上鳞,C. Peco Scale +,dex-exact
-496,红彩鸟的厚鳞,C. Peco Shard,dex-exact
-497,红彩鸟的翼,C. Peco Wing,dex-exact
-498,红彩鸟的刚翼,C. Peco Fellwing,dex-exact
-499,电气石,Voltstone,dex-exact
-500,高压电气石,High Voltstone,dex-exact
-501,水生兽的皮,Hydro Hide,dex-exact
-502,水生兽的上皮,Hydro Hide +,dex-exact
-504,不成熟海绵质,Immature Sponge,dex-exact
-505,优质的海绵质,Quality Sponge,dex-exact
-506,海绵质的皮,Spongy Hide,dex-exact
-507,海绵质的上皮,Spongy Hide +,dex-exact
-508,海绵质的厚皮,Spongy Piel,dex-exact
-509,水兽的鳞,R. Ludroth Scale,dex-exact
-510,水兽的上鳞,R. Ludroth Scale +,dex-exact
-511,水兽的厚鳞,R. Ludroth Shard,dex-exact
-512,水兽的爪,R. Ludroth Claw,dex-exact
-513,水兽的锐爪,R. Ludroth Claw +,dex-exact
-514,水兽的刚爪,R. Ludroth Talon,dex-exact
-515,水兽的冠,R. Ludroth Crest,dex-exact
-516,高级头冠,R. Ludroth Crest +,dex-exact
-517,别致的头冠,Chic Crest,dex-exact
-518,水兽的尾巴,R. Ludroth Tail,dex-exact
-519,海绵质的紫皮,Plum Spongy Hide,dex-exact
-520,海绵质的紫厚皮,Plum Spongy Piel,dex-exact
-521,紫水兽的上鳞,P. Ludroth Scale +,dex-exact
-522,紫水兽的厚鳞,P. Ludroth Shard,dex-exact
-523,紫水兽的锐爪,P. Ludroth Claw +,dex-exact
-524,紫水兽的刚爪,P. Ludroth Talon,dex-exact
-525,土砂龙的甲壳,Barroth Shell,dex-exact
-526,土砂龙的坚壳,Barroth Carapace,dex-exact
-527,土砂龙的重壳,Barroth Cortex,dex-exact
-528,土砂龙的背甲,Barroth Ridge,dex-exact
-529,土砂龙的坚甲,Barroth Ridge +,dex-exact
-530,土砂龙的重甲,Barroth Chine,dex-exact
-531,土砂龙的爪,Barroth Claw,dex-exact
-532,土砂龙的锐爪,Barroth Claw +,dex-exact
-533,土砂龙的刚爪,Barroth Talon,dex-exact
-534,土砂龙的头壳,Barroth Scalp,dex-exact
-535,土砂龙的重头壳,Barroth Crown,dex-exact
-536,土砂龙的尾巴,Barroth Tail,dex-exact
-537,冰碎龙的坚壳,J. Barr Carapace,dex-exact
-538,冰碎龙的重壳,J. Barroth Cortex,dex-exact
-539,冰碎龙的坚甲,J. Barroth Ridge +,dex-exact
-540,冰碎龙的重甲,J. Barroth Chine,dex-exact
-541,冰碎龙的锐爪,J. Barroth Claw +,dex-exact
-542,冰碎龙的刚爪,J. Barroth Talon,dex-exact
-543,冰碎龙鳞,J. Barroth Scale,rule
-544,冰碎龙的重头壳,J. Barroth Crown,dex-exact
-545,冰碎龙的尾巴,J. Barroth Tail,dex-exact
-546,冰碎龙的韧尾,J. Barroth Lash,dex-exact
-547,冻结的粘液块,Frozen Glob,dex-exact
-549,灯鱼龙的皮,Gobul Hide,dex-exact
-550,灯鱼龙的上皮,Gobul Hide +,dex-exact
-551,灯鱼龙的厚皮,Gobul Piel,dex-exact
-552,灯鱼龙的鳍,Gobul Fin,dex-exact
-553,灯鱼龙的上鳍,Gobul Fin +,dex-exact
-554,灯鱼龙的特上鳍,Fine Gobul Fin,dex-exact
-555,灯鱼龙的棘,Gobul Spike,dex-exact
-556,灯鱼龙的上棘,Gobul Spike +,dex-exact
-557,灯鱼龙的秘棘,Gobul Surspike,dex-exact
-558,灯鱼龙的髭须,Gobul Whisker,dex-exact
-559,灯鱼龙的大王髭须,Gobul Kingwhiskr,dex-exact
-560,提灯球,Gobul Lantern,dex-exact
-561,高级提灯球,Gobul Lantern +,dex-exact
-562,最高级提灯球,Gobul Beacon,dex-exact
-563,雌火龙的鳞,Rathian Scale,dex-exact
-564,雌火龙的上鳞,Rathian Scale +,dex-exact
-565,雌火龙的厚鳞,Rathian Shard,dex-exact
-566,雌火龙的甲壳,Rathian Shell,dex-exact
-567,雌火龙的坚壳,Rathian Carapace,dex-exact
-568,雌火龙的重壳,Rathian Cortex,dex-exact
-569,雌火龙的翼膜,Rathian Webbing,dex-exact
-570,雌火龙的棘,Rathian Spike,dex-exact
-571,雌火龙的上棘,Rathian Spike +,dex-exact
-572,雌火龙的秘棘,Rathian Surspike,dex-exact
-573,雌火龙的逆鳞,Rathian Plate,dex-exact
-574,雌火龙的天鳞,Rathian Mantle,dex-exact
-575,雌火龙的红玉,Rathian Ruby,dex-exact
-577,樱火龙的上鳞,P. Rathian Scale +,dex-exact
-578,樱火龙的厚鳞,P. Rathian Shard,dex-exact
-579,樱火龙的坚壳,P. Rath Carapace,dex-exact
-580,樱火龙的重壳,P. Rathian Cortex,dex-exact
-581,金火龙的厚鳞,G. Rathian Shard,dex-exact
-582,金火龙的重壳,G. Rathian Cortex,dex-exact
-583,金火龙的秘棘,G. Rath Surspike,dex-exact
-584,火龙的鳞,Rathalos Scale,dex-exact
-585,火龙的上鳞,Rathalos Scale +,dex-exact
-586,火龙的厚鳞,Rathalos Shard,dex-exact
-587,火龙的甲壳,Rathalos Shell,dex-exact
-588,火龙的坚壳,Rathalos Carapace,dex-alias
-589,火龙的重壳,Rathalos Cortex,dex-exact
-590,火龙的翼膜,Rathalos Webbing,dex-exact
-591,火龙的刚翼,Rathalos Fellwing,dex-alias
-592,火龙的尾巴,Rathalos Tail,dex-exact
-593,火龙的韧尾,Rathalos Lash,dex-exact
-594,火龙的逆鳞,Rathalos Plate,dex-exact
-595,火龙的天鳞,Rathalos Mantle,dex-exact
-596,火龙的红玉,Rathalos Ruby,dex-exact
-597,火龙的翼爪,Rath Talon,dex-exact
-598,火龙的刚翼爪,Rath Ripper,dex-exact
-599,火龙的骨髓,Rath Marrow,dex-exact
-600,火龙的延髓,Rath Medulla,dex-exact
-601,火龙的煌液,Rath Gleem,dex-exact
-602,苍火龙的上鳞,A. Rath Scale +,dex-exact
-603,苍火龙的厚鳞,A. Rathalos Shard,dex-exact
-604,苍火龙的坚壳,A. Rath Carapace,dex-exact
-605,苍火龙的重壳,A. Rath Cortex,dex-exact
-606,苍火龙的尾巴,A. Rathalos Tail,dex-exact
-607,苍火龙的韧尾,A. Rathalos Lash,dex-exact
-608,苍火龙的翼,A. Rathalos Wing,dex-exact
-609,银火龙的厚鳞,S. Rathalos Shard,dex-exact
-610,银火龙的重壳,S. Rath Cortex,dex-exact
-611,银火龙的韧尾,S. Rathalos Lash,dex-exact
-615,毒怪龙的皮,Gigginox Hide,dex-exact
-616,毒怪龙的上皮,Gigginox Hide +,dex-exact
-617,毒怪龙的厚皮,Gigginox Piel,dex-exact
-618,可怕的皮,Uncanny Hide,dex-exact
-619,可怕的上皮,Uncanny Hide +,dex-exact
-620,毒怪龙的爪,Gigginox Claw,dex-exact
-621,毒怪龙的锐爪,Gigginox Claw +,dex-exact
-622,毒怪龙的刚爪,Gigginox Talon,dex-exact
-625,恐怖的嘴,Fearsome Maw,dex-exact
-626,可怕的毒腺,Venom Gland,dex-exact
-627,可怕的猛毒腺,Grim Venom Gland,dex-exact
-628,恐怖的毒腺,Foul Venom Gland,dex-exact
-629,电怪龙的上皮,B. Giggi Hide +,dex-exact
-630,电怪龙的厚皮,B. Giggi Piel,dex-exact
-631,电怪龙的锐爪,B. Giggi Claw +,dex-exact
-632,电怪龙的刚爪,B. Giggi Talon,dex-exact
-633,海龙的鳞,Lagiacrus Scale,dex-exact
-634,海龙的上鳞,Lagiacrus Scale +,dex-exact
-635,海龙的厚鳞,Lagiacrus Shard,dex-exact
-636,海龙的背电壳,Shell Shocker,dex-exact
-637,海龙的高电壳,Shell Shocker +,dex-exact
-638,海龙的雷电壳,Deathly Shocker,dex-exact
-639,海龙的皮,Lagiacrus Hide,dex-exact
-640,海龙的上皮,Lagiacrus Hide +,dex-exact
-641,海龙的爪,Lagiacrus Claw,dex-exact
-642,海龙的锐爪,Lagiacrus Claw +,dex-exact
-643,海龙的刚爪,Lagiacrus Talon,dex-exact
-644,海龙的刚爪,Lagiacrus Talon,dex-exact
-645,海龙的刚尾,Lagiacrus Flail,dex-exact
-646,海龙的角,Lagiacrus Horn,dex-exact
-647,海龙的尖角,Lagiacrus Horn +,dex-exact
-648,海龙的苍玉,Lagia Sapphire,dex-exact
-649,海龙的苍天鳞,Lagiacrus Mantle,dex-exact
-650,海龙的逆鳞,Lagiacrus Plate,dex-exact
-651,白海龙的上鳞,I. Lagi Scale +,dex-exact
-652,白海龙的厚鳞,I. Lagi Shard,dex-exact
-653,白海龙的高电壳,I. Lagi Shocker +,dex-exact
-654,白海龙的雷电壳,I. Lagi D-Shocker,dex-exact
-655,白海龙的上皮,I. Lagi Hide +,dex-exact
-656,白海龙的厚皮,I. Lagi Piel,dex-exact
-661,白海龙的尖角,I. Lagi Horn +,dex-exact
-662,白海龙的刚角,I. Lagi Hardhorn,dex-exact
-666,冥海龙的厚鳞,A. Lagi Shard,dex-exact
-667,冥海龙的雷电壳,A. Lagi D-Shocker,dex-exact
-668,冥海龙的厚皮,A. Lagi Piel,dex-exact
-671,冥海龙的刚角,A. Lagi Hardhorn,dex-exact
-672,冥海龙的雷魂,A. Lagi Dynamo,dex-exact
-673,冰牙龙的甲壳,Barioth Shell,dex-exact
-674,冰牙龙的坚壳,Barioth Carapace,dex-exact
-675,冰牙龙的重壳,Barioth Cortex,dex-exact
-676,冰牙龙的毛皮,Barioth Pelt,dex-exact
-677,冰牙龙的上毛皮,Barioth Pelt +,dex-exact
-678,冰牙龙的厚毛皮,Barioth Fur,dex-exact
-679,冰牙龙的爪,Barioth Claw,dex-exact
-680,冰牙龙的锐爪,Barioth Claw +,dex-exact
-681,冰牙龙的刚爪,Barioth Talon,dex-exact
-682,冰牙龙的棘,Barioth Spike,dex-exact
-684,冰牙龙的尾巴,Barioth Tail,dex-exact
-685,冰牙龙的韧尾,Barioth Lash,dex-exact
-686,琥珀色的牙,Amber Tusks,dex-exact
-687,琥珀色的锐牙,Amber Tusks +,dex-exact
-688,琥珀色的重牙,Hvy Amber Tusks,dex-exact
-689,风牙龙的坚壳,S. Bari Carapace,dex-exact
-690,风牙龙的重壳,S. Barioth Cortex,dex-exact
-691,风牙龙的上毛皮,S. Barioth Pelt +,dex-exact
-692,风牙龙的厚毛皮,S. Barioth Fur,dex-exact
-693,风牙龙的锐爪,S. Barioth Claw +,dex-exact
-694,风牙龙的刚爪,S. Barioth Talon,dex-exact
-695,风牙龙的尾巴,S. Barioth Tail,dex-exact
-696,风牙龙的韧尾,S. Barioth Lash,dex-exact
-697,群青色的锐牙,Indigo Tusks +,dex-exact
-698,群青色的重牙,Hvy Indigo Tusks,dex-exact
-699,强韧的胸膜,Rugged Pleura,dex-exact
-700,强韧的大胸膜,Rugged Pleura +,dex-exact
-701,角龙的甲壳,Diablos Shell,dex-exact
-702,角龙的坚壳,Diablos Carapace,dex-exact
-703,角龙的重壳,Diablos Cortex,dex-exact
-704,角龙的背甲,Diablos Ridge,dex-exact
-705,角龙的坚甲,Diablos Ridge +,dex-exact
-706,角龙的重甲,Diablos Chine,dex-exact
-707,角龙的尾甲,Diablos Tailcase,dex-exact
-709,角龙的牙,Diablos Fang,dex-exact
-710,扭曲的角,Twisted Horn,dex-exact
-711,优质的扭曲角,Majestic Horn,dex-exact
-712,坚固的扭曲角,Stout Horn,dex-exact
-713,角龙的骨髓,Diablos Marrow,dex-exact
-714,角龙的延髓,Diablos Medulla,dex-exact
-715,黑角龙的坚壳,B. Diab Carapace,dex-exact
-716,黑角龙的重壳,B. Diablos Cortex,dex-exact
-717,黑角龙的坚甲,B. Diablos Ridge +,dex-exact
-718,黑角龙的重甲,B. Diablos Chine,dex-exact
-721,优质黑卷角,Blackcurl Horn,dex-exact
-722,坚固黑卷角,Blackcurl Horn +,dex-exact
-723,爆锤龙的鳞,Uragaan Scale,dex-exact
-724,爆锤龙的上鳞,Uragaan Scale +,dex-exact
-725,爆锤龙的厚鳞,Uragaan Shard,dex-exact
-726,爆锤龙的甲壳,Uragaan Shell,dex-exact
-727,爆锤龙的坚壳,Uragaan Carapace,dex-exact
-728,爆锤龙的重壳,Uragaan Cortex,dex-exact
-729,爆锤龙的颚,Uragaan Jaw,dex-exact
-730,爆锤龙的重颚,Uragaan Jaw +,dex-exact
-731,爆锤龙的耐热壳,Uragaan Scute,dex-exact
-732,爆锤龙的重耐热壳,Uragaan Scute +,dex-exact
-733,爆锤龙的骨髓,Uragaan Marrow,dex-exact
-734,爆锤龙的红玉,Uragaan Ruby,dex-exact
-735,爆锤龙的天壳,Uragaan Pallium,dex-exact
-736,钢锤龙的上鳞,S. Uragaan Scale +,dex-exact
-737,钢锤龙的厚鳞,S. Uragaan Shard,dex-exact
-738,钢锤龙的坚壳,S. Urag Carapace,dex-exact
-739,钢锤龙的重壳,S. Uragaan Cortex,dex-exact
-740,钢锤龙的刚颚,S. Uragaan Maw,dex-exact
-741,钢锤龙的重颚,S. Uragaan Jaw +,dex-exact
-742,钢锤龙的耐热壳,S. Uragaan Scute ,dex-exact
-743,钢锤龙的重耐热壳,S. Uragaan Scute +,dex-exact
-744,熔岩兽的鳞,Uroktor Scale,dex-exact
-745,爆锤龙的上鳞,Uragaan Scale +,dex-exact
-746,柔软的厚皮,Supple Piel,dex-exact
-747,炎戈龙的燃鳞,Agnaktor Scale,dex-exact
-749,炎戈龙的甲壳,Agnaktor Shell,dex-exact
-750,炎戈龙的坚壳,Agnak Carapace,dex-exact
-751,炎戈龙的皮,Agnaktor Hide,dex-exact
-752,炎戈龙的上皮,Agnaktor Hide +,dex-exact
-753,炎戈龙的厚皮,Agnaktor Piel,dex-exact
-754,炎戈龙的爪,Agnaktor Claw,dex-exact
-755,炎戈龙的锐爪,Agnaktor Claw +,dex-exact
-756,炎戈龙的刚爪,Agnaktor Talon,dex-exact
-757,炎戈龙的鳍,Agnaktor Fin,dex-exact
-758,炎戈龙的上鳍,Agnaktor Fin +,dex-exact
-759,炎戈龙的特上鳍,Fine Agnak Fin,dex-exact
-760,炎戈龙的锚嘴,Agnaktor Beak,dex-exact
-762,炎戈龙的尾巴,Agnaktor Tail,dex-exact
-764,赤热的坚胸壳,Scalding Pleura +,dex-exact
-765,赤热的重胸壳,Scorching Pleura,dex-exact
-766,冻戈龙的坚壳,G. Agnak Carapace,dex-exact
-767,冻戈龙的重壳,G. Agnak Cortex,dex-exact
-768,冻戈龙的上皮,G. Agnak Hide +,dex-exact
-769,冻戈龙的厚皮,G. Agnak Piel,dex-exact
-770,冻戈龙的锐爪,G. Agnak Claw +,dex-exact
-771,冻戈龙的刚爪,G. Agnak Talon,dex-exact
-772,冻戈龙的上鳍,G. Agnak Fin +,dex-exact
-773,冻戈龙的特上鳍,Fine G. Agnak Fin,dex-exact
-774,冻戈龙的锚嘴,G. Agnak Beak,dex-exact
-776,冻戈龙的尾巴,G. Agnak Tail,dex-exact
-778,湿润的坚胸壳,Dewy Pleura +,dex-exact
-779,湿润的重胸壳,Drenched Pleura,dex-exact
-780,大海龙的鳞,Ceadeus Scale,dex-exact
-781,大海龙的甲皮,Ceadeus Hide,dex-exact
-782,大海龙的铠毛,Ceadeus Fur,dex-exact
-783,大海龙的尾巴,Ceadeus Tail,dex-exact
-784,弯曲的龙角,Crooked Horn,dex-exact
-785,神秘的发光体,Luminous Organ,dex-exact
-786,深渊的龙玉,Deep Dragongem,dex-exact
-787,皇海龙的厚鳞,G. Ceadeus Shard,dex-exact
-788,皇海龙的重甲皮,G. Ceadeus Coat,dex-exact
-789,皇海龙的豪铠毛,G. Ceadeus Fur,dex-exact
-791,弯曲的刚龙角,Crooked Hardhorn,dex-exact
-793,深渊的皇龙玉,Dark Dragongem,dex-exact
-795,峯山龙的上苍鳞,Mohran Scale +,dex-exact
-797,峯山龙的坚岩壳,Mohran Carapace,dex-exact
-799,峯山龙的上腕甲,Mohran Brace +,dex-exact
-801,勇猛的龙锐牙,Sturdy Fang +,dex-exact
-802,大地的龙玉,Earth Dragongem,dex-exact
-804,灵山龙的重苍鳞,H. Jhen Shard,dex-exact
-806,灵山龙的重岩壳,H. Jhen Rocksin,dex-alias
-808,灵山龙的重腕甲,H. Jhen Allbrace,dex-exact
-810,神圣的龙牙,Deific Fang,dex-exact
-811,大地的龙神玉,Earth Drgnsphire,dex-exact
-812,恐暴龙的黑鳞,Deviljho Scale,dex-exact
-813,恐暴龙的厚黑鳞,Deviljho Shard,dex-exact
-814,恐暴龙的黑皮,Deviljho Hide,dex-exact
-815,恐暴龙的厚黑皮,Deviljho Coat,dex-exact
-816,恐暴龙的大牙,Deviljho Fang,dex-exact
-817,极恶之牙,Vile Fang,dex-exact
-818,恐暴龙的钩爪,Deviljho Talon,dex-exact
-819,恐暴龙的刚钩爪,Deviljho Ripper,dex-exact
-820,恐暴龙的黑鳞,Deviljho Scale,dex-exact
-822,恐暴龙的尾巴,Deviljho Tail,dex-exact
-823,恐暴龙的重尾,Deviljho Flail,dex-exact
-824,恐暴龙的唾液,Deviljho Saliva,dex-exact
-825,漆黑的血,Black Blood,dex-exact
-826,恐暴龙的宝玉,Deviljho Gem,dex-exact
-827,恐暴龙的灭鳞,Deviljho Crook,dex-exact
-828,煌黑龙的坚逆壳,Alatreon Scute,dex-exact
-829,煌黑龙的天壳,Alatreon Pallium,dex-exact
-830,煌黑龙的逆鳞,Alatreon Plate,dex-exact
-831,煌黑龙的天鳞,Alatreon Mantle,dex-exact
-832,煌黑龙的尖爪,Alatreon Talon,dex-exact
-833,煌黑龙的凶爪,Alatreon Ripper,dex-exact
-834,煌黑龙的翼膜,Alatreon Webbing,dex-exact
-835,煌黑龙的邪翼,Alatreo Direwing,dex-exact
-836,煌黑龙的尾巴,Alatreon Tail,dex-exact
-837,煌黑龙的妖尾,Alatreo Diretail,dex-exact
-838,破碎的天角,Brkn Skypiercer,dex-exact
-840,贯天之角,Skypiercer,dex-exact
-841,天统御角,Skyswayer,dex-exact
-842,青熊兽的毛,Arzuros Pelt,dex-exact
-843,青熊兽的刚毛,Arzuros Pelt +,dex-exact
-845,青熊兽的甲壳,Arzuros Shell,dex-exact
-846,青熊兽的坚壳,Arzuros Carapace,dex-exact
-847,青熊兽的重壳,Arzuros Cortex,dex-exact
-848,青熊兽的腕甲,Arzuros Brace,dex-exact
-849,青熊兽的坚腕甲,Arzuros Brace +,dex-exact
-850,青熊兽的重腕甲,Arzuros Allbrace,dex-exact
-851,白兔兽的毛,Lagombi Pelt,dex-exact
-852,白兔兽的刚毛,Lagombi Pelt +,dex-exact
-853,白兔兽的豪刚毛,Lagombi Fur,dex-exact
-854,白兔兽的耳,Lagombi Ear,dex-exact
-855,白兔兽的大耳,Lagombi Ear +,dex-exact
-856,白兔兽的地狱耳,Lagombi Auricle,dex-exact
-857,白兔兽的腹甲,Lagombi Plastron,dex-alias
-858,白兔兽的坚腹甲,Lagombi Plastron +,dex-alias
-860,白兔兽的冰爪,Lagombi Claw,dex-exact
-861,白兔兽的冻爪,Lagombi Claw +,dex-exact
-863,赤甲兽的甲壳,Volvidon Shell,dex-exact
-864,赤甲兽的坚壳,Volvi Carapace,dex-exact
-865,赤甲兽的重壳,Volvidon Cortex,dex-exact
-866,赤甲兽的爪,Volvidon Claw,dex-exact
-867,赤甲兽的尖爪,Volvidon Claw +,dex-exact
-868,赤甲兽的刚爪,Volvidon Talon,dex-exact
-869,赤甲兽的蛇腹甲,Volvi Rickrack,dex-exact
-871,潜口龙的甲壳,Nibelsnarf Shell,dex-exact
-872,潜口龙的坚壳,Nibel Carapace,dex-exact
-873,潜口龙的重壳,Nibel Cortex,dex-exact
-874,潜口龙的皮,Nibelsnarf Hide,dex-exact
-875,潜口龙的上皮,Nibelsnarf Hide +,dex-exact
-876,潜口龙的厚皮,Nibelsnarf Piel,dex-exact
-877,潜口龙的爪,Nibelsnarf Claw,dex-exact
-878,潜口龙的尖爪,Nibelsnarf Claw +,dex-exact
-879,潜口龙的刚爪,Nibelsnarf Talon,dex-exact
-880,潜口龙的头壳,Nibelsnarf Scalp,dex-exact
-882,鲜艳的体液,Vivid Fluid,dex-exact
-883,极彩色的体液,Brilliant Fluid,dex-exact
-884,光辉的体液,Dazzling Fluid,dex-exact
-886,雷狼龙的坚壳,Zinogre Carapace,dex-exact
-887,雷狼龙的重壳,Zinogre Cortex,dex-exact
-889,雷狼龙的高电壳,Zinogre Shocker +,dex-exact
-890,雷狼龙的雷电毛,Zin Eletrofur +,dex-alias
-892,雷狼龙的尖角,Zinogre Horn +,dex-exact
-893,雷狼龙的刚角,Zinogre Hardhorn,dex-exact
-895,雷狼龙的尖爪,Zinogre Claw +,dex-exact
-896,雷狼龙的刚爪,Zinogre Talon,dex-exact
-897,雷狼龙的尾巴,Zinogre Tail,dex-exact
-898,雷狼龙的韧尾,Zinogre Lash,dex-exact
-900,雷狼龙的高电毛,Zin Eletrofur,dex-alias
-901,雷狼龙的雷电壳,Zin D-Shocker,dex-exact
-903,雷狼龙的碧玉,Zinogre Jasper,dex-exact
-904,雷狼龙的天玉,Zin Skymerald,dex-exact
-905,狱狼龙的重壳,S. Zin Cortex,dex-exact
-906,狱狼龙的龙毛,S. Zin Dragonhair,dex-exact
-907,狱狼龙的刚角,S. Zin Hardhorn,dex-exact
-908,狱狼龙的刚爪,S. Zinogre Talon,dex-exact
-909,狱狼龙的韧尾,S. Zinogre Lash,dex-exact
-910,狱狼龙的龙壳,S. Zin Dragnshell,dex-exact
-911,狱狼龙的天玉,S. Zin Skymerald,dex-exact
-912,迅龙的上鳞,Nargacuga Scale +,dex-exact
-913,迅龙的厚鳞,Nargacuga Shard,dex-exact
-914,迅龙的天鳞,Nargacuga Mantle,dex-exact
-916,迅龙的豪黑毛,Nargacuga Fur,dex-exact
-917,迅龙的尾巴,Nargacuga Tail,dex-exact
-918,迅龙的韧尾,Nargacuga Lash,dex-exact
-919,迅龙的尾棘,Narga Tailspike,dex-exact
-920,迅龙的重尾棘,Narga Tailspear,dex-exact
-922,迅龙的刚刃翼,Narga Razor +,dex-exact
-923,迅龙的锐牙,Nargacuga Fang +,dex-exact
-924,迅龙的重牙,Hvy Narga Fang,dex-exact
-925,迅龙的延髓,Narga Medulla,dex-exact
-927,绿迅龙的厚鳞,G. Narga Shard,dex-exact
-929,绿迅龙的豪斑毛,G. Narga Dapples,dex-exact
-931,绿迅龙的刚刃翼,G. Narga Razor +,dex-exact
-933,绿迅龙的重牙,Hvy G. Narga Fang,dex-exact
-934,月迅龙的厚鳞,L. Narga Shard,dex-exact
-935,月迅龙的豪斑毛,L. Narha Dapples,dex-alias
-936,月迅龙的透刃翼,L. Narga Razor,dex-exact
-937,月迅龙的重牙,Hvy L. Narga Fang,dex-exact
-938,尾槌龙的甲壳,Duramboros Shell,dex-exact
-939,尾槌龙的坚壳,Duram Carapace,dex-exact
-940,尾槌龙的重壳,Duram Cortex,dex-exact
-941,尾槌龙的苔甲,Duram Mossplate,dex-exact
-942,尾槌龙的坚苔甲,Hard Mossplate,dex-exact
-943,尾槌龙的重苔甲,Heavy Mossplate,dex-exact
-944,尾槌龙的驼峰,Duramboros Hump,dex-exact
-945,霜降的驼峰,Marbled Hump,dex-exact
-946,尾槌龙的尾甲,Duram Tailcase,dex-exact
-947,尾槌龙的坚尾甲,Duram Tailcase +,dex-exact
-948,尾槌龙的重尾甲,Duram Hardtail,dex-exact
-949,尾槌龙的角,Duramboros Horn,dex-exact
-950,尾槌龙的尖角,Duramboros Horn +,dex-exact
-951,尾槌龙的刚角,Duram Hardhorn,dex-exact
-952,尾槌龙的尾骨,Duram Tailbone,dex-exact
-953,尾槌龙的仙骨,Duram Sacrum,dex-exact
-954,尾槌龙之石,Durambolite,dex-exact
-955,尾斧龙的赤铜壳,R. Duram Shell,dex-exact
-956,尾斧龙的赤铜甲,R. Duram Plate,dex-exact
-958,尾斧龙的重尾甲,R. Duram Hardtail,dex-exact
-961,虾的大壳,Lrg Lobstershell,dex-exact
-963,水龙的锐牙,Plesioth Fang +,dex-exact
-964,水龙的重牙,Hvy Plesio Fang,dex-exact
-965,水龙的上鳞,Plesioth Scale +,dex-exact
-966,水龙的厚鳞,Plesioth Shard,dex-exact
-967,水龙的上鳍,Plesioth Fin +,dex-exact
-968,水龙的特上鳍,Fine Plesio Fin,dex-exact
-970,翠水龙的厚鳞,G. Plesio Shard,dex-exact
-972,翠水龙的特上鳍,Fine G. Plesi Fin,dex-exact
-973,碎龙的坚壳,Brach Carapace,dex-exact
-974,碎龙的重壳,Brach Cortex,dex-exact
-975,碎龙的黑曜甲,Brach Ebonshell,dex-exact
-976,碎龙的重黑曜甲,Brach Ebonshell +,dex-exact
-979,碎龙的头壳,Brach Scalp,dex-exact
-980,碎龙的尖头壳,Brach Scalp +,dex-exact
-981,谜之粘菌,Mystery Slime,dex-exact
-982,光之粘菌,Glowing Slime,dex-exact
-983,碎龙的刚拳,Brach Pounder,dex-exact
-984,碎龙的刚铁拳,Brach Pounder +,dex-exact
-985,碎龙的尾巴,Brachydios Tail,dex-exact
-987,碎龙的宝玉,Brachydios Gem,dex-exact
-988,碎龙的天壳,Brach Pallium,dex-exact
-989,炼黑龙的黑鳞,Miralis Scale,dex-exact
-990,炼黑龙的燃壳,Miralis Fireback,dex-exact
-991,炼黑龙的炎爪,Miralis Fireclaw,dex-exact
-994,炼黑龙的凶眼,Miralis Evil Eye,dex-exact
-996,炼黑龙的重翼,Miralis Hellwing,dex-exact
-999,炼黑龙的灼热核,Miralis Smelter,dex-exact
-1000,不死的心脏,Immortal Heart,dex-exact
-1002,涌出的岩浆,Gushing Magma,dex-exact
-1003,光炎的大龙玉,Dire Dragongem,dex-exact
-1004,锈块,Rustshard,dex-exact
-1005,太古之块,Ancient Shard,dex-exact
-1006,锈破片,Rusted Fragment,dex-exact
-1007,大的太古破片,Large Fragment,dex-exact
-1008,细的太古破片,Slender Fragment,dex-exact
-1009,长的太古破片,Long Fragment,dex-exact
-1010,地图,Map,dex-exact
-1011,应急药,First-aid Med,dex-exact
-1012,携带食料,Ration,dex-exact
-1014,携带砥石,Mini Whetstone,dex-exact
-1015,携带麻痹陷阱,EZ Shock Trap,dex-exact
-1016,支给专用闪光弹,EZ Flash Bomb,dex-exact
-1017,支给专用音爆弹,EZ Sonic Bomb,dex-exact
-1018,支给专用秘药,EZ Max Potion,dex-exact
-1019,支给专用陷阱,EZ Pitfall Trap,dex-exact
-1020,携帯氧气弹,Mini Oxy Supply,dex-exact
-1021,支给用大桶爆弹,EZ Barrel Bomb L,dex-exact
-1022,大弩弹,Ballista Ammo,dex-exact
-1023,弩用拘束弹,Ballista Binder,dex-exact
-1025,大炮弹,Cannon Ammo,dex-exact
-1026,对巨龙爆弹,Anti-dragon Bomb,dex-exact
-1027,火把,Torch,dex-exact
-1028,猫券,Paw Pass Ticket,dex-exact
-1029,皇家蜂蜜,Royal Honey,dex-exact
-1030,特产蘑菇,Unique Mushroom,dex-exact
-1031,严选蘑菇,Choice Mushroom,dex-exact
-1032,熟成蘑菇,Ripened Mushroom,dex-exact
-1033,松茸王,Great Shroom,dex-exact
-1034,特产竹笋,Super Sprout,dex-exact
-1037,白金鱼,Silverfish,dex-exact
-1040,黄金鱼,Goldenfish,dex-exact
-1041,皇家甲虫,Royal Rhino,dex-exact
-1042,神之虫,Divine Rhino,dex-exact
-1043,银色蟋蟀,Silver Cricket,dex-exact
-1044,金色蟋蟀,Gold Cricket,dex-exact
-1045,黄金石碎片,Auristone Piece,dex-exact
-1046,黄金石块,Auristone Chunk,dex-exact
-1047,花香石碎片,Balmstone Piece,dex-exact
-1048,花香石之块,Balmstone Chunk,dex-exact
-1049,龙骨结晶,Crystal Bone,dex-exact
-1050,黄金骨,Golden Bone,dex-exact
-1051,血石,Bloodstone,dex-exact
-1052,深血石,Deep Bloodstone,dex-exact
-1053,燃石炭,Coal,dex-exact
-1054,强燃石炭,Volatile Coal,dex-exact
-1055,龙蛋,Wyvern Egg,dex-exact
-1056,草食龙的蛋,Herbivore Egg,dex-exact
-1057,丸鸟的蛋,Gargwa Egg,dex-exact
-1058,丸鸟的金蛋,Gold Gargwa Egg,dex-exact
-1060,火药岩,Powderstone,dex-exact
-1061,丸鸟的粪,Gargwa Guano,dex-exact
-1062,白肝,White Liver,dex-exact
-1063,垂皮油,Slagtoth Oil,dex-exact
-1064,猛犸的舌头,Popo Tongue,dex-exact
-1065,秘密的口袋,Secret Stash,dex-exact
-1066,圆滚滚的团栗,Round Acorn,dex-exact
-1067,物品 Fine Stomach,Fine Stomach,need-review
-1068,物品 Luminous Stomach,Luminous Stomach,need-review
-1069,小毒怪龙提取物,Giggi Extract,dex-exact
-1070,怪物的肝,Monster Guts,dex-exact
-1071,红色珊瑚石,Red Coral Stone,dex-exact
-1072,龙泪,Wyvern Tear,dex-exact
-1073,龙的大粒泪,Lrg Wyvern Tear,dex-exact
-1074,牙兽泪,Beast Tear,dex-exact
-1075,牙兽的大粒泪,Lrg Beast Tear,dex-exact
-1076,鸟龙硬币,Bird Coin,dex-exact
-1083,海龙硬币,Leviathan Coin,dex-exact
-1089,斗技王的硬币,Pinnacle Coin,dex-exact
-1090,狩猎王的硬币,Hunter King Coin,dex-exact
-1091,餐券,Voucher,dex-exact
-1092,高级餐券,Gourmet Voucher,dex-exact
-1093,古代鲛票,Sharq Ticket,dex-exact
-1096,电击票,Thunderclap Diploma,dex-exact
-1100,古代大妖的牙,Shadowed Edge,dex-exact
-1101,法米通票,Medal Voucher L,dex-exact
-1102,Magazine票,Lion's Claw,dex-exact
-1103,霸王之证,Conqueror's Seal,dex-exact
-1105,勇气之证,Commendation,dex-exact
-1106,物品 DMMY 136,DMMY 136,need-review
-1107,肉球印章,Pawprint Stamp,dex-exact
-1108,水光原珠,Aquaglow Jewel,dex-exact
-1109,阳翔原珠,Sunspire Jewel,dex-exact
-1110,修罗原珠,Bloodrun Jewel,dex-exact
-1111,瑠璃原珠,Lazurite Jewel,dex-exact
-1112,耐痹珠【１】,Paralysis Jwl 1,dex-exact
-1113,耐痹珠【２】,Paralysis Jwl 2,dex-exact
-1114,耐眠珠【１】,Pep Jewel 1,dex-exact
-1115,耐眠珠【２】,Pep Jewel 2,dex-exact
-1116,耐绝珠【１】,Steadfast Jwl 1,dex-exact
-1117,制绝珠【１】,Standfast Jwl 1,dex-exact
-1118,耐毒珠【１】,Antidote Jewel 1,dex-exact
-1119,耐毒珠【２】,Antidote Jewel 2,dex-exact
-1120,耐粘珠【１】,Tracker Jewel 1,dex-exact
-1121,抗粘珠【１】,Trekker Jewel 1,dex-exact
-1122,忍脚珠【１】,Ninja Jewel 1,dex-exact
-1123,体力珠【１】,Vitality Jewel 1,dex-exact
-1124,早复珠【１】,Recovery Jewel 1,dex-exact
-1125,早复珠【２】,Recovery Jewel 2,dex-exact
-1126,斩铁珠【１】,Razor Jewel 1,dex-exact
-1127,斩铁珠【３】,Razor Jewel 3,dex-exact
-1128,匠珠【２】,Handicraft Jwl 2,dex-exact
-1129,匠珠【３】,Handicarft Jwl 3,dex-alias
-1130,剑豪珠【１】,Fencer Jewel 1,dex-exact
-1131,剑豪珠【３】,Fencer Jewel 3,dex-exact
-1132,达人珠【１】,Expert Jewel 1,dex-exact
-1133,达人珠【２】,Expert Jewel 2,dex-exact
-1134,达人珠【３】,Expert Jewel 3,dex-exact
-1135,研磨珠【１】,Grinder Jewel 1,dex-exact
-1136,铁壁珠【１】,Ironwall Jewel 1,dex-exact
-1137,铁壁珠【２】,Ironwall Jewel 2,dex-exact
-1138,强壁珠【１】,Shield Jewel 1,dex-exact
-1139,强壁珠【２】,Shield Jewel 2,dex-exact
-1140,早填珠【１】,Quickload Jwl 1,dex-exact
-1141,早填珠【２】,Quickload Jwl 2,dex-exact
-1142,抑反珠【１】,Absorber Jewel 1,dex-exact
-1143,抑反珠【３】,Absorber Jewel 3,dex-exact
-1144,强弹珠【１】,Forceshot Jwl 1,dex-exact
-1145,强弹珠【３】,Forceshot Jwl 3,dex-exact
-1146,贯通珠【１】,Pierce Jewel 1,dex-exact
-1147,贯通珠【３】,Pierce Jewel 3,dex-exact
-1148,散弹珠【１】,Pellet Jewel 1,dex-exact
-1149,散弹珠【３】,Pellet Jewel 3,dex-exact
-1150,加弹珠【１】,ShotPlus Jewel 1,dex-exact
-1151,加弹珠【２】,ShotPlus Jewel 2,dex-exact
-1152,加贯珠【１】,PiercePlus Jwl 1,dex-exact
-1154,加散珠【１】,PelletPlus Jwl 1,dex-exact
-1155,加榴珠【１】,CragPlus Jewel 1,dex-exact
-1156,加扩珠【１】,ClustPlus Jwl 1,dex-exact
-1157,特攻珠【１】,Disabler Jewel 1,dex-exact
-1158,特攻珠【２】,Disabler Jewel 2,dex-exact
-1159,属攻珠【１】,Element Jewel 1,dex-exact
-1160,属攻珠【３】,Element Jewel 3,dex-exact
-1161,爆师珠【１】,Bombardier Jwl 1,dex-exact
-1163,无食珠【１】,Hungerless Jwl 1,dex-exact
-1164,食汉珠【１】,Metabolism Jwl 1,dex-exact
-1165,攻击珠【１】,Attack Jewel 1,dex-exact
-1166,攻击珠【２】,Attack Jewel 2,dex-exact
-1167,攻击珠【３】,Attack Jewel 3,dex-exact
-1168,防御珠【１】,Defense Jewel 1,dex-exact
-1169,防御珠【２】,Defense Jewel 2,dex-exact
-1170,加护珠【１】,Protection Jwl 1,dex-exact
-1171,神护珠【１】,Asylum Jewel 1,dex-exact
-1172,防音珠【１】,Earplug Jewel 1,dex-exact
-1173,防音珠【３】,Earplug Jewel 3,dex-exact
-1174,防盗珠【１】,Alarm Jewel 1,dex-exact
-1175,友爱珠【１】,Friendship Jwl 1,dex-exact
-1176,友爱珠【２】,Friendship Jwl 2,dex-exact
-1177,运搬珠【１】,Transportr Jwl 1,dex-exact
-1178,耐火珠【１】,Fire Res Jewel 1,dex-exact
-1179,耐水珠【１】,Water Res Jwl 1,dex-exact
-1180,耐冰珠【１】,Ice Res Jewel 1,dex-exact
-1181,耐雷珠【１】,ThunderRes Jwl 1,dex-exact
-1182,耐龙珠【１】,Dragon Res Jwl 1,dex-exact
-1183,耐暑珠【１】,Heat Res Jewel 1,dex-exact
-1184,耐寒珠【１】,Cold Res Jewel 1,dex-exact
-1185,防风珠【１】,Wind Res Jewel 1,dex-exact
-1186,防风珠【２】,Wind Res Jewel 2,dex-exact
-1188,采取珠【１】,Gathering Jwl 1,dex-exact
-1189,速集珠【１】,Spree Jewel 1,dex-exact
-1190,祝福珠【１】,Blessing Jewel 1,dex-exact
-1191,运气珠【１】,Fate Jewel 1,dex-exact
-1192,运气珠【３】,Fate Jewel 3,dex-exact
-1194,千里珠【１】,Psychic Jewel 1,dex-exact
-1195,治愈珠【１】,Medicine Jewel 1,dex-exact
-1196,治愈珠【２】,Medicine Jewel 2,dex-exact
-1197,博士珠【１】,Professor Jwl 1,dex-exact
-1198,弹制珠【１】,Factory Jewel 1,dex-exact
-1199,回避珠【１】,Evasion Jewel 1,dex-exact
-1200,回避珠【２】,Evasion Jewel 2,dex-exact
-1201,底力珠【１】,Potential Jwl 1,dex-exact
-1202,底力珠【２】,Potential Jwl 2,dex-exact
-1203,持续珠【１】,Enduring Jewel 1,dex-exact
-1204,强走珠【１】,Sprinter Jewel 1,dex-exact
-1205,强走珠【３】,Sprinter Jewel 3,dex-exact
-1206,装填珠【２】,Capacity Jewel 2,dex-exact
-1207,装填珠【３】,Capacity Jewel 3,dex-exact
-1208,点射珠【１】,Sniper Jewel 1,dex-exact
-1209,早食珠【１】,Gobbler Jewel 1,dex-exact
-1210,早食珠【３】,Gobbler Jewel 3,dex-exact
-1211,皮剥珠【１】,Carver Jewel 1,dex-exact
-1212,皮剥珠【３】,Carver Jewel 3,dex-exact
-1213,耐震珠【１】,Footing Jewel 1,dex-exact
-1214,抗震珠【１】,Tectonic Jewel 1,dex-exact
-1216,跳跃珠【１】,Jumping Jewel 1,dex-exact
-1218,拔刀珠【１】,Draw Jewel 1,dex-exact
-1219,拔刀珠【２】,Draw Jewel 2,dex-exact
-1220,罠师珠【１】,Trapmaster Jwl 1,dex-exact
-1221,体术珠【１】,Physique Jewel 1,dex-exact
-1222,体术珠【２】,Physique Jewel 2,dex-exact
-1223,捕获珠【１】,Capture Jewel 1,dex-exact
-1224,捕获珠【３】,Capture Jewel 3,dex-exact
-1225,观察珠【１】,Perception Jwl 1,dex-exact
-1226,短缩珠【１】,Charger Jewel 1,dex-exact
-1227,短缩珠【３】,Charger Jewel 3,dex-exact
-1228,空气珠【１】,Fresh Air Jwl 1,dex-exact
-1229,抑水珠【１】,Stopflow Jewel 1,dex-exact
-1230,水泳珠【１】,Swimmer Jewel 1,dex-exact
-1231,远泳珠【１】,Diver Jewel 1,dex-exact
-1232,拔打珠【１】,Gambit Jewel 1,dex-exact
-1233,拔打珠【３】,Gambit Jewel 3,dex-exact
-1234,属耐珠【１】,Resistor Jewel 1,dex-exact
-1235,解放珠【２】,Release Jewel 2,dex-exact
-1236,觉醒珠【３】,Catalyst Jewel 3,dex-exact
-1237,逆境珠【１】,Fortitude Jwl 1,dex-exact
-1238,逆境珠【２】,Fortitude Jwl 2,dex-exact
-1239,速射珠【１】,Salvo Jewel 1,dex-exact
-1240,速射珠【３】,Salvo Jewel 3,dex-exact
-1241,肥师珠【１】,Dungmaster Jwl 1,dex-exact
-1242,燃烧珠【１】,Torchlight Jwl 1,dex-exact
-1243,物品 (No Mask),(No Mask),need-review
-1244,物品 BBQ with Mask,BBQ with Mask,need-review
-1245,物品 Sharpen w/ Mask,Sharpen w/ Mask,need-review
-1246,物品 Return via Mask,Return via Mask,need-review
-1247,爆破弹,Slime S,dex-exact
-1249,飞龙种之书【１卷】,Flying Wyverns Vol 1,dex-exact
-1250,飞龙种之书【２卷】,Flying Wyverns Vol 2,dex-exact
-1251,飞龙种之书【３卷】,Flying Wyverns Vol 3,dex-exact
-1252,鸟龙种之书【１卷】,Bird Wyverns Vol 1,dex-exact
-1253,鸟龙种之书【２卷】,Bird Wyverns Vol 2,dex-exact
-1254,兽龙种之书【１卷】,Brute Wyverns Vol 1,dex-exact
-1255,兽龙种之书【２卷】,Brute Wyverns Vol 2,dex-exact
-1256,兽龙种之书【３卷】,Brute Wyverns Vol 3,dex-exact
-1257,海龙种之书【１卷】,Leviathans Vol 1,dex-exact
-1258,海龙种之书【２卷】,Leviathans Vol 2,dex-exact
-1259,海龙种之书【３卷】,Leviathans Vol 3,dex-exact
-1260,牙龙种之书【１卷】,Fanged Wyverns Vol 1,dex-exact
-1261,牙龙种之书【２卷】,Fanged Wyverns Vol 2,dex-exact
-1262,牙兽种之书,Fanged Beasts,dex-exact
-1263,物品 Invalid Message,Invalid Message,need-review
-1264,鱼龙种之书,Piscine Wyverns,dex-exact
-1265,古龙种之书【１卷】,Elder Dragons Vol 1,dex-exact
-1266,古龙种之书【２卷】,Elder Dragons Vol 2,dex-exact
-1267,古龙种之书【３卷】,Elder Dragons Vol 3,dex-exact
-1268,兽人种之书,Lynians,dex-exact
-1269,甲虫种之书,Neopteron,dex-exact
-1270,草食种之书【１卷】,Herbivores Vol 1,dex-exact
-1271,草食种之书【２卷】,Herbivores Vol 2,dex-exact
-1272,恐暴龙之书,Deviljho,dex-exact
-1273,碎龙之书,Brachydios,dex-exact
-1274,炼黑龙之书,Dire Miralis,dex-exact
-1275,水龙之书【１卷】,Plesioth Vol 1,dex-exact
-1276,水龙之书【２卷】,Plesioth Vol 2,dex-exact
-1277,消臭玉,Deodorant,dex-exact
-1278,皇帝蚱蜢,Emperor Hopper,dex-exact
-1279,太古的龙骨,Elder Dragonbone,dex-exact
-1281,纯水晶,Purecrystal,dex-exact
-1282,金刚原珠,Adamant Orb,dex-exact
-1283,海龙的厚皮,Lagiacrus Piel,dex-exact
-1285,恶梦的嘴,Nightmarish Maw,dex-exact
-1289,爆破瓶,Slime Coating,dex-exact
-1291,花铃虫,Blossom Cricket,dex-exact
-1292,月迅龙的重尾棘,L. Narg Tailspear,dex-exact
-1294,绿迅龙的重尾棘,G. Narg Tailspear,dex-exact
-1296,炎戈龙的重壳,Agnaktor Cortex,dex-exact
-1297,恐怖的厚皮,Revolting Piel,dex-exact
-1298,瞬间冻结袋,Cryo Sac,dex-exact
-1299,特大水袋,Flood Sac,dex-exact
-1300,怪物的特浓汁,Monster Essence,dex-exact
-1302,厚重的骨,Massive Bone,dex-exact
-1304,极上的毛皮,Prized Pelt,dex-exact
-1307,旗金枪鱼,Speartuna,dex-exact
-1308,迅龙的上黑毛,Nargacuga Pelt +,dex-exact
-1309,迅龙的锐刃翼,Narga Razor,dex-exact
-1310,山菜组交换券,VE Ticket,dex-exact
-1311,山菜组交换券Ｇ,VE Deluxe Ticket,dex-exact
-1312,钢之山菜组交换券,VE Bronze Ticket,dex-exact
-1313,银之山菜组交换券,VE Silver Ticket,dex-exact
-1314,金之山菜组交换券,VE Golden Ticket,dex-exact
-1315,天之山菜组交换券,VE Cosmic Ticket,dex-exact
-1318,大津纹凤蝶,Maiden Butterfly,dex-exact
-1324,朋友票,Chum-Chum Ticket,dex-exact
-1326,海龙的刚角,Lagia Hardhorn,dex-exact
-1330,大玉米,Heftcorn,dex-exact
-1333,野猪的大牙,Bullfango Tusk,dex-exact
-1337,大锹扬羽虫,Butterfly Beetle,dex-exact
-1340,角龙的重尾甲,Diablos Hardtail,dex-exact
-1341,土砂龙的韧尾,Barroth Lash,dex-exact
-1345,赤热的胸壳,Scalding Pleura,dex-exact
-1347,带纹章的王冠,Crested Crown,dex-exact
-1348,王家的纹章,Royal Crest,dex-exact
-1349,亡国的王冠,Realmless Crown,dex-exact
-1350,巨大的化石,Giant Fossil,dex-exact
-1352,水兽的韧尾,R. Ludroth Lash,dex-exact
-1353,峯山龙的重苍鳞,Mohran Shard,dex-exact
-1354,峯山龙的重岩壳,Mohran Rockskin,dex-exact
-1355,峯山龙的重腕甲,Mohran Allbrace,dex-exact
-1356,火龙的翼,Rathalos Wing,dex-exact
-1357,水龙的翼膜,Plesioth Webbing,dex-exact
-1358,水龙的刚翼膜,Hrd Ples Webbing,dex-exact
-1359,鱼类之书,Fish,dex-exact
-1362,小金蛋,Small Golden Egg,dex-exact
-1363,10円硬币,Bronze Coin,dex-exact
-1364,100円硬币,Silver Coin,dex-exact
-1365,500円硬币,Gold Coin,dex-exact
-1366,龟友优惠券,Sparkly Fragment,dex-exact
-1367,水龙的头,Plesioth Head,dex-exact
-1368,水龙的绝品头,Uber Plesio Head,dex-exact
-1369,牙兽硬币,Beast Coin,dex-exact
-1370,飞龙硬币,Flying Coin,dex-exact
-1371,水龙硬币,Piscine Coin,dex-exact
-1372,兽龙硬币,Brute Coin,dex-exact
-1373,港娘【赤】,Port Gal (Red),dex-exact
-1374,港娘【青】,Port Gal (Blue),dex-exact
-1375,港娘【绿】,Port Gal (Green),dex-exact
-1376,港娘【白】,Port Gal (White),dex-exact
-1377,增殖镐,Slickaxe,dex-exact
-1378,月夜的发光锐牙,Mooncatcher Fang,dex-exact
-1379,有光泽的兽鳞,Glossy Scale,dex-exact
-1392,顽强的头骨,Thick Skull,dex-exact
-1393,珍味・熊之手,Savory Bear Paw,dex-exact
-1394,空空的号角,Peco Pipes,dex-exact
-1395,毛茸茸的鬃毛,Billowy Mane,dex-exact
-1396,长长的舌头,Volvidon Tongue,dex-exact
-1397,高级泥块,Quality Mud Pack,dex-exact
-1400,雌火龙的里脊肉,Rathian Loin,dex-exact
-1401,肥美的鮟鱇肝,Tender Liver,dex-exact
-1402,雌火龙的樱里脊,P. Rathian Loin,dex-exact
-1403,海王的特大龙鳞,Supersize Scale,dex-alias
-1404,火龙的上肋排,Rathalos Ribs,dex-exact
-1405,水龙的腹肉,Prime Plesioth,dex-exact
-1406,角龙的心脏,Diablos Heart,dex-exact
-1407,安眠瓦斯袋,Bag of Zs,dex-exact
-1408,大块黑曜石,Large Obsidian,dex-exact
-1409,尾槌龙松露,Duram Truffle,dex-exact
-1411,雷狼龙的头,Zinogre Head,dex-exact
-1413,迅龙的眼睛,Nargacuga Eye,dex-exact
-1414,天空的苍龙鳞,Celestial Scale,dex-exact
-1415,海王的白龙鳞,Alabaster Scale,dex-exact
-1416,吞食世界的胃袋,Worldeater Belly,dex-exact
-1427,KERORO小队入队证,Exquisite Meat,dex-exact
-1429,财宝Ｊ票,Top Secret Formula,dex-exact
-1430,电击Ｇ票,Flashbolt Diploma,dex-exact
-1433,怪猎入部申请书,Captain's IOU,dex-exact
-1434,秘宝Ｊ票,Hades's Skull,dex-exact
-1436,不碎的钻石,Crown of Glory,dex-exact
-1439,发动机票,Medal Voucher G,dex-exact
-1440,超硬质钢,Far East Sword,dex-exact
-1443,克罗克罗票,Miniature Ticket,dex-exact
-1444,任侠的画,Fierce Soul,dex-exact
-1446,飞龙种之书【４卷】,Flying Wyverns Vol 4,dex-exact
-1447,飞龙种之书【５卷】,Flying Wyverns Vol 5,dex-exact
-1448,耐防珠【１】,Def Lock Jewel 1,dex-exact
-1449,耐菌珠【１】,Sterile Jewel 1,dex-exact
-1450,抗菌珠【１】,Aseptic Jewel 1,dex-exact
-1451,火炎珠【１】,Blaze Jewel 1,dex-exact
-1452,火炎珠【２】,Blaze Jewel 2,dex-exact
-1453,流水珠【１】,Stream Jewel 1,dex-exact
-1454,流水珠【２】,Stream Jewel 2,dex-exact
-1455,雷光珠【１】,Bolt Jewel 1,dex-exact
-1456,雷光珠【２】,Bolt Jewel 2,dex-exact
-1457,冰结珠【１】,Frost Jewel 1,dex-exact
-1458,冰结珠【２】,Frost Jewel 2,dex-exact
-1459,破龙珠【１】,Dragon Jewel 1,dex-exact
-1460,破龙珠【２】,Dragon Jewel 2,dex-exact
-1461,痛击珠【１】,Tenderizer Jwl 1,dex-exact
-1462,痛击珠【３】,Tenderizer Jwl 3,dex-exact
-1463,重击珠【１】,Destroyer Jwl 1,dex-exact
-1464,重击珠【３】,Destroyer Jwl 3,dex-exact
-1465,全开珠【１】,Throttle Jewel 1,dex-exact
-1466,全开珠【２】,Throttle Jewel 2,dex-exact
-1467,ＫＯ珠【１】,KO Jewel 1,dex-exact
-1468,夺气珠【１】,Drain Jewel 1,dex-exact
-1469,夺气珠【２】,Drain Jewel 2,dex-exact
-1470,鼓笛珠【１】,Sonorous Jewel 1,dex-exact
-1471,炮术珠【１】,Artillery Jwl 1,dex-exact
-1472,属耐珠【３】,Resistor Jewel 3,dex-exact
-1473,制火珠【１】,Nul-Fire Jewel 1,dex-exact
-1474,制水珠【１】,Nul-Water Jwl 1,dex-exact
-1475,制雷珠【１】,Nul-Thundr Jwl 1,dex-exact
-1476,制冰珠【１】,Nul-Ice Jewel 1,dex-exact
-1477,制龙珠【１】,Nul-Dragon Jwl 1,dex-exact
-1478,速纳珠【１】,Sheath Jewel 1,dex-exact
-1479,速纳珠【２】,Sheath Jewel 2,dex-exact
-1480,早气珠【１】,Refresh Jewel 1,dex-exact
-1481,早气珠【２】,Refresh Jewel 2,dex-exact
-1482,狩人珠【１】,Ranger Jewel 1,dex-exact
-1483,加斩珠【１】,SlicePlus jwl 1,dex-exact
-1484,痹瓶珠【１】,Paracoat Jewel 1,dex-alias
-1485,痹瓶珠【２】,Paracoat Jewel 2,dex-alias
-1486,眠瓶珠【１】,Sleepcoat Jwl 1,dex-exact
-1487,毒瓶珠【１】,Poisoncoat Jwl 1,dex-exact
-1488,强瓶珠【１】,Powercoat Jwl 1,dex-exact
-1489,强瓶珠【２】,Powercoat Jwl 2,dex-exact
-1490,接瓶珠【１】,Rangecoat Jwl 1,dex-exact
-1491,灭瓶珠【１】,Draincoat Jwl 1,dex-exact
-1492,抑水珠【２】,Stopflow Jewel 2,dex-exact
-1493,根性珠【１】,Guts Jewel 1,dex-exact
-1494,根性珠【２】,Guts Jewel 2,dex-exact
-1495,肉食珠【１】,Meateater Jwl 1,dex-exact
-1496,肉好珠【１】,Meatlover Jwl 1,dex-exact
-1497,滑走珠【１】,Slider Jewel 1,dex-exact
-1498,滑空珠【１】,Glider Jewel 1,dex-exact
-1499,蜜集珠【１】,Honeybee Jewel 1,dex-exact
-1500,蜜占珠【１】,Queenbee Jewel 1,dex-exact
-1501,菌学珠【１】,Biology Jewel 1,dex-exact
-1502,菌究珠【１】,Microbio Jewel 1,dex-exact
-1503,斗魂珠【１】,Spirit Jewel 1,dex-exact
-1504,斗魂珠【２】,Spirit Jewel 2,dex-exact
-1505,无伤珠【１】,Flawless Jewel 1,dex-exact
-1506,无伤珠【２】,Flawless Jewel 2,dex-exact
-1507,刚体珠【１】,Steady Jewel 1,dex-exact
-1508,刚体珠【３】,Steady Jewel 3,dex-exact
-1509,水心珠【１】,Fish Jewel 1,dex-exact
-1510,水心珠【２】,Fish Jewel 2,dex-exact
-1511,采配珠【１】,Player Jewel 1,dex-exact
-1512,名采配珠【１】,Morale Jewel 1,dex-exact
-1513,号令珠【１】,Leader Jewel 1,dex-exact
-1514,号令珠【２】,Leader Jewel 2,dex-exact
-1515,生命的大粉尘,Dust of Life,dex-exact
-1516,ＫＯ珠【２】,KO Jewel 2,dex-exact
-1517,贯穿大地的刚角,Diablos Hardhorn,dex-exact
-1518,灵水晶,Ghostly Quartz,dex-exact
-1519,厚重的牙,Crushing Fang,dex-exact
-1520,胧月的碎片,Cloudy Moonshard,dex-exact
-1521,肉厚的毛皮,Bulky Pelt,dex-exact
-1522,优良的牙,Excellent Fang,dex-exact
-1523,鱼 with mask,Fish with mask,need-review
-1524,落阳草的花,Gloamgrass Bud,dex-exact
-1525,白金针,Platinum Needle,dex-exact
-1526,千金之牙,Goldmine Fang,dex-exact
-1527,金龙石的结晶,Wyverngold Lode,dex-exact
-1528,护石珠【１】,Charmer Jewel 1,dex-exact
-1529,蚀龙虫,Dracophage Bug,dex-exact
-1530,坦吉亚薯条,Tamzia Chips,dex-alias
-1531,加爆珠【１】,SlimePlus Jwl 1,dex-exact
-1532,爆瓶珠【１】,Slimecoat Jwl 1,dex-exact
+0,未使用槽 0,Unused Slot 0,mh3g-id-res-game-array+placeholder
+1,没有道具,No Item,mh3g-id-res-game-array+placeholder
+2,调合书①入门篇,Book of Combos 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+3,调合书②初级篇,Book of Combos 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+4,调合书③中级篇,Book of Combos 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+5,调合书④上级篇,Book of Combos 4,mh3g-id-res-game-array+mh3u-legacy-display-list
+6,调合书⑤达人篇,Book of Combos 5,mh3g-id-res-game-array+mh3u-legacy-display-list
+7,收纳上手・技之书,Organizer Guide,mh3g-id-res-game-array+mh3u-legacy-display-list
+8,收纳上手・力之书,Pack Rat Guide,mh3g-id-res-game-array+mh3u-legacy-display-list
+9,回复药,Potion,mh3g-id-res-game-array+mh3u-legacy-display-list
+10,回复药Ｇ,Mega Potion,mh3g-id-res-game-array+mh3u-legacy-display-list
+11,营养剂,Nutrients,mh3g-id-res-game-array+mh3u-legacy-display-list
+12,营养剂Ｇ,Mega Nutrients,mh3g-id-res-game-array+mh3u-legacy-display-list
+13,解毒药,Antidote,mh3g-id-res-game-array+mh3u-legacy-display-list
+14,活力剂,Immunizer,mh3g-id-res-game-array+mh3u-legacy-display-list
+15,强走药,Dash Juice,mh3g-id-res-game-array+mh3u-legacy-display-list
+16,强走药Ｇ,Mega Dash Juice,mh3g-id-res-game-array+mh3u-legacy-display-list
+17,鬼人药,Demondrug,mh3g-id-res-game-array+mh3u-legacy-display-list
+18,鬼人药Ｇ,Mega Demondrug,mh3g-id-res-game-array+mh3u-legacy-display-list
+19,怪力药丸,Might Pill,mh3g-id-res-game-array+mh3u-legacy-display-list
+20,硬化药,Armorskin,mh3g-id-res-game-array+mh3u-legacy-display-list
+21,硬化药Ｇ,Mega Armorskin,mh3g-id-res-game-array+mh3u-legacy-display-list
+22,忍耐药丸,Adamant Pill,mh3g-id-res-game-array+mh3u-legacy-display-list
+23,冷饮,Cool Drink,mh3g-id-res-game-array+mh3u-legacy-display-list
+24,热饮,Hot Drink,mh3g-id-res-game-array+mh3u-legacy-display-list
+25,消散剂,Cleanser,mh3g-id-res-game-array+mh3u-legacy-display-list
+26,千里眼药,Psychoserum,mh3g-id-res-game-array+mh3u-legacy-display-list
+27,汉方药,Herbal Medicine,mh3g-id-res-game-array+mh3u-legacy-display-list
+28,秘药,Max Potion,mh3g-id-res-game-array+mh3u-legacy-display-list
+29,远古秘药,Ancient Potion,mh3g-id-res-game-array+mh3u-legacy-display-list
+30,增强剂,Catalyst,mh3g-id-res-game-array+mh3u-legacy-display-list
+31,提神饮料,Energy Drink,mh3g-id-res-game-array+mh3u-legacy-display-list
+32,增息药,Air Philter,mh3g-id-res-game-array+mh3u-legacy-display-list
+33,增息药Ｇ,Mega Air Philter,mh3g-id-res-game-array+mh3u-legacy-display-list
+34,爆药,Gunpowder,mh3g-id-res-game-array+mh3u-legacy-display-list
+35,生命之粉,Lifecrystals,mh3g-id-res-game-array+mh3u-legacy-display-list
+36,生命粉尘,Lifepowder,mh3g-id-res-game-array+mh3u-legacy-display-list
+37,谜之护符,Mystery Charm,mh3g-id-res-game-array+mh3u-legacy-display-list
+38,闪光护符,Shining Charm,mh3g-id-res-game-array+mh3u-legacy-display-list
+39,古老护符,Timeworn Charm,mh3g-id-res-game-array+mh3u-legacy-display-list
+40,风化护符,Enduring Charm,mh3g-id-res-game-array+mh3u-legacy-display-list
+41,力之护符,Powercharm,mh3g-id-res-game-array+mh3u-legacy-display-list
+42,力之爪,Powertalon,mh3g-id-res-game-array+mh3u-legacy-display-list
+43,守之护符,Armorcharm,mh3g-id-res-game-array+mh3u-legacy-display-list
+44,守之爪,Armortalon,mh3g-id-res-game-array+mh3u-legacy-display-list
+45,捕获用麻醉药,Tranquilizer,mh3g-id-res-game-array+mh3u-legacy-display-list
+46,生肉,Raw Meat,mh3g-id-res-game-array+mh3u-legacy-display-list
+47,毒生肉,Poisoned Meat,mh3g-id-res-game-array+mh3u-legacy-display-list
+48,麻痹生肉,Tinged Meat,mh3g-id-res-game-array+mh3u-legacy-display-list
+49,睡眠生肉,Durgged Meat,mh3g-id-res-game-array+mh3u-legacy-display-list
+50,没烤熟的肉,Rare Steak,mh3g-id-res-game-array+mh3u-legacy-display-list
+51,烤熟的肉,Well-done Steak,mh3g-id-res-game-array+mh3u-legacy-display-list
+52,焦肉,Burnt Meat,mh3g-id-res-game-array+mh3u-legacy-display-list
+53,热肉,Hot Meat,mh3g-id-res-game-array+mh3u-legacy-display-list
+54,冷肉,Chilled Meat,mh3g-id-res-game-array+mh3u-legacy-display-list
+55,天然粉色肝,Pink Liver,mh3g-id-res-game-array+mh3u-legacy-display-list
+56,异国的角龙肉,Ethnic Wyvrnmeat,mh3g-id-res-game-array+mh3u-legacy-display-list
+57,回旋镖,Boomerang,mh3g-id-res-game-array+mh3u-legacy-display-list
+58,投掷匕首,Throwing Knife,mh3g-id-res-game-array+mh3u-legacy-display-list
+59,毒投掷匕首,Poison Knife,mh3g-id-res-game-array+mh3u-legacy-display-list
+60,催眠投掷匕首,Slee Knife,mh3g-id-res-game-array+mh3u-legacy-display-list
+61,麻痹投掷匕首,Paralysis Knife,mh3g-id-res-game-array+mh3u-legacy-display-list
+62,捕获用麻醉匕首,Tranq Knife,mh3g-id-res-game-array+mh3u-legacy-display-list
+63,素材弹,Bomb Casing,mh3g-id-res-game-array+mh3u-legacy-display-list
+64,染色球,Paintball,mh3g-id-res-game-array+mh3u-legacy-display-list
+65,闪光弹,Flash Bomb,mh3g-id-res-game-array+mh3u-legacy-display-list
+66,音爆弹,Sonic Bomb,mh3g-id-res-game-array+mh3u-legacy-display-list
+67,怪物的粪,Dung,mh3g-id-res-game-array+mh3u-legacy-display-list
+68,特大尺寸的粪便,Super-sized Dung,mh3g-id-res-game-array+mh3u-legacy-display-list
+69,肥沃的泥巴,Fertile Mud,mh3g-id-res-game-array+mh3u-legacy-display-list
+70,肥料弹,Dung Bomb,mh3g-id-res-game-array+mh3u-legacy-display-list
+71,烟雾弹,Smoke Bomb,mh3g-id-res-game-array+mh3u-legacy-display-list
+72,毒烟雾弹,Poison Smoke Bmb,mh3g-id-res-game-array+mh3u-legacy-display-list
+73,返回弹,Farcaster,mh3g-id-res-game-array+mh3u-legacy-display-list
+74,捕获用麻醉弹,Tranq Bomb,mh3g-id-res-game-array+mh3u-legacy-display-list
+75,氧气弹,Oxygen Supply,mh3g-id-res-game-array+mh3u-legacy-display-list
+76,蜘蛛巢,Spider Web,mh3g-id-res-game-array+mh3u-legacy-display-list
+77,网,Net,mh3g-id-res-game-array+mh3u-legacy-display-list
+78,陷阱工具,Trap Tool,mh3g-id-res-game-array+mh3u-legacy-display-list
+79,陷阱,Pitfall Trap,mh3g-id-res-game-array+mh3u-legacy-display-list
+80,麻痹陷阱,Shock Trap,mh3g-id-res-game-array+mh3u-legacy-display-list
+81,小桶,Small Barrel,mh3g-id-res-game-array+mh3u-legacy-display-list
+82,大桶,Large Barrel,mh3g-id-res-game-array+mh3u-legacy-display-list
+83,小桶爆弹,Barrel Bomb S,mh3g-id-res-game-array+mh3u-legacy-display-list
+84,小桶爆弹Ｇ,Barrel Bomb S +,mh3g-id-res-game-array+mh3u-legacy-display-list
+85,大桶爆弹,Barrel Bomb L,mh3g-id-res-game-array+mh3u-legacy-display-list
+86,大桶爆弹Ｇ,Barrel Bomb L +,mh3g-id-res-game-array+mh3u-legacy-display-list
+87,飞空爆弹,Bounce Bomb,mh3g-id-res-game-array+mh3u-legacy-display-list
+88,飞空爆弹Ｇ,Bounce Bomb +,mh3g-id-res-game-array+mh3u-legacy-display-list
+89,木天蓼爆弾,Felvine Bomb,mh3g-id-res-game-array+mh3u-legacy-display-list
+90,空心果,Huskberry,mh3g-id-res-game-array+mh3u-legacy-display-list
+91,空心骨【小】,Bone Husk S,mh3g-id-res-game-array+mh3u-legacy-display-list
+92,空心骨【大】,Bone Husk L,mh3g-id-res-game-array+mh3u-legacy-display-list
+93,LV1 通常弹,Normal S Lv1,mh3g-id-res-game-array+mh3u-legacy-display-list
+94,LV2 通常弹,Normal S Lv2,mh3g-id-res-game-array+mh3u-legacy-display-list
+95,LV3 通常弹,NOrmal S Lv3,mh3g-id-res-game-array+mh3u-legacy-display-list
+96,LV1 贯通弹,Pierce S Lv1,mh3g-id-res-game-array+mh3u-legacy-display-list
+97,LV2 贯通弹,Pierce S Lv2,mh3g-id-res-game-array+mh3u-legacy-display-list
+98,LV3 贯通弹,Pierce S Lv3,mh3g-id-res-game-array+mh3u-legacy-display-list
+99,LV1 散弹,Pellet S Lv1,mh3g-id-res-game-array+mh3u-legacy-display-list
+100,LV2 散弹,Pellet S Lv2,mh3g-id-res-game-array+mh3u-legacy-display-list
+101,LV3 散弹,Pellet S Lv3,mh3g-id-res-game-array+mh3u-legacy-display-list
+102,LV1 穿甲榴弹,Crag S Lv1,mh3g-id-res-game-array+mh3u-legacy-display-list
+103,LV2 穿甲榴弹,Crag S Lv2,mh3g-id-res-game-array+mh3u-legacy-display-list
+104,LV3 穿甲榴弹,Crag S Lv3,mh3g-id-res-game-array+mh3u-legacy-display-list
+105,LV1 扩散弹,Clust S Lv1,mh3g-id-res-game-array+mh3u-legacy-display-list
+106,LV2 扩散弹,Clust S Lv2,mh3g-id-res-game-array+mh3u-legacy-display-list
+107,LV3 扩散弹,Clust S Lv3,mh3g-id-res-game-array+mh3u-legacy-display-list
+108,火炎弹,Flaming S,mh3g-id-res-game-array+mh3u-legacy-display-list
+109,水冷弹,Water S,mh3g-id-res-game-array+mh3u-legacy-display-list
+110,电击弹,Thunder S,mh3g-id-res-game-array+mh3u-legacy-display-list
+111,冰结弹,Freeze S,mh3g-id-res-game-array+mh3u-legacy-display-list
+112,灭龙弹,Draong S,mh3g-id-res-game-array+mh3u-legacy-display-list
+113,LV1 回复弹,Recov S Lv1,mh3g-id-res-game-array+mh3u-legacy-display-list
+114,LV2 回复弹,Recov S Lv2,mh3g-id-res-game-array+mh3u-legacy-display-list
+115,LV1 毒弹,Poison S Lv1,mh3g-id-res-game-array+mh3u-legacy-display-list
+116,LV2 毒弹,Poison S Lv2,mh3g-id-res-game-array+mh3u-legacy-display-list
+117,LV1 麻痹弹,Para S Lv1,mh3g-id-res-game-array+mh3u-legacy-display-list
+118,LV2 麻痹弹,Para S Lv2,mh3g-id-res-game-array+mh3u-legacy-display-list
+119,LV1 睡眠弹,Sleep S Lv1,mh3g-id-res-game-array+mh3u-legacy-display-list
+120,LV2 睡眠弹,Sleep S Lv2,mh3g-id-res-game-array+mh3u-legacy-display-list
+121,捕获用麻醉弹,Tranq S,mh3g-id-res-game-array+mh3u-legacy-display-list
+122,染色弹,Paint S,mh3g-id-res-game-array+mh3u-legacy-display-list
+123,鬼人弹,Demon S,mh3g-id-res-game-array+mh3u-legacy-display-list
+124,DUMMY 124,DUMMY 124,mh3g-id-res-game-array+placeholder
+125,硬化弹,Armor S,mh3g-id-res-game-array+mh3u-legacy-display-list
+126,DUMMY 126,DUMMY 126,mh3g-id-res-game-array+placeholder
+127,LV1 水中弹,Sub S Lv1,mh3g-id-res-game-array+mh3u-legacy-display-list
+128,LV2 水中弹,Sub S Lv2,mh3g-id-res-game-array+mh3u-legacy-display-list
+129,LV1 灭气弹,Exhaust S Lv1,mh3g-id-res-game-array+mh3u-legacy-display-list
+130,LV2 灭气弹,Exhaust S Lv2,mh3g-id-res-game-array+mh3u-legacy-display-list
+131,斩裂弹,Slicing S,mh3g-id-res-game-array+mh3u-legacy-display-list
+132,DUMMY 132,DUMMY 132,mh3g-id-res-game-array+placeholder
+133,DUMMY 133,DUMMY 133,mh3g-id-res-game-array+placeholder
+134,龙击弹,WyvernFire,mh3g-id-res-game-array+mh3u-legacy-display-list
+135,水中用弩弹,UW Ballista Ammo,mh3g-id-res-game-array+mh3u-legacy-display-list
+136,(无瓶),(No Coating),mh3g-id-res-game-array+mh3u-legacy-display-list
+137,空瓶,Empty Phial,mh3g-id-res-game-array+mh3u-legacy-display-list
+138,强击瓶,Power Coating,mh3g-id-res-game-array+mh3u-legacy-display-list
+139,接击瓶,C. Range Coating,mh3g-id-res-game-array+mh3u-legacy-display-list
+140,毒瓶,Poison Coating,mh3g-id-res-game-array+mh3u-legacy-display-list
+141,麻痹瓶,Para Coating,mh3g-id-res-game-array+mh3u-legacy-display-list
+142,睡眠瓶,Sleep Coating,mh3g-id-res-game-array+mh3u-legacy-display-list
+143,灭气瓶,Exhaust Coating,mh3g-id-res-game-array+mh3u-legacy-display-list
+144,染色瓶,Paint Coating,mh3g-id-res-game-array+mh3u-legacy-display-list
+145,DUMMY 145,DUMMY 145,mh3g-id-res-game-array+placeholder
+146,蚯蚓鱼饵,Worm,mh3g-id-res-game-array+mh3u-legacy-display-list
+147,DUMMY 147,DUMMY 147,mh3g-id-res-game-array+placeholder
+148,苍蝇鱼饵,Mega Fishing Fly,mh3g-id-res-game-array+mh3u-legacy-display-list
+149,青蛙鱼饵,Frog,mh3g-id-res-game-array+mh3u-legacy-display-list
+150,切味鱼团子,Whetfish Bait,mh3g-id-res-game-array+mh3u-legacy-display-list
+151,刺身鱼团子,Shushifish Bait,mh3g-id-res-game-array+mh3u-legacy-display-list
+152,金枪鱼团子,Tuna Bait,mh3g-id-res-game-array+mh3u-legacy-display-list
+153,DUMMY 153,DUMMY 153,mh3g-id-res-game-array+placeholder
+154,黄金团子,Goldenfish Bait,mh3g-id-res-game-array+mh3u-legacy-display-list
+155,龙鱼团子,Burst Bait,mh3g-id-res-game-array+mh3u-legacy-display-list
+156,DUMMY 156,DUMMY 156,mh3g-id-res-game-array+placeholder
+157,破铁镐,Old Pickaxe,mh3g-id-res-game-array+mh3u-legacy-display-list
+158,铁镐,Iron Pickaxe,mh3g-id-res-game-array+mh3u-legacy-display-list
+159,铁镐Ｇ,Mega Pickaxe,mh3g-id-res-game-array+mh3u-legacy-display-list
+160,破虫网,Old Bug Net,mh3g-id-res-game-array+mh3u-legacy-display-list
+161,虫网,Bug Net,mh3g-id-res-game-array+mh3u-legacy-display-list
+162,虫网Ｇ,Mega Bug Net,mh3g-id-res-game-array+mh3u-legacy-display-list
+163,捕鱼鱼叉,Fishing Harpoon,mh3g-id-res-game-array+mh3u-legacy-display-list
+164,捕鱼鱼叉Ｇ,Mega Harpoon,mh3g-id-res-game-array+mh3u-legacy-display-list
+165,烤肉架,BBQ Spit,mh3g-id-res-game-array+mh3u-legacy-display-list
+166,连续烤肉架,Double BBQ Spit,mh3g-id-res-game-array+mh3u-legacy-display-list
+167,砥石,Whetstone,mh3g-id-res-game-array+mh3u-legacy-display-list
+168,望远镜,Binoculars,mh3g-id-res-game-array+mh3u-legacy-display-list
+169,不可燃垃圾,Carbage,mh3g-id-res-game-array+mh3u-legacy-display-list
+170,角笛,Field Horn,mh3g-id-res-game-array+mh3u-legacy-display-list
+171,回复笛,Health Horn,mh3g-id-res-game-array+mh3u-legacy-display-list
+172,解毒笛,Antidote Horn,mh3g-id-res-game-array+mh3u-legacy-display-list
+173,鬼人笛,Demon Horn,mh3g-id-res-game-array+mh3u-legacy-display-list
+174,硬化笛,Armor Horn,mh3g-id-res-game-array+mh3u-legacy-display-list
+175,蜂蜜,Honey,mh3g-id-res-game-array+mh3u-legacy-display-list
+176,药草,Herb,mh3g-id-res-game-array+mh3u-legacy-display-list
+177,解毒草,Antidote Herb,mh3g-id-res-game-array+mh3u-legacy-display-list
+178,火药草,Fire Herb,mh3g-id-res-game-array+mh3u-legacy-display-list
+179,DUMMY 179,DUMMY 179,mh3g-id-res-game-array+placeholder
+180,常春藤叶,Ivy,mh3g-id-res-game-array+mh3u-legacy-display-list
+181,睡眠草,Sleep Herb,mh3g-id-res-game-array+mh3u-legacy-display-list
+182,粘着草,Sap Plant,mh3g-id-res-game-array+mh3u-legacy-display-list
+183,木天蓼,Felvine,mh3g-id-res-game-array+mh3u-legacy-display-list
+184,仙人掌的花,Cactus Flower,mh3g-id-res-game-array+mh3u-legacy-display-list
+185,氧气藻,Airweed,mh3g-id-res-game-array+mh3u-legacy-display-list
+186,辣椒,Hot Pepper,mh3g-id-res-game-array+mh3u-legacy-display-list
+187,DUMMY 187,DUMMY 187,mh3g-id-res-game-array+placeholder
+188,蓝蘑菇,Blue Mushroom,mh3g-id-res-game-array+mh3u-legacy-display-list
+189,硝化菇,Nitroshroom,mh3g-id-res-game-array+mh3u-legacy-display-list
+190,麻痹菇,Parashroom,mh3g-id-res-game-array+mh3u-legacy-display-list
+191,毒伞菇,Toadstool,mh3g-id-res-game-array+mh3u-legacy-display-list
+192,心跳蘑菇,Exciteshroom,mh3g-id-res-game-array+mh3u-legacy-display-list
+193,DUMMY 193,DUMMY 193,mh3g-id-res-game-array+placeholder
+194,曼陀罗,Dragon Toadstool,mh3g-id-res-game-array+mh3u-legacy-display-list
+195,大麻痹菇,Bindshroom,mh3g-id-res-game-array+mh3u-legacy-display-list
+196,染色果,Paintberry,mh3g-id-res-game-array+mh3u-legacy-display-list
+197,怪力之种,Might Seed,mh3g-id-res-game-array+mh3u-legacy-display-list
+198,忍耐之种,Adamant Seed,mh3g-id-res-game-array+mh3u-legacy-display-list
+199,杀龙果,Dragonfell Berry,mh3g-id-res-game-array+mh3u-legacy-display-list
+200,爆裂核桃,Scatternut,mh3g-id-res-game-array+mh3u-legacy-display-list
+201,针果,Needleberry,mh3g-id-res-game-array+mh3u-legacy-display-list
+202,DUMMY 202,DUMMY 202,mh3g-id-res-game-array+placeholder
+203,扩散果,Bomberry,mh3g-id-res-game-array+mh3u-legacy-display-list
+204,DUMMY 204,DUMMY 204,mh3g-id-res-game-array+placeholder
+205,DUMMY 205,DUMMY 205,mh3g-id-res-game-array+placeholder
+206,DUMMY 206,DUMMY 206,mh3g-id-res-game-array+placeholder
+207,DUMMY 207,DUMMY 207,mh3g-id-res-game-array+placeholder
+208,抵消果实,Nulberry,mh3g-id-res-game-array+mh3u-legacy-display-list
+209,大南瓜,Bumblepumpkin,mh3g-id-res-game-array+mh3u-legacy-display-list
+210,残缺的贝壳,Broken Shell,mh3g-id-res-game-array+mh3u-legacy-display-list
+211,黑珍珠,Black Pearl,mh3g-id-res-game-array+mh3u-legacy-display-list
+212,巨大珍珠,Jumbo Pearl,mh3g-id-res-game-array+mh3u-legacy-display-list
+213,石子,Stone,mh3g-id-res-game-array+mh3u-legacy-display-list
+214,铁矿石,Iron Ore,mh3g-id-res-game-array+mh3u-legacy-display-list
+215,大地结晶,Earth Crystal,mh3g-id-res-game-array+mh3u-legacy-display-list
+216,燕雀石,Machalite Ore,mh3g-id-res-game-array+mh3u-legacy-display-list
+217,辉龙石,Dragonite Ore,mh3g-id-res-game-array+mh3u-legacy-display-list
+218,彩水晶,Pelagicite Ore,mh3g-id-res-game-array+mh3u-legacy-display-list
+219,DUMMY 219,DUMMY 219,mh3g-id-res-game-array+placeholder
+220,DUMMY 220,DUMMY 220,mh3g-id-res-game-array+placeholder
+221,DUMMY 221,DUMMY 221,mh3g-id-res-game-array+placeholder
+222,灵鹤石,Carbalite Ore,mh3g-id-res-game-array+mh3u-legacy-display-list
+223,绯鸢石,Eltalite Ore,mh3g-id-res-game-array+mh3u-legacy-display-list
+224,白鹭石,Fucium Ore,mh3g-id-res-game-array+mh3u-legacy-display-list
+225,云鸠石,Meldspar Ore,mh3g-id-res-game-array+mh3u-legacy-display-list
+226,渊水晶,Bathycite Ore,mh3g-id-res-game-array+mh3u-legacy-display-list
+227,溶岩块,Lava Nugget,mh3g-id-res-game-array+mh3u-legacy-display-list
+228,红莲石,Firestone,mh3g-id-res-game-array+mh3u-legacy-display-list
+229,狱炎石,Firecell Stone,mh3g-id-res-game-array+mh3u-legacy-display-list
+230,真红莲石,Allfire Stone,mh3g-id-res-game-array+mh3u-legacy-display-list
+231,光水晶,Lightcrystal,mh3g-id-res-game-array+mh3u-legacy-display-list
+232,闪亮金属,Isisium,mh3g-id-res-game-array+mh3u-legacy-display-list
+233,DUMMY 233,DUMMY 233,mh3g-id-res-game-array+placeholder
+234,冰晶金属,Gracium,mh3g-id-res-game-array+mh3u-legacy-display-list
+235,抗菌石,Antiseptic Stone,mh3g-id-res-game-array+mh3u-legacy-display-list
+236,冰结晶,Ice Crystal,mh3g-id-res-game-array+mh3u-legacy-display-list
+237,铠石,Armor Stone,mh3g-id-res-game-array+mh3u-legacy-display-list
+238,铠玉,Armor Sphere,mh3g-id-res-game-array+mh3u-legacy-display-list
+239,上铠玉,Armor Sphere +,mh3g-id-res-game-array+mh3u-legacy-display-list
+240,尖铠玉,Adv Armor Sphere,mh3g-id-res-game-array+mh3u-legacy-display-list
+241,坚铠玉,Hrd Armor Sphere,mh3g-id-res-game-array+mh3u-legacy-display-list
+242,重铠玉,Hvy Armor Sphere,mh3g-id-res-game-array+mh3u-legacy-display-list
+243,DUMMY 243,DUMMY 243,mh3g-id-res-game-array+placeholder
+244,真铠玉,Tru Armor Sphere,mh3g-id-res-game-array+mh3u-legacy-display-list
+245,切味鱼,Whetfish,mh3g-id-res-game-array+mh3u-legacy-display-list
+246,刺身鱼,Sushifish,mh3g-id-res-game-array+mh3u-legacy-display-list
+247,眠鱼,Sleepyfish,mh3g-id-res-game-array+mh3u-legacy-display-list
+248,针金枪鱼,Pin Tuna,mh3g-id-res-game-array+mh3u-legacy-display-list
+249,爆裂沙丁鱼,Popfish,mh3g-id-res-game-array+mh3u-legacy-display-list
+250,扩散凸眼金鱼,Scatterfish,mh3g-id-res-game-array+mh3u-legacy-display-list
+251,破裂龙鱼,Burst Arowana,mh3g-id-res-game-array+mh3u-legacy-display-list
+252,爆裂龙鱼,Bomb Arowana,mh3g-id-res-game-array+mh3u-legacy-display-list
+253,贪吃金枪鱼,Glutton Tuna,mh3g-id-res-game-array+mh3u-legacy-display-list
+254,小金鱼,Small Goldenfish,mh3g-id-res-game-array+mh3u-legacy-display-list
+255,深水沙丁鱼,Wanchovy,mh3g-id-res-game-array+mh3u-legacy-display-list
+256,DUMMY 256,DUMMY 256,mh3g-id-res-game-array+placeholder
+257,太刀鱼,Blue Cutthroat,mh3g-id-res-game-array+mh3u-legacy-display-list
+258,低吟贝,Humspun Conch,mh3g-id-res-game-array+mh3u-legacy-display-list
+259,DUMMY 259,DUMMY 259,mh3g-id-res-game-array+placeholder
+260,虫的死骸,Insect Husk,mh3g-id-res-game-array+mh3u-legacy-display-list
+261,山青虫,Yambug,mh3g-id-res-game-array+mh3u-legacy-display-list
+262,圆蚱蜢,Bughopper,mh3g-id-res-game-array+mh3u-legacy-display-list
+263,DUMMY 263,DUMMY 263,mh3g-id-res-game-array+placeholder
+264,骨蚱蜢,Stinkhopper,mh3g-id-res-game-array+mh3u-legacy-display-list
+265,土蜂的幼虫,Snakebee Larva,mh3g-id-res-game-array+mh3u-legacy-display-list
+266,不死虫,Godbug,mh3g-id-res-game-array+mh3u-legacy-display-list
+267,苦虫,Bitterbug,mh3g-id-res-game-array+mh3u-legacy-display-list
+268,光虫,Flashbug,mh3g-id-res-game-array+mh3u-legacy-display-list
+269,雷光虫,Thunderbug,mh3g-id-res-game-array+mh3u-legacy-display-list
+270,超电雷光虫,Fulgurbug,mh3g-id-res-game-array+mh3u-legacy-display-list
+271,粘着白蚁,Carpenterbug,mh3g-id-res-game-array+mh3u-legacy-display-list
+272,杀人蜂幼虫,Killer Beetle,mh3g-id-res-game-array+mh3u-legacy-display-list
+273,独角甲虫王,Hercudrome,mh3g-id-res-game-array+mh3u-legacy-display-list
+274,DUMMY 274,DUMMY 274,mh3g-id-res-game-array+placeholder
+275,王族金龟子,King Scarab,mh3g-id-res-game-array+mh3u-legacy-display-list
+276,稀有金龟子,Rare Scarab,mh3g-id-res-game-array+mh3u-legacy-display-list
+277,DUMMY 277,DUMMY 277,mh3g-id-res-game-array+placeholder
+278,幻之蝶,Flutterfly,mh3g-id-res-game-array+mh3u-legacy-display-list
+279,DUMMY 279,DUMMY 279,mh3g-id-res-game-array+placeholder
+280,素材袋,Bomb Sac,mh3g-id-res-game-array+mh3u-legacy-display-list
+281,鸣袋,Screamer,mh3g-id-res-game-array+mh3u-legacy-display-list
+282,毒袋,Poison Sac,mh3g-id-res-game-array+mh3u-legacy-display-list
+283,猛毒袋,Toxin Sac,mh3g-id-res-game-array+mh3u-legacy-display-list
+284,DUMMY 284,DUMMY 284,mh3g-id-res-game-array+placeholder
+285,麻痹袋,Paralysis Sac,mh3g-id-res-game-array+mh3u-legacy-display-list
+286,强力麻痹袋,Omniplegia Sac,mh3g-id-res-game-array+mh3u-legacy-display-list
+287,睡眠袋,Sleep Sac,mh3g-id-res-game-array+mh3u-legacy-display-list
+288,昏睡袋,Coma Sec,mh3g-id-res-game-array+mh3u-legacy-display-list
+289,火炎袋,Flame Sac,mh3g-id-res-game-array+mh3u-legacy-display-list
+290,爆炎袋,Inferno Sac,mh3g-id-res-game-array+mh3u-legacy-display-list
+291,业炎袋,Conflagrant Sac,mh3g-id-res-game-array+mh3u-legacy-display-list
+292,水袋,Aqua Sac,mh3g-id-res-game-array+mh3u-legacy-display-list
+293,大水袋,Torrent Sac,mh3g-id-res-game-array+mh3u-legacy-display-list
+294,DUMMY 294,DUMMY 294,mh3g-id-res-game-array+placeholder
+295,电击袋,Thunder Sac,mh3g-id-res-game-array+mh3u-legacy-display-list
+296,雷电袋,Lightning Sac,mh3g-id-res-game-array+mh3u-legacy-display-list
+297,冰结袋,Frost Sac,mh3g-id-res-game-array+mh3u-legacy-display-list
+298,冻结袋,Freezer Sac,mh3g-id-res-game-array+mh3u-legacy-display-list
+299,狂走浸出物,Dash Extract,mh3g-id-res-game-array+mh3u-legacy-display-list
+300,白色浸出物,Pale Extract,mh3g-id-res-game-array+mh3u-legacy-display-list
+301,龙骨【小】,Monster Bone S,mh3g-id-res-game-array+mh3u-legacy-display-list
+302,龙骨【中】,Monster Bone M,mh3g-id-res-game-array+mh3u-legacy-display-list
+303,龙骨【大】,Monster Bone L,mh3g-id-res-game-array+mh3u-legacy-display-list
+304,谜之骨,Mystery Bone,mh3g-id-res-game-array+mh3u-legacy-display-list
+305,谜之头骨,Unknown Skull,mh3g-id-res-game-array+mh3u-legacy-display-list
+306,棒状的骨,Bone,mh3g-id-res-game-array+mh3u-legacy-display-list
+307,坚固的鸟龙骨,Avian Shoutbone,mh3g-id-res-game-array+mh3u-legacy-display-list
+308,DUMMY 308,DUMMY 308,mh3g-id-res-game-array+placeholder
+309,上龙骨,Monster Bone +,mh3g-id-res-game-array+mh3u-legacy-display-list
+310,尖龙骨,Monster Keenbone,mh3g-id-res-game-array+mh3u-legacy-display-list
+311,坚龙骨,Monster hardbone,mh3g-id-res-game-array+mh3u-legacy-display-list
+312,重龙骨,Monster slogbne,mh3g-id-res-game-array+mh3u-legacy-display-list
+313,上质的鸟龙骨,Avian Finebone,mh3g-id-res-game-array+mh3u-legacy-display-list
+314,大骨,Jumbo Bone,mh3g-id-res-game-array+mh3u-legacy-display-list
+315,坚固之骨,Stoutbone,mh3g-id-res-game-array+mh3u-legacy-display-list
+316,远古龙骨,Dragonbone Relic,mh3g-id-res-game-array+mh3u-legacy-display-list
+317,龙牙,Wyvern Fang,mh3g-id-res-game-array+mh3u-legacy-display-list
+318,龙爪,Wyvern Claw,mh3g-id-res-game-array+mh3u-legacy-display-list
+319,龙玉,Wyvern Stone,mh3g-id-res-game-array+mh3u-legacy-display-list
+320,大龙玉,Lrg Wyvern Stone,mh3g-id-res-game-array+mh3u-legacy-display-list
+321,鸟龙玉,Bird Wyvern Gem,mh3g-id-res-game-array+mh3u-legacy-display-list
+322,幻鸟龙玉,Fey Wyvern Gem,mh3g-id-res-game-array+mh3u-legacy-display-list
+323,古龙血,ElderDragonBlood,mh3g-id-res-game-array+mh3u-legacy-display-list
+324,DUMMY 324,DUMMY 324,mh3g-id-res-game-array+placeholder
+325,琉璃色的龙玉,Azure Dragongem,mh3g-id-res-game-array+mh3u-legacy-display-list
+326,琉璃色的龙神玉,Azure Drgnsphire,mh3g-id-res-game-array+mh3u-legacy-display-list
+327,漂亮的鱼鳞,Beautiful Scale,mh3g-id-res-game-array+mh3u-legacy-display-list
+328,闪亮海星,Shining Starfish,mh3g-id-res-game-array+mh3u-legacy-display-list
+329,珍味・甲胄鱼,Armorfish Morsel,mh3g-id-res-game-array+mh3u-legacy-display-list
+330,气派的毛皮,Fine Pelt,mh3g-id-res-game-array+mh3u-legacy-display-list
+331,强力的水蹼,Power Paddle,mh3g-id-res-game-array+mh3u-legacy-display-list
+332,小而弯曲的牙,Curved Fang,mh3g-id-res-game-array+mh3u-legacy-display-list
+333,龙骨的碎片,Dragonbone Piece,mh3g-id-res-game-array+mh3u-legacy-display-list
+334,鲍鱼的碎片,Abalone Piece,mh3g-id-res-game-array+mh3u-legacy-display-list
+335,化石的碎片,Fossil Piece,mh3g-id-res-game-array+mh3u-legacy-display-list
+336,漂亮的尾羽,Stunning Quill,mh3g-id-res-game-array+mh3u-legacy-display-list
+337,土蜂,Saturnian,mh3g-id-res-game-array+mh3u-legacy-display-list
+338,大幻鱼一角,Mystic Narwhal,mh3g-id-res-game-array+mh3u-legacy-display-list
+339,强韧的水蹼,Perfect Paddle,mh3g-id-res-game-array+mh3u-legacy-display-list
+340,月夜的发光牙,Moonlight Fang,mh3g-id-res-game-array+mh3u-legacy-display-list
+341,闪光的龙鳞,Glittering Scale,mh3g-id-res-game-array+mh3u-legacy-display-list
+342,巨大的头骨,Giant Skull,mh3g-id-res-game-array+mh3u-legacy-display-list
+343,龙宫蟹,Atlantis Crab,mh3g-id-res-game-array+mh3u-legacy-display-list
+344,女王刺针,Queen Needle,mh3g-id-res-game-array+mh3u-legacy-display-list
+345,太古的油,Ancient Skin Oil,mh3g-id-res-game-array+mh3u-legacy-display-list
+346,华丽的尾羽,Flamboyant Quill,mh3g-id-res-game-array+mh3u-legacy-display-list
+347,老年土蜂,Eldest Saturnian,mh3g-id-res-game-array+mh3u-legacy-display-list
+348,女王的灵药,Queen's Spirit,mh3g-id-res-game-array+mh3u-legacy-display-list
+349,真红的大龙鳞,Vermilion Scale,mh3g-id-res-game-array+mh3u-legacy-display-list
+350,海王的大龙鳞,Sea-King's Scale,mh3g-id-res-game-array+mh3u-legacy-display-list
+351,奇妙的蛋,Odd Egg,mh3g-id-res-game-array+mh3u-legacy-display-list
+352,土蜂陷阱,Saturnian Trap,mh3g-id-res-game-array+mh3u-legacy-display-list
+353,药用养虫剂,BugMaker! Pro,mh3g-id-res-game-array+mh3u-legacy-display-list
+354,强烈的费洛蒙,Funky Pheromones,mh3g-id-res-game-array+mh3u-legacy-display-list
+355,蘑菇培菌,Shroom Germ,mh3g-id-res-game-array+mh3u-legacy-display-list
+356,蘑菇倍倍菌,Shroom Germ +,mh3g-id-res-game-array+mh3u-legacy-display-list
+357,嗞嗞蜜蜂,Bizzy Bees,mh3g-id-res-game-array+mh3u-legacy-display-list
+358,渔饵,Fish Finder,mh3g-id-res-game-array+mh3u-legacy-display-list
+359,财宝的海图,Treasure Tracker,mh3g-id-res-game-array+mh3u-legacy-display-list
+360,预备的大枪,Spare Spear,mh3g-id-res-game-array+mh3u-legacy-display-list
+361,小金牙,Pittance Fang,mh3g-id-res-game-array+mh3u-legacy-display-list
+362,大金牙,Fortune Fang,mh3g-id-res-game-array+mh3u-legacy-display-list
+363,金针,Gold Needle,mh3g-id-res-game-array+mh3u-legacy-display-list
+364,金龙石,Wyverngold,mh3g-id-res-game-array+mh3u-legacy-display-list
+365,海贼的财宝,Pirate Booty,mh3g-id-res-game-array+mh3u-legacy-display-list
+366,钢蛋,Steel Egg,mh3g-id-res-game-array+mh3u-legacy-display-list
+367,银蛋,Silver Egg,mh3g-id-res-game-array+mh3u-legacy-display-list
+368,金蛋,Golden Egg,mh3g-id-res-game-array+mh3u-legacy-display-list
+369,羚鹿的角饰,Kelbi Horn Objet,mh3g-id-res-game-array+mh3u-legacy-display-list
+370,扭曲的角饰,Twstd Horn Objet,mh3g-id-res-game-array+mh3u-legacy-display-list
+371,峯山的龙牙饰,MohranFang Objet,mh3g-id-res-game-array+mh3u-legacy-display-list
+372,小猪,Poogie,mh3g-id-res-game-array+mh3u-legacy-display-list
+373,鸡蛋小猪,Eggie Poogie,mh3g-id-res-game-array+mh3u-legacy-display-list
+374,火龙小猪,Rath Poogie,mh3g-id-res-game-array+mh3u-legacy-display-list
+375,砂岩的花盆,Sandstone Plant,mh3g-id-res-game-array+mh3u-legacy-display-list
+376,湿地的花盆,Marshland Plant,mh3g-id-res-game-array+mh3u-legacy-display-list
+377,雪结晶的花盆,Snowflake Plant,mh3g-id-res-game-array+mh3u-legacy-display-list
+378,彩虹蘑菇灯,Primshroom Lamp,mh3g-id-res-game-array+mh3u-legacy-display-list
+379,极彩彩鸟灯,Qurupeco Lamp,mh3g-id-res-game-array+mh3u-legacy-display-list
+380,魅惑的深海灯,Sirensea Lamp,mh3g-id-res-game-array+mh3u-legacy-display-list
+381,苍海的喷水像,Oceanic Fountain,mh3g-id-res-game-array+mh3u-legacy-display-list
+382,泡沫的喷水像,Bubbly Fountain,mh3g-id-res-game-array+mh3u-legacy-display-list
+383,岩浆的喷水像,Magma Fountain,mh3g-id-res-game-array+mh3u-legacy-display-list
+384,铁矿石雕,Iron Figure,mh3g-id-res-game-array+mh3u-legacy-display-list
+385,燕雀石雕,Machalite Figure,mh3g-id-res-game-array+mh3u-legacy-display-list
+386,辉龙石雕,Dragonite Figure,mh3g-id-res-game-array+mh3u-legacy-display-list
+387,模型・砂上船,Model Sandskiff,mh3g-id-res-game-array+mh3u-legacy-display-list
+388,模型・飞行船,Model Airship,mh3g-id-res-game-array+mh3u-legacy-display-list
+389,模型・小猪船,Model Poogieship,mh3g-id-res-game-array+mh3u-legacy-display-list
+390,公会人偶【红】,Guildie (Red),mh3g-id-res-game-array+mh3u-legacy-display-list
+391,公会人偶【绿】,Guildie (Green),mh3g-id-res-game-array+mh3u-legacy-display-list
+392,公会人偶【蓝】,Guildie (Blue),mh3g-id-res-game-array+mh3u-legacy-display-list
+393,伟大猪猪,Great Poogi,mh3g-id-res-game-array+mh3u-legacy-display-list
+394,有洞的王冠,Incomplete Crown,mh3g-id-res-game-array+mh3u-legacy-display-list
+395,王冠上的辉石,Crown's Gemstone,mh3g-id-res-game-array+mh3u-legacy-display-list
+396,光辉的王冠,Dazzling Crown,mh3g-id-res-game-array+mh3u-legacy-display-list
+397,黄金的宝剑,Prize Gold Sword,mh3g-id-res-game-array+mh3u-legacy-display-list
+398,黄金的大硬币,Golden Medallion,mh3g-id-res-game-array+mh3u-legacy-display-list
+399,羚鹿的角,Kelbi Horn,mh3g-id-res-game-array+mh3u-legacy-display-list
+400,羚鹿的苍角,Blue Kelbi Horn,mh3g-id-res-game-array+mh3u-legacy-display-list
+401,暖毛皮,Warm Pelt,mh3g-id-res-game-array+mh3u-legacy-display-list
+402,上质的毛皮,High-qualty Pelt,mh3g-id-res-game-array+mh3u-legacy-display-list
+403,丸鸟的羽,Gargwa Feather,mh3g-id-res-game-array+mh3u-legacy-display-list
+404,DUMMY 404,DUMMY 404,mh3g-id-res-game-array+placeholder
+405,DUMMY 405,DUMMY 405,mh3g-id-res-game-array+placeholder
+406,长毛鹿的角,Anteka Antler,mh3g-id-res-game-array+mh3u-legacy-display-list
+407,DUMMY 407,DUMMY 407,mh3g-id-res-game-array+placeholder
+408,飞甲虫的甲壳,Bnahabra Shell,mh3g-id-res-game-array+mh3u-legacy-display-list
+409,DUMMY 409,DUMMY 409,mh3g-id-res-game-array+placeholder
+410,飞甲虫的坚壳,Bnaha Carapace,mh3g-id-res-game-array+mh3u-legacy-display-list
+411,飞甲虫之羽,Bnahabra Wing,mh3g-id-res-game-array+mh3u-legacy-display-list
+412,DUMMY 412,DUMMY 412,mh3g-id-res-game-array+placeholder
+413,飞甲虫的斩羽,Bnahabra Cutwing,mh3g-id-res-game-array+mh3u-legacy-display-list
+414,飞甲虫的麻痹针,Bnahabra Spine,mh3g-id-res-game-array+mh3u-legacy-display-list
+415,甲虫的大颚,Altaroth Jaw,mh3g-id-res-game-array+mh3u-legacy-display-list
+416,DUMMY 416,DUMMY 416,mh3g-id-res-game-array+placeholder
+417,甲虫的腹袋,Altaroth Stomach,mh3g-id-res-game-array+mh3u-legacy-display-list
+418,极上的腹袋,Prized Stomach,mh3g-id-res-game-array+mh3u-legacy-display-list
+419,上质的腹袋,Quality Sac,mh3g-id-res-game-array+mh3u-legacy-display-list
+420,野猪的毛皮,Bullfango Pelt,mh3g-id-res-game-array+mh3u-legacy-display-list
+421,DUMMY 421,DUMMY 421,mh3g-id-res-game-array+placeholder
+422,野猪的头,Bullfango Head,mh3g-id-res-game-array+mh3u-legacy-display-list
+423,怪物体液,Monster Fluid,mh3g-id-res-game-array+mh3u-legacy-display-list
+424,怪物浓汁,Monster Broth,mh3g-id-res-game-array+mh3u-legacy-display-list
+425,草食龙的甲壳,Rhenoplos Shell,mh3g-id-res-game-array+mh3u-legacy-display-list
+426,草食龙的重骨,Rhenoplos Bone,mh3g-id-res-game-array+mh3u-legacy-display-list
+427,草食龙的头壳,Rhenoplos Scalp,mh3g-id-res-game-array+mh3u-legacy-display-list
+428,DUMMY 428,DUMMY 428,mh3g-id-res-game-array+placeholder
+429,草食龙的坚壳,Rheno Carapace,mh3g-id-res-game-array+mh3u-legacy-display-list
+430,DUMMY 430,DUMMY 430,mh3g-id-res-game-array+placeholder
+431,垂皮龙的上皮,Slagtoth Hide+,mh3g-id-res-game-array+mh3u-legacy-display-list
+432,DUMMY 432,DUMMY 432,mh3g-id-res-game-array+placeholder
+433,大鳍,Big Fin,mh3g-id-res-game-array+mh3u-legacy-display-list
+434,DUMMY 434,DUMMY 434,mh3g-id-res-game-array+placeholder
+435,上质的鳍,Quality Fin,mh3g-id-res-game-array+mh3u-legacy-display-list
+436,巨大的鳍,Giant Fin,mh3g-id-res-game-array+mh3u-legacy-display-list
+437,尖牙,Sharpened Fang,mh3g-id-res-game-array+mh3u-legacy-display-list
+438,光滑的皮,Velvety Hide,mh3g-id-res-game-array+mh3u-legacy-display-list
+439,古代鲨鱼皮,Sharqskin,mh3g-id-res-game-array+mh3u-legacy-display-list
+440,小狗龙的鳞,Jaggi Scale,mh3g-id-res-game-array+mh3u-legacy-display-list
+441,小狗龙的上鳞,Jaggi Scale +,mh3g-id-res-game-array+mh3u-legacy-display-list
+442,DUMMY 442,DUMMY 442,mh3g-id-res-game-array+placeholder
+443,小狗龙的皮,Jaggi Hide,mh3g-id-res-game-array+mh3u-legacy-display-list
+444,DUMMY 444,DUMMY 444,mh3g-id-res-game-array+placeholder
+445,DUMMY 445,DUMMY 445,mh3g-id-res-game-array+placeholder
+446,鸟龙种的牙,Bird Wyvern Fang,mh3g-id-res-game-array+mh3u-legacy-display-list
+447,狗龙的皮,G. Jaggi Hide,mh3g-id-res-game-array+mh3u-legacy-display-list
+448,狗龙的上皮,G. Jaggi Hide +,mh3g-id-res-game-array+mh3u-legacy-display-list
+449,狗龙的厚皮,Great Jaggi Piel,mh3g-id-res-game-array+mh3u-legacy-display-list
+450,狗龙的爪,G. Jaggi Claw,mh3g-id-res-game-array+mh3u-legacy-display-list
+451,狗龙的尖爪,G. Jaggi Claw +,mh3g-id-res-game-array+mh3u-legacy-display-list
+452,DUMMY 452,DUMMY 452,mh3g-id-res-game-array+placeholder
+453,王者的褶边,King's Frill,mh3g-id-res-game-array+mh3u-legacy-display-list
+454,伟大的褶边,Imperial Frill,mh3g-id-res-game-array+mh3u-legacy-display-list
+455,狗龙的头,Great Jaggi Head,mh3g-id-res-game-array+mh3u-legacy-display-list
+456,DUMMY 456,DUMMY 456,mh3g-id-res-game-array+placeholder
+457,小眠狗龙的皮,Baggi Hide,mh3g-id-res-game-array+mh3u-legacy-display-list
+458,小眠狗龙的鳞,Baggi Scale,mh3g-id-res-game-array+mh3u-legacy-display-list
+459,小眠狗龙的上鳞,Baggi Scale +,mh3g-id-res-game-array+mh3u-legacy-display-list
+460,DUMMY 460,DUMMY 460,mh3g-id-res-game-array+placeholder
+461,眠狗龙的皮,G. Baggi Hide,mh3g-id-res-game-array+mh3u-legacy-display-list
+462,眠狗龙的上皮,G. Baggi Hide +,mh3g-id-res-game-array+mh3u-legacy-display-list
+463,眠狗龙的厚皮,Great Baggi Piel,mh3g-id-res-game-array+mh3u-legacy-display-list
+464,眠狗龙的爪,G. Baggi Claw,mh3g-id-res-game-array+mh3u-legacy-display-list
+465,眠狗龙的尖爪,G. Baggi Claw +,mh3g-id-res-game-array+mh3u-legacy-display-list
+466,DUMMY 466,DUMMY 466,mh3g-id-res-game-array+placeholder
+467,王者的头冠,King's Crest,mh3g-id-res-game-array+mh3u-legacy-display-list
+468,伟大的头冠,Imperial Crest,mh3g-id-res-game-array+mh3u-legacy-display-list
+469,小毒狗龙的鳞,Wroggi Scale,mh3g-id-res-game-array+mh3u-legacy-display-list
+470,小毒狗龙的上鳞,Wroggi Scale +,mh3g-id-res-game-array+mh3u-legacy-display-list
+471,DUMMY 471,DUMMY 471,mh3g-id-res-game-array+placeholder
+472,小毒狗龙的皮,Wroggi Hide,mh3g-id-res-game-array+mh3u-legacy-display-list
+473,小毒狗龙的毒牙,Wroggi Fang,mh3g-id-res-game-array+mh3u-legacy-display-list
+474,毒狗龙的皮,G. Wroggi Hide,mh3g-id-res-game-array+mh3u-legacy-display-list
+475,毒狗龙的厚皮,G. Wroggi Piel,mh3g-id-res-game-array+mh3u-legacy-display-list
+476,毒狗龙的上皮,G. Wroggi Hide +,mh3g-id-res-game-array+mh3u-legacy-display-list
+477,毒狗龙的腕甲,G. Wroggi Brace,mh3g-id-res-game-array+mh3u-legacy-display-list
+478,DUMMY 478,DUMMY 478,mh3g-id-res-game-array+placeholder
+479,毒狗龙的坚腕甲,G. Wroggi Brace +,mh3g-id-res-game-array+mh3u-legacy-display-list
+480,王者的喙,King's Beak,mh3g-id-res-game-array+mh3u-legacy-display-list
+481,伟大的喙,Imperial Beak,mh3g-id-res-game-array+mh3u-legacy-display-list
+482,彩鸟的鳞,Qurupeco Scale,mh3g-id-res-game-array+mh3u-legacy-display-list
+483,彩鸟的上鳞,Qurupeco Scale +,mh3g-id-res-game-array+mh3u-legacy-display-list
+484,彩鸟的厚鳞,Qurupeco Shard,mh3g-id-res-game-array+mh3u-legacy-display-list
+485,彩鸟的羽毛,Qurupeco Feather,mh3g-id-res-game-array+mh3u-legacy-display-list
+486,极彩色的艳丽羽毛,Lustrous Feather,mh3g-id-res-game-array+mh3u-legacy-display-list
+487,彩鸟的翼,Qurupeco Wing,mh3g-id-res-game-array+mh3u-legacy-display-list
+488,彩鸟的刚翼,Peco Fellwing,mh3g-id-res-game-array+mh3u-legacy-display-list
+489,物品 Vivid Fellwing,Vivid Fellwing,mh3g-id-res-game-array+mh3u-legacy-display-list
+490,奇怪的喙,Strange Beak,mh3g-id-res-game-array+mh3u-legacy-display-list
+491,极好的喙,Wonderful Beak,mh3g-id-res-game-array+mh3u-legacy-display-list
+492,魅惑的喙,Alluring Beak,mh3g-id-res-game-array+mh3u-legacy-display-list
+493,火打石,Flintstone,mh3g-id-res-game-array+mh3u-legacy-display-list
+494,高级火打石,Quality Flint,mh3g-id-res-game-array+mh3u-legacy-display-list
+495,红彩鸟的上鳞,C. Peco Scale +,mh3g-id-res-game-array+mh3u-legacy-display-list
+496,红彩鸟的厚鳞,C. Peco Shard,mh3g-id-res-game-array+mh3u-legacy-display-list
+497,红彩鸟的翼,C. Peco Wing,mh3g-id-res-game-array+mh3u-legacy-display-list
+498,红彩鸟的刚翼,C. Peco Fellwing,mh3g-id-res-game-array+mh3u-legacy-display-list
+499,电气石,Voltstone,mh3g-id-res-game-array+mh3u-legacy-display-list
+500,高压电气石,High Voltstone,mh3g-id-res-game-array+mh3u-legacy-display-list
+501,水生兽的皮,Hydro Hide,mh3g-id-res-game-array+mh3u-legacy-display-list
+502,水生兽的上皮,Hydro Hide +,mh3g-id-res-game-array+mh3u-legacy-display-list
+503,DUMMY 503,DUMMY 503,mh3g-id-res-game-array+placeholder
+504,不成熟海绵质,Immature Sponge,mh3g-id-res-game-array+mh3u-legacy-display-list
+505,优质的海绵质,Quality Sponge,mh3g-id-res-game-array+mh3u-legacy-display-list
+506,海绵质的皮,Spongy Hide,mh3g-id-res-game-array+mh3u-legacy-display-list
+507,海绵质的上皮,Spongy Hide +,mh3g-id-res-game-array+mh3u-legacy-display-list
+508,海绵质的厚皮,Spongy Piel,mh3g-id-res-game-array+mh3u-legacy-display-list
+509,水兽的鳞,R. Ludroth Scale,mh3g-id-res-game-array+mh3u-legacy-display-list
+510,水兽的上鳞,R. Ludroth Scale +,mh3g-id-res-game-array+mh3u-legacy-display-list
+511,水兽的厚鳞,R. Ludroth Shard,mh3g-id-res-game-array+mh3u-legacy-display-list
+512,水兽的爪,R. Ludroth Claw,mh3g-id-res-game-array+mh3u-legacy-display-list
+513,水兽的锐爪,R. Ludroth Claw +,mh3g-id-res-game-array+mh3u-legacy-display-list
+514,水兽的刚爪,R. Ludroth Talon,mh3g-id-res-game-array+mh3u-legacy-display-list
+515,水兽的冠,R. Ludroth Crest,mh3g-id-res-game-array+mh3u-legacy-display-list
+516,高级头冠,R. Ludroth Crest +,mh3g-id-res-game-array+mh3u-legacy-display-list
+517,别致的头冠,Chic Crest,mh3g-id-res-game-array+mh3u-legacy-display-list
+518,水兽的尾巴,R. Ludroth Tail,mh3g-id-res-game-array+mh3u-legacy-display-list
+519,海绵质的紫皮,Plum Spongy Hide,mh3g-id-res-game-array+mh3u-legacy-display-list
+520,海绵质的紫厚皮,Plum Spongy Piel,mh3g-id-res-game-array+mh3u-legacy-display-list
+521,紫水兽的上鳞,P. Ludroth Scale +,mh3g-id-res-game-array+mh3u-legacy-display-list
+522,紫水兽的厚鳞,P. Ludroth Shard,mh3g-id-res-game-array+mh3u-legacy-display-list
+523,紫水兽的锐爪,P. Ludroth Claw +,mh3g-id-res-game-array+mh3u-legacy-display-list
+524,紫水兽的刚爪,P. Ludroth Talon,mh3g-id-res-game-array+mh3u-legacy-display-list
+525,土砂龙的甲壳,Barroth Shell,mh3g-id-res-game-array+mh3u-legacy-display-list
+526,土砂龙的坚壳,Barroth Carapace,mh3g-id-res-game-array+mh3u-legacy-display-list
+527,土砂龙的重壳,Barroth Cortex,mh3g-id-res-game-array+mh3u-legacy-display-list
+528,土砂龙的背甲,Barroth Ridge,mh3g-id-res-game-array+mh3u-legacy-display-list
+529,土砂龙的坚甲,Barroth Ridge +,mh3g-id-res-game-array+mh3u-legacy-display-list
+530,土砂龙的重甲,Barroth Chine,mh3g-id-res-game-array+mh3u-legacy-display-list
+531,土砂龙的爪,Barroth Claw,mh3g-id-res-game-array+mh3u-legacy-display-list
+532,土砂龙的锐爪,Barroth Claw +,mh3g-id-res-game-array+mh3u-legacy-display-list
+533,土砂龙的刚爪,Barroth Talon,mh3g-id-res-game-array+mh3u-legacy-display-list
+534,土砂龙的头壳,Barroth Scalp,mh3g-id-res-game-array+mh3u-legacy-display-list
+535,土砂龙的重头壳,Barroth Crown,mh3g-id-res-game-array+mh3u-legacy-display-list
+536,土砂龙的尾巴,Barroth Tail,mh3g-id-res-game-array+mh3u-legacy-display-list
+537,冰碎龙的坚壳,J. Barr Carapace,mh3g-id-res-game-array+mh3u-legacy-display-list
+538,冰碎龙的重壳,J. Barroth Cortex,mh3g-id-res-game-array+mh3u-legacy-display-list
+539,冰碎龙的坚甲,J. Barroth Ridge +,mh3g-id-res-game-array+mh3u-legacy-display-list
+540,冰碎龙的重甲,J. Barroth Chine,mh3g-id-res-game-array+mh3u-legacy-display-list
+541,冰碎龙的锐爪,J. Barroth Claw +,mh3g-id-res-game-array+mh3u-legacy-display-list
+542,冰碎龙的刚爪,J. Barroth Talon,mh3g-id-res-game-array+mh3u-legacy-display-list
+543,冰碎龙鳞,J. Barroth Scale,mh3g-id-res-game-array+mh3u-legacy-display-list
+544,冰碎龙的重头壳,J. Barroth Crown,mh3g-id-res-game-array+mh3u-legacy-display-list
+545,冰碎龙的尾巴,J. Barroth Tail,mh3g-id-res-game-array+mh3u-legacy-display-list
+546,冰碎龙的韧尾,J. Barroth Lash,mh3g-id-res-game-array+mh3u-legacy-display-list
+547,冻结的粘液块,Frozen Glob,mh3g-id-res-game-array+mh3u-legacy-display-list
+548,DUMMY 548,DUMMY 548,mh3g-id-res-game-array+placeholder
+549,灯鱼龙的皮,Gobul Hide,mh3g-id-res-game-array+mh3u-legacy-display-list
+550,灯鱼龙的上皮,Gobul Hide +,mh3g-id-res-game-array+mh3u-legacy-display-list
+551,灯鱼龙的厚皮,Gobul Piel,mh3g-id-res-game-array+mh3u-legacy-display-list
+552,灯鱼龙的鳍,Gobul Fin,mh3g-id-res-game-array+mh3u-legacy-display-list
+553,灯鱼龙的上鳍,Gobul Fin +,mh3g-id-res-game-array+mh3u-legacy-display-list
+554,灯鱼龙的特上鳍,Fine Gobul Fin,mh3g-id-res-game-array+mh3u-legacy-display-list
+555,灯鱼龙的棘,Gobul Spike,mh3g-id-res-game-array+mh3u-legacy-display-list
+556,灯鱼龙的上棘,Gobul Spike +,mh3g-id-res-game-array+mh3u-legacy-display-list
+557,灯鱼龙的秘棘,Gobul Surspike,mh3g-id-res-game-array+mh3u-legacy-display-list
+558,灯鱼龙的髭须,Gobul Whisker,mh3g-id-res-game-array+mh3u-legacy-display-list
+559,灯鱼龙的大王髭须,Gobul Kingwhiskr,mh3g-id-res-game-array+mh3u-legacy-display-list
+560,提灯球,Gobul Lantern,mh3g-id-res-game-array+mh3u-legacy-display-list
+561,高级提灯球,Gobul Lantern +,mh3g-id-res-game-array+mh3u-legacy-display-list
+562,最高级提灯球,Gobul Beacon,mh3g-id-res-game-array+mh3u-legacy-display-list
+563,雌火龙的鳞,Rathian Scale,mh3g-id-res-game-array+mh3u-legacy-display-list
+564,雌火龙的上鳞,Rathian Scale +,mh3g-id-res-game-array+mh3u-legacy-display-list
+565,雌火龙的厚鳞,Rathian Shard,mh3g-id-res-game-array+mh3u-legacy-display-list
+566,雌火龙的甲壳,Rathian Shell,mh3g-id-res-game-array+mh3u-legacy-display-list
+567,雌火龙的坚壳,Rathian Carapace,mh3g-id-res-game-array+mh3u-legacy-display-list
+568,雌火龙的重壳,Rathian Cortex,mh3g-id-res-game-array+mh3u-legacy-display-list
+569,雌火龙的翼膜,Rathian Webbing,mh3g-id-res-game-array+mh3u-legacy-display-list
+570,雌火龙的棘,Rathian Spike,mh3g-id-res-game-array+mh3u-legacy-display-list
+571,雌火龙的上棘,Rathian Spike +,mh3g-id-res-game-array+mh3u-legacy-display-list
+572,雌火龙的秘棘,Rathian Surspike,mh3g-id-res-game-array+mh3u-legacy-display-list
+573,雌火龙的逆鳞,Rathian Plate,mh3g-id-res-game-array+mh3u-legacy-display-list
+574,雌火龙的天鳞,Rathian Mantle,mh3g-id-res-game-array+mh3u-legacy-display-list
+575,雌火龙的红玉,Rathian Ruby,mh3g-id-res-game-array+mh3u-legacy-display-list
+576,DUMMY 576,DUMMY 576,mh3g-id-res-game-array+placeholder
+577,樱火龙的上鳞,P. Rathian Scale +,mh3g-id-res-game-array+mh3u-legacy-display-list
+578,樱火龙的厚鳞,P. Rathian Shard,mh3g-id-res-game-array+mh3u-legacy-display-list
+579,樱火龙的坚壳,P. Rath Carapace,mh3g-id-res-game-array+mh3u-legacy-display-list
+580,樱火龙的重壳,P. Rathian Cortex,mh3g-id-res-game-array+mh3u-legacy-display-list
+581,金火龙的厚鳞,G. Rathian Shard,mh3g-id-res-game-array+mh3u-legacy-display-list
+582,金火龙的重壳,G. Rathian Cortex,mh3g-id-res-game-array+mh3u-legacy-display-list
+583,金火龙的秘棘,G. Rath Surspike,mh3g-id-res-game-array+mh3u-legacy-display-list
+584,火龙的鳞,Rathalos Scale,mh3g-id-res-game-array+mh3u-legacy-display-list
+585,火龙的上鳞,Rathalos Scale +,mh3g-id-res-game-array+mh3u-legacy-display-list
+586,火龙的厚鳞,Rathalos Shard,mh3g-id-res-game-array+mh3u-legacy-display-list
+587,火龙的甲壳,Rathalos Shell,mh3g-id-res-game-array+mh3u-legacy-display-list
+588,火龙的坚壳,Rathalos Carapace,mh3g-id-res-game-array+mh3u-legacy-display-list
+589,火龙的重壳,Rathalos Cortex,mh3g-id-res-game-array+mh3u-legacy-display-list
+590,火龙的翼膜,Rathalos Webbing,mh3g-id-res-game-array+mh3u-legacy-display-list
+591,火龙的刚翼,Rathalos Fellwing,mh3g-id-res-game-array+mh3u-legacy-display-list
+592,火龙的尾巴,Rathalos Tail,mh3g-id-res-game-array+mh3u-legacy-display-list
+593,火龙的韧尾,Rathalos Lash,mh3g-id-res-game-array+mh3u-legacy-display-list
+594,火龙的逆鳞,Rathalos Plate,mh3g-id-res-game-array+mh3u-legacy-display-list
+595,火龙的天鳞,Rathalos Mantle,mh3g-id-res-game-array+mh3u-legacy-display-list
+596,火龙的红玉,Rathalos Ruby,mh3g-id-res-game-array+mh3u-legacy-display-list
+597,火龙的翼爪,Rath Talon,mh3g-id-res-game-array+mh3u-legacy-display-list
+598,火龙的刚翼爪,Rath Ripper,mh3g-id-res-game-array+mh3u-legacy-display-list
+599,火龙的骨髓,Rath Marrow,mh3g-id-res-game-array+mh3u-legacy-display-list
+600,火龙的延髓,Rath Medulla,mh3g-id-res-game-array+mh3u-legacy-display-list
+601,火龙的煌液,Rath Gleem,mh3g-id-res-game-array+mh3u-legacy-display-list
+602,苍火龙的上鳞,A. Rath Scale +,mh3g-id-res-game-array+mh3u-legacy-display-list
+603,苍火龙的厚鳞,A. Rathalos Shard,mh3g-id-res-game-array+mh3u-legacy-display-list
+604,苍火龙的坚壳,A. Rath Carapace,mh3g-id-res-game-array+mh3u-legacy-display-list
+605,苍火龙的重壳,A. Rath Cortex,mh3g-id-res-game-array+mh3u-legacy-display-list
+606,苍火龙的尾巴,A. Rathalos Tail,mh3g-id-res-game-array+mh3u-legacy-display-list
+607,苍火龙的韧尾,A. Rathalos Lash,mh3g-id-res-game-array+mh3u-legacy-display-list
+608,苍火龙的翼,A. Rathalos Wing,mh3g-id-res-game-array+mh3u-legacy-display-list
+609,银火龙的厚鳞,S. Rathalos Shard,mh3g-id-res-game-array+mh3u-legacy-display-list
+610,银火龙的重壳,S. Rath Cortex,mh3g-id-res-game-array+mh3u-legacy-display-list
+611,银火龙的韧尾,S. Rathalos Lash,mh3g-id-res-game-array+mh3u-legacy-display-list
+612,DUMMY 612,DUMMY 612,mh3g-id-res-game-array+placeholder
+613,DUMMY 613,DUMMY 613,mh3g-id-res-game-array+placeholder
+614,DUMMY 614,DUMMY 614,mh3g-id-res-game-array+placeholder
+615,毒怪龙的皮,Gigginox Hide,mh3g-id-res-game-array+mh3u-legacy-display-list
+616,毒怪龙的上皮,Gigginox Hide +,mh3g-id-res-game-array+mh3u-legacy-display-list
+617,毒怪龙的厚皮,Gigginox Piel,mh3g-id-res-game-array+mh3u-legacy-display-list
+618,可怕的皮,Uncanny Hide,mh3g-id-res-game-array+mh3u-legacy-display-list
+619,可怕的上皮,Uncanny Hide +,mh3g-id-res-game-array+mh3u-legacy-display-list
+620,毒怪龙的爪,Gigginox Claw,mh3g-id-res-game-array+mh3u-legacy-display-list
+621,毒怪龙的锐爪,Gigginox Claw +,mh3g-id-res-game-array+mh3u-legacy-display-list
+622,毒怪龙的刚爪,Gigginox Talon,mh3g-id-res-game-array+mh3u-legacy-display-list
+623,DUMMY 623,DUMMY 623,mh3g-id-res-game-array+placeholder
+624,DUMMY 624,DUMMY 624,mh3g-id-res-game-array+placeholder
+625,恐怖的嘴,Fearsome Maw,mh3g-id-res-game-array+mh3u-legacy-display-list
+626,可怕的毒腺,Venom Gland,mh3g-id-res-game-array+mh3u-legacy-display-list
+627,可怕的猛毒腺,Grim Venom Gland,mh3g-id-res-game-array+mh3u-legacy-display-list
+628,恐怖的毒腺,Foul Venom Gland,mh3g-id-res-game-array+mh3u-legacy-display-list
+629,电怪龙的上皮,B. Giggi Hide +,mh3g-id-res-game-array+mh3u-legacy-display-list
+630,电怪龙的厚皮,B. Giggi Piel,mh3g-id-res-game-array+mh3u-legacy-display-list
+631,电怪龙的锐爪,B. Giggi Claw +,mh3g-id-res-game-array+mh3u-legacy-display-list
+632,电怪龙的刚爪,B. Giggi Talon,mh3g-id-res-game-array+mh3u-legacy-display-list
+633,海龙的鳞,Lagiacrus Scale,mh3g-id-res-game-array+mh3u-legacy-display-list
+634,海龙的上鳞,Lagiacrus Scale +,mh3g-id-res-game-array+mh3u-legacy-display-list
+635,海龙的厚鳞,Lagiacrus Shard,mh3g-id-res-game-array+mh3u-legacy-display-list
+636,海龙的背电壳,Shell Shocker,mh3g-id-res-game-array+mh3u-legacy-display-list
+637,海龙的高电壳,Shell Shocker +,mh3g-id-res-game-array+mh3u-legacy-display-list
+638,海龙的雷电壳,Deathly Shocker,mh3g-id-res-game-array+mh3u-legacy-display-list
+639,海龙的皮,Lagiacrus Hide,mh3g-id-res-game-array+mh3u-legacy-display-list
+640,海龙的上皮,Lagiacrus Hide +,mh3g-id-res-game-array+mh3u-legacy-display-list
+641,海龙的爪,Lagiacrus Claw,mh3g-id-res-game-array+mh3u-legacy-display-list
+642,海龙的锐爪,Lagiacrus Claw +,mh3g-id-res-game-array+mh3u-legacy-display-list
+643,海龙的刚爪,Lagiacrus Talon,mh3g-id-res-game-array+mh3u-legacy-display-list
+644,海龙的刚爪,Lagiacrus Talon,mh3g-id-res-game-array+mh3u-legacy-display-list
+645,海龙的刚尾,Lagiacrus Flail,mh3g-id-res-game-array+mh3u-legacy-display-list
+646,海龙的角,Lagiacrus Horn,mh3g-id-res-game-array+mh3u-legacy-display-list
+647,海龙的尖角,Lagiacrus Horn +,mh3g-id-res-game-array+mh3u-legacy-display-list
+648,海龙的苍玉,Lagia Sapphire,mh3g-id-res-game-array+mh3u-legacy-display-list
+649,海龙的苍天鳞,Lagiacrus Mantle,mh3g-id-res-game-array+mh3u-legacy-display-list
+650,海龙的逆鳞,Lagiacrus Plate,mh3g-id-res-game-array+mh3u-legacy-display-list
+651,白海龙的上鳞,I. Lagi Scale +,mh3g-id-res-game-array+mh3u-legacy-display-list
+652,白海龙的厚鳞,I. Lagi Shard,mh3g-id-res-game-array+mh3u-legacy-display-list
+653,白海龙的高电壳,I. Lagi Shocker +,mh3g-id-res-game-array+mh3u-legacy-display-list
+654,白海龙的雷电壳,I. Lagi D-Shocker,mh3g-id-res-game-array+mh3u-legacy-display-list
+655,白海龙的上皮,I. Lagi Hide +,mh3g-id-res-game-array+mh3u-legacy-display-list
+656,白海龙的厚皮,I. Lagi Piel,mh3g-id-res-game-array+mh3u-legacy-display-list
+657,DUMMY 657,DUMMY 657,mh3g-id-res-game-array+placeholder
+658,DUMMY 658,DUMMY 658,mh3g-id-res-game-array+placeholder
+659,DUMMY 659,DUMMY 659,mh3g-id-res-game-array+placeholder
+660,DUMMY 660,DUMMY 660,mh3g-id-res-game-array+placeholder
+661,白海龙的尖角,I. Lagi Horn +,mh3g-id-res-game-array+mh3u-legacy-display-list
+662,白海龙的刚角,I. Lagi Hardhorn,mh3g-id-res-game-array+mh3u-legacy-display-list
+663,DUMMY 663,DUMMY 663,mh3g-id-res-game-array+placeholder
+664,DUMMY 664,DUMMY 664,mh3g-id-res-game-array+placeholder
+665,DUMMY 665,DUMMY 665,mh3g-id-res-game-array+placeholder
+666,冥海龙的厚鳞,A. Lagi Shard,mh3g-id-res-game-array+mh3u-legacy-display-list
+667,冥海龙的雷电壳,A. Lagi D-Shocker,mh3g-id-res-game-array+mh3u-legacy-display-list
+668,冥海龙的厚皮,A. Lagi Piel,mh3g-id-res-game-array+mh3u-legacy-display-list
+669,DUMMY 669,DUMMY 669,mh3g-id-res-game-array+placeholder
+670,DUMMY 670,DUMMY 670,mh3g-id-res-game-array+placeholder
+671,冥海龙的刚角,A. Lagi Hardhorn,mh3g-id-res-game-array+mh3u-legacy-display-list
+672,冥海龙的雷魂,A. Lagi Dynamo,mh3g-id-res-game-array+mh3u-legacy-display-list
+673,冰牙龙的甲壳,Barioth Shell,mh3g-id-res-game-array+mh3u-legacy-display-list
+674,冰牙龙的坚壳,Barioth Carapace,mh3g-id-res-game-array+mh3u-legacy-display-list
+675,冰牙龙的重壳,Barioth Cortex,mh3g-id-res-game-array+mh3u-legacy-display-list
+676,冰牙龙的毛皮,Barioth Pelt,mh3g-id-res-game-array+mh3u-legacy-display-list
+677,冰牙龙的上毛皮,Barioth Pelt +,mh3g-id-res-game-array+mh3u-legacy-display-list
+678,冰牙龙的厚毛皮,Barioth Fur,mh3g-id-res-game-array+mh3u-legacy-display-list
+679,冰牙龙的爪,Barioth Claw,mh3g-id-res-game-array+mh3u-legacy-display-list
+680,冰牙龙的锐爪,Barioth Claw +,mh3g-id-res-game-array+mh3u-legacy-display-list
+681,冰牙龙的刚爪,Barioth Talon,mh3g-id-res-game-array+mh3u-legacy-display-list
+682,冰牙龙的棘,Barioth Spike,mh3g-id-res-game-array+mh3u-legacy-display-list
+683,DUMMY 683,DUMMY 683,mh3g-id-res-game-array+placeholder
+684,冰牙龙的尾巴,Barioth Tail,mh3g-id-res-game-array+mh3u-legacy-display-list
+685,冰牙龙的韧尾,Barioth Lash,mh3g-id-res-game-array+mh3u-legacy-display-list
+686,琥珀色的牙,Amber Tusks,mh3g-id-res-game-array+mh3u-legacy-display-list
+687,琥珀色的锐牙,Amber Tusks +,mh3g-id-res-game-array+mh3u-legacy-display-list
+688,琥珀色的重牙,Hvy Amber Tusks,mh3g-id-res-game-array+mh3u-legacy-display-list
+689,风牙龙的坚壳,S. Bari Carapace,mh3g-id-res-game-array+mh3u-legacy-display-list
+690,风牙龙的重壳,S. Barioth Cortex,mh3g-id-res-game-array+mh3u-legacy-display-list
+691,风牙龙的上毛皮,S. Barioth Pelt +,mh3g-id-res-game-array+mh3u-legacy-display-list
+692,风牙龙的厚毛皮,S. Barioth Fur,mh3g-id-res-game-array+mh3u-legacy-display-list
+693,风牙龙的锐爪,S. Barioth Claw +,mh3g-id-res-game-array+mh3u-legacy-display-list
+694,风牙龙的刚爪,S. Barioth Talon,mh3g-id-res-game-array+mh3u-legacy-display-list
+695,风牙龙的尾巴,S. Barioth Tail,mh3g-id-res-game-array+mh3u-legacy-display-list
+696,风牙龙的韧尾,S. Barioth Lash,mh3g-id-res-game-array+mh3u-legacy-display-list
+697,群青色的锐牙,Indigo Tusks +,mh3g-id-res-game-array+mh3u-legacy-display-list
+698,群青色的重牙,Hvy Indigo Tusks,mh3g-id-res-game-array+mh3u-legacy-display-list
+699,强韧的胸膜,Rugged Pleura,mh3g-id-res-game-array+mh3u-legacy-display-list
+700,强韧的大胸膜,Rugged Pleura +,mh3g-id-res-game-array+mh3u-legacy-display-list
+701,角龙的甲壳,Diablos Shell,mh3g-id-res-game-array+mh3u-legacy-display-list
+702,角龙的坚壳,Diablos Carapace,mh3g-id-res-game-array+mh3u-legacy-display-list
+703,角龙的重壳,Diablos Cortex,mh3g-id-res-game-array+mh3u-legacy-display-list
+704,角龙的背甲,Diablos Ridge,mh3g-id-res-game-array+mh3u-legacy-display-list
+705,角龙的坚甲,Diablos Ridge +,mh3g-id-res-game-array+mh3u-legacy-display-list
+706,角龙的重甲,Diablos Chine,mh3g-id-res-game-array+mh3u-legacy-display-list
+707,角龙的尾甲,Diablos Tailcase,mh3g-id-res-game-array+mh3u-legacy-display-list
+708,DUMMY 708,DUMMY 708,mh3g-id-res-game-array+placeholder
+709,角龙的牙,Diablos Fang,mh3g-id-res-game-array+mh3u-legacy-display-list
+710,扭曲的角,Twisted Horn,mh3g-id-res-game-array+mh3u-legacy-display-list
+711,优质的扭曲角,Majestic Horn,mh3g-id-res-game-array+mh3u-legacy-display-list
+712,坚固的扭曲角,Stout Horn,mh3g-id-res-game-array+mh3u-legacy-display-list
+713,角龙的骨髓,Diablos Marrow,mh3g-id-res-game-array+mh3u-legacy-display-list
+714,角龙的延髓,Diablos Medulla,mh3g-id-res-game-array+mh3u-legacy-display-list
+715,黑角龙的坚壳,B. Diab Carapace,mh3g-id-res-game-array+mh3u-legacy-display-list
+716,黑角龙的重壳,B. Diablos Cortex,mh3g-id-res-game-array+mh3u-legacy-display-list
+717,黑角龙的坚甲,B. Diablos Ridge +,mh3g-id-res-game-array+mh3u-legacy-display-list
+718,黑角龙的重甲,B. Diablos Chine,mh3g-id-res-game-array+mh3u-legacy-display-list
+719,DUMMY 719,DUMMY 719,mh3g-id-res-game-array+placeholder
+720,DUMMY 720,DUMMY 720,mh3g-id-res-game-array+placeholder
+721,优质黑卷角,Blackcurl Horn,mh3g-id-res-game-array+mh3u-legacy-display-list
+722,坚固黑卷角,Blackcurl Horn +,mh3g-id-res-game-array+mh3u-legacy-display-list
+723,爆锤龙的鳞,Uragaan Scale,mh3g-id-res-game-array+mh3u-legacy-display-list
+724,爆锤龙的上鳞,Uragaan Scale +,mh3g-id-res-game-array+mh3u-legacy-display-list
+725,爆锤龙的厚鳞,Uragaan Shard,mh3g-id-res-game-array+mh3u-legacy-display-list
+726,爆锤龙的甲壳,Uragaan Shell,mh3g-id-res-game-array+mh3u-legacy-display-list
+727,爆锤龙的坚壳,Uragaan Carapace,mh3g-id-res-game-array+mh3u-legacy-display-list
+728,爆锤龙的重壳,Uragaan Cortex,mh3g-id-res-game-array+mh3u-legacy-display-list
+729,爆锤龙的颚,Uragaan Jaw,mh3g-id-res-game-array+mh3u-legacy-display-list
+730,爆锤龙的重颚,Uragaan Jaw +,mh3g-id-res-game-array+mh3u-legacy-display-list
+731,爆锤龙的耐热壳,Uragaan Scute,mh3g-id-res-game-array+mh3u-legacy-display-list
+732,爆锤龙的重耐热壳,Uragaan Scute +,mh3g-id-res-game-array+mh3u-legacy-display-list
+733,爆锤龙的骨髓,Uragaan Marrow,mh3g-id-res-game-array+mh3u-legacy-display-list
+734,爆锤龙的红玉,Uragaan Ruby,mh3g-id-res-game-array+mh3u-legacy-display-list
+735,爆锤龙的天壳,Uragaan Pallium,mh3g-id-res-game-array+mh3u-legacy-display-list
+736,钢锤龙的上鳞,S. Uragaan Scale +,mh3g-id-res-game-array+mh3u-legacy-display-list
+737,钢锤龙的厚鳞,S. Uragaan Shard,mh3g-id-res-game-array+mh3u-legacy-display-list
+738,钢锤龙的坚壳,S. Urag Carapace,mh3g-id-res-game-array+mh3u-legacy-display-list
+739,钢锤龙的重壳,S. Uragaan Cortex,mh3g-id-res-game-array+mh3u-legacy-display-list
+740,钢锤龙的刚颚,S. Uragaan Maw,mh3g-id-res-game-array+mh3u-legacy-display-list
+741,钢锤龙的重颚,S. Uragaan Jaw +,mh3g-id-res-game-array+mh3u-legacy-display-list
+742,钢锤龙的耐热壳,S. Uragaan Scute,mh3g-id-res-game-array+mh3u-legacy-display-list
+743,钢锤龙的重耐热壳,S. Uragaan Scute +,mh3g-id-res-game-array+mh3u-legacy-display-list
+744,熔岩兽的鳞,Uroktor Scale,mh3g-id-res-game-array+mh3u-legacy-display-list
+745,爆锤龙的上鳞,Uragaan Scale +,mh3g-id-res-game-array+mh3u-legacy-display-list
+746,柔软的厚皮,Supple Piel,mh3g-id-res-game-array+mh3u-legacy-display-list
+747,炎戈龙的燃鳞,Agnaktor Scale,mh3g-id-res-game-array+mh3u-legacy-display-list
+748,DUMMY 748,DUMMY 748,mh3g-id-res-game-array+placeholder
+749,炎戈龙的甲壳,Agnaktor Shell,mh3g-id-res-game-array+mh3u-legacy-display-list
+750,炎戈龙的坚壳,Agnak Carapace,mh3g-id-res-game-array+mh3u-legacy-display-list
+751,炎戈龙的皮,Agnaktor Hide,mh3g-id-res-game-array+mh3u-legacy-display-list
+752,炎戈龙的上皮,Agnaktor Hide +,mh3g-id-res-game-array+mh3u-legacy-display-list
+753,炎戈龙的厚皮,Agnaktor Piel,mh3g-id-res-game-array+mh3u-legacy-display-list
+754,炎戈龙的爪,Agnaktor Claw,mh3g-id-res-game-array+mh3u-legacy-display-list
+755,炎戈龙的锐爪,Agnaktor Claw +,mh3g-id-res-game-array+mh3u-legacy-display-list
+756,炎戈龙的刚爪,Agnaktor Talon,mh3g-id-res-game-array+mh3u-legacy-display-list
+757,炎戈龙的鳍,Agnaktor Fin,mh3g-id-res-game-array+mh3u-legacy-display-list
+758,炎戈龙的上鳍,Agnaktor Fin +,mh3g-id-res-game-array+mh3u-legacy-display-list
+759,炎戈龙的特上鳍,Fine Agnak Fin,mh3g-id-res-game-array+mh3u-legacy-display-list
+760,炎戈龙的锚嘴,Agnaktor Beak,mh3g-id-res-game-array+mh3u-legacy-display-list
+761,DUMMY 761,DUMMY 761,mh3g-id-res-game-array+placeholder
+762,炎戈龙的尾巴,Agnaktor Tail,mh3g-id-res-game-array+mh3u-legacy-display-list
+763,DUMMY 763,DUMMY 763,mh3g-id-res-game-array+placeholder
+764,赤热的坚胸壳,Scalding Pleura +,mh3g-id-res-game-array+mh3u-legacy-display-list
+765,赤热的重胸壳,Scorching Pleura,mh3g-id-res-game-array+mh3u-legacy-display-list
+766,冻戈龙的坚壳,G. Agnak Carapace,mh3g-id-res-game-array+mh3u-legacy-display-list
+767,冻戈龙的重壳,G. Agnak Cortex,mh3g-id-res-game-array+mh3u-legacy-display-list
+768,冻戈龙的上皮,G. Agnak Hide +,mh3g-id-res-game-array+mh3u-legacy-display-list
+769,冻戈龙的厚皮,G. Agnak Piel,mh3g-id-res-game-array+mh3u-legacy-display-list
+770,冻戈龙的锐爪,G. Agnak Claw +,mh3g-id-res-game-array+mh3u-legacy-display-list
+771,冻戈龙的刚爪,G. Agnak Talon,mh3g-id-res-game-array+mh3u-legacy-display-list
+772,冻戈龙的上鳍,G. Agnak Fin +,mh3g-id-res-game-array+mh3u-legacy-display-list
+773,冻戈龙的特上鳍,Fine G. Agnak Fin,mh3g-id-res-game-array+mh3u-legacy-display-list
+774,冻戈龙的锚嘴,G. Agnak Beak,mh3g-id-res-game-array+mh3u-legacy-display-list
+775,DUMMY 775,DUMMY 775,mh3g-id-res-game-array+placeholder
+776,冻戈龙的尾巴,G. Agnak Tail,mh3g-id-res-game-array+mh3u-legacy-display-list
+777,DUMMY 777,DUMMY 777,mh3g-id-res-game-array+placeholder
+778,湿润的坚胸壳,Dewy Pleura +,mh3g-id-res-game-array+mh3u-legacy-display-list
+779,湿润的重胸壳,Drenched Pleura,mh3g-id-res-game-array+mh3u-legacy-display-list
+780,大海龙的鳞,Ceadeus Scale,mh3g-id-res-game-array+mh3u-legacy-display-list
+781,大海龙的甲皮,Ceadeus Hide,mh3g-id-res-game-array+mh3u-legacy-display-list
+782,大海龙的铠毛,Ceadeus Fur,mh3g-id-res-game-array+mh3u-legacy-display-list
+783,大海龙的尾巴,Ceadeus Tail,mh3g-id-res-game-array+mh3u-legacy-display-list
+784,弯曲的龙角,Crooked Horn,mh3g-id-res-game-array+mh3u-legacy-display-list
+785,神秘的发光体,Luminous Organ,mh3g-id-res-game-array+mh3u-legacy-display-list
+786,深渊的龙玉,Deep Dragongem,mh3g-id-res-game-array+mh3u-legacy-display-list
+787,皇海龙的厚鳞,G. Ceadeus Shard,mh3g-id-res-game-array+mh3u-legacy-display-list
+788,皇海龙的重甲皮,G. Ceadeus Coat,mh3g-id-res-game-array+mh3u-legacy-display-list
+789,皇海龙的豪铠毛,G. Ceadeus Fur,mh3g-id-res-game-array+mh3u-legacy-display-list
+790,DUMMY 790,DUMMY 790,mh3g-id-res-game-array+placeholder
+791,弯曲的刚龙角,Crooked Hardhorn,mh3g-id-res-game-array+mh3u-legacy-display-list
+792,DUMMY 792,DUMMY 792,mh3g-id-res-game-array+placeholder
+793,深渊的皇龙玉,Dark Dragongem,mh3g-id-res-game-array+mh3u-legacy-display-list
+794,DUMMY 794,DUMMY 794,mh3g-id-res-game-array+placeholder
+795,峯山龙的上苍鳞,Mohran Scale +,mh3g-id-res-game-array+mh3u-legacy-display-list
+796,DUMMY 796,DUMMY 796,mh3g-id-res-game-array+placeholder
+797,峯山龙的坚岩壳,Mohran Carapace,mh3g-id-res-game-array+mh3u-legacy-display-list
+798,DUMMY 798,DUMMY 798,mh3g-id-res-game-array+placeholder
+799,峯山龙的上腕甲,Mohran Brace +,mh3g-id-res-game-array+mh3u-legacy-display-list
+800,DUMMY 800,DUMMY 800,mh3g-id-res-game-array+placeholder
+801,勇猛的龙锐牙,Sturdy Fang +,mh3g-id-res-game-array+mh3u-legacy-display-list
+802,大地的龙玉,Earth Dragongem,mh3g-id-res-game-array+mh3u-legacy-display-list
+803,DUMMY 803,DUMMY 803,mh3g-id-res-game-array+placeholder
+804,灵山龙的重苍鳞,H. Jhen Shard,mh3g-id-res-game-array+mh3u-legacy-display-list
+805,DUMMY 805,DUMMY 805,mh3g-id-res-game-array+placeholder
+806,灵山龙的重岩壳,H. Jhen Rocksin,mh3g-id-res-game-array+mh3u-legacy-display-list
+807,DUMMY 807,DUMMY 807,mh3g-id-res-game-array+placeholder
+808,灵山龙的重腕甲,H. Jhen Allbrace,mh3g-id-res-game-array+mh3u-legacy-display-list
+809,DUMMY 809,DUMMY 809,mh3g-id-res-game-array+placeholder
+810,神圣的龙牙,Deific Fang,mh3g-id-res-game-array+mh3u-legacy-display-list
+811,大地的龙神玉,Earth Drgnsphire,mh3g-id-res-game-array+mh3u-legacy-display-list
+812,恐暴龙的黑鳞,Deviljho Scale,mh3g-id-res-game-array+mh3u-legacy-display-list
+813,恐暴龙的厚黑鳞,Deviljho Shard,mh3g-id-res-game-array+mh3u-legacy-display-list
+814,恐暴龙的黑皮,Deviljho Hide,mh3g-id-res-game-array+mh3u-legacy-display-list
+815,恐暴龙的厚黑皮,Deviljho Coat,mh3g-id-res-game-array+mh3u-legacy-display-list
+816,恐暴龙的大牙,Deviljho Fang,mh3g-id-res-game-array+mh3u-legacy-display-list
+817,极恶之牙,Vile Fang,mh3g-id-res-game-array+mh3u-legacy-display-list
+818,恐暴龙的钩爪,Deviljho Talon,mh3g-id-res-game-array+mh3u-legacy-display-list
+819,恐暴龙的刚钩爪,Deviljho Ripper,mh3g-id-res-game-array+mh3u-legacy-display-list
+820,恐暴龙的黑鳞,Deviljho Scale,mh3g-id-res-game-array+mh3u-legacy-display-list
+821,DUMMY 821,DUMMY 821,mh3g-id-res-game-array+placeholder
+822,恐暴龙的尾巴,Deviljho Tail,mh3g-id-res-game-array+mh3u-legacy-display-list
+823,恐暴龙的重尾,Deviljho Flail,mh3g-id-res-game-array+mh3u-legacy-display-list
+824,恐暴龙的唾液,Deviljho Saliva,mh3g-id-res-game-array+mh3u-legacy-display-list
+825,漆黑的血,Black Blood,mh3g-id-res-game-array+mh3u-legacy-display-list
+826,恐暴龙的宝玉,Deviljho Gem,mh3g-id-res-game-array+mh3u-legacy-display-list
+827,恐暴龙的灭鳞,Deviljho Crook,mh3g-id-res-game-array+mh3u-legacy-display-list
+828,煌黑龙的坚逆壳,Alatreon Scute,mh3g-id-res-game-array+mh3u-legacy-display-list
+829,煌黑龙的天壳,Alatreon Pallium,mh3g-id-res-game-array+mh3u-legacy-display-list
+830,煌黑龙的逆鳞,Alatreon Plate,mh3g-id-res-game-array+mh3u-legacy-display-list
+831,煌黑龙的天鳞,Alatreon Mantle,mh3g-id-res-game-array+mh3u-legacy-display-list
+832,煌黑龙的尖爪,Alatreon Talon,mh3g-id-res-game-array+mh3u-legacy-display-list
+833,煌黑龙的凶爪,Alatreon Ripper,mh3g-id-res-game-array+mh3u-legacy-display-list
+834,煌黑龙的翼膜,Alatreon Webbing,mh3g-id-res-game-array+mh3u-legacy-display-list
+835,煌黑龙的邪翼,Alatreo Direwing,mh3g-id-res-game-array+mh3u-legacy-display-list
+836,煌黑龙的尾巴,Alatreon Tail,mh3g-id-res-game-array+mh3u-legacy-display-list
+837,煌黑龙的妖尾,Alatreo Diretail,mh3g-id-res-game-array+mh3u-legacy-display-list
+838,破碎的天角,Brkn Skypiercer,mh3g-id-res-game-array+mh3u-legacy-display-list
+839,DUMMY 839,DUMMY 839,mh3g-id-res-game-array+placeholder
+840,贯天之角,Skypiercer,mh3g-id-res-game-array+mh3u-legacy-display-list
+841,天统御角,Skyswayer,mh3g-id-res-game-array+mh3u-legacy-display-list
+842,青熊兽的毛,Arzuros Pelt,mh3g-id-res-game-array+mh3u-legacy-display-list
+843,青熊兽的刚毛,Arzuros Pelt +,mh3g-id-res-game-array+mh3u-legacy-display-list
+844,DUMMY 844,DUMMY 844,mh3g-id-res-game-array+placeholder
+845,青熊兽的甲壳,Arzuros Shell,mh3g-id-res-game-array+mh3u-legacy-display-list
+846,青熊兽的坚壳,Arzuros Carapace,mh3g-id-res-game-array+mh3u-legacy-display-list
+847,青熊兽的重壳,Arzuros Cortex,mh3g-id-res-game-array+mh3u-legacy-display-list
+848,青熊兽的腕甲,Arzuros Brace,mh3g-id-res-game-array+mh3u-legacy-display-list
+849,青熊兽的坚腕甲,Arzuros Brace +,mh3g-id-res-game-array+mh3u-legacy-display-list
+850,青熊兽的重腕甲,Arzuros Allbrace,mh3g-id-res-game-array+mh3u-legacy-display-list
+851,白兔兽的毛,Lagombi Pelt,mh3g-id-res-game-array+mh3u-legacy-display-list
+852,白兔兽的刚毛,Lagombi Pelt +,mh3g-id-res-game-array+mh3u-legacy-display-list
+853,白兔兽的豪刚毛,Lagombi Fur,mh3g-id-res-game-array+mh3u-legacy-display-list
+854,白兔兽的耳,Lagombi Ear,mh3g-id-res-game-array+mh3u-legacy-display-list
+855,白兔兽的大耳,Lagombi Ear +,mh3g-id-res-game-array+mh3u-legacy-display-list
+856,白兔兽的地狱耳,Lagombi Auricle,mh3g-id-res-game-array+mh3u-legacy-display-list
+857,白兔兽的腹甲,Lagombi Plastron,mh3g-id-res-game-array+mh3u-legacy-display-list
+858,白兔兽的坚腹甲,Lagombi Plastron +,mh3g-id-res-game-array+mh3u-legacy-display-list
+859,DUMMY 859,DUMMY 859,mh3g-id-res-game-array+placeholder
+860,白兔兽的冰爪,Lagombi Claw,mh3g-id-res-game-array+mh3u-legacy-display-list
+861,白兔兽的冻爪,Lagombi Claw +,mh3g-id-res-game-array+mh3u-legacy-display-list
+862,DUMMY 862,DUMMY 862,mh3g-id-res-game-array+placeholder
+863,赤甲兽的甲壳,Volvidon Shell,mh3g-id-res-game-array+mh3u-legacy-display-list
+864,赤甲兽的坚壳,Volvi Carapace,mh3g-id-res-game-array+mh3u-legacy-display-list
+865,赤甲兽的重壳,Volvidon Cortex,mh3g-id-res-game-array+mh3u-legacy-display-list
+866,赤甲兽的爪,Volvidon Claw,mh3g-id-res-game-array+mh3u-legacy-display-list
+867,赤甲兽的尖爪,Volvidon Claw +,mh3g-id-res-game-array+mh3u-legacy-display-list
+868,赤甲兽的刚爪,Volvidon Talon,mh3g-id-res-game-array+mh3u-legacy-display-list
+869,赤甲兽的蛇腹甲,Volvi Rickrack,mh3g-id-res-game-array+mh3u-legacy-display-list
+870,DUMMY 870,DUMMY 870,mh3g-id-res-game-array+placeholder
+871,潜口龙的甲壳,Nibelsnarf Shell,mh3g-id-res-game-array+mh3u-legacy-display-list
+872,潜口龙的坚壳,Nibel Carapace,mh3g-id-res-game-array+mh3u-legacy-display-list
+873,潜口龙的重壳,Nibel Cortex,mh3g-id-res-game-array+mh3u-legacy-display-list
+874,潜口龙的皮,Nibelsnarf Hide,mh3g-id-res-game-array+mh3u-legacy-display-list
+875,潜口龙的上皮,Nibelsnarf Hide +,mh3g-id-res-game-array+mh3u-legacy-display-list
+876,潜口龙的厚皮,Nibelsnarf Piel,mh3g-id-res-game-array+mh3u-legacy-display-list
+877,潜口龙的爪,Nibelsnarf Claw,mh3g-id-res-game-array+mh3u-legacy-display-list
+878,潜口龙的尖爪,Nibelsnarf Claw +,mh3g-id-res-game-array+mh3u-legacy-display-list
+879,潜口龙的刚爪,Nibelsnarf Talon,mh3g-id-res-game-array+mh3u-legacy-display-list
+880,潜口龙的头壳,Nibelsnarf Scalp,mh3g-id-res-game-array+mh3u-legacy-display-list
+881,DUMMY 881,DUMMY 881,mh3g-id-res-game-array+placeholder
+882,鲜艳的体液,Vivid Fluid,mh3g-id-res-game-array+mh3u-legacy-display-list
+883,极彩色的体液,Brilliant Fluid,mh3g-id-res-game-array+mh3u-legacy-display-list
+884,光辉的体液,Dazzling Fluid,mh3g-id-res-game-array+mh3u-legacy-display-list
+885,DUMMY 885,DUMMY 885,mh3g-id-res-game-array+placeholder
+886,雷狼龙的坚壳,Zinogre Carapace,mh3g-id-res-game-array+mh3u-legacy-display-list
+887,雷狼龙的重壳,Zinogre Cortex,mh3g-id-res-game-array+mh3u-legacy-display-list
+888,DUMMY 888,DUMMY 888,mh3g-id-res-game-array+placeholder
+889,雷狼龙的高电壳,Zinogre Shocker +,mh3g-id-res-game-array+mh3u-legacy-display-list
+890,雷狼龙的雷电毛,Zin Eletrofur +,mh3g-id-res-game-array+mh3u-legacy-display-list
+891,DUMMY 891,DUMMY 891,mh3g-id-res-game-array+placeholder
+892,雷狼龙的尖角,Zinogre Horn +,mh3g-id-res-game-array+mh3u-legacy-display-list
+893,雷狼龙的刚角,Zinogre Hardhorn,mh3g-id-res-game-array+mh3u-legacy-display-list
+894,DUMMY 894,DUMMY 894,mh3g-id-res-game-array+placeholder
+895,雷狼龙的尖爪,Zinogre Claw +,mh3g-id-res-game-array+mh3u-legacy-display-list
+896,雷狼龙的刚爪,Zinogre Talon,mh3g-id-res-game-array+mh3u-legacy-display-list
+897,雷狼龙的尾巴,Zinogre Tail,mh3g-id-res-game-array+mh3u-legacy-display-list
+898,雷狼龙的韧尾,Zinogre Lash,mh3g-id-res-game-array+mh3u-legacy-display-list
+899,DUMMY 899,DUMMY 899,mh3g-id-res-game-array+placeholder
+900,雷狼龙的高电毛,Zin Eletrofur,mh3g-id-res-game-array+mh3u-legacy-display-list
+901,雷狼龙的雷电壳,Zin D-Shocker,mh3g-id-res-game-array+mh3u-legacy-display-list
+902,DUMMY 902,DUMMY 902,mh3g-id-res-game-array+placeholder
+903,雷狼龙的碧玉,Zinogre Jasper,mh3g-id-res-game-array+mh3u-legacy-display-list
+904,雷狼龙的天玉,Zin Skymerald,mh3g-id-res-game-array+mh3u-legacy-display-list
+905,狱狼龙的重壳,S. Zin Cortex,mh3g-id-res-game-array+mh3u-legacy-display-list
+906,狱狼龙的龙毛,S. Zin Dragonhair,mh3g-id-res-game-array+mh3u-legacy-display-list
+907,狱狼龙的刚角,S. Zin Hardhorn,mh3g-id-res-game-array+mh3u-legacy-display-list
+908,狱狼龙的刚爪,S. Zinogre Talon,mh3g-id-res-game-array+mh3u-legacy-display-list
+909,狱狼龙的韧尾,S. Zinogre Lash,mh3g-id-res-game-array+mh3u-legacy-display-list
+910,狱狼龙的龙壳,S. Zin Dragnshell,mh3g-id-res-game-array+mh3u-legacy-display-list
+911,狱狼龙的天玉,S. Zin Skymerald,mh3g-id-res-game-array+mh3u-legacy-display-list
+912,迅龙的上鳞,Nargacuga Scale +,mh3g-id-res-game-array+mh3u-legacy-display-list
+913,迅龙的厚鳞,Nargacuga Shard,mh3g-id-res-game-array+mh3u-legacy-display-list
+914,迅龙的天鳞,Nargacuga Mantle,mh3g-id-res-game-array+mh3u-legacy-display-list
+915,DUMMY 915,DUMMY 915,mh3g-id-res-game-array+placeholder
+916,迅龙的豪黑毛,Nargacuga Fur,mh3g-id-res-game-array+mh3u-legacy-display-list
+917,迅龙的尾巴,Nargacuga Tail,mh3g-id-res-game-array+mh3u-legacy-display-list
+918,迅龙的韧尾,Nargacuga Lash,mh3g-id-res-game-array+mh3u-legacy-display-list
+919,迅龙的尾棘,Narga Tailspike,mh3g-id-res-game-array+mh3u-legacy-display-list
+920,迅龙的重尾棘,Narga Tailspear,mh3g-id-res-game-array+mh3u-legacy-display-list
+921,DUMMY 921,DUMMY 921,mh3g-id-res-game-array+placeholder
+922,迅龙的刚刃翼,Narga Razor +,mh3g-id-res-game-array+mh3u-legacy-display-list
+923,迅龙的锐牙,Nargacuga Fang +,mh3g-id-res-game-array+mh3u-legacy-display-list
+924,迅龙的重牙,Hvy Narga Fang,mh3g-id-res-game-array+mh3u-legacy-display-list
+925,迅龙的延髓,Narga Medulla,mh3g-id-res-game-array+mh3u-legacy-display-list
+926,DUMMY 926,DUMMY 926,mh3g-id-res-game-array+placeholder
+927,绿迅龙的厚鳞,G. Narga Shard,mh3g-id-res-game-array+mh3u-legacy-display-list
+928,DUMMY 928,DUMMY 928,mh3g-id-res-game-array+placeholder
+929,绿迅龙的豪斑毛,G. Narga Dapples,mh3g-id-res-game-array+mh3u-legacy-display-list
+930,DUMMY 930,DUMMY 930,mh3g-id-res-game-array+placeholder
+931,绿迅龙的刚刃翼,G. Narga Razor +,mh3g-id-res-game-array+mh3u-legacy-display-list
+932,DUMMY 932,DUMMY 932,mh3g-id-res-game-array+placeholder
+933,绿迅龙的重牙,Hvy G. Narga Fang,mh3g-id-res-game-array+mh3u-legacy-display-list
+934,月迅龙的厚鳞,L. Narga Shard,mh3g-id-res-game-array+mh3u-legacy-display-list
+935,月迅龙的豪斑毛,L. Narha Dapples,mh3g-id-res-game-array+mh3u-legacy-display-list
+936,月迅龙的透刃翼,L. Narga Razor,mh3g-id-res-game-array+mh3u-legacy-display-list
+937,月迅龙的重牙,Hvy L. Narga Fang,mh3g-id-res-game-array+mh3u-legacy-display-list
+938,尾槌龙的甲壳,Duramboros Shell,mh3g-id-res-game-array+mh3u-legacy-display-list
+939,尾槌龙的坚壳,Duram Carapace,mh3g-id-res-game-array+mh3u-legacy-display-list
+940,尾槌龙的重壳,Duram Cortex,mh3g-id-res-game-array+mh3u-legacy-display-list
+941,尾槌龙的苔甲,Duram Mossplate,mh3g-id-res-game-array+mh3u-legacy-display-list
+942,尾槌龙的坚苔甲,Hard Mossplate,mh3g-id-res-game-array+mh3u-legacy-display-list
+943,尾槌龙的重苔甲,Heavy Mossplate,mh3g-id-res-game-array+mh3u-legacy-display-list
+944,尾槌龙的驼峰,Duramboros Hump,mh3g-id-res-game-array+mh3u-legacy-display-list
+945,霜降的驼峰,Marbled Hump,mh3g-id-res-game-array+mh3u-legacy-display-list
+946,尾槌龙的尾甲,Duram Tailcase,mh3g-id-res-game-array+mh3u-legacy-display-list
+947,尾槌龙的坚尾甲,Duram Tailcase +,mh3g-id-res-game-array+mh3u-legacy-display-list
+948,尾槌龙的重尾甲,Duram Hardtail,mh3g-id-res-game-array+mh3u-legacy-display-list
+949,尾槌龙的角,Duramboros Horn,mh3g-id-res-game-array+mh3u-legacy-display-list
+950,尾槌龙的尖角,Duramboros Horn +,mh3g-id-res-game-array+mh3u-legacy-display-list
+951,尾槌龙的刚角,Duram Hardhorn,mh3g-id-res-game-array+mh3u-legacy-display-list
+952,尾槌龙的尾骨,Duram Tailbone,mh3g-id-res-game-array+mh3u-legacy-display-list
+953,尾槌龙的仙骨,Duram Sacrum,mh3g-id-res-game-array+mh3u-legacy-display-list
+954,尾槌龙之石,Durambolite,mh3g-id-res-game-array+mh3u-legacy-display-list
+955,尾斧龙的赤铜壳,R. Duram Shell,mh3g-id-res-game-array+mh3u-legacy-display-list
+956,尾斧龙的赤铜甲,R. Duram Plate,mh3g-id-res-game-array+mh3u-legacy-display-list
+957,DUMMY 957,DUMMY 957,mh3g-id-res-game-array+placeholder
+958,尾斧龙的重尾甲,R. Duram Hardtail,mh3g-id-res-game-array+mh3u-legacy-display-list
+959,DUMMY 959,DUMMY 959,mh3g-id-res-game-array+placeholder
+960,DUMMY 960,DUMMY 960,mh3g-id-res-game-array+placeholder
+961,虾的大壳,Lrg Lobstershell,mh3g-id-res-game-array+mh3u-legacy-display-list
+962,DUMMY 962,DUMMY 962,mh3g-id-res-game-array+placeholder
+963,水龙的锐牙,Plesioth Fang +,mh3g-id-res-game-array+mh3u-legacy-display-list
+964,水龙的重牙,Hvy Plesio Fang,mh3g-id-res-game-array+mh3u-legacy-display-list
+965,水龙的上鳞,Plesioth Scale +,mh3g-id-res-game-array+mh3u-legacy-display-list
+966,水龙的厚鳞,Plesioth Shard,mh3g-id-res-game-array+mh3u-legacy-display-list
+967,水龙的上鳍,Plesioth Fin +,mh3g-id-res-game-array+mh3u-legacy-display-list
+968,水龙的特上鳍,Fine Plesio Fin,mh3g-id-res-game-array+mh3u-legacy-display-list
+969,DUMMY 969,DUMMY 969,mh3g-id-res-game-array+placeholder
+970,翠水龙的厚鳞,G. Plesio Shard,mh3g-id-res-game-array+mh3u-legacy-display-list
+971,DUMMY 971,DUMMY 971,mh3g-id-res-game-array+placeholder
+972,翠水龙的特上鳍,Fine G. Plesi Fin,mh3g-id-res-game-array+mh3u-legacy-display-list
+973,碎龙的坚壳,Brach Carapace,mh3g-id-res-game-array+mh3u-legacy-display-list
+974,碎龙的重壳,Brach Cortex,mh3g-id-res-game-array+mh3u-legacy-display-list
+975,碎龙的黑曜甲,Brach Ebonshell,mh3g-id-res-game-array+mh3u-legacy-display-list
+976,碎龙的重黑曜甲,Brach Ebonshell +,mh3g-id-res-game-array+mh3u-legacy-display-list
+977,DUMMY 977,DUMMY 977,mh3g-id-res-game-array+placeholder
+978,DUMMY 978,DUMMY 978,mh3g-id-res-game-array+placeholder
+979,碎龙的头壳,Brach Scalp,mh3g-id-res-game-array+mh3u-legacy-display-list
+980,碎龙的尖头壳,Brach Scalp +,mh3g-id-res-game-array+mh3u-legacy-display-list
+981,谜之粘菌,Mystery Slime,mh3g-id-res-game-array+mh3u-legacy-display-list
+982,光之粘菌,Glowing Slime,mh3g-id-res-game-array+mh3u-legacy-display-list
+983,碎龙的刚拳,Brach Pounder,mh3g-id-res-game-array+mh3u-legacy-display-list
+984,碎龙的刚铁拳,Brach Pounder +,mh3g-id-res-game-array+mh3u-legacy-display-list
+985,碎龙的尾巴,Brachydios Tail,mh3g-id-res-game-array+mh3u-legacy-display-list
+986,DUMMY 986,DUMMY 986,mh3g-id-res-game-array+placeholder
+987,碎龙的宝玉,Brachydios Gem,mh3g-id-res-game-array+mh3u-legacy-display-list
+988,碎龙的天壳,Brach Pallium,mh3g-id-res-game-array+mh3u-legacy-display-list
+989,炼黑龙的黑鳞,Miralis Scale,mh3g-id-res-game-array+mh3u-legacy-display-list
+990,炼黑龙的燃壳,Miralis Fireback,mh3g-id-res-game-array+mh3u-legacy-display-list
+991,炼黑龙的炎爪,Miralis Fireclaw,mh3g-id-res-game-array+mh3u-legacy-display-list
+992,DUMMY 992,DUMMY 992,mh3g-id-res-game-array+placeholder
+993,DUMMY 993,DUMMY 993,mh3g-id-res-game-array+placeholder
+994,炼黑龙的凶眼,Miralis Evil Eye,mh3g-id-res-game-array+mh3u-legacy-display-list
+995,DUMMY 995,DUMMY 995,mh3g-id-res-game-array+placeholder
+996,炼黑龙的重翼,Miralis Hellwing,mh3g-id-res-game-array+mh3u-legacy-display-list
+997,DUMMY 997,DUMMY 997,mh3g-id-res-game-array+placeholder
+998,DUMMY 998,DUMMY 998,mh3g-id-res-game-array+placeholder
+999,炼黑龙的灼热核,Miralis Smelter,mh3g-id-res-game-array+mh3u-legacy-display-list
+1000,不死的心脏,Immortal Heart,mh3g-id-res-game-array+mh3u-legacy-display-list
+1001,DUMMY 1001,DUMMY 1001,mh3g-id-res-game-array+placeholder
+1002,涌出的岩浆,Gushing Magma,mh3g-id-res-game-array+mh3u-legacy-display-list
+1003,光炎的大龙玉,Dire Dragongem,mh3g-id-res-game-array+mh3u-legacy-display-list
+1004,锈块,Rustshard,mh3g-id-res-game-array+mh3u-legacy-display-list
+1005,太古之块,Ancient Shard,mh3g-id-res-game-array+mh3u-legacy-display-list
+1006,锈破片,Rusted Fragment,mh3g-id-res-game-array+mh3u-legacy-display-list
+1007,大的太古破片,Large Fragment,mh3g-id-res-game-array+mh3u-legacy-display-list
+1008,细的太古破片,Slender Fragment,mh3g-id-res-game-array+mh3u-legacy-display-list
+1009,长的太古破片,Long Fragment,mh3g-id-res-game-array+mh3u-legacy-display-list
+1010,地图,Map,mh3g-id-res-game-array+mh3u-legacy-display-list
+1011,应急药,First-aid Med,mh3g-id-res-game-array+mh3u-legacy-display-list
+1012,携带食料,Ration,mh3g-id-res-game-array+mh3u-legacy-display-list
+1013,DUMMY 1013,DUMMY 1013,mh3g-id-res-game-array+placeholder
+1014,携带砥石,Mini Whetstone,mh3g-id-res-game-array+mh3u-legacy-display-list
+1015,携带麻痹陷阱,EZ Shock Trap,mh3g-id-res-game-array+mh3u-legacy-display-list
+1016,支给专用闪光弹,EZ Flash Bomb,mh3g-id-res-game-array+mh3u-legacy-display-list
+1017,支给专用音爆弹,EZ Sonic Bomb,mh3g-id-res-game-array+mh3u-legacy-display-list
+1018,支给专用秘药,EZ Max Potion,mh3g-id-res-game-array+mh3u-legacy-display-list
+1019,支给专用陷阱,EZ Pitfall Trap,mh3g-id-res-game-array+mh3u-legacy-display-list
+1020,携帯氧气弹,Mini Oxy Supply,mh3g-id-res-game-array+mh3u-legacy-display-list
+1021,支给用大桶爆弹,EZ Barrel Bomb L,mh3g-id-res-game-array+mh3u-legacy-display-list
+1022,大弩弹,Ballista Ammo,mh3g-id-res-game-array+mh3u-legacy-display-list
+1023,弩用拘束弹,Ballista Binder,mh3g-id-res-game-array+mh3u-legacy-display-list
+1024,DUMMY 1024,DUMMY 1024,mh3g-id-res-game-array+placeholder
+1025,大炮弹,Cannon Ammo,mh3g-id-res-game-array+mh3u-legacy-display-list
+1026,对巨龙爆弹,Anti-dragon Bomb,mh3g-id-res-game-array+mh3u-legacy-display-list
+1027,火把,Torch,mh3g-id-res-game-array+mh3u-legacy-display-list
+1028,猫券,Paw Pass Ticket,mh3g-id-res-game-array+mh3u-legacy-display-list
+1029,皇家蜂蜜,Royal Honey,mh3g-id-res-game-array+mh3u-legacy-display-list
+1030,特产蘑菇,Unique Mushroom,mh3g-id-res-game-array+mh3u-legacy-display-list
+1031,严选蘑菇,Choice Mushroom,mh3g-id-res-game-array+mh3u-legacy-display-list
+1032,熟成蘑菇,Ripened Mushroom,mh3g-id-res-game-array+mh3u-legacy-display-list
+1033,松茸王,Great Shroom,mh3g-id-res-game-array+mh3u-legacy-display-list
+1034,特产竹笋,Super Sprout,mh3g-id-res-game-array+mh3u-legacy-display-list
+1035,DUMMY 1035,DUMMY 1035,mh3g-id-res-game-array+placeholder
+1036,DUMMY 1036,DUMMY 1036,mh3g-id-res-game-array+placeholder
+1037,白金鱼,Silverfish,mh3g-id-res-game-array+mh3u-legacy-display-list
+1038,DUMMY 1038,DUMMY 1038,mh3g-id-res-game-array+placeholder
+1039,DUMMY 1039,DUMMY 1039,mh3g-id-res-game-array+placeholder
+1040,黄金鱼,Goldenfish,mh3g-id-res-game-array+mh3u-legacy-display-list
+1041,皇家甲虫,Royal Rhino,mh3g-id-res-game-array+mh3u-legacy-display-list
+1042,神之虫,Divine Rhino,mh3g-id-res-game-array+mh3u-legacy-display-list
+1043,银色蟋蟀,Silver Cricket,mh3g-id-res-game-array+mh3u-legacy-display-list
+1044,金色蟋蟀,Gold Cricket,mh3g-id-res-game-array+mh3u-legacy-display-list
+1045,黄金石碎片,Auristone Piece,mh3g-id-res-game-array+mh3u-legacy-display-list
+1046,黄金石块,Auristone Chunk,mh3g-id-res-game-array+mh3u-legacy-display-list
+1047,花香石碎片,Balmstone Piece,mh3g-id-res-game-array+mh3u-legacy-display-list
+1048,花香石之块,Balmstone Chunk,mh3g-id-res-game-array+mh3u-legacy-display-list
+1049,龙骨结晶,Crystal Bone,mh3g-id-res-game-array+mh3u-legacy-display-list
+1050,黄金骨,Golden Bone,mh3g-id-res-game-array+mh3u-legacy-display-list
+1051,血石,Bloodstone,mh3g-id-res-game-array+mh3u-legacy-display-list
+1052,深血石,Deep Bloodstone,mh3g-id-res-game-array+mh3u-legacy-display-list
+1053,燃石炭,Coal,mh3g-id-res-game-array+mh3u-legacy-display-list
+1054,强燃石炭,Volatile Coal,mh3g-id-res-game-array+mh3u-legacy-display-list
+1055,龙蛋,Wyvern Egg,mh3g-id-res-game-array+mh3u-legacy-display-list
+1056,草食龙的蛋,Herbivore Egg,mh3g-id-res-game-array+mh3u-legacy-display-list
+1057,丸鸟的蛋,Gargwa Egg,mh3g-id-res-game-array+mh3u-legacy-display-list
+1058,丸鸟的金蛋,Gold Gargwa Egg,mh3g-id-res-game-array+mh3u-legacy-display-list
+1059,DUMMY 1059,DUMMY 1059,mh3g-id-res-game-array+placeholder
+1060,火药岩,Powderstone,mh3g-id-res-game-array+mh3u-legacy-display-list
+1061,丸鸟的粪,Gargwa Guano,mh3g-id-res-game-array+mh3u-legacy-display-list
+1062,白肝,White Liver,mh3g-id-res-game-array+mh3u-legacy-display-list
+1063,垂皮油,Slagtoth Oil,mh3g-id-res-game-array+mh3u-legacy-display-list
+1064,猛犸的舌头,Popo Tongue,mh3g-id-res-game-array+mh3u-legacy-display-list
+1065,秘密的口袋,Secret Stash,mh3g-id-res-game-array+mh3u-legacy-display-list
+1066,圆滚滚的团栗,Round Acorn,mh3g-id-res-game-array+mh3u-legacy-display-list
+1067,物品 Fine Stomach,Fine Stomach,mh3g-id-res-game-array+mh3u-legacy-display-list
+1068,物品 Luminous Stomach,Luminous Stomach,mh3g-id-res-game-array+mh3u-legacy-display-list
+1069,小毒怪龙提取物,Giggi Extract,mh3g-id-res-game-array+mh3u-legacy-display-list
+1070,怪物的肝,Monster Guts,mh3g-id-res-game-array+mh3u-legacy-display-list
+1071,红色珊瑚石,Red Coral Stone,mh3g-id-res-game-array+mh3u-legacy-display-list
+1072,龙泪,Wyvern Tear,mh3g-id-res-game-array+mh3u-legacy-display-list
+1073,龙的大粒泪,Lrg Wyvern Tear,mh3g-id-res-game-array+mh3u-legacy-display-list
+1074,牙兽泪,Beast Tear,mh3g-id-res-game-array+mh3u-legacy-display-list
+1075,牙兽的大粒泪,Lrg Beast Tear,mh3g-id-res-game-array+mh3u-legacy-display-list
+1076,鸟龙硬币,Bird Coin,mh3g-id-res-game-array+mh3u-legacy-display-list
+1077,DUMMY 1077,DUMMY 1077,mh3g-id-res-game-array+placeholder
+1078,DUMMY 1078,DUMMY 1078,mh3g-id-res-game-array+placeholder
+1079,DUMMY 1079,DUMMY 1079,mh3g-id-res-game-array+placeholder
+1080,DUMMY 1080,DUMMY 1080,mh3g-id-res-game-array+placeholder
+1081,DUMMY 1081,DUMMY 1081,mh3g-id-res-game-array+placeholder
+1082,DUMMY 1082,DUMMY 1082,mh3g-id-res-game-array+placeholder
+1083,海龙硬币,Leviathan Coin,mh3g-id-res-game-array+mh3u-legacy-display-list
+1084,DUMMY 1084,DUMMY 1084,mh3g-id-res-game-array+placeholder
+1085,DUMMY 1085,DUMMY 1085,mh3g-id-res-game-array+placeholder
+1086,DUMMY 1086,DUMMY 1086,mh3g-id-res-game-array+placeholder
+1087,DUMMY 1087,DUMMY 1087,mh3g-id-res-game-array+placeholder
+1088,DUMMY 1088,DUMMY 1088,mh3g-id-res-game-array+placeholder
+1089,斗技王的硬币,Pinnacle Coin,mh3g-id-res-game-array+mh3u-legacy-display-list
+1090,狩猎王的硬币,Hunter King Coin,mh3g-id-res-game-array+mh3u-legacy-display-list
+1091,餐券,Voucher,mh3g-id-res-game-array+mh3u-legacy-display-list
+1092,高级餐券,Gourmet Voucher,mh3g-id-res-game-array+mh3u-legacy-display-list
+1093,古代鲛票,Sharq Ticket,mh3g-id-res-game-array+mh3u-legacy-display-list
+1094,DUMMY 1094,DUMMY 1094,mh3g-id-res-game-array+placeholder
+1095,DUMMY 1095,DUMMY 1095,mh3g-id-res-game-array+placeholder
+1096,电击票,Thunderclap Diploma,mh3g-id-res-game-array+mh3u-legacy-display-list
+1097,海贼J券,Pirate J Ticket,mh3g-id-res-game-array+reviewed-japan-only-crosswalk
+1098,武装的招待状,Armament Invitation,mh3g-id-res-game-array+reviewed-japan-only-crosswalk
+1099,DUMMY 1099,DUMMY 1099,mh3g-id-res-game-array+placeholder
+1100,古代大妖的牙,Shadowed Edge,mh3g-id-res-game-array+mh3u-legacy-display-list
+1101,法米通票,Medal Voucher L,mh3g-id-res-game-array+mh3u-legacy-display-list
+1102,Magazine票,Lion's Claw,mh3g-id-res-game-array+mh3u-legacy-display-list
+1103,霸王之证,Conqueror's Seal,mh3g-id-res-game-array+mh3u-legacy-display-list
+1104,DUMMY 1104,DUMMY 1104,mh3g-id-res-game-array+placeholder
+1105,勇气之证,Commendation,mh3g-id-res-game-array+mh3u-legacy-display-list
+1106,DUMMY 1106,DUMMY 1106,mh3g-id-res-game-array+placeholder
+1107,肉球印章,Pawprint Stamp,mh3g-id-res-game-array+mh3u-legacy-display-list
+1108,水光原珠,Aquaglow Jewel,mh3g-id-res-game-array+mh3u-legacy-display-list
+1109,阳翔原珠,Sunspire Jewel,mh3g-id-res-game-array+mh3u-legacy-display-list
+1110,修罗原珠,Bloodrun Jewel,mh3g-id-res-game-array+mh3u-legacy-display-list
+1111,瑠璃原珠,Lazurite Jewel,mh3g-id-res-game-array+mh3u-legacy-display-list
+1112,耐痹珠【１】,Paralysis Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1113,耐痹珠【２】,Paralysis Jwl 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1114,耐眠珠【１】,Pep Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1115,耐眠珠【２】,Pep Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1116,耐绝珠【１】,Steadfast Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1117,制绝珠【１】,Standfast Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1118,耐毒珠【１】,Antidote Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1119,耐毒珠【２】,Antidote Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1120,耐粘珠【１】,Tracker Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1121,抗粘珠【１】,Trekker Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1122,忍脚珠【１】,Ninja Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1123,体力珠【１】,Vitality Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1124,早复珠【１】,Recovery Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1125,早复珠【２】,Recovery Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1126,斩铁珠【１】,Razor Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1127,斩铁珠【３】,Razor Jewel 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1128,匠珠【２】,Handicraft Jwl 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1129,匠珠【３】,Handicarft Jwl 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1130,剑豪珠【１】,Fencer Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1131,剑豪珠【３】,Fencer Jewel 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1132,达人珠【１】,Expert Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1133,达人珠【２】,Expert Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1134,达人珠【３】,Expert Jewel 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1135,研磨珠【１】,Grinder Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1136,铁壁珠【１】,Ironwall Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1137,铁壁珠【２】,Ironwall Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1138,强壁珠【１】,Shield Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1139,强壁珠【２】,Shield Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1140,早填珠【１】,Quickload Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1141,早填珠【２】,Quickload Jwl 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1142,抑反珠【１】,Absorber Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1143,抑反珠【３】,Absorber Jewel 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1144,强弹珠【１】,Forceshot Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1145,强弹珠【３】,Forceshot Jwl 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1146,贯通珠【１】,Pierce Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1147,贯通珠【３】,Pierce Jewel 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1148,散弹珠【１】,Pellet Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1149,散弹珠【３】,Pellet Jewel 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1150,加弹珠【１】,ShotPlus Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1151,加弹珠【２】,ShotPlus Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1152,加贯珠【１】,PiercePlus Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1153,DUMMY 1153,DUMMY 1153,mh3g-id-res-game-array+placeholder
+1154,加散珠【１】,PelletPlus Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1155,加榴珠【１】,CragPlus Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1156,加扩珠【１】,ClustPlus Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1157,特攻珠【１】,Disabler Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1158,特攻珠【２】,Disabler Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1159,属攻珠【１】,Element Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1160,属攻珠【３】,Element Jewel 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1161,爆师珠【１】,Bombardier Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1162,DUMMY 1162,DUMMY 1162,mh3g-id-res-game-array+placeholder
+1163,无食珠【１】,Hungerless Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1164,食汉珠【１】,Metabolism Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1165,攻击珠【１】,Attack Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1166,攻击珠【２】,Attack Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1167,攻击珠【３】,Attack Jewel 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1168,防御珠【１】,Defense Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1169,防御珠【２】,Defense Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1170,加护珠【１】,Protection Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1171,神护珠【１】,Asylum Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1172,防音珠【１】,Earplug Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1173,防音珠【３】,Earplug Jewel 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1174,防盗珠【１】,Alarm Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1175,友爱珠【１】,Friendship Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1176,友爱珠【２】,Friendship Jwl 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1177,运搬珠【１】,Transportr Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1178,耐火珠【１】,Fire Res Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1179,耐水珠【１】,Water Res Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1180,耐冰珠【１】,Ice Res Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1181,耐雷珠【１】,ThunderRes Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1182,耐龙珠【１】,Dragon Res Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1183,耐暑珠【１】,Heat Res Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1184,耐寒珠【１】,Cold Res Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1185,防风珠【１】,Wind Res Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1186,防风珠【２】,Wind Res Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1187,DUMMY 1187,DUMMY 1187,mh3g-id-res-game-array+placeholder
+1188,采取珠【１】,Gathering Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1189,速集珠【１】,Spree Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1190,祝福珠【１】,Blessing Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1191,运气珠【１】,Fate Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1192,运气珠【３】,Fate Jewel 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1193,DUMMY 1193,DUMMY 1193,mh3g-id-res-game-array+placeholder
+1194,千里珠【１】,Psychic Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1195,治愈珠【１】,Medicine Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1196,治愈珠【２】,Medicine Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1197,博士珠【１】,Professor Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1198,弹制珠【１】,Factory Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1199,回避珠【１】,Evasion Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1200,回避珠【２】,Evasion Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1201,底力珠【１】,Potential Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1202,底力珠【２】,Potential Jwl 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1203,持续珠【１】,Enduring Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1204,强走珠【１】,Sprinter Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1205,强走珠【３】,Sprinter Jewel 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1206,装填珠【２】,Capacity Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1207,装填珠【３】,Capacity Jewel 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1208,点射珠【１】,Sniper Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1209,早食珠【１】,Gobbler Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1210,早食珠【３】,Gobbler Jewel 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1211,皮剥珠【１】,Carver Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1212,皮剥珠【３】,Carver Jewel 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1213,耐震珠【１】,Footing Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1214,抗震珠【１】,Tectonic Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1215,DUMMY 1215,DUMMY 1215,mh3g-id-res-game-array+placeholder
+1216,跳跃珠【１】,Jumping Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1217,DUMMY 1217,DUMMY 1217,mh3g-id-res-game-array+placeholder
+1218,拔刀珠【１】,Draw Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1219,拔刀珠【２】,Draw Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1220,罠师珠【１】,Trapmaster Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1221,体术珠【１】,Physique Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1222,体术珠【２】,Physique Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1223,捕获珠【１】,Capture Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1224,捕获珠【３】,Capture Jewel 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1225,观察珠【１】,Perception Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1226,短缩珠【１】,Charger Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1227,短缩珠【３】,Charger Jewel 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1228,空气珠【１】,Fresh Air Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1229,抑水珠【１】,Stopflow Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1230,水泳珠【１】,Swimmer Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1231,远泳珠【１】,Diver Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1232,拔打珠【１】,Gambit Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1233,拔打珠【３】,Gambit Jewel 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1234,属耐珠【１】,Resistor Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1235,解放珠【２】,Release Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1236,觉醒珠【３】,Catalyst Jewel 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1237,逆境珠【１】,Fortitude Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1238,逆境珠【２】,Fortitude Jwl 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1239,速射珠【１】,Salvo Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1240,速射珠【３】,Salvo Jewel 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1241,肥师珠【１】,Dungmaster Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1242,燃烧珠【１】,Torchlight Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1243,物品 (No Mask),(No Mask),mh3g-id-res-game-array+mh3u-legacy-display-list
+1244,物品 BBQ with Mask,BBQ with Mask,mh3g-id-res-game-array+mh3u-legacy-display-list
+1245,物品 Sharpen w/ Mask,Sharpen w/ Mask,mh3g-id-res-game-array+mh3u-legacy-display-list
+1246,物品 Return via Mask,Return via Mask,mh3g-id-res-game-array+mh3u-legacy-display-list
+1247,爆破弹,Slime S,mh3g-id-res-game-array+mh3u-legacy-display-list
+1248,DUMMY 1248,DUMMY 1248,mh3g-id-res-game-array+placeholder
+1249,飞龙种之书【１卷】,Flying Wyverns Vol 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1250,飞龙种之书【２卷】,Flying Wyverns Vol 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1251,飞龙种之书【３卷】,Flying Wyverns Vol 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1252,鸟龙种之书【１卷】,Bird Wyverns Vol 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1253,鸟龙种之书【２卷】,Bird Wyverns Vol 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1254,兽龙种之书【１卷】,Brute Wyverns Vol 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1255,兽龙种之书【２卷】,Brute Wyverns Vol 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1256,兽龙种之书【３卷】,Brute Wyverns Vol 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1257,海龙种之书【１卷】,Leviathans Vol 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1258,海龙种之书【２卷】,Leviathans Vol 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1259,海龙种之书【３卷】,Leviathans Vol 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1260,牙龙种之书【１卷】,Fanged Wyverns Vol 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1261,牙龙种之书【２卷】,Fanged Wyverns Vol 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1262,牙兽种之书,Fanged Beasts,mh3g-id-res-game-array+mh3u-legacy-display-list
+1263,DUMMY 1263,DUMMY 1263,mh3g-id-res-game-array+placeholder
+1264,鱼龙种之书,Piscine Wyverns,mh3g-id-res-game-array+mh3u-legacy-display-list
+1265,古龙种之书【１卷】,Elder Dragons Vol 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1266,古龙种之书【２卷】,Elder Dragons Vol 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1267,古龙种之书【３卷】,Elder Dragons Vol 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1268,兽人种之书,Lynians,mh3g-id-res-game-array+mh3u-legacy-display-list
+1269,甲虫种之书,Neopteron,mh3g-id-res-game-array+mh3u-legacy-display-list
+1270,草食种之书【１卷】,Herbivores Vol 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1271,草食种之书【２卷】,Herbivores Vol 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1272,恐暴龙之书,Deviljho,mh3g-id-res-game-array+mh3u-legacy-display-list
+1273,碎龙之书,Brachydios,mh3g-id-res-game-array+mh3u-legacy-display-list
+1274,炼黑龙之书,Dire Miralis,mh3g-id-res-game-array+mh3u-legacy-display-list
+1275,水龙之书【１卷】,Plesioth Vol 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1276,水龙之书【２卷】,Plesioth Vol 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1277,消臭玉,Deodorant,mh3g-id-res-game-array+mh3u-legacy-display-list
+1278,皇帝蚱蜢,Emperor Hopper,mh3g-id-res-game-array+mh3u-legacy-display-list
+1279,太古的龙骨,Elder Dragonbone,mh3g-id-res-game-array+mh3u-legacy-display-list
+1280,DUMMY 1280,DUMMY 1280,mh3g-id-res-game-array+placeholder
+1281,纯水晶,Purecrystal,mh3g-id-res-game-array+mh3u-legacy-display-list
+1282,金刚原珠,Adamant Orb,mh3g-id-res-game-array+mh3u-legacy-display-list
+1283,海龙的厚皮,Lagiacrus Piel,mh3g-id-res-game-array+mh3u-legacy-display-list
+1284,DUMMY 1284,DUMMY 1284,mh3g-id-res-game-array+placeholder
+1285,恶梦的嘴,Nightmarish Maw,mh3g-id-res-game-array+mh3u-legacy-display-list
+1286,DUMMY 1286,DUMMY 1286,mh3g-id-res-game-array+placeholder
+1287,DUMMY 1287,DUMMY 1287,mh3g-id-res-game-array+placeholder
+1288,DUMMY 1288,DUMMY 1288,mh3g-id-res-game-array+placeholder
+1289,爆破瓶,Slime Coating,mh3g-id-res-game-array+mh3u-legacy-display-list
+1290,DUMMY 1290,DUMMY 1290,mh3g-id-res-game-array+placeholder
+1291,花铃虫,Blossom Cricket,mh3g-id-res-game-array+mh3u-legacy-display-list
+1292,月迅龙的重尾棘,L. Narg Tailspear,mh3g-id-res-game-array+mh3u-legacy-display-list
+1293,DUMMY 1293,DUMMY 1293,mh3g-id-res-game-array+placeholder
+1294,绿迅龙的重尾棘,G. Narg Tailspear,mh3g-id-res-game-array+mh3u-legacy-display-list
+1295,DUMMY 1295,DUMMY 1295,mh3g-id-res-game-array+placeholder
+1296,炎戈龙的重壳,Agnaktor Cortex,mh3g-id-res-game-array+mh3u-legacy-display-list
+1297,恐怖的厚皮,Revolting Piel,mh3g-id-res-game-array+mh3u-legacy-display-list
+1298,瞬间冻结袋,Cryo Sac,mh3g-id-res-game-array+mh3u-legacy-display-list
+1299,特大水袋,Flood Sac,mh3g-id-res-game-array+mh3u-legacy-display-list
+1300,怪物的特浓汁,Monster Essence,mh3g-id-res-game-array+mh3u-legacy-display-list
+1301,DUMMY 1301,DUMMY 1301,mh3g-id-res-game-array+placeholder
+1302,厚重的骨,Massive Bone,mh3g-id-res-game-array+mh3u-legacy-display-list
+1303,DUMMY 1303,DUMMY 1303,mh3g-id-res-game-array+placeholder
+1304,极上的毛皮,Prized Pelt,mh3g-id-res-game-array+mh3u-legacy-display-list
+1305,DUMMY 1305,DUMMY 1305,mh3g-id-res-game-array+placeholder
+1306,DUMMY 1306,DUMMY 1306,mh3g-id-res-game-array+placeholder
+1307,旗金枪鱼,Speartuna,mh3g-id-res-game-array+mh3u-legacy-display-list
+1308,迅龙的上黑毛,Nargacuga Pelt +,mh3g-id-res-game-array+mh3u-legacy-display-list
+1309,迅龙的锐刃翼,Narga Razor,mh3g-id-res-game-array+mh3u-legacy-display-list
+1310,山菜组交换券,VE Ticket,mh3g-id-res-game-array+mh3u-legacy-display-list
+1311,山菜组交换券Ｇ,VE Deluxe Ticket,mh3g-id-res-game-array+mh3u-legacy-display-list
+1312,钢之山菜组交换券,VE Bronze Ticket,mh3g-id-res-game-array+mh3u-legacy-display-list
+1313,银之山菜组交换券,VE Silver Ticket,mh3g-id-res-game-array+mh3u-legacy-display-list
+1314,金之山菜组交换券,VE Golden Ticket,mh3g-id-res-game-array+mh3u-legacy-display-list
+1315,天之山菜组交换券,VE Cosmic Ticket,mh3g-id-res-game-array+mh3u-legacy-display-list
+1316,DUMMY 1316,DUMMY 1316,mh3g-id-res-game-array+placeholder
+1317,DUMMY 1317,DUMMY 1317,mh3g-id-res-game-array+placeholder
+1318,大津纹凤蝶,Maiden Butterfly,mh3g-id-res-game-array+mh3u-legacy-display-list
+1319,DUMMY 1319,DUMMY 1319,mh3g-id-res-game-array+placeholder
+1320,DUMMY 1320,DUMMY 1320,mh3g-id-res-game-array+placeholder
+1321,DUMMY 1321,DUMMY 1321,mh3g-id-res-game-array+placeholder
+1322,DUMMY 1322,DUMMY 1322,mh3g-id-res-game-array+placeholder
+1323,DUMMY 1323,DUMMY 1323,mh3g-id-res-game-array+placeholder
+1324,朋友票,Chum-Chum Ticket,mh3g-id-res-game-array+mh3u-legacy-display-list
+1325,DUMMY 1325,DUMMY 1325,mh3g-id-res-game-array+placeholder
+1326,海龙的刚角,Lagia Hardhorn,mh3g-id-res-game-array+mh3u-legacy-display-list
+1327,DUMMY 1327,DUMMY 1327,mh3g-id-res-game-array+placeholder
+1328,DUMMY 1328,DUMMY 1328,mh3g-id-res-game-array+placeholder
+1329,DUMMY 1329,DUMMY 1329,mh3g-id-res-game-array+placeholder
+1330,大玉米,Heftcorn,mh3g-id-res-game-array+mh3u-legacy-display-list
+1331,DUMMY 1331,DUMMY 1331,mh3g-id-res-game-array+placeholder
+1332,DUMMY 1332,DUMMY 1332,mh3g-id-res-game-array+placeholder
+1333,野猪的大牙,Bullfango Tusk,mh3g-id-res-game-array+mh3u-legacy-display-list
+1334,DUMMY 1334,DUMMY 1334,mh3g-id-res-game-array+placeholder
+1335,DUMMY 1335,DUMMY 1335,mh3g-id-res-game-array+placeholder
+1336,DUMMY 1336,DUMMY 1336,mh3g-id-res-game-array+placeholder
+1337,大锹扬羽虫,Butterfly Beetle,mh3g-id-res-game-array+mh3u-legacy-display-list
+1338,DUMMY 1338,DUMMY 1338,mh3g-id-res-game-array+placeholder
+1339,DUMMY 1339,DUMMY 1339,mh3g-id-res-game-array+placeholder
+1340,角龙的重尾甲,Diablos Hardtail,mh3g-id-res-game-array+mh3u-legacy-display-list
+1341,土砂龙的韧尾,Barroth Lash,mh3g-id-res-game-array+mh3u-legacy-display-list
+1342,DUMMY 1342,DUMMY 1342,mh3g-id-res-game-array+placeholder
+1343,DUMMY 1343,DUMMY 1343,mh3g-id-res-game-array+placeholder
+1344,DUMMY 1344,DUMMY 1344,mh3g-id-res-game-array+placeholder
+1345,赤热的胸壳,Scalding Pleura,mh3g-id-res-game-array+mh3u-legacy-display-list
+1346,DUMMY 1346,DUMMY 1346,mh3g-id-res-game-array+placeholder
+1347,带纹章的王冠,Crested Crown,mh3g-id-res-game-array+mh3u-legacy-display-list
+1348,王家的纹章,Royal Crest,mh3g-id-res-game-array+mh3u-legacy-display-list
+1349,亡国的王冠,Realmless Crown,mh3g-id-res-game-array+mh3u-legacy-display-list
+1350,巨大的化石,Giant Fossil,mh3g-id-res-game-array+mh3u-legacy-display-list
+1351,DUMMY 1351,DUMMY 1351,mh3g-id-res-game-array+placeholder
+1352,水兽的韧尾,R. Ludroth Lash,mh3g-id-res-game-array+mh3u-legacy-display-list
+1353,峯山龙的重苍鳞,Mohran Shard,mh3g-id-res-game-array+mh3u-legacy-display-list
+1354,峯山龙的重岩壳,Mohran Rockskin,mh3g-id-res-game-array+mh3u-legacy-display-list
+1355,峯山龙的重腕甲,Mohran Allbrace,mh3g-id-res-game-array+mh3u-legacy-display-list
+1356,火龙的翼,Rathalos Wing,mh3g-id-res-game-array+mh3u-legacy-display-list
+1357,水龙的翼膜,Plesioth Webbing,mh3g-id-res-game-array+mh3u-legacy-display-list
+1358,水龙的刚翼膜,Hrd Ples Webbing,mh3g-id-res-game-array+mh3u-legacy-display-list
+1359,鱼类之书,Fish,mh3g-id-res-game-array+mh3u-legacy-display-list
+1360,DUMMY 1360,DUMMY 1360,mh3g-id-res-game-array+placeholder
+1361,DUMMY 1361,DUMMY 1361,mh3g-id-res-game-array+placeholder
+1362,小金蛋,Small Golden Egg,mh3g-id-res-game-array+mh3u-legacy-display-list
+1363,10円硬币,Bronze Coin,mh3g-id-res-game-array+mh3u-legacy-display-list
+1364,100円硬币,Silver Coin,mh3g-id-res-game-array+mh3u-legacy-display-list
+1365,500円硬币,Gold Coin,mh3g-id-res-game-array+mh3u-legacy-display-list
+1366,龟友优惠券,Sparkly Fragment,mh3g-id-res-game-array+mh3u-legacy-display-list
+1367,水龙的头,Plesioth Head,mh3g-id-res-game-array+mh3u-legacy-display-list
+1368,水龙的绝品头,Uber Plesio Head,mh3g-id-res-game-array+mh3u-legacy-display-list
+1369,牙兽硬币,Beast Coin,mh3g-id-res-game-array+mh3u-legacy-display-list
+1370,飞龙硬币,Flying Coin,mh3g-id-res-game-array+mh3u-legacy-display-list
+1371,水龙硬币,Piscine Coin,mh3g-id-res-game-array+mh3u-legacy-display-list
+1372,兽龙硬币,Brute Coin,mh3g-id-res-game-array+mh3u-legacy-display-list
+1373,港娘【赤】,Port Gal (Red),mh3g-id-res-game-array+mh3u-legacy-display-list
+1374,港娘【青】,Port Gal (Blue),mh3g-id-res-game-array+mh3u-legacy-display-list
+1375,港娘【绿】,Port Gal (Green),mh3g-id-res-game-array+mh3u-legacy-display-list
+1376,港娘【白】,Port Gal (White),mh3g-id-res-game-array+mh3u-legacy-display-list
+1377,增殖镐,Slickaxe,mh3g-id-res-game-array+mh3u-legacy-display-list
+1378,月夜的发光锐牙,Mooncatcher Fang,mh3g-id-res-game-array+mh3u-legacy-display-list
+1379,有光泽的兽鳞,Glossy Scale,mh3g-id-res-game-array+mh3u-legacy-display-list
+1380,DUMMY 1380,DUMMY 1380,mh3g-id-res-game-array+placeholder
+1381,DUMMY 1381,DUMMY 1381,mh3g-id-res-game-array+placeholder
+1382,DUMMY 1382,DUMMY 1382,mh3g-id-res-game-array+placeholder
+1383,DUMMY 1383,DUMMY 1383,mh3g-id-res-game-array+placeholder
+1384,DUMMY 1384,DUMMY 1384,mh3g-id-res-game-array+placeholder
+1385,DUMMY 1385,DUMMY 1385,mh3g-id-res-game-array+placeholder
+1386,DUMMY 1386,DUMMY 1386,mh3g-id-res-game-array+placeholder
+1387,DUMMY 1387,DUMMY 1387,mh3g-id-res-game-array+placeholder
+1388,DUMMY 1388,DUMMY 1388,mh3g-id-res-game-array+placeholder
+1389,DUMMY 1389,DUMMY 1389,mh3g-id-res-game-array+placeholder
+1390,DUMMY 1390,DUMMY 1390,mh3g-id-res-game-array+placeholder
+1391,DUMMY 1391,DUMMY 1391,mh3g-id-res-game-array+placeholder
+1392,顽强的头骨,Thick Skull,mh3g-id-res-game-array+mh3u-legacy-display-list
+1393,珍味・熊之手,Savory Bear Paw,mh3g-id-res-game-array+mh3u-legacy-display-list
+1394,空空的号角,Peco Pipes,mh3g-id-res-game-array+mh3u-legacy-display-list
+1395,毛茸茸的鬃毛,Billowy Mane,mh3g-id-res-game-array+mh3u-legacy-display-list
+1396,长长的舌头,Volvidon Tongue,mh3g-id-res-game-array+mh3u-legacy-display-list
+1397,高级泥块,Quality Mud Pack,mh3g-id-res-game-array+mh3u-legacy-display-list
+1398,DUMMY 1398,DUMMY 1398,mh3g-id-res-game-array+placeholder
+1399,DUMMY 1399,DUMMY 1399,mh3g-id-res-game-array+placeholder
+1400,雌火龙的里脊肉,Rathian Loin,mh3g-id-res-game-array+mh3u-legacy-display-list
+1401,肥美的鮟鱇肝,Tender Liver,mh3g-id-res-game-array+mh3u-legacy-display-list
+1402,雌火龙的樱里脊,P. Rathian Loin,mh3g-id-res-game-array+mh3u-legacy-display-list
+1403,海王的特大龙鳞,Supersize Scale,mh3g-id-res-game-array+mh3u-legacy-display-list
+1404,火龙的上肋排,Rathalos Ribs,mh3g-id-res-game-array+mh3u-legacy-display-list
+1405,水龙的腹肉,Prime Plesioth,mh3g-id-res-game-array+mh3u-legacy-display-list
+1406,角龙的心脏,Diablos Heart,mh3g-id-res-game-array+mh3u-legacy-display-list
+1407,安眠瓦斯袋,Bag of Zs,mh3g-id-res-game-array+mh3u-legacy-display-list
+1408,大块黑曜石,Large Obsidian,mh3g-id-res-game-array+mh3u-legacy-display-list
+1409,尾槌龙松露,Duram Truffle,mh3g-id-res-game-array+mh3u-legacy-display-list
+1410,DUMMY 1410,DUMMY 1410,mh3g-id-res-game-array+placeholder
+1411,雷狼龙的头,Zinogre Head,mh3g-id-res-game-array+mh3u-legacy-display-list
+1412,DUMMY 1412,DUMMY 1412,mh3g-id-res-game-array+placeholder
+1413,迅龙的眼睛,Nargacuga Eye,mh3g-id-res-game-array+mh3u-legacy-display-list
+1414,天空的苍龙鳞,Celestial Scale,mh3g-id-res-game-array+mh3u-legacy-display-list
+1415,海王的白龙鳞,Alabaster Scale,mh3g-id-res-game-array+mh3u-legacy-display-list
+1416,吞食世界的胃袋,Worldeater Belly,mh3g-id-res-game-array+mh3u-legacy-display-list
+1417,DUMMY 1417,DUMMY 1417,mh3g-id-res-game-array+placeholder
+1418,DUMMY 1418,DUMMY 1418,mh3g-id-res-game-array+placeholder
+1419,DUMMY 1419,DUMMY 1419,mh3g-id-res-game-array+placeholder
+1420,DUMMY 1420,DUMMY 1420,mh3g-id-res-game-array+placeholder
+1421,DUMMY 1421,DUMMY 1421,mh3g-id-res-game-array+placeholder
+1422,DUMMY 1422,DUMMY 1422,mh3g-id-res-game-array+placeholder
+1423,DUMMY 1423,DUMMY 1423,mh3g-id-res-game-array+placeholder
+1424,DUMMY 1424,DUMMY 1424,mh3g-id-res-game-array+placeholder
+1425,DUMMY 1425,DUMMY 1425,mh3g-id-res-game-array+placeholder
+1426,DUMMY 1426,DUMMY 1426,mh3g-id-res-game-array+placeholder
+1427,KERORO小队入队证,Exquisite Meat,mh3g-id-res-game-array+mh3u-legacy-display-list
+1428,剑豪的奥义书,Swordmaster's Secret Manual,mh3g-id-res-game-array+reviewed-japan-only-crosswalk
+1429,财宝Ｊ票,Top Secret Formula,mh3g-id-res-game-array+mh3u-legacy-display-list
+1430,电击Ｇ票,Flashbolt Diploma,mh3g-id-res-game-array+mh3u-legacy-display-list
+1431,DUMMY 1431,DUMMY 1431,mh3g-id-res-game-array+placeholder
+1432,地上最强的证明,Proof of the World's Strongest,mh3g-id-res-game-array+reviewed-japan-only-crosswalk
+1433,怪猎入部申请书,Captain's IOU,mh3g-id-res-game-array+mh3u-legacy-display-list
+1434,秘宝Ｊ票,Hades's Skull,mh3g-id-res-game-array+mh3u-legacy-display-list
+1435,传说J券,Legend J Ticket,mh3g-id-res-game-array+reviewed-japan-only-crosswalk
+1436,不碎的钻石,Crown of Glory,mh3g-id-res-game-array+mh3u-legacy-display-list
+1437,工作室通行证,Studio Pass,mh3g-id-res-game-array+reviewed-japan-only-crosswalk
+1438,工作室G通行证,Studio G Pass,mh3g-id-res-game-array+reviewed-japan-only-crosswalk
+1439,发动机票,Medal Voucher G,mh3g-id-res-game-array+mh3u-legacy-display-list
+1440,超硬质钢,Far East Sword,mh3g-id-res-game-array+mh3u-legacy-display-list
+1441,训练兵团入团证,Training Corps Enlistment Certificate,mh3g-id-res-game-array+reviewed-japan-only-crosswalk
+1442,K隆军人之魂,Keron Soldier's Soul,mh3g-id-res-game-array+reviewed-japan-only-crosswalk
+1443,克罗克罗票,Miniature Ticket,mh3g-id-res-game-array+mh3u-legacy-display-list
+1444,任侠的画,Fierce Soul,mh3g-id-res-game-array+mh3u-legacy-display-list
+1445,DUMMY 1445,DUMMY 1445,mh3g-id-res-game-array+placeholder
+1446,飞龙种之书【４卷】,Flying Wyverns Vol 4,mh3g-id-res-game-array+mh3u-legacy-display-list
+1447,飞龙种之书【５卷】,Flying Wyverns Vol 5,mh3g-id-res-game-array+mh3u-legacy-display-list
+1448,耐防珠【１】,Def Lock Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1449,耐菌珠【１】,Sterile Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1450,抗菌珠【１】,Aseptic Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1451,火炎珠【１】,Blaze Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1452,火炎珠【２】,Blaze Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1453,流水珠【１】,Stream Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1454,流水珠【２】,Stream Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1455,雷光珠【１】,Bolt Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1456,雷光珠【２】,Bolt Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1457,冰结珠【１】,Frost Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1458,冰结珠【２】,Frost Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1459,破龙珠【１】,Dragon Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1460,破龙珠【２】,Dragon Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1461,痛击珠【１】,Tenderizer Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1462,痛击珠【３】,Tenderizer Jwl 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1463,重击珠【１】,Destroyer Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1464,重击珠【３】,Destroyer Jwl 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1465,全开珠【１】,Throttle Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1466,全开珠【２】,Throttle Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1467,ＫＯ珠【１】,KO Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1468,夺气珠【１】,Drain Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1469,夺气珠【２】,Drain Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1470,鼓笛珠【１】,Sonorous Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1471,炮术珠【１】,Artillery Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1472,属耐珠【３】,Resistor Jewel 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1473,制火珠【１】,Nul-Fire Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1474,制水珠【１】,Nul-Water Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1475,制雷珠【１】,Nul-Thundr Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1476,制冰珠【１】,Nul-Ice Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1477,制龙珠【１】,Nul-Dragon Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1478,速纳珠【１】,Sheath Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1479,速纳珠【２】,Sheath Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1480,早气珠【１】,Refresh Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1481,早气珠【２】,Refresh Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1482,狩人珠【１】,Ranger Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1483,加斩珠【１】,SlicePlus jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1484,痹瓶珠【１】,Paracoat Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1485,痹瓶珠【２】,Paracoat Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1486,眠瓶珠【１】,Sleepcoat Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1487,毒瓶珠【１】,Poisoncoat Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1488,强瓶珠【１】,Powercoat Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1489,强瓶珠【２】,Powercoat Jwl 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1490,接瓶珠【１】,Rangecoat Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1491,灭瓶珠【１】,Draincoat Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1492,抑水珠【２】,Stopflow Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1493,根性珠【１】,Guts Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1494,根性珠【２】,Guts Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1495,肉食珠【１】,Meateater Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1496,肉好珠【１】,Meatlover Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1497,滑走珠【１】,Slider Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1498,滑空珠【１】,Glider Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1499,蜜集珠【１】,Honeybee Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1500,蜜占珠【１】,Queenbee Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1501,菌学珠【１】,Biology Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1502,菌究珠【１】,Microbio Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1503,斗魂珠【１】,Spirit Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1504,斗魂珠【２】,Spirit Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1505,无伤珠【１】,Flawless Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1506,无伤珠【２】,Flawless Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1507,刚体珠【１】,Steady Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1508,刚体珠【３】,Steady Jewel 3,mh3g-id-res-game-array+mh3u-legacy-display-list
+1509,水心珠【１】,Fish Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1510,水心珠【２】,Fish Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1511,采配珠【１】,Player Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1512,名采配珠【１】,Morale Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1513,号令珠【１】,Leader Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1514,号令珠【２】,Leader Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1515,生命的大粉尘,Dust of Life,mh3g-id-res-game-array+mh3u-legacy-display-list
+1516,ＫＯ珠【２】,KO Jewel 2,mh3g-id-res-game-array+mh3u-legacy-display-list
+1517,贯穿大地的刚角,Diablos Hardhorn,mh3g-id-res-game-array+mh3u-legacy-display-list
+1518,灵水晶,Ghostly Quartz,mh3g-id-res-game-array+mh3u-legacy-display-list
+1519,厚重的牙,Crushing Fang,mh3g-id-res-game-array+mh3u-legacy-display-list
+1520,胧月的碎片,Cloudy Moonshard,mh3g-id-res-game-array+mh3u-legacy-display-list
+1521,肉厚的毛皮,Bulky Pelt,mh3g-id-res-game-array+mh3u-legacy-display-list
+1522,优良的牙,Excellent Fang,mh3g-id-res-game-array+mh3u-legacy-display-list
+1523,鱼 with mask,Fish with mask,mh3g-id-res-game-array+mh3u-legacy-display-list
+1524,落阳草的花,Gloamgrass Bud,mh3g-id-res-game-array+mh3u-legacy-display-list
+1525,白金针,Platinum Needle,mh3g-id-res-game-array+mh3u-legacy-display-list
+1526,千金之牙,Goldmine Fang,mh3g-id-res-game-array+mh3u-legacy-display-list
+1527,金龙石的结晶,Wyverngold Lode,mh3g-id-res-game-array+mh3u-legacy-display-list
+1528,护石珠【１】,Charmer Jewel 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1529,蚀龙虫,Dracophage Bug,mh3g-id-res-game-array+mh3u-legacy-display-list
+1530,坦吉亚薯条,Tamzia Chips,mh3g-id-res-game-array+mh3u-legacy-display-list
+1531,加爆珠【１】,SlimePlus Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list
+1532,爆瓶珠【１】,Slimecoat Jwl 1,mh3g-id-res-game-array+mh3u-legacy-display-list

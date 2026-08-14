@@ -1,92 +1,94 @@
 id,name,english,source
-1,Bone Blaster,Bone Blaster,
-2,Bone Blaster +,Bone Blaster +,
-3,Bone Buster,Bone Buster,
-4,Queen's Longfire,Queen's Longfire,
-5,Queen's Farflier,Queen's Farflier,
-6,Queen's Scionfire,Queen's Scionfire,
-7,Empress's Blossom,Empress's Blossom,
-8,Empress's Flower,Empress's Flower,
-9,Empress's Garden,Empress's Garden,
-10,Spheniscine Slayer,Spheniscine Slayer,
-11,Spheniscine Ruler,Spheniscine Ruler,
-12,Spheniscine Overlord,Spheniscine Overlord,
-13,Spheniscine God,Spheniscine God,
-14,Arzuros Gun,Arzuros Gun,
-15,Arzuros Rumblegun,Arzuros Rumblegun,
-16,Arzuros Fishergun,Arzuros Fishergun,
-17,Arzuros Ace,Arzuros Ace,
-18,Type 46 Gunflage I,Type 46 Gunflage I,
-19,Type 46 Gunflage II,Type 46 Gunflage II,
-20,Type 46 Gunflage III,Type 46 Gunflage III,
-21,Nibelflage Prototype,Nibelflage Prototype,
-22,Super Trench Snarfer,Super Trench Snarfer,
-23,Pressurized Plaser,Pressurized Plaser,
-24,Pressurized Plaser +,Pressurized Plaser +,
-25,Verdant Washbuckler,Verdant Washbuckler,
-26,Captain Verde,Captain Verde,
-27,Tropeco Gun,Tropeco Gun,
-28,Tropeco Flambogun,Tropeco Flambogun,
-29,Pecopius Gun,Pecopius Gun,
-30,Pecopius Thunder,Pecopius Thunder,
-31,Paco Pico Peco,Paco Pico Peco,
-32,Precision Pico Peco,Precision Pico Peco,
-33,Dios Cannon,Dios Cannon,
-34,Dios Cannon +,Dios Cannon +,
-35,Demolition Cannon,Demolition Cannon,
-36,Haize Demolisher,Haize Demolisher,
-37,Usurper's Tremor,Usurper's Tremor,
-38,Despot's Paroxysm,Despot's Paroxysm,
-39,Oppressor's Making,Oppressor's Making,
-40,Stygian Temperantia,Stygian Temperantia,
-41,Hidden Gambit,Hidden Gambit,
-42,Baleful Night,Baleful Night,
-43,Vimar Heavy Rifle,Vimar Heavy Rifle,
-44,Sinister Midnight,Sinister Midnight,
-45,Eclipse Gambit,Eclipse Gambit,
-46,Dual Threat,Dual Threat,
-47,Dual Thread +,Dual Thread +,
-48,Diablazooka,Diablazooka,
-49,Nero's Blazooka,Nero's Blazooka,
-50,Griffon Blazooka,Griffon Blazooka,
-51,Lagia Blitz,Lagia Blitz,
-52,Lagia Blitz +,Lagia Blitz +,
-53,Thunderblitz Cannon,Thunderblitz Cannon,
-54,Neo Lagia Blitz,Neo Lagia Blitz,
-55,Blitzador Whitebolt,Blitzador Whitebolt,
-56,Nether Salvatore,Nether Salvatore,
-57,Agnaboom,Agnaboom,
-58,Agnablaster,Agnablaster,
-59,Agna Hellblazer,Agna Hellblazer,
-60,Agna Magnum,Agna Magnum,
-61,Agna Scorpion,Agna Scorpion,
-62,Avel Agnagun,Avel Agnagun,
-63,Caim Agnagun,Caim Agnagun,
-64,Zeth Agnagun,Zeth Agnagun,
-65,Jhen Cannon,Jhen Cannon,
-66,Jhen Dracannon,Jhen Dracannon,
-67,Hellowed Dracannon,Hellowed Dracannon,
-68,Vulcanon,Vulcanon,
-69,Vulcanon +,Vulcanon +,
-70,Vulmagnum,Vulmagnum,
-71,Gigant Launcher,Gigant Launcher,
-72,GIgant Cannon,GIgant Cannon,
-73,Moby Deus,Moby Deus,
-74,Frater Deus,Frater Deus,
-75,Ark Precursor,Ark Precursor,
-76,Arke Antiphon,Arke Antiphon,
-77,Chaos Wing,Chaos Wing,
-78,Altheos Aetheria,Altheos Aetheria,
-79,Carrozza Bazooka,Carrozza Bazooka,
-80,Queen's Carrozza,Queen's Carrozza,
-81,Cendrillon,Cendrillon,
-82,Wishing Star,Wishing Star,
-83,Meteorite,Meteorite,
-84,Great Meteor,Great Meteor,
-85,"Aquamatic ""Needler""","Aquamatic ""Needler""",
-86,"Aquamatic ""Firelash""","Aquamatic ""Firelash""",
-87,"Aquamatic ""Ashmaker""","Aquamatic ""Ashmaker""",
-88,Carbalite Cannon,Carbalite Cannon,
-89,Meteor Cannon,Meteor Cannon,
-90,Galaxy Cannon,Galaxy Cannon,
-91,The Hexclamation,The Hexclamation,
+0,None,None,mh3g-id-res-game-array+placeholder
+1,Bone Blaster,Bone Blaster,mh3g-id-res-game-array+mh3u-legacy-display-list
+2,Bone Blaster +,Bone Blaster +,mh3g-id-res-game-array+mh3u-legacy-display-list
+3,Bone Buster,Bone Buster,mh3g-id-res-game-array+mh3u-legacy-display-list
+4,Queen's Longfire,Queen's Longfire,mh3g-id-res-game-array+mh3u-legacy-display-list
+5,Queen's Farflier,Queen's Farflier,mh3g-id-res-game-array+mh3u-legacy-display-list
+6,Queen's Scionfire,Queen's Scionfire,mh3g-id-res-game-array+mh3u-legacy-display-list
+7,Empress's Blossom,Empress's Blossom,mh3g-id-res-game-array+mh3u-legacy-display-list
+8,Empress's Flower,Empress's Flower,mh3g-id-res-game-array+mh3u-legacy-display-list
+9,Empress's Garden,Empress's Garden,mh3g-id-res-game-array+mh3u-legacy-display-list
+10,Spheniscine Slayer,Spheniscine Slayer,mh3g-id-res-game-array+mh3u-legacy-display-list
+11,Spheniscine Ruler,Spheniscine Ruler,mh3g-id-res-game-array+mh3u-legacy-display-list
+12,Spheniscine Overlord,Spheniscine Overlord,mh3g-id-res-game-array+mh3u-legacy-display-list
+13,Spheniscine God,Spheniscine God,mh3g-id-res-game-array+mh3u-legacy-display-list
+14,Arzuros Gun,Arzuros Gun,mh3g-id-res-game-array+mh3u-legacy-display-list
+15,Arzuros Rumblegun,Arzuros Rumblegun,mh3g-id-res-game-array+mh3u-legacy-display-list
+16,Arzuros Fishergun,Arzuros Fishergun,mh3g-id-res-game-array+mh3u-legacy-display-list
+17,Arzuros Ace,Arzuros Ace,mh3g-id-res-game-array+mh3u-legacy-display-list
+18,Type 46 Gunflage I,Type 46 Gunflage I,mh3g-id-res-game-array+mh3u-legacy-display-list
+19,Type 46 Gunflage II,Type 46 Gunflage II,mh3g-id-res-game-array+mh3u-legacy-display-list
+20,Type 46 Gunflage III,Type 46 Gunflage III,mh3g-id-res-game-array+mh3u-legacy-display-list
+21,Nibelflage Prototype,Nibelflage Prototype,mh3g-id-res-game-array+mh3u-legacy-display-list
+22,Super Trench Snarfer,Super Trench Snarfer,mh3g-id-res-game-array+mh3u-legacy-display-list
+23,Pressurized Plaser,Pressurized Plaser,mh3g-id-res-game-array+mh3u-legacy-display-list
+24,Pressurized Plaser +,Pressurized Plaser +,mh3g-id-res-game-array+mh3u-legacy-display-list
+25,Verdant Washbuckler,Verdant Washbuckler,mh3g-id-res-game-array+mh3u-legacy-display-list
+26,Captain Verde,Captain Verde,mh3g-id-res-game-array+mh3u-legacy-display-list
+27,Tropeco Gun,Tropeco Gun,mh3g-id-res-game-array+mh3u-legacy-display-list
+28,Tropeco Flambogun,Tropeco Flambogun,mh3g-id-res-game-array+mh3u-legacy-display-list
+29,Pecopius Gun,Pecopius Gun,mh3g-id-res-game-array+mh3u-legacy-display-list
+30,Pecopius Thunder,Pecopius Thunder,mh3g-id-res-game-array+mh3u-legacy-display-list
+31,Paco Pico Peco,Paco Pico Peco,mh3g-id-res-game-array+mh3u-legacy-display-list
+32,Precision Pico Peco,Precision Pico Peco,mh3g-id-res-game-array+mh3u-legacy-display-list
+33,Dios Cannon,Dios Cannon,mh3g-id-res-game-array+mh3u-legacy-display-list
+34,Dios Cannon +,Dios Cannon +,mh3g-id-res-game-array+mh3u-legacy-display-list
+35,Demolition Cannon,Demolition Cannon,mh3g-id-res-game-array+mh3u-legacy-display-list
+36,Haize Demolisher,Haize Demolisher,mh3g-id-res-game-array+mh3u-legacy-display-list
+37,Usurper's Tremor,Usurper's Tremor,mh3g-id-res-game-array+mh3u-legacy-display-list
+38,Despot's Paroxysm,Despot's Paroxysm,mh3g-id-res-game-array+mh3u-legacy-display-list
+39,Oppressor's Making,Oppressor's Making,mh3g-id-res-game-array+mh3u-legacy-display-list
+40,Stygian Temperantia,Stygian Temperantia,mh3g-id-res-game-array+mh3u-legacy-display-list
+41,Hidden Gambit,Hidden Gambit,mh3g-id-res-game-array+mh3u-legacy-display-list
+42,Baleful Night,Baleful Night,mh3g-id-res-game-array+mh3u-legacy-display-list
+43,Vimar Heavy Rifle,Vimar Heavy Rifle,mh3g-id-res-game-array+mh3u-legacy-display-list
+44,Sinister Midnight,Sinister Midnight,mh3g-id-res-game-array+mh3u-legacy-display-list
+45,Eclipse Gambit,Eclipse Gambit,mh3g-id-res-game-array+mh3u-legacy-display-list
+46,Dual Threat,Dual Threat,mh3g-id-res-game-array+mh3u-legacy-display-list
+47,Dual Thread +,Dual Thread +,mh3g-id-res-game-array+mh3u-legacy-display-list
+48,Diablazooka,Diablazooka,mh3g-id-res-game-array+mh3u-legacy-display-list
+49,Nero's Blazooka,Nero's Blazooka,mh3g-id-res-game-array+mh3u-legacy-display-list
+50,Griffon Blazooka,Griffon Blazooka,mh3g-id-res-game-array+mh3u-legacy-display-list
+51,Lagia Blitz,Lagia Blitz,mh3g-id-res-game-array+mh3u-legacy-display-list
+52,Lagia Blitz +,Lagia Blitz +,mh3g-id-res-game-array+mh3u-legacy-display-list
+53,Thunderblitz Cannon,Thunderblitz Cannon,mh3g-id-res-game-array+mh3u-legacy-display-list
+54,Neo Lagia Blitz,Neo Lagia Blitz,mh3g-id-res-game-array+mh3u-legacy-display-list
+55,Blitzador Whitebolt,Blitzador Whitebolt,mh3g-id-res-game-array+mh3u-legacy-display-list
+56,Nether Salvatore,Nether Salvatore,mh3g-id-res-game-array+mh3u-legacy-display-list
+57,Agnaboom,Agnaboom,mh3g-id-res-game-array+mh3u-legacy-display-list
+58,Agnablaster,Agnablaster,mh3g-id-res-game-array+mh3u-legacy-display-list
+59,Agna Hellblazer,Agna Hellblazer,mh3g-id-res-game-array+mh3u-legacy-display-list
+60,Agna Magnum,Agna Magnum,mh3g-id-res-game-array+mh3u-legacy-display-list
+61,Agna Scorpion,Agna Scorpion,mh3g-id-res-game-array+mh3u-legacy-display-list
+62,Avel Agnagun,Avel Agnagun,mh3g-id-res-game-array+mh3u-legacy-display-list
+63,Caim Agnagun,Caim Agnagun,mh3g-id-res-game-array+mh3u-legacy-display-list
+64,Zeth Agnagun,Zeth Agnagun,mh3g-id-res-game-array+mh3u-legacy-display-list
+65,Jhen Cannon,Jhen Cannon,mh3g-id-res-game-array+mh3u-legacy-display-list
+66,Jhen Dracannon,Jhen Dracannon,mh3g-id-res-game-array+mh3u-legacy-display-list
+67,Hellowed Dracannon,Hellowed Dracannon,mh3g-id-res-game-array+mh3u-legacy-display-list
+68,Vulcanon,Vulcanon,mh3g-id-res-game-array+mh3u-legacy-display-list
+69,Vulcanon +,Vulcanon +,mh3g-id-res-game-array+mh3u-legacy-display-list
+70,Vulmagnum,Vulmagnum,mh3g-id-res-game-array+mh3u-legacy-display-list
+71,Gigant Launcher,Gigant Launcher,mh3g-id-res-game-array+mh3u-legacy-display-list
+72,GIgant Cannon,GIgant Cannon,mh3g-id-res-game-array+mh3u-legacy-display-list
+73,Moby Deus,Moby Deus,mh3g-id-res-game-array+mh3u-legacy-display-list
+74,Frater Deus,Frater Deus,mh3g-id-res-game-array+mh3u-legacy-display-list
+75,Ark Precursor,Ark Precursor,mh3g-id-res-game-array+mh3u-legacy-display-list
+76,Arke Antiphon,Arke Antiphon,mh3g-id-res-game-array+mh3u-legacy-display-list
+77,Chaos Wing,Chaos Wing,mh3g-id-res-game-array+mh3u-legacy-display-list
+78,Altheos Aetheria,Altheos Aetheria,mh3g-id-res-game-array+mh3u-legacy-display-list
+79,Carrozza Bazooka,Carrozza Bazooka,mh3g-id-res-game-array+mh3u-legacy-display-list
+80,Queen's Carrozza,Queen's Carrozza,mh3g-id-res-game-array+mh3u-legacy-display-list
+81,Cendrillon,Cendrillon,mh3g-id-res-game-array+mh3u-legacy-display-list
+82,Wishing Star,Wishing Star,mh3g-id-res-game-array+mh3u-legacy-display-list
+83,Meteorite,Meteorite,mh3g-id-res-game-array+mh3u-legacy-display-list
+84,Great Meteor,Great Meteor,mh3g-id-res-game-array+mh3u-legacy-display-list
+85,"Aquamatic ""Needler""","Aquamatic ""Needler""",mh3g-id-res-game-array+mh3u-legacy-display-list
+86,"Aquamatic ""Firelash""","Aquamatic ""Firelash""",mh3g-id-res-game-array+mh3u-legacy-display-list
+87,"Aquamatic ""Ashmaker""","Aquamatic ""Ashmaker""",mh3g-id-res-game-array+mh3u-legacy-display-list
+88,Carbalite Cannon,Carbalite Cannon,mh3g-id-res-game-array+mh3u-legacy-display-list
+89,Meteor Cannon,Meteor Cannon,mh3g-id-res-game-array+mh3u-legacy-display-list
+90,Galaxy Cannon,Galaxy Cannon,mh3g-id-res-game-array+mh3u-legacy-display-list
+91,The Hexclamation,The Hexclamation,mh3g-id-res-game-array+mh3u-legacy-display-list
+92,DUMMY 92,DUMMY 92,mh3g-id-res-game-array+placeholder

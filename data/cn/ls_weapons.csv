@@ -1,113 +1,116 @@
 id,name,english,source
-1,铁刀,Iron Katana,
-2,铁刀【楔】,Iron Grace,
-3,铁刀【神乐】,Iron Gospel,
-4,锁链刀,Chainslaughter,
-5,木灵乱刃,Rumbalarum,
-6,刀锯【雷斩】,Thunder Saw,
-7,王刀雷切,Usurper's Boltslicer,
-8,王牙刀【伏雷】,Despot's Boltbreaker,
-9,真・王牙刀【天威】,Oppressor's Law,
-10,冥雷宝刀,Nether Katana,
-11,冥刀恩库里西斯,Nether Dilemnity,
-12,狼牙刀【恶狱】,Stygian Gula,
-13,冻刃,Rimeblade,
-14,冻刃【冰华】,Rimeblossom,
-15,六花垂冰丸,Rime & Treason,
-16,冰刃【雪月花】,Edel's Ice,
-17,迅龙军刀,Hidden Saber,
-18,迅龙军刀改,Hidden Saber +,
-19,夜刀【月影】,Deepest Night,
-20,月蚀军刀,Eclipse Saber,
-21,七星刀【天権】,Megrez's Asterism,
-22,绿迅龙军刀,Virnar Saber,
-23,疾风刀【里月影】,Depths of Midnight,
-24,毒狗龙太刀,Wroggi Sword,
-25,猛毒之牙,Nightshade's Bite,
-26,剧毒之牙,Belladonna's Bite,
-27,雷刀迅雷,Thunderclap,
-28,雷刀迅雷改,Thunderclap +,
-29,神雷斩破刀,Heaven's Thunder,
-30,天雷斩破刀,Heaven's Sunderer,
-31,天雷斩破刀・真打,Truest Sunderer,
-32,水龙太刀,Plesioth Splasher,
-33,水龙太刀改,Plesioth Splasher +,
-34,翠色怒涛,Verdant Splash,
-35,翠色怒涛改,Verdant Splash +,
-36,翠龙刀维鲁嘉里恩,Jade Vagalhao,
-37,青熊薙,Arzuros Naginata,
-38,青熊薙改,Arzuros Naginata +,
-39,青熊长笔【留跳】,Arzuros Strikequill,
-40,太刀 Gun Dao,Gun Dao,
-41,太刀 Yan Yua Dao,Yan Yua Dao,
-42,刚旋断牙刀【一断】,Yi Duan,
-43,水兽太刀,Drowning Shaft,
-44,凶浪水太刀,Douser Bardiche,
-45,恶浪之瀑,Wasserfallis,
-46,无力阔剑,Enfeebling Glaive,
-47,脱力阔剑,Dispatcher Glaive,
-48,衰弱阔剑,Asthenia Glaive,
-49,骨刀【犬牙】,Canine Katana,
-50,骨刀【豺牙】,Lupine Katana,
-51,骨刀【狛牙】,Cerberus Katana,
-52,骨刀阿难陀,Ananta Boneblade,
-53,骨刀阿难陀改,Ananta Boneblade +,
-54,骨缚刀【影缝】,Shadowbinder,
-55,魂缚棍【不知火】,Soulbinder,
-56,魂缚棍【腾魂】,Soulstrangler,
-57,音叉之刃,Diapason,
-58,音叉之刃改,Diapason +,
-59,红莲音叉,Crimsonfork,
-60,铬之玛祖卡,Chrome Mazurka,
-61,铬之华尔兹,Chrome Waltz,
-62,飛竜刀【双火】,"Wyvern Blade ""Fire""",
-63,飞龙刀【双炎】,"Wyvern Blade ""Flame""",
-64,飞龙刀【双红莲】,"Wyvern Blade ""Flare""",
-65,飞龙刀【银】,"Wyvern Blade ""Pale""",
-66,飞龙刀【椿】,"Wyvern Blade ""Bloom""",
-67,飞龙刀【焰二重】,"Wyvern Blade ""Blaze""",
-68,飞龙刀【八重樱】,"Wyvern Blade ""Rose""",
-69,山割镰,Mountain Reaper,
-70,山割大镰,Mountain Archreaper,
-71,山薙野性狂闪,Wild Heights,
-72,陆薙大崩塌,Grandfolly,
-73,大陆薙灾祸,Tribulation,
-74,鲜血十字,Bleeding Cross,
-75,鲜血十字改,Bleeding Cross +,
-76,毒刀坎塔雷拉,Mephitic Katana,
-77,吸血鬼刀锋,Vampiric Edge,
-78,太刀 Camilla Bloodsucker,Camilla Bloodsucker,
-79,深红十字,Crimson Cross,
-80,失落伊甸,Lost Eden,
-81,流放之血,Banished Blood,
-82,罪恶规条,Law of the Guilty,
-83,火焰舞者,Dancing Flames,
-84,地狱火焰舞者,Dancing Hellfire,
-85,冻焰舞者,Principal Flame,
-86,雪之塞壬,Snow Siren,
-87,暴雪塞壬,Blizzard Siren,
-88,冰冷女主角,Glacial Diva,
-89,迪欧斯之剑,Dios Katana,
-90,迪欧斯之剑改,Dios Katana +,
-91,爆碎之大刀,Demolition Katana,
-92,破岩刀霍姆拉,Pyro Demolisher,
-93,南蛮刀,Barbarian Blade,
-94,南蛮太刀【鲛斩】,"Barbarian ""Sharq""",
-95,业物・九十九牙丸,Kibamaru,
-96,米吉多太刀,Megiddo Katana,
-97,炼狱裁断刀刃之锋,The Adjudition,
-98,漆黑之爪,Dark Claw,
-99,漆黑爪【终焉】,"Dark Claw ""Demise""",
-100,神灭爪阿尔法利亚,Altheos Altrusta,
-101,恐暴惩罚者之刀,"Reaver ""Cruelty""",
-102,灾难惩罚者之刀,"Reaver ""Calamity""",
-103,尼禄的灾祸,Nero's Calamity,
-104,狂风吞噬者,Windeater,
-105,暴风吞噬者,Soundeater,
-106,风神刃,Zephyr,
-107,太刀鱼大太刀,Hairtail's Hairblade,
-108,鲜刀白凪,Fresh Hairblade,
-109,特鮮太刀鱼潮,Premium Hairblade,
-110,铁碎牙,Tenebra,
-111,铁碎牙Ｄ,Tenebra D,
-112,雷霆祷告剑,Rising Soul,
+0,无装备,None,mh3g-id-res-game-array+placeholder
+1,铁刀,Iron Katana,mh3g-id-res-game-array+mh3u-legacy-display-list
+2,铁刀【楔】,Iron Grace,mh3g-id-res-game-array+mh3u-legacy-display-list
+3,铁刀【神乐】,Iron Gospel,mh3g-id-res-game-array+mh3u-legacy-display-list
+4,锁链刀,Chainslaughter,mh3g-id-res-game-array+mh3u-legacy-display-list
+5,木灵乱刃,Rumbalarum,mh3g-id-res-game-array+mh3u-legacy-display-list
+6,刀锯【雷斩】,Thunder Saw,mh3g-id-res-game-array+mh3u-legacy-display-list
+7,王刀雷切,Usurper's Boltslicer,mh3g-id-res-game-array+mh3u-legacy-display-list
+8,王牙刀【伏雷】,Despot's Boltbreaker,mh3g-id-res-game-array+mh3u-legacy-display-list
+9,真・王牙刀【天威】,Oppressor's Law,mh3g-id-res-game-array+mh3u-legacy-display-list
+10,冥雷宝刀,Nether Katana,mh3g-id-res-game-array+mh3u-legacy-display-list
+11,冥刀恩库里西斯,Nether Dilemnity,mh3g-id-res-game-array+mh3u-legacy-display-list
+12,狼牙刀【恶狱】,Stygian Gula,mh3g-id-res-game-array+mh3u-legacy-display-list
+13,冻刃,Rimeblade,mh3g-id-res-game-array+mh3u-legacy-display-list
+14,冻刃【冰华】,Rimeblossom,mh3g-id-res-game-array+mh3u-legacy-display-list
+15,六花垂冰丸,Rime & Treason,mh3g-id-res-game-array+mh3u-legacy-display-list
+16,冰刃【雪月花】,Edel's Ice,mh3g-id-res-game-array+mh3u-legacy-display-list
+17,迅龙军刀,Hidden Saber,mh3g-id-res-game-array+mh3u-legacy-display-list
+18,迅龙军刀改,Hidden Saber +,mh3g-id-res-game-array+mh3u-legacy-display-list
+19,夜刀【月影】,Deepest Night,mh3g-id-res-game-array+mh3u-legacy-display-list
+20,月蚀军刀,Eclipse Saber,mh3g-id-res-game-array+mh3u-legacy-display-list
+21,七星刀【天権】,Megrez's Asterism,mh3g-id-res-game-array+mh3u-legacy-display-list
+22,绿迅龙军刀,Virnar Saber,mh3g-id-res-game-array+mh3u-legacy-display-list
+23,疾风刀【里月影】,Depths of Midnight,mh3g-id-res-game-array+mh3u-legacy-display-list
+24,毒狗龙太刀,Wroggi Sword,mh3g-id-res-game-array+mh3u-legacy-display-list
+25,猛毒之牙,Nightshade's Bite,mh3g-id-res-game-array+mh3u-legacy-display-list
+26,剧毒之牙,Belladonna's Bite,mh3g-id-res-game-array+mh3u-legacy-display-list
+27,雷刀迅雷,Thunderclap,mh3g-id-res-game-array+mh3u-legacy-display-list
+28,雷刀迅雷改,Thunderclap +,mh3g-id-res-game-array+mh3u-legacy-display-list
+29,神雷斩破刀,Heaven's Thunder,mh3g-id-res-game-array+mh3u-legacy-display-list
+30,天雷斩破刀,Heaven's Sunderer,mh3g-id-res-game-array+mh3u-legacy-display-list
+31,天雷斩破刀・真打,Truest Sunderer,mh3g-id-res-game-array+mh3u-legacy-display-list
+32,水龙太刀,Plesioth Splasher,mh3g-id-res-game-array+mh3u-legacy-display-list
+33,水龙太刀改,Plesioth Splasher +,mh3g-id-res-game-array+mh3u-legacy-display-list
+34,翠色怒涛,Verdant Splash,mh3g-id-res-game-array+mh3u-legacy-display-list
+35,翠色怒涛改,Verdant Splash +,mh3g-id-res-game-array+mh3u-legacy-display-list
+36,翠龙刀维鲁嘉里恩,Jade Vagalhao,mh3g-id-res-game-array+mh3u-legacy-display-list
+37,青熊薙,Arzuros Naginata,mh3g-id-res-game-array+mh3u-legacy-display-list
+38,青熊薙改,Arzuros Naginata +,mh3g-id-res-game-array+mh3u-legacy-display-list
+39,青熊长笔【留跳】,Arzuros Strikequill,mh3g-id-res-game-array+mh3u-legacy-display-list
+40,太刀 Gun Dao,Gun Dao,mh3g-id-res-game-array+mh3u-legacy-display-list
+41,太刀 Yan Yua Dao,Yan Yua Dao,mh3g-id-res-game-array+mh3u-legacy-display-list
+42,刚旋断牙刀【一断】,Yi Duan,mh3g-id-res-game-array+mh3u-legacy-display-list
+43,水兽太刀,Drowning Shaft,mh3g-id-res-game-array+mh3u-legacy-display-list
+44,凶浪水太刀,Douser Bardiche,mh3g-id-res-game-array+mh3u-legacy-display-list
+45,恶浪之瀑,Wasserfallis,mh3g-id-res-game-array+mh3u-legacy-display-list
+46,无力阔剑,Enfeebling Glaive,mh3g-id-res-game-array+mh3u-legacy-display-list
+47,脱力阔剑,Dispatcher Glaive,mh3g-id-res-game-array+mh3u-legacy-display-list
+48,衰弱阔剑,Asthenia Glaive,mh3g-id-res-game-array+mh3u-legacy-display-list
+49,骨刀【犬牙】,Canine Katana,mh3g-id-res-game-array+mh3u-legacy-display-list
+50,骨刀【豺牙】,Lupine Katana,mh3g-id-res-game-array+mh3u-legacy-display-list
+51,骨刀【狛牙】,Cerberus Katana,mh3g-id-res-game-array+mh3u-legacy-display-list
+52,骨刀阿难陀,Ananta Boneblade,mh3g-id-res-game-array+mh3u-legacy-display-list
+53,骨刀阿难陀改,Ananta Boneblade +,mh3g-id-res-game-array+mh3u-legacy-display-list
+54,骨缚刀【影缝】,Shadowbinder,mh3g-id-res-game-array+mh3u-legacy-display-list
+55,魂缚棍【不知火】,Soulbinder,mh3g-id-res-game-array+mh3u-legacy-display-list
+56,魂缚棍【腾魂】,Soulstrangler,mh3g-id-res-game-array+mh3u-legacy-display-list
+57,音叉之刃,Diapason,mh3g-id-res-game-array+mh3u-legacy-display-list
+58,音叉之刃改,Diapason +,mh3g-id-res-game-array+mh3u-legacy-display-list
+59,红莲音叉,Crimsonfork,mh3g-id-res-game-array+mh3u-legacy-display-list
+60,铬之玛祖卡,Chrome Mazurka,mh3g-id-res-game-array+mh3u-legacy-display-list
+61,铬之华尔兹,Chrome Waltz,mh3g-id-res-game-array+mh3u-legacy-display-list
+62,飛竜刀【双火】,"Wyvern Blade ""Fire""",mh3g-id-res-game-array+mh3u-legacy-display-list
+63,飞龙刀【双炎】,"Wyvern Blade ""Flame""",mh3g-id-res-game-array+mh3u-legacy-display-list
+64,飞龙刀【双红莲】,"Wyvern Blade ""Flare""",mh3g-id-res-game-array+mh3u-legacy-display-list
+65,飞龙刀【银】,"Wyvern Blade ""Pale""",mh3g-id-res-game-array+mh3u-legacy-display-list
+66,飞龙刀【椿】,"Wyvern Blade ""Bloom""",mh3g-id-res-game-array+mh3u-legacy-display-list
+67,飞龙刀【焰二重】,"Wyvern Blade ""Blaze""",mh3g-id-res-game-array+mh3u-legacy-display-list
+68,飞龙刀【八重樱】,"Wyvern Blade ""Rose""",mh3g-id-res-game-array+mh3u-legacy-display-list
+69,山割镰,Mountain Reaper,mh3g-id-res-game-array+mh3u-legacy-display-list
+70,山割大镰,Mountain Archreaper,mh3g-id-res-game-array+mh3u-legacy-display-list
+71,山薙野性狂闪,Wild Heights,mh3g-id-res-game-array+mh3u-legacy-display-list
+72,陆薙大崩塌,Grandfolly,mh3g-id-res-game-array+mh3u-legacy-display-list
+73,大陆薙灾祸,Tribulation,mh3g-id-res-game-array+mh3u-legacy-display-list
+74,鲜血十字,Bleeding Cross,mh3g-id-res-game-array+mh3u-legacy-display-list
+75,鲜血十字改,Bleeding Cross +,mh3g-id-res-game-array+mh3u-legacy-display-list
+76,毒刀坎塔雷拉,Mephitic Katana,mh3g-id-res-game-array+mh3u-legacy-display-list
+77,吸血鬼刀锋,Vampiric Edge,mh3g-id-res-game-array+mh3u-legacy-display-list
+78,太刀 Camilla Bloodsucker,Camilla Bloodsucker,mh3g-id-res-game-array+mh3u-legacy-display-list
+79,深红十字,Crimson Cross,mh3g-id-res-game-array+mh3u-legacy-display-list
+80,失落伊甸,Lost Eden,mh3g-id-res-game-array+mh3u-legacy-display-list
+81,流放之血,Banished Blood,mh3g-id-res-game-array+mh3u-legacy-display-list
+82,罪恶规条,Law of the Guilty,mh3g-id-res-game-array+mh3u-legacy-display-list
+83,火焰舞者,Dancing Flames,mh3g-id-res-game-array+mh3u-legacy-display-list
+84,地狱火焰舞者,Dancing Hellfire,mh3g-id-res-game-array+mh3u-legacy-display-list
+85,冻焰舞者,Principal Flame,mh3g-id-res-game-array+mh3u-legacy-display-list
+86,雪之塞壬,Snow Siren,mh3g-id-res-game-array+mh3u-legacy-display-list
+87,暴雪塞壬,Blizzard Siren,mh3g-id-res-game-array+mh3u-legacy-display-list
+88,冰冷女主角,Glacial Diva,mh3g-id-res-game-array+mh3u-legacy-display-list
+89,迪欧斯之剑,Dios Katana,mh3g-id-res-game-array+mh3u-legacy-display-list
+90,迪欧斯之剑改,Dios Katana +,mh3g-id-res-game-array+mh3u-legacy-display-list
+91,爆碎之大刀,Demolition Katana,mh3g-id-res-game-array+mh3u-legacy-display-list
+92,破岩刀霍姆拉,Pyro Demolisher,mh3g-id-res-game-array+mh3u-legacy-display-list
+93,南蛮刀,Barbarian Blade,mh3g-id-res-game-array+mh3u-legacy-display-list
+94,南蛮太刀【鲛斩】,"Barbarian ""Sharq""",mh3g-id-res-game-array+mh3u-legacy-display-list
+95,业物・九十九牙丸,Kibamaru,mh3g-id-res-game-array+mh3u-legacy-display-list
+96,米吉多太刀,Megiddo Katana,mh3g-id-res-game-array+mh3u-legacy-display-list
+97,炼狱裁断刀刃之锋,The Adjudition,mh3g-id-res-game-array+mh3u-legacy-display-list
+98,漆黑之爪,Dark Claw,mh3g-id-res-game-array+mh3u-legacy-display-list
+99,漆黑爪【终焉】,"Dark Claw ""Demise""",mh3g-id-res-game-array+mh3u-legacy-display-list
+100,神灭爪阿尔法利亚,Altheos Altrusta,mh3g-id-res-game-array+mh3u-legacy-display-list
+101,恐暴惩罚者之刀,"Reaver ""Cruelty""",mh3g-id-res-game-array+mh3u-legacy-display-list
+102,灾难惩罚者之刀,"Reaver ""Calamity""",mh3g-id-res-game-array+mh3u-legacy-display-list
+103,尼禄的灾祸,Nero's Calamity,mh3g-id-res-game-array+mh3u-legacy-display-list
+104,狂风吞噬者,Windeater,mh3g-id-res-game-array+mh3u-legacy-display-list
+105,暴风吞噬者,Soundeater,mh3g-id-res-game-array+mh3u-legacy-display-list
+106,风神刃,Zephyr,mh3g-id-res-game-array+mh3u-legacy-display-list
+107,太刀鱼大太刀,Hairtail's Hairblade,mh3g-id-res-game-array+mh3u-legacy-display-list
+108,鲜刀白凪,Fresh Hairblade,mh3g-id-res-game-array+mh3u-legacy-display-list
+109,特鮮太刀鱼潮,Premium Hairblade,mh3g-id-res-game-array+mh3u-legacy-display-list
+110,铁碎牙,Tenebra,mh3g-id-res-game-array+mh3u-legacy-display-list
+111,铁碎牙Ｄ,Tenebra D,mh3g-id-res-game-array+mh3u-legacy-display-list
+112,雷霆祷告剑,Rising Soul,mh3g-id-res-game-array+mh3u-legacy-display-list
+113,霸王剑,Conqueror's Sword,mh3g-id-res-game-array+reviewed-japan-only-crosswalk
+114,星光之门,Starlight Gate,mh3g-id-res-game-array+reviewed-japan-only-crosswalk

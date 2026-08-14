@@ -1,97 +1,98 @@
 id,name,english,source
-1,十字弩炮,Cross Bowgun,
-2,クロスボウガン改,Cross Bowgun +,
-3,十字迅雷弩,Cross Blitz,
-4,猎人步枪,Hunter's Rifle,
-5,聚集步枪,Sniper Shot,
-6,升天步枪,Sniper Ascension,
-7,土砂龙轻弩,Barro Barrel,
-8,土砂龙轻弩改,Barrel Barrel +,
-9,土砂龙火箭炮,Barrozooka,
-10,闪耀极光,Aurora Flare,
-11,极光发射器,Avalauncher,
-12,冰川节奏,Glacialahti,
-13,北极加农炮,Arctica Cannon,
-14,迪欧斯冲击,Dios Blaster,
-15,迪欧斯冲击改,Dios Blaster +,
-16,爆碎之光弩,Demolition Gun,
-17,破岩弩巴利斯泰特,Ballista Demolisher,
-18,狗龙之火,Jaggid Fire,
-19,眠狗龙之火,Bandit Fire,
-20,眠狗龙之怒,Bandit's Rage,
-21,野蛮之怒,Merciless Rage,
-22,水兽射手,Royal Launcher,
-23,水兽强射手,Royal Torrent,
-24,水兽洪水弩,Royal Inundation,
-25,漩涡之弩,Maelstrom,
-26,漩涡之弩改,Maelstrom +,
-27,流弩加诺斯特诺姆,Plesioth Drencher,
-28,翠玉风暴,Jade Storm,
-29,翠玉暴风雨,Jade Tempest,
-30,灯鱼龙轻弩,Gobul Shooter,
-31,暗红炮,Crimson Angler,
-32,暗红炮改,Crimson Angler +,
-33,灯鱼龙巨弩,Zhen Angler,
-34,灯鱼龙王弩,Gobul Ganador,
-35,猛毒赠物,Poison Stinger,
-36,猛毒遗产,Poison Aftermath,
-37,永恒枷锁,Immortal Shackle,
-38,永恒囚禁,Immortal Gaol,
-39,永恒监牢,Immortal Prison,
-40,血腥结合,Bloothirsty Binder,
-41,深红寻求者,Crimson Seeker,
-42,死之追迹者,Deadly Chaser,
-43,悲伤幽灵,Specter of Grief,
-44,暴雪加农炮,Blizzard Cannon,
-45,暴雪地狱,Blizzard Volley,
-46,暴雪时刻,Tabula Blizzara,
-47,Diamon 霜,Diamon Frost,
-48,轻弩 Diamon Crest,Diamon Crest,
-49,女武神之火,Valkyrie Fire,
-50,女武神烈焰,Valkyrie Flame,
-51,女武神业火,Valkyrie Blaze,
-52,女武神之心,Valkyrie's Heart,
-53,樱花连弩,Pinkocutioner,
-54,缭乱对弩,Blossomayhem,
-55,迅龙轻弩,Hidden Eye,
-56,夜行弩【枭之眼】,Night Owl,
-57,轻弩 Vimar Gazer,Vimar Gazer,
-58,狂风弩【鹰之眼】,Squallhawk,
-59,月蚀轻弩,Eclipse Gazer,
-60,雷炮雷鸣十字,Thundacrus,
-61,雷炮雷鸣十字改,Thundacrus +,
-62,雷迅炮雷鸣十字,Thundacrus Rex,
-63,新雷鸣十字,Neo Thundacrus,
-64,白雷炮埃克莱尔,Eclair Whitebolt,
-65,火龙炮,Rathling Gun,
-66,业火龙炮,Rathling Doombringer,
-67,凤仙火龙炮,Rathling Phoenix,
-68,苍火龙炮【炎天】,Azurathling Skysear,
-69,苍火龙炮【烈日】,Azurathling Sunsear,
-70,王弩雷枪,Usurper's Crime,
-71,王牙弩【野雷】,Despot's Wildfire,
-72,真・王牙弩【天鼓】,Oppressor's Rift,
-73,牙王・巴鲁泽路德,Orcus Barqus,
-74,冥弩恩普洛克斯,Nether Phloxion,
-75,狼牙弩【反獄】,Stygian Invidia,
-76,贝尔克兹弩,Durambarrel,
-77,金牛座巨弩,Taurambarrel,
-78,巨级弩恒星,Aldebaran Dreadgun,
-79,猛牛弩【一角】,Horn of Taurus,
-80,猛牛弩【天角】,Crown of Taurus,
-81,恐暴机关枪,Devil's Grin,
-82,狂暴领主弩,Devil's Madness,
-83,业弩黑暗狂人,"Diregun ""Dementia""",
-84,灭弩黑暗狂人,"Doomgun ""Dementia""",
-85,鬼岛,Demon's Isle,
-86,大鬼岛,Demon's Island,
-87,吹吹茶釜,Kettleblower,
-88,吹吹茶枪,Kettleblower Deluxe,
-89,名器吹吹茶枪,Master Kettleblower,
-90,神岛,God's Isle,
-91,大神岛【出云】,God's Island,
-92,大神島【神在月】,God's Archipelago,
-93,瓢弹,Gourd Shot,
-94,瓢弾【百成】,Teasel Shot,
-95,瓢弹【千成】,Crookneck Shot,
-96,将命运烧尽之枪弹,The Willuminator,
+0,无装备,None,mh3g-id-res-game-array+placeholder
+1,十字弩炮,Cross Bowgun,mh3g-id-res-game-array+mh3u-legacy-display-list
+2,クロスボウガン改,Cross Bowgun +,mh3g-id-res-game-array+mh3u-legacy-display-list
+3,十字迅雷弩,Cross Blitz,mh3g-id-res-game-array+mh3u-legacy-display-list
+4,猎人步枪,Hunter's Rifle,mh3g-id-res-game-array+mh3u-legacy-display-list
+5,聚集步枪,Sniper Shot,mh3g-id-res-game-array+mh3u-legacy-display-list
+6,升天步枪,Sniper Ascension,mh3g-id-res-game-array+mh3u-legacy-display-list
+7,土砂龙轻弩,Barro Barrel,mh3g-id-res-game-array+mh3u-legacy-display-list
+8,土砂龙轻弩改,Barrel Barrel +,mh3g-id-res-game-array+mh3u-legacy-display-list
+9,土砂龙火箭炮,Barrozooka,mh3g-id-res-game-array+mh3u-legacy-display-list
+10,闪耀极光,Aurora Flare,mh3g-id-res-game-array+mh3u-legacy-display-list
+11,极光发射器,Avalauncher,mh3g-id-res-game-array+mh3u-legacy-display-list
+12,冰川节奏,Glacialahti,mh3g-id-res-game-array+mh3u-legacy-display-list
+13,北极加农炮,Arctica Cannon,mh3g-id-res-game-array+mh3u-legacy-display-list
+14,迪欧斯冲击,Dios Blaster,mh3g-id-res-game-array+mh3u-legacy-display-list
+15,迪欧斯冲击改,Dios Blaster +,mh3g-id-res-game-array+mh3u-legacy-display-list
+16,爆碎之光弩,Demolition Gun,mh3g-id-res-game-array+mh3u-legacy-display-list
+17,破岩弩巴利斯泰特,Ballista Demolisher,mh3g-id-res-game-array+mh3u-legacy-display-list
+18,狗龙之火,Jaggid Fire,mh3g-id-res-game-array+mh3u-legacy-display-list
+19,眠狗龙之火,Bandit Fire,mh3g-id-res-game-array+mh3u-legacy-display-list
+20,眠狗龙之怒,Bandit's Rage,mh3g-id-res-game-array+mh3u-legacy-display-list
+21,野蛮之怒,Merciless Rage,mh3g-id-res-game-array+mh3u-legacy-display-list
+22,水兽射手,Royal Launcher,mh3g-id-res-game-array+mh3u-legacy-display-list
+23,水兽强射手,Royal Torrent,mh3g-id-res-game-array+mh3u-legacy-display-list
+24,水兽洪水弩,Royal Inundation,mh3g-id-res-game-array+mh3u-legacy-display-list
+25,漩涡之弩,Maelstrom,mh3g-id-res-game-array+mh3u-legacy-display-list
+26,漩涡之弩改,Maelstrom +,mh3g-id-res-game-array+mh3u-legacy-display-list
+27,流弩加诺斯特诺姆,Plesioth Drencher,mh3g-id-res-game-array+mh3u-legacy-display-list
+28,翠玉风暴,Jade Storm,mh3g-id-res-game-array+mh3u-legacy-display-list
+29,翠玉暴风雨,Jade Tempest,mh3g-id-res-game-array+mh3u-legacy-display-list
+30,灯鱼龙轻弩,Gobul Shooter,mh3g-id-res-game-array+mh3u-legacy-display-list
+31,暗红炮,Crimson Angler,mh3g-id-res-game-array+mh3u-legacy-display-list
+32,暗红炮改,Crimson Angler +,mh3g-id-res-game-array+mh3u-legacy-display-list
+33,灯鱼龙巨弩,Zhen Angler,mh3g-id-res-game-array+mh3u-legacy-display-list
+34,灯鱼龙王弩,Gobul Ganador,mh3g-id-res-game-array+mh3u-legacy-display-list
+35,猛毒赠物,Poison Stinger,mh3g-id-res-game-array+mh3u-legacy-display-list
+36,猛毒遗产,Poison Aftermath,mh3g-id-res-game-array+mh3u-legacy-display-list
+37,永恒枷锁,Immortal Shackle,mh3g-id-res-game-array+mh3u-legacy-display-list
+38,永恒囚禁,Immortal Gaol,mh3g-id-res-game-array+mh3u-legacy-display-list
+39,永恒监牢,Immortal Prison,mh3g-id-res-game-array+mh3u-legacy-display-list
+40,血腥结合,Bloothirsty Binder,mh3g-id-res-game-array+mh3u-legacy-display-list
+41,深红寻求者,Crimson Seeker,mh3g-id-res-game-array+mh3u-legacy-display-list
+42,死之追迹者,Deadly Chaser,mh3g-id-res-game-array+mh3u-legacy-display-list
+43,悲伤幽灵,Specter of Grief,mh3g-id-res-game-array+mh3u-legacy-display-list
+44,暴雪加农炮,Blizzard Cannon,mh3g-id-res-game-array+mh3u-legacy-display-list
+45,暴雪地狱,Blizzard Volley,mh3g-id-res-game-array+mh3u-legacy-display-list
+46,暴雪时刻,Tabula Blizzara,mh3g-id-res-game-array+mh3u-legacy-display-list
+47,Diamon 霜,Diamon Frost,mh3g-id-res-game-array+mh3u-legacy-display-list
+48,轻弩 Diamon Crest,Diamon Crest,mh3g-id-res-game-array+mh3u-legacy-display-list
+49,女武神之火,Valkyrie Fire,mh3g-id-res-game-array+mh3u-legacy-display-list
+50,女武神烈焰,Valkyrie Flame,mh3g-id-res-game-array+mh3u-legacy-display-list
+51,女武神业火,Valkyrie Blaze,mh3g-id-res-game-array+mh3u-legacy-display-list
+52,女武神之心,Valkyrie's Heart,mh3g-id-res-game-array+mh3u-legacy-display-list
+53,樱花连弩,Pinkocutioner,mh3g-id-res-game-array+mh3u-legacy-display-list
+54,缭乱对弩,Blossomayhem,mh3g-id-res-game-array+mh3u-legacy-display-list
+55,迅龙轻弩,Hidden Eye,mh3g-id-res-game-array+mh3u-legacy-display-list
+56,夜行弩【枭之眼】,Night Owl,mh3g-id-res-game-array+mh3u-legacy-display-list
+57,轻弩 Vimar Gazer,Vimar Gazer,mh3g-id-res-game-array+mh3u-legacy-display-list
+58,狂风弩【鹰之眼】,Squallhawk,mh3g-id-res-game-array+mh3u-legacy-display-list
+59,月蚀轻弩,Eclipse Gazer,mh3g-id-res-game-array+mh3u-legacy-display-list
+60,雷炮雷鸣十字,Thundacrus,mh3g-id-res-game-array+mh3u-legacy-display-list
+61,雷炮雷鸣十字改,Thundacrus +,mh3g-id-res-game-array+mh3u-legacy-display-list
+62,雷迅炮雷鸣十字,Thundacrus Rex,mh3g-id-res-game-array+mh3u-legacy-display-list
+63,新雷鸣十字,Neo Thundacrus,mh3g-id-res-game-array+mh3u-legacy-display-list
+64,白雷炮埃克莱尔,Eclair Whitebolt,mh3g-id-res-game-array+mh3u-legacy-display-list
+65,火龙炮,Rathling Gun,mh3g-id-res-game-array+mh3u-legacy-display-list
+66,业火龙炮,Rathling Doombringer,mh3g-id-res-game-array+mh3u-legacy-display-list
+67,凤仙火龙炮,Rathling Phoenix,mh3g-id-res-game-array+mh3u-legacy-display-list
+68,苍火龙炮【炎天】,Azurathling Skysear,mh3g-id-res-game-array+mh3u-legacy-display-list
+69,苍火龙炮【烈日】,Azurathling Sunsear,mh3g-id-res-game-array+mh3u-legacy-display-list
+70,王弩雷枪,Usurper's Crime,mh3g-id-res-game-array+mh3u-legacy-display-list
+71,王牙弩【野雷】,Despot's Wildfire,mh3g-id-res-game-array+mh3u-legacy-display-list
+72,真・王牙弩【天鼓】,Oppressor's Rift,mh3g-id-res-game-array+mh3u-legacy-display-list
+73,牙王・巴鲁泽路德,Orcus Barqus,mh3g-id-res-game-array+mh3u-legacy-display-list
+74,冥弩恩普洛克斯,Nether Phloxion,mh3g-id-res-game-array+mh3u-legacy-display-list
+75,狼牙弩【反獄】,Stygian Invidia,mh3g-id-res-game-array+mh3u-legacy-display-list
+76,贝尔克兹弩,Durambarrel,mh3g-id-res-game-array+mh3u-legacy-display-list
+77,金牛座巨弩,Taurambarrel,mh3g-id-res-game-array+mh3u-legacy-display-list
+78,巨级弩恒星,Aldebaran Dreadgun,mh3g-id-res-game-array+mh3u-legacy-display-list
+79,猛牛弩【一角】,Horn of Taurus,mh3g-id-res-game-array+mh3u-legacy-display-list
+80,猛牛弩【天角】,Crown of Taurus,mh3g-id-res-game-array+mh3u-legacy-display-list
+81,恐暴机关枪,Devil's Grin,mh3g-id-res-game-array+mh3u-legacy-display-list
+82,狂暴领主弩,Devil's Madness,mh3g-id-res-game-array+mh3u-legacy-display-list
+83,业弩黑暗狂人,"Diregun ""Dementia""",mh3g-id-res-game-array+mh3u-legacy-display-list
+84,灭弩黑暗狂人,"Doomgun ""Dementia""",mh3g-id-res-game-array+mh3u-legacy-display-list
+85,鬼岛,Demon's Isle,mh3g-id-res-game-array+mh3u-legacy-display-list
+86,大鬼岛,Demon's Island,mh3g-id-res-game-array+mh3u-legacy-display-list
+87,吹吹茶釜,Kettleblower,mh3g-id-res-game-array+mh3u-legacy-display-list
+88,吹吹茶枪,Kettleblower Deluxe,mh3g-id-res-game-array+mh3u-legacy-display-list
+89,名器吹吹茶枪,Master Kettleblower,mh3g-id-res-game-array+mh3u-legacy-display-list
+90,神岛,God's Isle,mh3g-id-res-game-array+mh3u-legacy-display-list
+91,大神岛【出云】,God's Island,mh3g-id-res-game-array+mh3u-legacy-display-list
+92,大神島【神在月】,God's Archipelago,mh3g-id-res-game-array+mh3u-legacy-display-list
+93,瓢弹,Gourd Shot,mh3g-id-res-game-array+mh3u-legacy-display-list
+94,瓢弾【百成】,Teasel Shot,mh3g-id-res-game-array+mh3u-legacy-display-list
+95,瓢弹【千成】,Crookneck Shot,mh3g-id-res-game-array+mh3u-legacy-display-list
+96,将命运烧尽之枪弹,The Willuminator,mh3g-id-res-game-array+mh3u-legacy-display-list

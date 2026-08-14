@@ -1,0 +1,568 @@
+{
+  "authoritative_tables": {
+    "arms_armors": {
+      "description_resource": {
+        "arc_index": 41,
+        "arc_path": "GUI\\font\\Arm_Exp_jpn",
+        "compressed_size": 7924,
+        "messages": 363,
+        "sha256": "cc56cc8c83c539bbc15579866005727a16d59680b911805f9b75591153ac8028",
+        "size": 36079
+      },
+      "name_resource": {
+        "arc_index": 23,
+        "arc_path": "GUI\\font\\Arm_jpn",
+        "compressed_size": 1495,
+        "messages": 363,
+        "sha256": "4d546bf983badff9e4a8b6fbaa04d593b186b9c1a64b2b4fde5865775d3fc3fd",
+        "size": 6113
+      },
+      "rows": 363
+    },
+    "bow_weapons": {
+      "description_resource": {
+        "arc_index": 37,
+        "arc_path": "GUI\\font\\Bow_Exp_jpn",
+        "compressed_size": 3244,
+        "messages": 117,
+        "sha256": "729eea061a5bee1dc44255a0ca47d5f13e0b145ce61e369779963a05ef8ed402",
+        "size": 11566
+      },
+      "name_resource": {
+        "arc_index": 19,
+        "arc_path": "GUI\\font\\Bow_jpn",
+        "compressed_size": 981,
+        "messages": 117,
+        "sha256": "9eea66c670d82e93da633fdcb2cab27d4351d34d906aa38d93bc17e159457078",
+        "size": 2045
+      },
+      "rows": 117
+    },
+    "chest_armors": {
+      "description_resource": {
+        "arc_index": 40,
+        "arc_path": "GUI\\font\\Body_Exp_jpn",
+        "compressed_size": 9615,
+        "messages": 382,
+        "sha256": "dab1e1d9d44a6bc88f1c8bcab55f64e55553a60c0d6c61099f8c1e126b0c19a3",
+        "size": 39552
+      },
+      "name_resource": {
+        "arc_index": 22,
+        "arc_path": "GUI\\font\\Body_jpn",
+        "compressed_size": 1637,
+        "messages": 382,
+        "sha256": "f163edc73f8fff73ffa2982621807023190c8c46fab859d2c51b555d36a6854c",
+        "size": 6434
+      },
+      "rows": 382
+    },
+    "db_weapons": {
+      "description_resource": {
+        "arc_index": 36,
+        "arc_path": "GUI\\font\\WSword_Exp_jpn",
+        "compressed_size": 3524,
+        "messages": 126,
+        "sha256": "32ca71a8138da4ec08769eeea59e98821a3169f4da0aa4af7445d4bf51add278",
+        "size": 13108
+      },
+      "name_resource": {
+        "arc_index": 18,
+        "arc_path": "GUI\\font\\WSword_jpn",
+        "compressed_size": 1087,
+        "messages": 126,
+        "sha256": "b3630bd39ffd0e24b5567f76881d3237eb1f8666cfd5446a86dbf7f528068335",
+        "size": 2174
+      },
+      "rows": 126
+    },
+    "gl_weapons": {
+      "description_resource": {
+        "arc_index": 35,
+        "arc_path": "GUI\\font\\Gunlance_Exp_jpn",
+        "compressed_size": 2987,
+        "messages": 115,
+        "sha256": "8cd0d209954f714c1f234d31217360f1eada1c361a879fe8dda9c104bd484736",
+        "size": 11586
+      },
+      "name_resource": {
+        "arc_index": 17,
+        "arc_path": "GUI\\font\\Gunlance_jpn",
+        "compressed_size": 951,
+        "messages": 115,
+        "sha256": "1e8db054e0121b5cbe2df6b65639d79407eda1d8ea439f293987dfee28d9a406",
+        "size": 1897
+      },
+      "rows": 115
+    },
+    "gs_weapons": {
+      "description_resource": {
+        "arc_index": 27,
+        "arc_path": "GUI\\font\\Lsword_Exp_jpn",
+        "compressed_size": 4149,
+        "messages": 136,
+        "sha256": "4ebafba69417a0a420920d910f5241a737177dae71a1e78e15aa989836e48853",
+        "size": 13606
+      },
+      "name_resource": {
+        "arc_index": 9,
+        "arc_path": "GUI\\font\\Lsword_jpn",
+        "compressed_size": 1107,
+        "messages": 136,
+        "sha256": "7844f870086b65f58f6a44ed30507a72758c6dd06a8d4a37e91f954611680d6d",
+        "size": 2307
+      },
+      "rows": 136
+    },
+    "h_weapons": {
+      "description_resource": {
+        "arc_index": 29,
+        "arc_path": "GUI\\font\\Hammer_Exp_jpn",
+        "compressed_size": 3718,
+        "messages": 135,
+        "sha256": "72e82bde3a2e1bd3e50128e189586a03616f66b9a6f8a7c6e805866542cd395a",
+        "size": 13197
+      },
+      "name_resource": {
+        "arc_index": 11,
+        "arc_path": "GUI\\font\\Hammer_jpn",
+        "compressed_size": 1116,
+        "messages": 135,
+        "sha256": "4b1fd27354fdf371c91b83f40003c09364c9144a3bc5f6b9d9324ed818d183f9",
+        "size": 2237
+      },
+      "rows": 135
+    },
+    "hbg_weapons": {
+      "description_resource": {
+        "arc_index": 33,
+        "arc_path": "GUI\\font\\Hbg_Exp_jpn",
+        "compressed_size": 3111,
+        "messages": 93,
+        "sha256": "0085b53e626dcd564ddece279f3c2a551ac9df21c10210677e28bc6b3e62644e",
+        "size": 10369
+      },
+      "name_resource": {
+        "arc_index": 15,
+        "arc_path": "GUI\\font\\Hbg_jpn",
+        "compressed_size": 810,
+        "messages": 93,
+        "sha256": "23344b33596f6e8da5992b23d8964710377b974ada34f575ded3e067804cdaf2",
+        "size": 1657
+      },
+      "rows": 93
+    },
+    "head_armors": {
+      "description_resource": {
+        "arc_index": 39,
+        "arc_path": "GUI\\font\\Helm_Exp_jpn",
+        "compressed_size": 9125,
+        "messages": 380,
+        "sha256": "5edecdb01a3f247d316174922413f2be362d2748b105963ede89fa266aee3129",
+        "size": 37796
+      },
+      "name_resource": {
+        "arc_index": 21,
+        "arc_path": "GUI\\font\\Helm_jpn",
+        "compressed_size": 1645,
+        "messages": 380,
+        "sha256": "cc4662182a0f34a4b2d0524506a972de23bdfe28feae58361843ee11c01b1412",
+        "size": 6327
+      },
+      "rows": 380
+    },
+    "hh_weapons": {
+      "description_resource": {
+        "arc_index": 38,
+        "arc_path": "GUI\\font\\Pipe_Exp_jpn",
+        "compressed_size": 2819,
+        "messages": 102,
+        "sha256": "27a08145643c9cfd18bc2fdbe511cf7735ec291c8d46e4525ce353c724d2e625",
+        "size": 10934
+      },
+      "name_resource": {
+        "arc_index": 20,
+        "arc_path": "GUI\\font\\Pipe_jpn",
+        "compressed_size": 835,
+        "messages": 102,
+        "sha256": "1b1972e156bd639f3e8469ba65eb45233e39d469545fa7837a52acfb8f6f1bc8",
+        "size": 1729
+      },
+      "rows": 102
+    },
+    "items": {
+      "description_resource": {
+        "arc_index": 1,
+        "arc_path": "GUI\\font\\ItemDetail_jpn",
+        "compressed_size": 38488,
+        "messages": 1533,
+        "sha256": "31c5b6e0ac3efcb78aec93c6536f9287fd19f9bb3efa6fc19b7cb86619d15b72",
+        "size": 132001
+      },
+      "name_resource": {
+        "arc_index": 0,
+        "arc_path": "GUI\\font\\Item00_jpn",
+        "compressed_size": 7902,
+        "messages": 1533,
+        "sha256": "fa52b02ed7ceb4735c322c7666b7bc52a62207da204a471ebd02be2a68b9da1e",
+        "size": 25366
+      },
+      "rows": 1533
+    },
+    "l_weapons": {
+      "description_resource": {
+        "arc_index": 32,
+        "arc_path": "GUI\\font\\Lance_Exp_jpn",
+        "compressed_size": 4302,
+        "messages": 146,
+        "sha256": "18c387dc2c2887b63877f4b00d7ad81ac3e016c4e4be30f9de9572dbdf2dc662",
+        "size": 15526
+      },
+      "name_resource": {
+        "arc_index": 14,
+        "arc_path": "GUI\\font\\Lance_jpn",
+        "compressed_size": 1167,
+        "messages": 146,
+        "sha256": "6a79b9d7caa4b160c45eea8fc6412afd54e82b7582c8fa3d31c5d59e72e76829",
+        "size": 2327
+      },
+      "rows": 146
+    },
+    "lbg_weapons": {
+      "description_resource": {
+        "arc_index": 34,
+        "arc_path": "GUI\\font\\Lbg_Exp_jpn",
+        "compressed_size": 2789,
+        "messages": 97,
+        "sha256": "ffff2f6a03279e7bb5ff3bd4b02680f6512ac0e041fa069814cc056842a8288a",
+        "size": 9584
+      },
+      "name_resource": {
+        "arc_index": 16,
+        "arc_path": "GUI\\font\\Lbg_jpn",
+        "compressed_size": 891,
+        "messages": 97,
+        "sha256": "97cd1afd22b2f8c25bf90ca977b84064e9b6a51770b9f43e37854945566ee5d7",
+        "size": 1644
+      },
+      "rows": 97
+    },
+    "legs_armors": {
+      "description_resource": {
+        "arc_index": 43,
+        "arc_path": "GUI\\font\\Leg_Exp_jpn",
+        "compressed_size": 8142,
+        "messages": 377,
+        "sha256": "6e54535b8b1233678c329f2b3f3cd100b5ae1aa8e21f60810384c3d2a603d960",
+        "size": 35846
+      },
+      "name_resource": {
+        "arc_index": 25,
+        "arc_path": "GUI\\font\\Leg_jpn",
+        "compressed_size": 1597,
+        "messages": 377,
+        "sha256": "67ccfa43ac8c0d40c608047a3f94303ccb30e6eafed1593b828d05a17e82db2d",
+        "size": 6316
+      },
+      "rows": 377
+    },
+    "ls_weapons": {
+      "description_resource": {
+        "arc_index": 30,
+        "arc_path": "GUI\\font\\Lsword2_Exp_jpn",
+        "compressed_size": 3777,
+        "messages": 115,
+        "sha256": "458a4ea1212754ba49c3e4b2724d198935731baa17fde180ada879391624c99b",
+        "size": 12014
+      },
+      "name_resource": {
+        "arc_index": 12,
+        "arc_path": "GUI\\font\\Lsword2_jpn",
+        "compressed_size": 1040,
+        "messages": 115,
+        "sha256": "071edf37694ff63d380c598b0e57ca1d1e21d9cf119c5b1eab9ec0585ded7bcb",
+        "size": 2003
+      },
+      "rows": 115
+    },
+    "sa_weapons": {
+      "description_resource": {
+        "arc_index": 31,
+        "arc_path": "GUI\\font\\Axe_Exp_jpn",
+        "compressed_size": 3348,
+        "messages": 114,
+        "sha256": "0d07b8e5d150b7cc930aa2182e53f88c1a26c6f0e365cdf52da5b6a8503a00e9",
+        "size": 11980
+      },
+      "name_resource": {
+        "arc_index": 13,
+        "arc_path": "GUI\\font\\Axe_jpn",
+        "compressed_size": 938,
+        "messages": 114,
+        "sha256": "4ba5f5f8fc5e99d62a4ae1fe3f05f8e9f499b3a657a2806ce5ea1ef4a25ccc9f",
+        "size": 1868
+      },
+      "rows": 114
+    },
+    "sns_weapons": {
+      "description_resource": {
+        "arc_index": 28,
+        "arc_path": "GUI\\font\\Sword_Exp_jpn",
+        "compressed_size": 4003,
+        "messages": 141,
+        "sha256": "fad5d23d3b7c54552aa3ec34a3d4051e2366cc9bb4d55d4d72971a6fae7021af",
+        "size": 14476
+      },
+      "name_resource": {
+        "arc_index": 10,
+        "arc_path": "GUI\\font\\Sword_jpn",
+        "compressed_size": 1209,
+        "messages": 141,
+        "sha256": "d5ae5c7a28ffede057f2caebe18fa26c9059398d27da30c87951519770993780",
+        "size": 2430
+      },
+      "rows": 141
+    },
+    "waist_armors": {
+      "description_resource": {
+        "arc_index": 42,
+        "arc_path": "GUI\\font\\Waist_Exp_jpn",
+        "compressed_size": 7913,
+        "messages": 371,
+        "sha256": "f23d7464de81f76640df37f30e54ad660ee089719b8ed73d890f5f535a56f5e2",
+        "size": 35936
+      },
+      "name_resource": {
+        "arc_index": 24,
+        "arc_path": "GUI\\font\\Waist_jpn",
+        "compressed_size": 1562,
+        "messages": 371,
+        "sha256": "bcffa88bab62c5168b4b321f9d1534a3d11e62a5ff54fbbc7fa31f599dd0c512",
+        "size": 6260
+      },
+      "rows": 371
+    }
+  },
+  "files": {
+    "cn/arms_armors.csv": {
+      "rows": 363,
+      "sha256": "5e0bc5ba57b368d1c03e2c3100582b1e4c37e3db158b2502ac73b8132d9f09b4"
+    },
+    "cn/bow_weapons.csv": {
+      "rows": 117,
+      "sha256": "1c40e59d4da1f85bd8a239c13999b2e83d0dba0ac0b1c8730e4c7b5077f12c46"
+    },
+    "cn/charms.csv": {
+      "rows": 10,
+      "sha256": "cecbfd8fc97f686faf32c675c12f461ca906a30765dc9722cb06dcbce946afd8"
+    },
+    "cn/chest_armors.csv": {
+      "rows": 382,
+      "sha256": "ce19e3ddcd43e0188acad0e6692b6b4441234322c9c7d4d46ff40b6a8dd9aa29"
+    },
+    "cn/db_weapons.csv": {
+      "rows": 126,
+      "sha256": "87324f5ca76ec08f8368749c3a0c9e72a7a93b09da20f5c3f747c941243fad7f"
+    },
+    "cn/equipment_types.csv": {
+      "rows": 18,
+      "sha256": "3ec3aa5396cdc1e904d83003108a41b199a65bf619635d1fb9cc0d94eee0916b"
+    },
+    "cn/faces.csv": {
+      "rows": 11,
+      "sha256": "1269592950e8afed76d159563aed1e8dfc5acc060a9ee83c9239a3ccb2372ae4"
+    },
+    "cn/gl_weapons.csv": {
+      "rows": 115,
+      "sha256": "335c9b51d72e9691c451c9b0d651bd044a51fcf457f2533239295ed365637f75"
+    },
+    "cn/gs_weapons.csv": {
+      "rows": 136,
+      "sha256": "94d2283d1c51cf57934a17d0a8be0551ab2e239c3fd502ec6f5a83dd3b103db3"
+    },
+    "cn/h_weapons.csv": {
+      "rows": 135,
+      "sha256": "6a2fdee7f86d251929cbfae625e546934966ffb9ed29220300d45ebe3400d5e3"
+    },
+    "cn/hairs.csv": {
+      "rows": 14,
+      "sha256": "f8f7e97204d6c580b996430b0ca619fc56dbd0bfb8c8f8e081b8308f355ab6f0"
+    },
+    "cn/hbg_weapons.csv": {
+      "rows": 93,
+      "sha256": "8a1a62e529968ecf00cf2b94982650086b48c11317613ed3d6f4154ea4f10b11"
+    },
+    "cn/head_armors.csv": {
+      "rows": 380,
+      "sha256": "9b1526c6ca19f2f1aedaed7915ae09f46785fadb35c611cb33a5321efc159dd4"
+    },
+    "cn/hh_weapons.csv": {
+      "rows": 102,
+      "sha256": "c596aa043d34b5dd999350922d9473cb5894b0f1328cdf0719d97e4636bcd2cc"
+    },
+    "cn/items.csv": {
+      "rows": 1533,
+      "sha256": "71fe3473090e7257d8a8e17185fe2996d751f9f2259a2bede814a7902731ce25"
+    },
+    "cn/jewels.csv": {
+      "rows": 196,
+      "sha256": "35538ab9ccf53417b74df1ba2e44761b4eb051a586d493bd24ba5c150102123e"
+    },
+    "cn/l_weapons.csv": {
+      "rows": 146,
+      "sha256": "957196d840134c54a0a163e908807fd160d418cff91e2c557649bb33d5a30fba"
+    },
+    "cn/lbg_weapons.csv": {
+      "rows": 97,
+      "sha256": "23c88cd7f032ae7d75793e715b386f1b368c894daab45dabb818650e7e59f818"
+    },
+    "cn/legs_armors.csv": {
+      "rows": 377,
+      "sha256": "def3d288312d5aee885e92b7776c3e2e7f09a0f97213b7d62335eb64dd19b146"
+    },
+    "cn/ls_weapons.csv": {
+      "rows": 115,
+      "sha256": "37e656ffd923aab0a0e5aa4ad3fad7ca411ee4fd0839ce181854bbe14f1b5276"
+    },
+    "cn/sa_weapons.csv": {
+      "rows": 114,
+      "sha256": "652062e1954793371abeed9f143c8efda97081633213c36ecef63991c6bbbe8f"
+    },
+    "cn/sexs.csv": {
+      "rows": 2,
+      "sha256": "821e8fc5e4392b0018e5b4257aeae8432205d61715e715cb943d1692c9b19ef8"
+    },
+    "cn/skills.csv": {
+      "rows": 126,
+      "sha256": "07566bd107e7e0b2f1de5d3c25ea27875faff6eb9acbeb4940c559cb71919578"
+    },
+    "cn/sns_weapons.csv": {
+      "rows": 141,
+      "sha256": "19e3d881b1f543a24e9009f4822f02be4b94f369d1045a7ad5a8819146c0857a"
+    },
+    "cn/voices.csv": {
+      "rows": 20,
+      "sha256": "e25909a0b97e98e013c1d4d5681c8c49b7780d7a8645a06c7adf6e704425246a"
+    },
+    "cn/waist_armors.csv": {
+      "rows": 371,
+      "sha256": "f7fc405be3ffa261080cb9604b4c55f99cb52496d81cea095a5eb3470391c420"
+    },
+    "en/arms_armors.csv": {
+      "rows": 363,
+      "sha256": "50f80bf9c97f33585faadff426a77fb6b04b37349116f63aaab06ad079eda743"
+    },
+    "en/bow_weapons.csv": {
+      "rows": 117,
+      "sha256": "4bec86b413e7f6d16c47a7b5e71bc5c3986b5131614bd8fc07150de131192254"
+    },
+    "en/charms.csv": {
+      "rows": 10,
+      "sha256": "20e3201af916469abc748754805096475759a17f3c08b02f8d1d80de8d8f7d22"
+    },
+    "en/chest_armors.csv": {
+      "rows": 382,
+      "sha256": "6bca37804d529e2780e28c4e6afb01735c7ad27c5ad4c9e83397a220d3cd7ed7"
+    },
+    "en/db_weapons.csv": {
+      "rows": 126,
+      "sha256": "12cf459619fb1ec7fd534e25a2de7ffc3ae8d873370baa814cc25c9eccf70e89"
+    },
+    "en/equipment_types.csv": {
+      "rows": 18,
+      "sha256": "f67b2cc4bce8b6e1ba96ee6092284e403bfe3f50135c82069add2836e27bf80d"
+    },
+    "en/faces.csv": {
+      "rows": 11,
+      "sha256": "dcb8365b9a944149cbefce3d55b50a3b8809059f94fca29e424dbdab52c4dfb5"
+    },
+    "en/gl_weapons.csv": {
+      "rows": 115,
+      "sha256": "ef488a200a2fc98e72a10cca08005b3344ed29e567d984bf2f741c0cc7256846"
+    },
+    "en/gs_weapons.csv": {
+      "rows": 136,
+      "sha256": "25bb1cd24578d98fbc6340567afab6fdef838c2a570849325ba3a75389a827f6"
+    },
+    "en/h_weapons.csv": {
+      "rows": 135,
+      "sha256": "31c11040ca7aae9b3ccb913fef4a6c7853a7988b76dfe6c6cf38b4c4d2054ebb"
+    },
+    "en/hairs.csv": {
+      "rows": 14,
+      "sha256": "d967c22d2dc4d8816012fba09cff3b77f837845b33700bce7815f9fa93a31828"
+    },
+    "en/hbg_weapons.csv": {
+      "rows": 93,
+      "sha256": "fab22b4ec1a3699614d1161b2a171322ce8f61a31f8a7369427ec7b85d578999"
+    },
+    "en/head_armors.csv": {
+      "rows": 380,
+      "sha256": "aa69edc19e4bb32ff46e66d0bd8cea1a6a98f7e9e9173f97042e926d688ecb70"
+    },
+    "en/hh_weapons.csv": {
+      "rows": 102,
+      "sha256": "4cc6013f54d8084f13b795948dee7ec809c0ee8ae55809ed8215422e2e55e093"
+    },
+    "en/items.csv": {
+      "rows": 1533,
+      "sha256": "c109f34287c899969a73c184c4410edb83b2f33f68551e67c351a458de21a166"
+    },
+    "en/jewels.csv": {
+      "rows": 196,
+      "sha256": "1b8649c9d987a2eb8ac4c6ff5c1848d1336942ed063e216e6240435451ef105f"
+    },
+    "en/l_weapons.csv": {
+      "rows": 146,
+      "sha256": "04238a706d24b5f7f6f85cdb5a195dab410998354da23da995a7b584d306d9b9"
+    },
+    "en/lbg_weapons.csv": {
+      "rows": 97,
+      "sha256": "5031d076098eeb3108500076d29d8050a034638ba911cca177fd3a38c3a07f03"
+    },
+    "en/legs_armors.csv": {
+      "rows": 377,
+      "sha256": "0ebfe810734139539ee4df5733d795c9053d8a5c57131d7ee29a5675c80a48f1"
+    },
+    "en/ls_weapons.csv": {
+      "rows": 115,
+      "sha256": "a7db459702797b1240accd639bf5adae1c033a894e27c280d1b1e6b5c1d41903"
+    },
+    "en/sa_weapons.csv": {
+      "rows": 114,
+      "sha256": "0a62f07ed2cfeda7a00fdf78f1a44e0726be635847a6d7c5d3b824b6aaf31b6c"
+    },
+    "en/sexs.csv": {
+      "rows": 2,
+      "sha256": "21ba5f1bdb013b4b95273bbc8ceb655fb75bfb7d12a9946a5e436adf4f36f146"
+    },
+    "en/skills.csv": {
+      "rows": 126,
+      "sha256": "ecb77f40acdffd7c4ab73f30c44ba03b6301ebdf7607a55bb9351b7e0cfca08d"
+    },
+    "en/sns_weapons.csv": {
+      "rows": 141,
+      "sha256": "5ebb6ba3a2ece2a56d1c5d0156414fc1d78c9386f888b0d11ae923dd03cc8aa6"
+    },
+    "en/voices.csv": {
+      "rows": 20,
+      "sha256": "5d55846de1d08d73b00d809991b7be09a94e6b14381e21391660a6a863fee3f4"
+    },
+    "en/waist_armors.csv": {
+      "rows": 371,
+      "sha256": "329d06d0c05f3e247a218929f1e36a1e3f1b2796be242a63d1c8100d8dff7e23"
+    }
+  },
+  "font_remap_warning": true,
+  "format": "mh3g-save-editor-data-v1",
+  "game_export_format": "mh3g-game-name-export-v1",
+  "game_export_language": "cn-font-remap",
+  "game_resource": {
+    "arc_entry_count": 74,
+    "arc_version": "0x0010",
+    "file": "ID_res.arc",
+    "sha256": "81e316bdfb0e65c1b05f1b375265aaff2cc3a1dc4c8cb5b8be23f0abd9b73087",
+    "size": 1106853
+  },
+  "generator_version": "2.0.0"
+}

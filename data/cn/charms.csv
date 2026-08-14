@@ -1,11 +1,11 @@
 id,name,english,source
-1,士兵护石,Pawn Talisman,
-2,斗士护石,Bishop Talisman,
-3,骑士护石,Knight Talisman,
-4,城塞护石,Rook Talisman,
-5,女王护石,Queen Talisman,
-6,国王护石,King Talisman,
-7,龙之护石,Dragon Talisman,
-8,英雄护石,Hero Talisman,
-9,传说护石,Legend Talisman,
-10,天之护石,Creator Talisman,
+1,士兵护石,Pawn Talisman,mh3u-legacy-display-list
+2,斗士护石,Bishop Talisman,mh3u-legacy-display-list
+3,骑士护石,Knight Talisman,mh3u-legacy-display-list
+4,城塞护石,Rook Talisman,mh3u-legacy-display-list
+5,女王护石,Queen Talisman,mh3u-legacy-display-list
+6,国王护石,King Talisman,mh3u-legacy-display-list
+7,龙之护石,Dragon Talisman,mh3u-legacy-display-list
+8,英雄护石,Hero Talisman,mh3u-legacy-display-list
+9,传说护石,Legend Talisman,mh3u-legacy-display-list
+10,天之护石,Creator Talisman,mh3u-legacy-display-list

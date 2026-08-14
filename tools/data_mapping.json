@@ -1,0 +1,31 @@
+{
+  "format": "mh3g-data-mapping-v1",
+  "game_export_format": "mh3g-game-name-export-v1",
+  "game_resource": {
+    "file": "ID_res.arc",
+    "size": 1106853,
+    "sha256": "81e316bdfb0e65c1b05f1b375265aaff2cc3a1dc4c8cb5b8be23f0abd9b73087",
+    "arc_version": "0x0010",
+    "arc_entry_count": 74
+  },
+  "tables": {
+    "items": 1533,
+    "head_armors": 380,
+    "chest_armors": 382,
+    "arms_armors": 363,
+    "waist_armors": 371,
+    "legs_armors": 377,
+    "gs_weapons": 136,
+    "sns_weapons": 141,
+    "h_weapons": 135,
+    "ls_weapons": 115,
+    "sa_weapons": 114,
+    "l_weapons": 146,
+    "hbg_weapons": 93,
+    "lbg_weapons": 97,
+    "gl_weapons": 115,
+    "db_weapons": 126,
+    "bow_weapons": 117,
+    "hh_weapons": 102
+  }
+}
