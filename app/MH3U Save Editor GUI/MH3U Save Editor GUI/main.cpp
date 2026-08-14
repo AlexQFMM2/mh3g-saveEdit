@@ -125,9 +125,17 @@ static void applyApplicationStyle(QApplication &app)
         QTextEdit:focus, QPlainTextEdit:focus {
             border: 1px solid #4f88d3;
         }
+        QComboBox { padding-right: 28px; }
         QComboBox::drop-down {
+            subcontrol-origin: padding;
+            subcontrol-position: top right;
             border: 0;
-            width: 24px;
+            width: 26px;
+        }
+        QComboBox::down-arrow {
+            image: url(:/icons/combobox-arrow.svg);
+            width: 10px;
+            height: 6px;
         }
         QTableWidget, QTableView {
             color: #1e293b;

@@ -11,6 +11,7 @@ GUI_DIR = "$$PWD/app/MH3U Save Editor GUI/MH3U Save Editor GUI"
 DESTDIR = $$PWD/bin
 OBJECTS_DIR = $$PWD/build/obj
 MOC_DIR = $$PWD/build/moc
+RCC_DIR = $$PWD/build/rcc
 
 INCLUDEPATH += $$GUI_DIR \
                $$GUI_DIR/widget \
@@ -52,3 +53,5 @@ HEADERS += "$$CORE_DIR/main.hpp" \
            "$$GUI_DIR/widget/qoption.hpp" \
            "$$GUI_DIR/widget/qpouch.hpp" \
            "$$GUI_DIR/widget/qweapon.hpp"
+
+RESOURCES += resources/resources.qrc
