@@ -18,6 +18,11 @@ class QChest : public QWidget
 public:
     explicit QChest(MH3U_SE *mh3u, QWidget *parent = 0);
     ~QChest();
+    void loadFromModel();
+    bool commitToModel(QString *error = 0);
+
+signals:
+    void modified();
 
 private:
     MH3U_SE *mh3u;

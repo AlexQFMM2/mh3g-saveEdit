@@ -8,6 +8,10 @@ The editor automatically detects both supported character-file formats:
 
 Always keep an untouched backup of the complete save directory before editing.
 
+The Chinese management interface keeps Character, Item Chest, and Equipment Box in one window.
+Saving atomically replaces the currently opened file; there is no Save As command and the editor
+does not create a backup. A successful save is confirmed by a message box.
+
 ## 3DS / Wii U item and equipment transfer
 
 The item-chest and equipment-box windows can export all 1,000 slots to versioned CSV transfer forms. Open the destination character file (3DS or Wii U), import the matching form, confirm the listed-slot replacement, and then save the character file from the main window.

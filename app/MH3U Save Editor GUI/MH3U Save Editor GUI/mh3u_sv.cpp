@@ -1,125 +1,132 @@
 #include "mh3u_sv.hpp"
 
+#include <QAbstractButton>
+#include <QCloseEvent>
+#include <QFileDialog>
+#include <QFileInfo>
 #include <QFrame>
-#include <QGridLayout>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QMessageBox>
 #include <QPushButton>
+#include <QScrollArea>
+#include <QStackedWidget>
 #include <QStyle>
 #include <QVBoxLayout>
 
-#include <QFileDialog>
-#include <QMessageBox>
-
-//#define DEBUG
-
-MH3U_SV::MH3U_SV(QWidget *parent) : QWidget(parent)
+MH3U_SV::MH3U_SV(QWidget *parent)
+    : QMainWindow(parent), mh3u(new MH3U_SE()), characterPage(0), chestPage(0), boxPage(0), dirty(false)
 {
-    this->setObjectName("mainSurface");
-
+    setObjectName("mainSurface");
+    setWindowTitle(QString::fromUtf8("MH3G / MH3U 存档修改器"));
     if (!MH3U_DS::readData(LANG_CN))
-    {
-        MH3U_DS::deleteData();
-        return;
-    }
+        QMessageBox::critical(this, QString::fromUtf8("数据加载失败"), QString::fromUtf8("无法读取中文 data 数据。"));
 
-    this->mh3u = new MH3U_SE();
+    QWidget *surface = new QWidget(this);
+    setCentralWidget(surface);
+    QHBoxLayout *shell = new QHBoxLayout(surface);
+    shell->setContentsMargins(0, 0, 0, 0);
+    shell->setSpacing(0);
 
-#ifdef DEBUG
-    this->mh3u->load("H:/Users/Gocario/Documents/Monster Hunter/Monster Hunter 3 Ultimate/save/analyse/user3_eq_2");
-#endif
+    QFrame *sidebar = new QFrame(surface);
+    sidebar->setObjectName("sidebar");
+    sidebar->setFixedWidth(210);
+    QVBoxLayout *navigation = new QVBoxLayout(sidebar);
+    navigation->setContentsMargins(18, 24, 18, 20);
+    navigation->setSpacing(8);
+    QLabel *brand = new QLabel(QString::fromUtf8("MH3G / MH3U"), sidebar);
+    brand->setObjectName("sidebarTitle");
+    QLabel *brandCaption = new QLabel(QString::fromUtf8("存档修改器"), sidebar);
+    brandCaption->setObjectName("sidebarCaption");
+    navigation->addWidget(brand);
+    navigation->addWidget(brandCaption);
+    navigation->addSpacing(22);
+    auto makeNavigation = [sidebar](const QString &text) {
+        QPushButton *button = new QPushButton(text, sidebar);
+        button->setObjectName("navigationButton");
+        button->setCheckable(true);
+        button->setAutoExclusive(true);
+        button->setCursor(Qt::PointingHandCursor);
+        return button;
+    };
+    characterButton = makeNavigation(QString::fromUtf8("角色"));
+    chestButton = makeNavigation(QString::fromUtf8("道具箱"));
+    boxButton = makeNavigation(QString::fromUtf8("装备箱"));
+    navigation->addWidget(characterButton);
+    navigation->addWidget(chestButton);
+    navigation->addWidget(boxButton);
+    navigation->addStretch();
 
-    characterButton = new QPushButton(this);
-    connect(characterButton, SIGNAL(clicked(bool)), this, SLOT(openQCharacter()));
-    inventoryButton = new QPushButton(this);
-    connect(inventoryButton, SIGNAL(clicked(bool)), this, SLOT(openQInventory()));
-    pouchButton = new QPushButton(this);
-    connect(pouchButton, SIGNAL(clicked(bool)), this, SLOT(openQPouch()));
-    chestButton = new QPushButton(this);
-    connect(chestButton, SIGNAL(clicked(bool)), this, SLOT(openQChest()));
-    boxButton = new QPushButton(this);
-    connect(boxButton, SIGNAL(clicked(bool)), this, SLOT(openQBox()));
+    QWidget *workspace = new QWidget(surface);
+    QVBoxLayout *workspaceLayout = new QVBoxLayout(workspace);
+    workspaceLayout->setContentsMargins(24, 18, 24, 18);
+    workspaceLayout->setSpacing(12);
+    QHBoxLayout *header = new QHBoxLayout;
+    QVBoxLayout *heading = new QVBoxLayout;
+    pageTitle = new QLabel(QString::fromUtf8("存档管理"), workspace);
+    pageTitle->setObjectName("pageTitle");
+    QLabel *subtitle = new QLabel(QString::fromUtf8("Nintendo 3DS / Wii U · 中文界面"), workspace);
+    subtitle->setObjectName("appSubtitle");
+    heading->addWidget(pageTitle);
+    heading->addWidget(subtitle);
+    header->addLayout(heading);
+    header->addStretch();
+    workspaceLayout->addLayout(header);
 
-    optButton = new QPushButton(this);
-    connect(optButton, SIGNAL(clicked(bool)), this, SLOT(openQOptions()));
-    loadButton = new QPushButton(this);
-    connect(loadButton, SIGNAL(clicked(bool)), this, SLOT(loadFile()));
-    saveButton = new QPushButton(this);
-    connect(saveButton, SIGNAL(clicked(bool)), this, SLOT(saveFile()));
+    QLabel *riskWarning = new QLabel(QString::fromUtf8("⚠ 修改有风险，请自主备份存档后再修改。"), workspace);
+    riskWarning->setObjectName("riskWarning");
+    workspaceLayout->addWidget(riskWarning);
 
-    characterButton->setObjectName("navigationButton");
-    inventoryButton->setObjectName("navigationButton");
-    pouchButton->setObjectName("navigationButton");
-    chestButton->setObjectName("navigationButton");
-    boxButton->setObjectName("navigationButton");
-    loadButton->setObjectName("primaryButton");
-    saveButton->setObjectName("saveButton");
-
-    characterButton->setCursor(Qt::PointingHandCursor);
-    inventoryButton->setCursor(Qt::PointingHandCursor);
-    pouchButton->setCursor(Qt::PointingHandCursor);
-    chestButton->setCursor(Qt::PointingHandCursor);
-    boxButton->setCursor(Qt::PointingHandCursor);
-    optButton->setCursor(Qt::PointingHandCursor);
-    loadButton->setCursor(Qt::PointingHandCursor);
-    saveButton->setCursor(Qt::PointingHandCursor);
-
-    QLabel *titleLabel = new QLabel("MH3G / MH3U 存档修改器", this);
-    titleLabel->setObjectName("appTitle");
-    QLabel *subtitleLabel = new QLabel("Nintendo 3DS / Wii U · 角色存档编辑", this);
-    subtitleLabel->setObjectName("appSubtitle");
-    statusLabel = new QLabel(this);
+    statusLabel = new QLabel(workspace);
     statusLabel->setObjectName("statusLabel");
+    statusLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    workspaceLayout->addWidget(statusLabel);
 
-    QFrame *contentCard = new QFrame(this);
-    contentCard->setObjectName("contentCard");
-    QVBoxLayout *contentLayout = new QVBoxLayout(contentCard);
-    contentLayout->setContentsMargins(18, 16, 18, 18);
-    contentLayout->setSpacing(10);
-    QLabel *contentTitle = new QLabel("存档内容", contentCard);
-    contentTitle->setObjectName("sectionTitle");
-    contentLayout->addWidget(contentTitle);
+    pageStack = new QStackedWidget(workspace);
+    emptyPage = new QWidget(pageStack);
+    emptyPage->setObjectName("pageSurface");
+    QVBoxLayout *emptyLayout = new QVBoxLayout(emptyPage);
+    emptyLayout->setAlignment(Qt::AlignCenter);
+    QLabel *emptyTitle = new QLabel(QString::fromUtf8("尚未读取存档"), emptyPage);
+    emptyTitle->setObjectName("emptyTitle");
+    emptyTitle->setAlignment(Qt::AlignCenter);
+    QLabel *emptyHint = new QLabel(QString::fromUtf8("点击右下角“读取存档”，选择 user1、user2 或 user3。"), emptyPage);
+    emptyHint->setObjectName("appSubtitle");
+    emptyHint->setAlignment(Qt::AlignCenter);
+    emptyLayout->addWidget(emptyTitle);
+    emptyLayout->addWidget(emptyHint);
+    pageStack->addWidget(emptyPage);
 
-    QGridLayout *contentGrid = new QGridLayout();
-    contentGrid->setHorizontalSpacing(10);
-    contentGrid->setVerticalSpacing(10);
-    contentGrid->addWidget(characterButton, 0, 0, 1, 2);
-    contentGrid->addWidget(inventoryButton, 1, 0);
-    contentGrid->addWidget(pouchButton, 1, 1);
-    contentGrid->addWidget(chestButton, 2, 0);
-    contentGrid->addWidget(boxButton, 2, 1);
-    contentLayout->addLayout(contentGrid);
+    QScrollArea *content = new QScrollArea(workspace);
+    content->setObjectName("contentArea");
+    content->setWidgetResizable(true);
+    content->setFrameShape(QFrame::NoFrame);
+    content->setWidget(pageStack);
+    workspaceLayout->addWidget(content, 1);
 
-    QFrame *actionCard = new QFrame(this);
-    actionCard->setObjectName("contentCard");
-    QVBoxLayout *actionLayout = new QVBoxLayout(actionCard);
-    actionLayout->setContentsMargins(18, 16, 18, 18);
-    actionLayout->setSpacing(10);
-    QLabel *actionTitle = new QLabel("存档文件", actionCard);
-    actionTitle->setObjectName("sectionTitle");
-    actionLayout->addWidget(actionTitle);
+    QFrame *footer = new QFrame(workspace);
+    footer->setObjectName("footerBar");
+    QHBoxLayout *actions = new QHBoxLayout(footer);
+    actions->setContentsMargins(14, 10, 14, 10);
+    actions->addStretch();
+    loadButton = new QPushButton(QString::fromUtf8("读取存档"), footer);
+    loadButton->setObjectName("primaryButton");
+    saveButton = new QPushButton(QString::fromUtf8("保存修改"), footer);
+    saveButton->setObjectName("saveButton");
+    actions->addWidget(loadButton);
+    actions->addWidget(saveButton);
+    workspaceLayout->addWidget(footer);
 
-    QHBoxLayout *saveloadLayout = new QHBoxLayout();
-    saveloadLayout->setSpacing(10);
-    saveloadLayout->addWidget(loadButton);
-    saveloadLayout->addWidget(saveButton);
-    actionLayout->addLayout(saveloadLayout);
-    actionLayout->addWidget(optButton);
-
-    QVBoxLayout *mainLayout = new QVBoxLayout(this);
-    mainLayout->setContentsMargins(28, 24, 28, 26);
-    mainLayout->setSpacing(15);
-    mainLayout->addWidget(titleLabel);
-    mainLayout->addWidget(subtitleLabel);
-    mainLayout->addWidget(statusLabel);
-    mainLayout->addWidget(contentCard);
-    mainLayout->addWidget(actionCard);
-    this->setLayout(mainLayout);
-    this->setMinimumSize(470, 550);
-    this->resize(500, 570);
-    this->updateText();
-
-    this->refresh();
+    shell->addWidget(sidebar);
+    shell->addWidget(workspace, 1);
+    connect(characterButton, SIGNAL(clicked(bool)), this, SLOT(showCharacter()));
+    connect(chestButton, SIGNAL(clicked(bool)), this, SLOT(showChest()));
+    connect(boxButton, SIGNAL(clicked(bool)), this, SLOT(showBox()));
+    connect(loadButton, SIGNAL(clicked(bool)), this, SLOT(loadFile()));
+    connect(saveButton, SIGNAL(clicked(bool)), this, SLOT(saveFile()));
+    resize(1100, 700);
+    setMinimumSize(900, 620);
+    updateState();
 }
 
 MH3U_SV::~MH3U_SV()
@@ -128,132 +135,147 @@ MH3U_SV::~MH3U_SV()
     cdelete(mh3u);
 }
 
-
-void MH3U_SV::refresh()
+void MH3U_SV::createPages()
 {
-    const bool loaded = this->mh3u->loaded();
-    if (loaded)
-    {
-        characterButton->setDisabled(false);
-        inventoryButton->setDisabled(false);
-        pouchButton->setDisabled(false);
-        chestButton->setDisabled(false);
-        boxButton->setDisabled(false);
-        optButton->setDisabled(false);
-        loadButton->setDisabled(false);
-        saveButton->setDisabled(false);
+    if (characterPage) return;
+    characterPage = new QCharacter(mh3u, pageStack);
+    chestPage = new QChest(mh3u, pageStack);
+    boxPage = new QBox(mh3u, pageStack);
+    pageStack->addWidget(characterPage);
+    pageStack->addWidget(chestPage);
+    pageStack->addWidget(boxPage);
+    connect(characterPage, SIGNAL(modified()), this, SLOT(markModified()));
+    connect(chestPage, SIGNAL(modified()), this, SLOT(markModified()));
+    connect(boxPage, SIGNAL(modified()), this, SLOT(markModified()));
+}
+
+void MH3U_SV::loadPages()
+{
+    if (!mh3u->loaded()) return;
+    createPages();
+    characterPage->loadFromModel();
+    chestPage->loadFromModel();
+    boxPage->loadFromModel();
+}
+
+bool MH3U_SV::commitPages(QString *error)
+{
+    if (!characterPage) return true;
+    if (!characterPage->commitToModel(error)) { showCharacter(); return false; }
+    if (!chestPage->commitToModel(error)) { showChest(); return false; }
+    if (!boxPage->commitToModel(error)) { showBox(); return false; }
+    return true;
+}
+
+void MH3U_SV::setCurrentPage(QWidget *page, QPushButton *button, const QString &title)
+{
+    if (!page) return;
+    pageStack->setCurrentWidget(page);
+    button->setChecked(true);
+    pageTitle->setText(title);
+}
+
+void MH3U_SV::showCharacter() { setCurrentPage(characterPage, characterButton, QString::fromUtf8("角色")); }
+void MH3U_SV::showChest() { setCurrentPage(chestPage, chestButton, QString::fromUtf8("道具箱")); }
+void MH3U_SV::showBox() { setCurrentPage(boxPage, boxButton, QString::fromUtf8("装备箱")); }
+
+void MH3U_SV::markModified()
+{
+    if (!mh3u->loaded()) return;
+    dirty = true;
+    updateState();
+}
+
+bool MH3U_SV::discardChanges()
+{
+    const std::string path = mh3u->currentFilename();
+    if (path.empty() || !mh3u->load(path)) {
+        QMessageBox::critical(this, QString::fromUtf8("重新读取失败"), QString::fromStdString(mh3u->lastError()));
+        return false;
     }
-    else
-    {
-        characterButton->setDisabled(true);
-        inventoryButton->setDisabled(true);
-        pouchButton->setDisabled(true);
-        chestButton->setDisabled(true);
-        boxButton->setDisabled(true);
-        optButton->setDisabled(false);
-        loadButton->setDisabled(false);
-        saveButton->setDisabled(true);
-    }
-
-    statusLabel->setText(loaded
-        ? QString("已读取存档 · %1").arg(QString::fromStdString(this->mh3u->formatName()))
-        : QString("尚未读取存档，请先打开 user1 / user2 / user3"));
-    statusLabel->setProperty("loaded", loaded);
-    statusLabel->style()->unpolish(statusLabel);
-    statusLabel->style()->polish(statusLabel);
+    dirty = false;
+    loadPages();
+    updateState();
+    return true;
 }
 
-void MH3U_SV::updateText()
+bool MH3U_SV::maybeLeaveDirty()
 {
-    characterButton->setText(uiText("Character"));
-    inventoryButton->setText(uiText("Inventory"));
-    pouchButton->setText(uiText("Pouch"));
-    chestButton->setText(uiText("Chest"));
-    boxButton->setText(uiText("Box"));
-    optButton->setText(uiText("Options"));
-    loadButton->setText(uiText("Load file"));
-    saveButton->setText(uiText("Save file"));
-    QString title = uiText("MH3U - Save viewer/editor");
-    if (this->mh3u->loaded())
-    {
-        title += QString(" [%1]").arg(QString::fromStdString(this->mh3u->formatName()));
-    }
-    this->setWindowTitle(title);
-}
-
-
-void MH3U_SV::openQCharacter()
-{
-    QCharacter *qView = new QCharacter(this->mh3u);
-    qView->setModal(true);
-    qView->show();
-}
-
-void MH3U_SV::openQInventory()
-{
-    QInventory *qView = new QInventory(this->mh3u);
-    qView->show();
-}
-
-void MH3U_SV::openQPouch()
-{
-    QPouch *qView = new QPouch(this->mh3u);
-    qView->show();
-}
-
-void MH3U_SV::openQChest()
-{
-    QChest *qView = new QChest(this->mh3u);
-    qView->show();
-}
-
-void MH3U_SV::openQBox()
-{
-    QBox *qView = new QBox(this->mh3u);
-    qView->show();
-}
-
-
-void MH3U_SV::openQOptions()
-{
-    QOption *qOption = new QOption();
-    qOption->setModal(true);
-    qOption->exec();
-    qOption->deleteLater();
-    this->updateText();
+    if (!dirty) return true;
+    QMessageBox box(QMessageBox::Warning, QString::fromUtf8("尚未保存"),
+                    QString::fromUtf8("当前存档有尚未保存的修改。"), QMessageBox::NoButton, this);
+    QAbstractButton *save = box.addButton(QString::fromUtf8("保存"), QMessageBox::AcceptRole);
+    QAbstractButton *discard = box.addButton(QString::fromUtf8("放弃"), QMessageBox::DestructiveRole);
+    box.addButton(QString::fromUtf8("取消"), QMessageBox::RejectRole);
+    box.exec();
+    if (box.clickedButton() == save) return saveFile();
+    if (box.clickedButton() == discard) return discardChanges();
+    return false;
 }
 
 void MH3U_SV::loadFile()
 {
-    std::cout << "Loading file!" << std::endl;
-
-    QString filename = QFileDialog::getOpenFileName(this, uiText("Open file"), QString(), uiText("User files (user1 user2 user3);;All files (*)"));
-
-    if (!filename.isNull())
-    {
-        if (!mh3u->load(filename.toStdString()))
-        {
-            QMessageBox::critical(this, uiText("Load failed"), QString::fromStdString(mh3u->lastError()));
-        }
+    if (!maybeLeaveDirty()) return;
+    const QString path = QFileDialog::getOpenFileName(this, QString::fromUtf8("读取存档"), QString(),
+        QString::fromUtf8("存档文件 (user1 user2 user3);;所有文件 (*)"));
+    if (path.isEmpty()) return;
+    if (!mh3u->load(path.toStdString())) {
+        QMessageBox::critical(this, QString::fromUtf8("读取失败"), QString::fromStdString(mh3u->lastError()));
+        updateState();
+        return;
     }
-
-    this->refresh();
-    this->updateText();
+    dirty = false;
+    loadPages();
+    showCharacter();
+    updateState();
 }
 
-void MH3U_SV::saveFile()
+bool MH3U_SV::saveFile()
 {
-    std::cout << "Writing file!" << std::endl;
-
-    QString filename = QFileDialog::getSaveFileName(this, uiText("Save file as"), QString(), uiText("User files (user1 user2 user3);;All files (*)"));
-
-    if (!filename.isNull())
-    {
-        if (!mh3u->save(filename.toStdString()))
-        {
-            QMessageBox::critical(this, uiText("Save failed"), QString::fromStdString(mh3u->lastError()));
-        }
+    if (!mh3u->loaded()) return false;
+    QString error;
+    if (!commitPages(&error)) {
+        QMessageBox::critical(this, QString::fromUtf8("保存失败"), error.isEmpty() ? QString::fromUtf8("页面数据校验失败。") : error);
+        return false;
     }
+    if (!mh3u->save()) {
+        QMessageBox::critical(this, QString::fromUtf8("保存失败"), QString::fromStdString(mh3u->lastError()));
+        dirty = true;
+        updateState();
+        return false;
+    }
+    dirty = false;
+    updateState();
+    QMessageBox::information(this, QString::fromUtf8("保存成功"),
+        QString::fromUtf8("已覆盖当前存档：\n%1").arg(QString::fromStdString(mh3u->currentFilename())));
+    return true;
+}
 
-    this->refresh();
+void MH3U_SV::updateState()
+{
+    const bool loaded = mh3u->loaded();
+    characterButton->setEnabled(loaded);
+    chestButton->setEnabled(loaded);
+    boxButton->setEnabled(loaded);
+    saveButton->setEnabled(loaded);
+    loadButton->setText(loaded ? QString::fromUtf8("读取其他存档") : QString::fromUtf8("读取存档"));
+    if (loaded) {
+        const QString name = QFileInfo(QString::fromStdString(mh3u->currentFilename())).fileName();
+        statusLabel->setText(QString::fromUtf8("%1 · %2 · %3")
+            .arg(name, QString::fromStdString(mh3u->formatName()), dirty ? QString::fromUtf8("未保存") : QString::fromUtf8("已保存")));
+    } else {
+        statusLabel->setText(QString::fromUtf8("尚未读取存档"));
+        pageStack->setCurrentWidget(emptyPage);
+        pageTitle->setText(QString::fromUtf8("存档管理"));
+    }
+    statusLabel->setProperty("loaded", loaded);
+    statusLabel->setProperty("dirty", dirty);
+    statusLabel->style()->unpolish(statusLabel);
+    statusLabel->style()->polish(statusLabel);
+}
+
+void MH3U_SV::closeEvent(QCloseEvent *event)
+{
+    if (maybeLeaveDirty()) event->accept();
+    else event->ignore();
 }

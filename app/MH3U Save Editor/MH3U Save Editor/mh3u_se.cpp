@@ -1,7 +1,12 @@
 #include "mh3u_se.hpp"
 
 #include <algorithm>
+#include <cstdio>
 #include <cstring>
+
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 namespace
 {
@@ -65,6 +70,12 @@ std::string MH3U_SE::formatName() const
 std::string MH3U_SE::lastError() const
 {
 	return errorMessage;
+}
+
+
+std::string MH3U_SE::currentFilename() const
+{
+	return filename;
 }
 
 
@@ -224,7 +235,8 @@ bool MH3U_SE::save(std::string output)
 			return false;
 		}
 
-		fs.open(output.c_str(), std::fstream::out | std::fstream::binary | std::fstream::trunc);
+		const std::string temporary = output + ".writing.tmp";
+		fs.open(temporary.c_str(), std::fstream::out | std::fstream::binary | std::fstream::trunc);
 
 		if (!fs)
 		{
@@ -236,7 +248,19 @@ bool MH3U_SE::save(std::string output)
 		fs.close();
 		if (!fs)
 		{
+			std::remove(temporary.c_str());
 			setError("The save file could not be written completely.");
+			return false;
+		}
+
+#ifdef _WIN32
+		if (!MoveFileExA(temporary.c_str(), output.c_str(), MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH))
+#else
+		if (std::rename(temporary.c_str(), output.c_str()) != 0)
+#endif
+		{
+			std::remove(temporary.c_str());
+			setError("The temporary save file could not replace the original file.");
 			return false;
 		}
 

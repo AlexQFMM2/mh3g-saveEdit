@@ -54,7 +54,7 @@ static inline void configureSearchableComboBox(QComboBox *comboBox)
     comboBox->setInsertPolicy(QComboBox::NoInsert);
     comboBox->setMaxVisibleItems(20);
     comboBox->setMinimumContentsLength(20);
-    comboBox->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLength);
+    comboBox->setSizeAdjustPolicy(QComboBox::AdjustToContentsOnFirstShow);
     if (comboBox->lineEdit() != NULL)
     {
         comboBox->lineEdit()->installEventFilter(new SearchableComboBoxPopupFilter(comboBox));

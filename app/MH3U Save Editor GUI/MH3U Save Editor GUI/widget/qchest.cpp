@@ -15,6 +15,7 @@
 
 QChest::QChest(MH3U_SE *mh3u, QWidget *parent) : QWidget(parent)
 {
+    setObjectName("pageSurface");
     this->mh3u = mh3u;
 
     m_table = new QTableWidget(this);
@@ -77,9 +78,6 @@ QChest::QChest(MH3U_SE *mh3u, QWidget *parent) : QWidget(parent)
     mainLayout->addWidget(m_table, 1);
     mainLayout->addLayout(sideLayout);
     this->setLayout(mainLayout);
-    this->setWindowTitle(uiText("Chest editor"));
-    this->resize(980, 680);
-
     populateTable();
     updateSelectedInfo();
 }
@@ -87,6 +85,17 @@ QChest::QChest(MH3U_SE *mh3u, QWidget *parent) : QWidget(parent)
 QChest::~QChest()
 {
     this->mh3u = NULL;
+}
+
+void QChest::loadFromModel()
+{
+    populateTable();
+    updateSelectedInfo();
+}
+
+bool QChest::commitToModel(QString *)
+{
+    return mh3u != NULL && mh3u->loaded();
 }
 
 void QChest::buttonClicked(int id)
@@ -226,6 +235,7 @@ void QChest::importChestForm()
     MH3U_Transfer::applyChest(entries, *mh3u->savedata);
     populateTable();
     updateSelectedInfo();
+    emit modified();
     QMessageBox::information(this, windowTitle(), "道具箱已批量导入。请回到主窗口保存存档后再退出。");
 }
 
@@ -303,6 +313,7 @@ void QChest::editSlot(uint32_t panel, uint32_t slot)
         {
             item.count = 0;
         }
+        emit modified();
     }
     else if (item.id == 0)
     {

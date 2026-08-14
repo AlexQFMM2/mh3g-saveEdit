@@ -6,8 +6,9 @@
 
 #include <algorithm>
 
-QCharacter::QCharacter(MH3U_SE *mh3u, QWidget *parent) : QDialog(parent)
+QCharacter::QCharacter(MH3U_SE *mh3u, QWidget *parent) : QWidget(parent), m_loading(false)
 {
+    setObjectName("pageSurface");
     this->mh3u = mh3u;
 
     m_sexs = new QComboBox(this);
@@ -50,24 +51,35 @@ QCharacter::QCharacter(MH3U_SE *mh3u, QWidget *parent) : QDialog(parent)
 
 
     QGridLayout *layout = new QGridLayout(this);
+    layout->setContentsMargins(20, 20, 20, 20);
+    layout->setHorizontalSpacing(14);
+    layout->setVerticalSpacing(8);
     layout->addWidget(new QLabel(uiText("Sex"), this), 0, 0);
-    layout->addWidget(new QLabel(uiText("Face"), this), 0, 1);
-    layout->addWidget(new QLabel(uiText("Hairstyle"), this), 0, 2);
-    layout->addWidget(new QLabel(uiText("Name"), this), 0, 3);
-    layout->addWidget(new QLabel(uiText("Money"), this), 0, 4);
-    layout->addWidget(new QLabel(uiText("Voice"), this), 0, 5);
-    layout->addWidget(new QLabel(uiText("Moga Point"), this), 0, 6);
-    layout->addWidget(m_sexs, 1, 0);
-    layout->addWidget(m_faces, 1, 1);
-    layout->addWidget(m_hairs, 1, 2);
+    layout->addWidget(m_sexs, 0, 1);
+    layout->addWidget(new QLabel(uiText("Face"), this), 0, 2);
+    layout->addWidget(m_faces, 0, 3);
+    layout->addWidget(new QLabel(uiText("Hairstyle"), this), 1, 0);
+    layout->addWidget(m_hairs, 1, 1);
+    layout->addWidget(new QLabel(uiText("Name"), this), 1, 2);
     layout->addWidget(m_name, 1, 3);
-    layout->addWidget(m_money, 1, 4);
-    layout->addWidget(m_voices, 1, 5);
-    layout->addWidget(m_mogapoint, 1, 6);
+    layout->addWidget(new QLabel(uiText("Money"), this), 2, 0);
+    layout->addWidget(m_money, 2, 1);
+    layout->addWidget(new QLabel(uiText("Voice"), this), 2, 2);
+    layout->addWidget(m_voices, 2, 3);
+    layout->addWidget(new QLabel(uiText("Moga Point"), this), 3, 0);
+    layout->addWidget(m_mogapoint, 3, 1);
     this->setLayout(layout);
-    this->setWindowTitle(uiText("Character data editor"));
-
-    this->load();
+    layout->setColumnStretch(1, 1);
+    layout->setColumnStretch(3, 1);
+    layout->setRowStretch(4, 1);
+    connect(m_sexs, SIGNAL(currentIndexChanged(int)), this, SLOT(notifyModified()));
+    connect(m_faces, SIGNAL(currentIndexChanged(int)), this, SLOT(notifyModified()));
+    connect(m_hairs, SIGNAL(currentIndexChanged(int)), this, SLOT(notifyModified()));
+    connect(m_name, SIGNAL(textEdited(QString)), this, SLOT(notifyModified()));
+    connect(m_money, SIGNAL(valueChanged(int)), this, SLOT(notifyModified()));
+    connect(m_voices, SIGNAL(currentIndexChanged(int)), this, SLOT(notifyModified()));
+    connect(m_mogapoint, SIGNAL(valueChanged(int)), this, SLOT(notifyModified()));
+    loadFromModel();
 }
 
 QCharacter::~QCharacter()
@@ -76,8 +88,10 @@ QCharacter::~QCharacter()
 }
 
 
-void QCharacter::load()
+void QCharacter::loadFromModel()
 {
+    if (!mh3u || !mh3u->loaded()) return;
+    m_loading = true;
     m_sexs->setCurrentIndex(m_sexs->findData(mh3u->savedata->sex +1));
     m_faces->setCurrentIndex(m_faces->findData(mh3u->savedata->face +1));
     m_hairs->setCurrentIndex(m_hairs->findData(mh3u->savedata->hair +1));
@@ -99,10 +113,12 @@ void QCharacter::load()
     m_money->setValue(mh3u->savedata->money);
     m_voices->setCurrentIndex(m_voices->findData(mh3u->savedata->voice +1));
     m_mogapoint->setValue(mh3u->savedata->mogapoint);
+    m_loading = false;
 }
 
-void QCharacter::save()
+bool QCharacter::commitToModel(QString *)
 {
+    if (!mh3u || !mh3u->loaded()) return false;
     mh3u->savedata->sex = searchableComboBoxCurrentData(m_sexs).toInt() -1;
     mh3u->savedata->face = searchableComboBoxCurrentData(m_faces).toInt() -1;
     mh3u->savedata->hair = searchableComboBoxCurrentData(m_hairs).toInt() -1;
@@ -122,9 +138,10 @@ void QCharacter::save()
     mh3u->savedata->money = m_money->value();
     mh3u->savedata->voice = searchableComboBoxCurrentData(m_voices).toInt() -1;
     mh3u->savedata->mogapoint = m_mogapoint->value();
+    return true;
 }
 
-void QCharacter::closeEvent(QCloseEvent *)
+void QCharacter::notifyModified()
 {
-    save();
+    if (!m_loading) emit modified();
 }

@@ -9,6 +9,7 @@
 #include <QApplication>
 #include <QFont>
 #include <QStyleFactory>
+#include <QTimer>
 
 static void applyApplicationStyle(QApplication &app)
 {
@@ -24,6 +25,14 @@ static void applyApplicationStyle(QApplication &app)
             background: #f4f7fb;
             color: #182033;
         }
+        QMainWindow, QWidget#mainSurface { background: #f4f7fb; }
+        QFrame#sidebar { background: #18243a; border: 0; }
+        QLabel#sidebarTitle { color: #ffffff; font-size: 20px; font-weight: 700; }
+        QLabel#sidebarCaption { color: #9eacc1; font-size: 12px; }
+        QLabel#pageTitle { color: #15213a; font-size: 22px; font-weight: 700; }
+        QLabel#emptyTitle { color: #344158; font-size: 20px; font-weight: 600; }
+        QLabel#riskWarning { color: #8a4b08; background: #fff7df; border: 1px solid #eccb78; border-radius: 8px; padding: 7px 11px; }
+        QWidget#pageSurface { background: #ffffff; }
         QLabel, QCheckBox, QRadioButton {
             background: transparent;
         }
@@ -53,6 +62,9 @@ static void applyApplicationStyle(QApplication &app)
             background: #eaf8f0;
             border-color: #bce6cd;
         }
+        QLabel#statusLabel[dirty="true"] { color: #8a4b08; background: #fff7df; border-color: #eccb78; }
+        QFrame#footerBar { background: #ffffff; border: 1px solid #dfe6f0; border-radius: 10px; }
+        QScrollArea#contentArea, QScrollArea#contentArea > QWidget > QWidget { background: #ffffff; border-radius: 10px; }
         QFrame#contentCard {
             background: #ffffff;
             border: 1px solid #dfe6f0;
@@ -86,7 +98,13 @@ static void applyApplicationStyle(QApplication &app)
             padding: 11px 15px;
             min-height: 28px;
             font-weight: 600;
+            color: #cbd5e4;
+            background: transparent;
+            border-color: transparent;
         }
+        QPushButton#navigationButton:hover { color: #ffffff; background: #24344f; border-color: #334765; }
+        QPushButton#navigationButton:checked { color: #ffffff; background: #2769bd; border-color: #2769bd; }
+        QPushButton#navigationButton:disabled { color: #627089; background: transparent; border-color: transparent; }
         QPushButton#primaryButton {
             color: #ffffff;
             background: #2769bd;
@@ -124,18 +142,6 @@ static void applyApplicationStyle(QApplication &app)
         QLineEdit:focus, QSpinBox:focus, QDoubleSpinBox:focus, QComboBox:focus,
         QTextEdit:focus, QPlainTextEdit:focus {
             border: 1px solid #4f88d3;
-        }
-        QComboBox { padding-right: 28px; }
-        QComboBox::drop-down {
-            subcontrol-origin: padding;
-            subcontrol-position: top right;
-            border: 0;
-            width: 26px;
-        }
-        QComboBox::down-arrow {
-            image: url(:/icons/combobox-arrow.svg);
-            width: 10px;
-            height: 6px;
         }
         QTableWidget, QTableView {
             color: #1e293b;
@@ -204,6 +210,8 @@ int main(int argc, char *argv[])
 
     MH3U_SV w;
     w.show();
+    if (a.arguments().contains(QStringLiteral("--smoke-test")))
+        QTimer::singleShot(150, &a, &QCoreApplication::quit);
 
     return a.exec();
 }

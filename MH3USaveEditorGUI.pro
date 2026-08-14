@@ -53,5 +53,3 @@ HEADERS += "$$CORE_DIR/main.hpp" \
            "$$GUI_DIR/widget/qoption.hpp" \
            "$$GUI_DIR/widget/qpouch.hpp" \
            "$$GUI_DIR/widget/qweapon.hpp"
-
-RESOURCES += resources/resources.qrc

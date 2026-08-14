@@ -22,6 +22,11 @@ class QBox : public QWidget
 public:
     explicit QBox(MH3U_SE *mh3u, QWidget *parent = 0);
     ~QBox();
+    void loadFromModel();
+    bool commitToModel(QString *error = 0);
+
+signals:
+    void modified();
 
 private:
     MH3U_SE *mh3u;

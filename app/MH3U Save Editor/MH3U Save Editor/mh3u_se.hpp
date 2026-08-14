@@ -154,6 +154,7 @@ class MH3U_SE
 		save_format_e format() const;
 		std::string formatName() const;
 		std::string lastError() const;
+		std::string currentFilename() const;
 		uint32_t nameSize() const;
 
 

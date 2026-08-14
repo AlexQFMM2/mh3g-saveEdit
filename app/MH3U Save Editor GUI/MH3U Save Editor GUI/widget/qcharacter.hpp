@@ -3,20 +3,25 @@
 
 #include "main.hpp"
 
-#include <QDialog>
+#include <QWidget>
 #include <QSpinBox>
 #include <QComboBox>
 #include <QLineEdit>
 
-class QCharacter : public QDialog
+class QCharacter : public QWidget
 {
     Q_OBJECT
 public:
     explicit QCharacter(MH3U_SE *mh3u, QWidget *parent = 0);
     ~QCharacter();
+    void loadFromModel();
+    bool commitToModel(QString *error = 0);
 
-protected:
-    void closeEvent(QCloseEvent *);
+signals:
+    void modified();
+
+private slots:
+    void notifyModified();
 
 private:
     MH3U_SE *mh3u;
@@ -28,8 +33,7 @@ private:
     QComboBox *m_voices;
     QSpinBox *m_mogapoint;
 
-    void load();
-    void save();
+    bool m_loading;
 };
 
 #endif // QCHARACTER_HPP

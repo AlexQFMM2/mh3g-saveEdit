@@ -39,6 +39,13 @@ jobs:
         run: |
           .\build-windows.ps1 -QtBin "$env:MSYS2_LOCATION\mingw64\bin"
 
+      - name: Smoke test management window
+        shell: pwsh
+        run: |
+          Push-Location .\release\windows
+          .\MH3USaveEditorGUI.exe --smoke-test
+          Pop-Location
+
       - name: Create zip
         shell: pwsh
         run: |
