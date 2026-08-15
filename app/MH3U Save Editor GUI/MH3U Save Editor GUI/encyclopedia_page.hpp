@@ -17,6 +17,7 @@ class QLineEdit;
 class QListWidget;
 class QPushButton;
 class QVBoxLayout;
+class SaveActionBridge;
 
 class SharpnessWidget : public QWidget
 {
@@ -43,9 +44,15 @@ class EncyclopediaPage : public QWidget
 {
     Q_OBJECT
 public:
-    explicit EncyclopediaPage(QWidget *parent = 0);
+    explicit EncyclopediaPage(SaveActionBridge *bridge, QWidget *parent = 0);
     bool available() const;
     QString error() const;
+    void updateSaveState();
+
+signals:
+    void modified();
+    void itemAdded();
+    void weaponAdded();
 
 private slots:
     void typeChanged(int row);
@@ -54,6 +61,7 @@ private slots:
     void goBack();
     void goForward();
     void fitTree();
+    void addCurrent();
 
 private:
     void rebuildTree();
@@ -64,12 +72,14 @@ private:
     void showWeapon(int dexId);
     void showItem(int dexId);
     void highlightRoute(int dexId);
+    void refreshAddButton();
     void clearLayout(QVBoxLayout *layout);
     QPushButton *makeLink(const QString &text, const QString &uri);
     QString weaponUri(const EncyclopediaWeapon &weapon) const;
     QString itemUri(const EncyclopediaItem &item) const;
 
     EncyclopediaRepository m_repository;
+    SaveActionBridge *m_bridge;
     QListWidget *m_types;
     QLineEdit *m_search;
     QComboBox *m_rarity;
@@ -84,6 +94,7 @@ private:
     QLabel *m_imagePlaceholder;
     QLabel *m_properties;
     QLabel *m_relationTitle;
+    QLabel *m_materialTitle;
     SharpnessWidget *m_sharpness;
     QVBoxLayout *m_materialLinks;
     QVBoxLayout *m_relationLinks;

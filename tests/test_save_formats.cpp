@@ -1,5 +1,6 @@
 #include "mh3u_se.hpp"
 #include "mh3u_transfer.hpp"
+#include "save_action_bridge.hpp"
 
 #include <algorithm>
 #include <cstdio>
@@ -184,6 +185,83 @@ static void testMalformedTransferForms()
     require(equipmentEntries.empty(), "failed equipment parse returned partial entries");
 }
 
+static void testSaveActions(const std::string &path, save_format_e expectedFormat)
+{
+    const std::vector<uint8_t> diskBefore = readFile(path);
+    MH3U_SE editor;
+    require(editor.load(path), editor.lastError());
+    require(editor.format() == expectedFormat, "wrong format in save-action test");
+    SaveActionBridge bridge(&editor);
+    require(bridge.hasOpenSave(), "save-action bridge did not detect the loaded save");
+
+    save_t original = *editor.savedata;
+    SaveActionResult preview = bridge.previewAddItem(2, 7);
+    require(preview.success, "sample item chest has no empty slot");
+    require(std::memcmp(&original, editor.savedata, sizeof(save_t)) == 0,
+        "item preview modified the in-memory save");
+    SaveActionResult result = bridge.addItem(2, 7);
+    require(result.success && result.panel == preview.panel && result.slot == preview.slot,
+        "item add did not use the previewed slot");
+    save_t expected = original;
+    expected.chest[result.panel][result.slot].id = 2;
+    expected.chest[result.panel][result.slot].count = 7;
+    require(std::memcmp(&expected, editor.savedata, sizeof(save_t)) == 0,
+        "item add changed data outside the target item slot");
+
+    *editor.savedata = original;
+    preview = bridge.previewAddWeapon(MH3U_Type::GSType, 1);
+    require(preview.success, "sample equipment box has no empty slot");
+    require(std::memcmp(&original, editor.savedata, sizeof(save_t)) == 0,
+        "weapon preview modified the in-memory save");
+    result = bridge.addWeapon(MH3U_Type::GSType, 1);
+    require(result.success && result.panel == preview.panel && result.slot == preview.slot,
+        "weapon add did not use the previewed slot");
+    expected = original;
+    std::memset(expected.box[result.panel][result.slot], 0, EQUIPMENT_SIZE);
+    expected.box[result.panel][result.slot][0] = MH3U_Type::GSType;
+    expected.box[result.panel][result.slot][2] = 1;
+    require(std::memcmp(&expected, editor.savedata, sizeof(save_t)) == 0,
+        "weapon add changed data outside the target equipment slot");
+
+    *editor.savedata = original;
+    require(!bridge.addItem(0, 1).success, "invalid item ID was accepted");
+    require(!bridge.addItem(2, 0).success, "zero item count was accepted");
+    require(!bridge.addWeapon(MH3U_Type::ChestType, 1).success, "armor type was accepted as a weapon");
+    require(!bridge.addWeapon(MH3U_Type::GSType, 0).success, "zero weapon ID was accepted");
+    require(std::memcmp(&original, editor.savedata, sizeof(save_t)) == 0,
+        "rejected save action modified the in-memory save");
+
+    for (int panel = 0; panel < 10; ++panel)
+    {
+        for (int slot = 0; slot < 100; ++slot)
+        {
+            editor.savedata->chest[panel][slot].id = 2;
+            editor.savedata->chest[panel][slot].count = 1;
+        }
+    }
+    expected = *editor.savedata;
+    require(!bridge.addItem(2, 1).success, "full item chest accepted an add");
+    require(std::memcmp(&expected, editor.savedata, sizeof(save_t)) == 0,
+        "failed full-chest add modified the in-memory save");
+
+    *editor.savedata = original;
+    for (int panel = 0; panel < 10; ++panel)
+    {
+        for (int slot = 0; slot < 100; ++slot)
+        {
+            std::memset(editor.savedata->box[panel][slot], 0, EQUIPMENT_SIZE);
+            editor.savedata->box[panel][slot][0] = MH3U_Type::GSType;
+            editor.savedata->box[panel][slot][2] = 1;
+        }
+    }
+    expected = *editor.savedata;
+    require(!bridge.addWeapon(MH3U_Type::GSType, 1).success, "full equipment box accepted an add");
+    require(std::memcmp(&expected, editor.savedata, sizeof(save_t)) == 0,
+        "failed full-box add modified the in-memory save");
+
+    require(readFile(path) == diskBefore, "save action wrote to disk before the main save command");
+}
+
 int main(int argc, char **argv)
 {
     if (argc != 3)
@@ -198,6 +276,8 @@ int main(int argc, char **argv)
         testSave(argv[2], SAVE_FORMAT_WIIU);
         testTransfer(argv[1], argv[2], SAVE_FORMAT_WIIU, "3DS to Wii U");
         testTransfer(argv[2], argv[1], SAVE_FORMAT_N3DS, "Wii U to 3DS");
+        testSaveActions(argv[1], SAVE_FORMAT_N3DS);
+        testSaveActions(argv[2], SAVE_FORMAT_WIIU);
         testMalformedTransferForms();
         std::cout << "3DS/Wii U save format and transfer-form tests passed" << std::endl;
         return 0;

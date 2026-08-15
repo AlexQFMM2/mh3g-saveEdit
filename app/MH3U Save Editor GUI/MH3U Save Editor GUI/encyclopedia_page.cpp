@@ -1,4 +1,5 @@
 #include "encyclopedia_page.hpp"
+#include "save_action_bridge.hpp"
 
 #include <QComboBox>
 #include <QFrame>
@@ -7,9 +8,11 @@
 #include <QGraphicsScene>
 #include <QGraphicsSimpleTextItem>
 #include <QHBoxLayout>
+#include <QInputDialog>
 #include <QLabel>
 #include <QLineEdit>
 #include <QListWidget>
+#include <QMessageBox>
 #include <QPainter>
 #include <QPainterPath>
 #include <QPushButton>
@@ -123,8 +126,8 @@ void WeaponTreeView::wheelEvent(QWheelEvent *event)
     QGraphicsView::wheelEvent(event);
 }
 
-EncyclopediaPage::EncyclopediaPage(QWidget *parent)
-    : QWidget(parent), m_historyIndex(-1), m_internalSelection(false), m_currentWeapon(-1), m_currentItem(-1)
+EncyclopediaPage::EncyclopediaPage(SaveActionBridge *bridge, QWidget *parent)
+    : QWidget(parent), m_bridge(bridge), m_historyIndex(-1), m_internalSelection(false), m_currentWeapon(-1), m_currentItem(-1)
 {
     setObjectName("encyclopediaPage");
     QHBoxLayout *root = new QHBoxLayout(this);
@@ -194,8 +197,8 @@ EncyclopediaPage::EncyclopediaPage(QWidget *parent)
     m_properties->setTextInteractionFlags(Qt::TextSelectableByMouse);
     m_properties->setWordWrap(true);
     m_sharpness = new SharpnessWidget(detailBody);
-    QLabel *materialTitle = new QLabel(QString::fromUtf8("生产 / 强化素材"), detailBody);
-    materialTitle->setObjectName("sectionTitle");
+    m_materialTitle = new QLabel(QString::fromUtf8("生产 / 强化素材"), detailBody);
+    m_materialTitle->setObjectName("sectionTitle");
     QWidget *materialBody = new QWidget(detailBody);
     m_materialLinks = new QVBoxLayout(materialBody);
     m_materialLinks->setContentsMargins(0, 0, 0, 0);
@@ -213,7 +216,7 @@ EncyclopediaPage::EncyclopediaPage(QWidget *parent)
     detailLayout->addWidget(m_detailSubtitle);
     detailLayout->addWidget(m_properties);
     detailLayout->addWidget(m_sharpness);
-    detailLayout->addWidget(materialTitle);
+    detailLayout->addWidget(m_materialTitle);
     detailLayout->addWidget(materialBody);
     detailLayout->addWidget(m_relationTitle);
     detailLayout->addWidget(relationBody);
@@ -234,6 +237,7 @@ EncyclopediaPage::EncyclopediaPage(QWidget *parent)
     connect(m_back, SIGNAL(clicked()), this, SLOT(goBack()));
     connect(m_forward, SIGNAL(clicked()), this, SLOT(goForward()));
     connect(fit, SIGNAL(clicked()), this, SLOT(fitTree()));
+    connect(m_addButton, SIGNAL(clicked()), this, SLOT(addCurrent()));
 
     if (!m_repository.open())
     {
@@ -261,6 +265,7 @@ EncyclopediaPage::EncyclopediaPage(QWidget *parent)
 
 bool EncyclopediaPage::available() const { return m_repository.available(); }
 QString EncyclopediaPage::error() const { return m_repository.error(); }
+void EncyclopediaPage::updateSaveState() { refreshAddButton(); }
 
 void EncyclopediaPage::typeChanged(int) { rebuildTree(); }
 
@@ -512,9 +517,11 @@ void EncyclopediaPage::showWeapon(int dexId)
     }
     if (parents.isEmpty() && children.isEmpty()) m_relationLinks->addWidget(new QLabel(QString::fromUtf8("独立生产武器"), this));
     m_relationTitle->setText(QString::fromUtf8("强化路线"));
+    m_materialTitle->setText(QString::fromUtf8("生产 / 强化素材"));
     m_addButton->setText(QString::fromUtf8("加入装备箱"));
     m_breadcrumb->setText(QString::fromUtf8("资料库 / 武器 / %1").arg(weapon.name));
     highlightRoute(dexId);
+    refreshAddButton();
 }
 
 void EncyclopediaPage::showItem(int dexId)
@@ -539,8 +546,85 @@ void EncyclopediaPage::showItem(int dexId)
     clearLayout(m_relationLinks);
     m_relationLinks->addWidget(new QLabel(QString::fromUtf8("点击上方武器返回其强化路线。"), this));
     m_relationTitle->setText(QString::fromUtf8("相关跳转"));
+    m_materialTitle->setText(QString::fromUtf8("用于以下武器"));
     m_addButton->setText(QString::fromUtf8("加入道具箱"));
     m_breadcrumb->setText(QString::fromUtf8("资料库 / 道具 / %1").arg(item.name));
+    refreshAddButton();
+}
+
+void EncyclopediaPage::refreshAddButton()
+{
+    bool writable = false;
+    if (m_currentWeapon >= 0) writable = m_repository.weapon(m_currentWeapon).writable;
+    else if (m_currentItem >= 0) writable = m_repository.item(m_currentItem).writable;
+    const bool loaded = m_bridge != 0 && m_bridge->hasOpenSave();
+    m_addButton->setEnabled(writable && loaded);
+    if (!writable)
+        m_addButton->setToolTip(QString::fromUtf8("该条目的存档 ID 待验证，不能快速加入。"));
+    else if (!loaded)
+        m_addButton->setToolTip(QString::fromUtf8("读取 3DS 或 Wii U 角色存档后即可加入。"));
+    else
+        m_addButton->setToolTip(QString::fromUtf8("写入第一个空箱格；不会自动保存或穿戴。"));
+}
+
+void EncyclopediaPage::addCurrent()
+{
+    if (m_bridge == 0 || !m_bridge->hasOpenSave()) return;
+    SaveActionResult preview;
+    SaveActionResult result;
+    QString name;
+    if (m_currentWeapon >= 0)
+    {
+        const EncyclopediaWeapon weapon = m_repository.weapon(m_currentWeapon);
+        if (!weapon.writable) return;
+        name = weapon.name;
+        preview = m_bridge->previewAddWeapon(quint8(weapon.saveType), quint16(weapon.saveId));
+        if (!preview.success)
+        {
+            QMessageBox::warning(this, QString::fromUtf8("无法加入装备箱"), preview.error);
+            return;
+        }
+        const QString prompt = QString::fromUtf8("将“%1”加入装备箱的%2。\n\n新记录只写入已验证的类型和 ID，其他字段清零；不会自动穿戴或保存磁盘。")
+            .arg(name, preview.slotLabel());
+        if (QMessageBox::question(this, QString::fromUtf8("确认加入武器"), prompt,
+                QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes) return;
+        result = m_bridge->addWeapon(quint8(weapon.saveType), quint16(weapon.saveId));
+        if (result.success) emit weaponAdded();
+    }
+    else if (m_currentItem >= 0)
+    {
+        const EncyclopediaItem item = m_repository.item(m_currentItem);
+        if (!item.writable) return;
+        name = item.name;
+        bool accepted = false;
+        const int maximum = qMax(1, item.maxCount);
+        const int count = QInputDialog::getInt(this, QString::fromUtf8("加入道具箱"),
+            QString::fromUtf8("%1\n数量（上限 %2）").arg(name).arg(maximum), 1, 1, maximum, 1, &accepted);
+        if (!accepted) return;
+        preview = m_bridge->previewAddItem(quint16(item.saveId), quint16(count));
+        if (!preview.success)
+        {
+            QMessageBox::warning(this, QString::fromUtf8("无法加入道具箱"), preview.error);
+            return;
+        }
+        const QString prompt = QString::fromUtf8("将“%1”× %2 加入道具箱的%3。\n\n只修改内存，仍需点击主窗口的“保存修改”。")
+            .arg(name).arg(count).arg(preview.slotLabel());
+        if (QMessageBox::question(this, QString::fromUtf8("确认加入道具"), prompt,
+                QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes) return;
+        result = m_bridge->addItem(quint16(item.saveId), quint16(count));
+        if (result.success) emit itemAdded();
+    }
+    else return;
+
+    if (!result.success)
+    {
+        QMessageBox::warning(this, QString::fromUtf8("快速加入失败"), result.error);
+        return;
+    }
+    emit modified();
+    QMessageBox::information(this, QString::fromUtf8("已加入（尚未保存）"),
+        QString::fromUtf8("“%1”已加入%2。\n请点击主窗口的“保存修改”写入磁盘。")
+            .arg(name, result.slotLabel()));
 }
 
 void EncyclopediaPage::highlightRoute(int dexId)

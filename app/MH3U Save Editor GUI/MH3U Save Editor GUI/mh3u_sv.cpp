@@ -1,5 +1,6 @@
 #include "mh3u_sv.hpp"
 #include "encyclopedia_page.hpp"
+#include "save_action_bridge.hpp"
 
 #include <QAbstractButton>
 #include <QCloseEvent>
@@ -16,7 +17,8 @@
 #include <QVBoxLayout>
 
 MH3U_SV::MH3U_SV(QWidget *parent)
-    : QMainWindow(parent), mh3u(new MH3U_SE()), encyclopediaPage(0), characterPage(0), chestPage(0), boxPage(0), dirty(false)
+    : QMainWindow(parent), mh3u(new MH3U_SE()), saveBridge(new SaveActionBridge(mh3u)),
+      encyclopediaPage(0), characterPage(0), chestPage(0), boxPage(0), dirty(false)
 {
     setObjectName("mainSurface");
     setWindowTitle(QString::fromUtf8("MH3G / MH3U 存档修改器"));
@@ -101,8 +103,11 @@ MH3U_SV::MH3U_SV(QWidget *parent)
     emptyLayout->addWidget(emptyHint);
     pageStack->addWidget(emptyPage);
 
-    encyclopediaPage = new EncyclopediaPage(pageStack);
+    encyclopediaPage = new EncyclopediaPage(saveBridge, pageStack);
     pageStack->addWidget(encyclopediaPage);
+    connect(encyclopediaPage, SIGNAL(modified()), this, SLOT(markModified()));
+    connect(encyclopediaPage, SIGNAL(itemAdded()), this, SLOT(refreshChestFromModel()));
+    connect(encyclopediaPage, SIGNAL(weaponAdded()), this, SLOT(refreshBoxFromModel()));
 
     QScrollArea *content = new QScrollArea(workspace);
     content->setObjectName("contentArea");
@@ -140,6 +145,7 @@ MH3U_SV::MH3U_SV(QWidget *parent)
 MH3U_SV::~MH3U_SV()
 {
     MH3U_DS::deleteData();
+    delete saveBridge;
     cdelete(mh3u);
 }
 
@@ -193,6 +199,16 @@ void MH3U_SV::markModified()
     if (!mh3u->loaded()) return;
     dirty = true;
     updateState();
+}
+
+void MH3U_SV::refreshChestFromModel()
+{
+    if (chestPage) chestPage->loadFromModel();
+}
+
+void MH3U_SV::refreshBoxFromModel()
+{
+    if (boxPage) boxPage->loadFromModel();
 }
 
 bool MH3U_SV::discardChanges()
@@ -268,6 +284,7 @@ void MH3U_SV::updateState()
     boxButton->setEnabled(loaded);
     encyclopediaButton->setEnabled(true);
     saveButton->setEnabled(loaded);
+    encyclopediaPage->updateSaveState();
     loadButton->setText(loaded ? QString::fromUtf8("读取其他存档") : QString::fromUtf8("读取存档"));
     if (loaded) {
         const QString name = QFileInfo(QString::fromStdString(mh3u->currentFilename())).fileName();

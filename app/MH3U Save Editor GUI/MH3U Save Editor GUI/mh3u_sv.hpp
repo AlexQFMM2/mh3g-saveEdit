@@ -13,6 +13,7 @@ class QPushButton;
 class QStackedWidget;
 class QCloseEvent;
 class EncyclopediaPage;
+class SaveActionBridge;
 
 class MH3U_SV : public QMainWindow
 {
@@ -26,6 +27,7 @@ protected:
 
 private:
     MH3U_SE *mh3u;
+    SaveActionBridge *saveBridge;
     QPushButton *characterButton;
     QPushButton *chestButton;
     QPushButton *boxButton;
@@ -56,6 +58,8 @@ private slots:
     void showBox();
     void showEncyclopedia();
     void markModified();
+    void refreshChestFromModel();
+    void refreshBoxFromModel();
     void loadFile();
     bool saveFile();
 };
