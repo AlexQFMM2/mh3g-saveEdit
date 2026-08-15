@@ -25,24 +25,36 @@ does not create a backup. A successful save is confirmed by a message box.
 ### 实时 3D 武器模型
 
 武器详情右侧可以实时浏览游戏模型：左键旋转、右键平移、滚轮缩放，双击或“重置视角”
-恢复自动取景。首次点击“导入模型资源”时，可选择自己的 MH3G `romfs`、
-`arc/weapon/mod` 或其父目录。修改器会自动定位并逐个校验 558 个 ARC（ARC v0x10、
-MOD v0xE6、TEX v0xA5、MRL v0x20），然后把约 36 MiB 复制到本地应用数据目录：
+恢复自动取景。完整整合包已经把 558 个武器 ARC 放在程序旁的固定目录，解压后即可使用，
+不需要选择 CCI、解包目录或执行资源导入：
 
 ```text
-%LOCALAPPDATA%/MH3USaveEditor/resources/mh3g/weapon-mod/v1/
+MH3USaveEditorGUI.exe
+resources/mh3g/weapon-mod/v1/
+├─ manifest.json
+├─ w00/*.arc
+├─ ...
+└─ w12/*.arc
 ```
 
-重新导入使用临时目录和目录替换，失败时保留上一版；“清除资源”只删除修改器的本地缓存，
-不会修改原始解包目录。模型浏览和资源管理不会把存档标记为已修改。没有资源、单件解析失败或
+程序只读取这一固定相对路径，不修改资源文件。模型浏览不会把存档标记为已修改。普通 GitHub
+Action portable 包不含模型，使用时会在查看器内提示改用完整整合包；没有资源、单件解析失败或
 OpenGL 3.3 不可用时，图鉴属性、路线、素材和快速加入仍可正常使用。
 
 模型映射来自游戏 ExeFS 武器参数记录中的真实 `model_id`，完整覆盖 1,421 个武器形态到
 558 个复用模型；不使用 Dex 行号、`WpnImg_*` 顺序或目录偏移猜测。首版显示绑定姿势和基础
 漫反射/透明/高光近似，不复刻游戏专用的粒子、发光及动态机关着色。
 
-仓库、GitHub Action 和 portable 包都不包含 CCI、ARC、MOD、TEX 或 MRL。请只导入自己
-合法持有并解包的游戏资源。
+仓库和 GitHub Action 生成的公开 portable 包不包含 CCI、ARC、MOD、TEX 或 MRL。私下制作
+完整整合包时，可在 Windows 仓库根目录运行：
+
+```powershell
+.\build-windows.ps1 -QtBin C:\msys64\mingw64\bin `
+  -ModelSource "D:\MH\mh3G\cci_unpacked\romfs\arc\weapon\mod"
+```
+
+脚本会校验 ARC v0x10、MOD v0xE6、TEX v0xA5、MRL v0x20，随后把约 36 MiB 资源直接写入
+`release/windows/resources/mh3g/weapon-mod/v1/`。这个完整包只在本地生成，不上传 GitHub。
 
 ## Game-resource ID tables
 

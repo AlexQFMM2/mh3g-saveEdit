@@ -8,17 +8,14 @@ class GameResourceManager
 public:
     GameResourceManager();
 
-    QString resourceRoot() const;
+    QString bundledRoot() const;
     QString activeRoot() const;
     bool available() const;
     QString statusText() const;
     QString archivePath(const QString &relativePath) const;
 
-    bool importWeaponResources(const QString &selectedDirectory, QString *error);
-    bool clearWeaponResources(QString *error);
-    static QString locateWeaponModDirectory(const QString &selectedDirectory);
-
 private:
+    bool validateRoot(const QString &root, QString *error) const;
     bool validateInstalled(QString *error) const;
 };
 

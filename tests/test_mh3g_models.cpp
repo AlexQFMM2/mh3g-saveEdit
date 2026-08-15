@@ -73,6 +73,20 @@ QByteArray fixtureArc()
 int main(int argc, char **argv)
 {
     QCoreApplication app(argc, argv);
+    if (app.arguments().size() == 2 && app.arguments().at(1) == "--probe-bundled")
+    {
+        GameResourceManager resources;
+        QString bundledError;
+        if (!resources.available() || resources.archivePath("w00/w00_01.arc").isEmpty()
+            || !resources.statusText().contains(QString::fromUtf8("整合包")))
+        {
+            bundledError = resources.statusText();
+            std::cerr << "bundled resource lookup failed: " << bundledError.toStdString() << '\n';
+            return 1;
+        }
+        std::cout << "bundled resources loaded directly\n";
+        return 0;
+    }
     QString error; Mh3gCpuModel model;
     if (!Mh3gModelLoader::parseMod(fixtureMod(), &model, &error) || model.vertices.size() != 3 || model.indices.size() != 3)
     { std::cerr << "synthetic MOD failed: " << error.toStdString() << '\n'; return 1; }
@@ -116,14 +130,6 @@ int main(int argc, char **argv)
         std::cout << "archives=" << count << " failed=" << failed << " environments=" << environments << '\n';
         if (count != 558 || failed != 0 || environments != 462) return 1;
 
-        GameResourceManager resources;
-        resources.clearWeaponResources(&error);
-        if (!resources.importWeaponResources(root.absolutePath(), &error) || !resources.available())
-        { std::cerr << "resource import failed: " << error.toStdString() << '\n'; return 1; }
-        if (resources.archivePath("w00/w00_01.arc").isEmpty())
-        { std::cerr << "imported ARC lookup failed\n"; return 1; }
-        if (!resources.clearWeaponResources(&error) || resources.available())
-        { std::cerr << "resource clear failed: " << error.toStdString() << '\n'; return 1; }
         if (app.arguments().size() > 2)
         {
             const QSharedPointer<Mh3gCpuModel> sample = Mh3gModelLoader::load("w00_01", root.filePath("w00/w00_01.arc"));

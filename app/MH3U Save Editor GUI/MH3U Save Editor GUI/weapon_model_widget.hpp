@@ -30,13 +30,8 @@ public:
     void showItemPlaceholder();
     QString resourceStatus() const;
 
-signals:
-    void resourcesChanged();
-
 public slots:
     void resetView();
-    void importResources();
-    void clearResources();
 
 protected:
     void initializeGL();
@@ -76,8 +71,6 @@ private:
     QOpenGLTexture *m_environmentTexture;
 
     QLabel *m_status;
-    QPushButton *m_import;
-    QPushButton *m_clear;
     QPushButton *m_reset;
     QPoint m_lastMouse;
     Qt::MouseButton m_dragButton;

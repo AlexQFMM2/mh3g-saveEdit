@@ -2,7 +2,8 @@ param(
     [string]$QtBin = "",
     [ValidateSet("release", "debug")]
     [string]$Configuration = "release",
-    [string]$OutDir = ".\release\windows"
+    [string]$OutDir = ".\release\windows",
+    [string]$ModelSource = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -297,6 +298,15 @@ $ForbiddenResources = Get-ChildItem -Path $PackageDir -Recurse -File | Where-Obj
 }
 if ($ForbiddenResources) {
     throw "Portable package unexpectedly contains game resources: $($ForbiddenResources.FullName -join ', ')"
+}
+
+if ($ModelSource) {
+    Write-Host "Adding private MH3G weapon model resources..."
+    & python (Join-Path $Root "tools\package_private_models.py") --source $ModelSource --package $PackageDir
+    if ($LASTEXITCODE -ne 0) {
+        throw "Private model resource packaging failed."
+    }
+    Write-Host "Private complete package enabled. These resources must not be committed or uploaded by CI."
 }
 
 $RunBat = Join-Path $PackageDir "run-windows.bat"

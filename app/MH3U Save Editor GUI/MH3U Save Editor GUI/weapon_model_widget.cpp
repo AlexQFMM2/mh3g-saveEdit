@@ -1,10 +1,8 @@
 #include "weapon_model_widget.hpp"
 
-#include <QFileDialog>
 #include <QFutureWatcher>
 #include <QHBoxLayout>
 #include <QLabel>
-#include <QMessageBox>
 #include <QMouseEvent>
 #include <QOpenGLContext>
 #include <QOpenGLShaderProgram>
@@ -43,20 +41,12 @@ WeaponModelWidget::WeaponModelWidget(QWidget *parent)
     m_status->setAttribute(Qt::WA_TransparentForMouseEvents);
     overlay->addWidget(m_status, 1);
     QHBoxLayout *buttons = new QHBoxLayout;
-    m_import = new QPushButton(QString::fromUtf8("导入模型资源"), this);
-    m_clear = new QPushButton(QString::fromUtf8("清除资源"), this);
     m_reset = new QPushButton(QString::fromUtf8("重置视角"), this);
-    m_import->setToolTip(QString::fromUtf8("选择 MH3G 的 romfs、arc/weapon/mod 或其父目录"));
-    buttons->addWidget(m_import);
-    buttons->addWidget(m_clear);
     buttons->addStretch();
     buttons->addWidget(m_reset);
     overlay->addLayout(buttons);
-    connect(m_import, SIGNAL(clicked()), this, SLOT(importResources()));
-    connect(m_clear, SIGNAL(clicked()), this, SLOT(clearResources()));
     connect(m_reset, SIGNAL(clicked()), this, SLOT(resetView()));
     setStatus(m_resources.statusText());
-    m_clear->setEnabled(m_resources.available());
 }
 
 WeaponModelWidget::~WeaponModelWidget()
@@ -104,12 +94,12 @@ void WeaponModelWidget::requestLoad()
     if (m_modelKey.isEmpty() || m_arcRelativePath.isEmpty())
     { setStatus(QString::fromUtf8("该武器的模型映射待确认")); update(); return; }
     if (!m_resources.available())
-    { setStatus(QString::fromUtf8("未导入游戏模型资源\n请选择 MH3G 解包目录（约复制 36 MiB）")); m_clear->setEnabled(false); update(); return; }
+    { setStatus(QString::fromUtf8("当前版本未包含 3D 模型资源\n请使用带 resources 目录的完整整合包")); update(); return; }
     const QSharedPointer<Mh3gCpuModel> cached = m_cache.value(m_modelKey);
     if (cached)
     { touchCache(m_modelKey, cached); acceptModel(request, cached); return; }
     const QString path = m_resources.archivePath(m_arcRelativePath);
-    if (path.isEmpty()) { setStatus(QString::fromUtf8("本地资源缺少 %1，请重新导入").arg(m_arcRelativePath), true); return; }
+    if (path.isEmpty()) { setStatus(QString::fromUtf8("整合包资源缺少 %1").arg(m_arcRelativePath), true); return; }
     setStatus(QString::fromUtf8("正在加载 %1…").arg(m_modelKey));
     QFutureWatcher<QSharedPointer<Mh3gCpuModel> > *watcher = new QFutureWatcher<QSharedPointer<Mh3gCpuModel> >(this);
     connect(watcher, &QFutureWatcher<QSharedPointer<Mh3gCpuModel> >::finished, this, [this, watcher, request]() {
@@ -296,35 +286,4 @@ void WeaponModelWidget::wheelEvent(QWheelEvent *event)
 {
     m_distance = qBound(1.05f, m_distance * (event->angleDelta().y() > 0 ? 0.88f : 1.14f), 12.0f);
     update(); event->accept();
-}
-
-void WeaponModelWidget::importResources()
-{
-    const QString directory = QFileDialog::getExistingDirectory(this, QString::fromUtf8("选择 MH3G 解包资源目录"));
-    if (directory.isEmpty()) return;
-    const QString warning = QString::fromUtf8("将校验 558 个 ARC，并把约 36 MiB 武器模型复制到：\n%1\n\n不会修改所选的原始目录。继续吗？")
-        .arg(m_resources.activeRoot());
-    if (QMessageBox::question(this, QString::fromUtf8("导入游戏模型资源"), warning,
-            QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes) != QMessageBox::Yes) return;
-    setStatus(QString::fromUtf8("正在校验并导入 558 个模型资源，请稍候…"));
-    repaint();
-    QString error;
-    if (!m_resources.importWeaponResources(directory, &error))
-    { setStatus(QString::fromUtf8("资源导入失败\n%1").arg(error), true); QMessageBox::warning(this, QString::fromUtf8("导入失败"), error); return; }
-    m_cache.clear(); m_lru.clear(); m_cacheBytes = 0; m_clear->setEnabled(true);
-    emit resourcesChanged();
-    QMessageBox::information(this, QString::fromUtf8("导入完成"), m_resources.statusText());
-    requestLoad();
-}
-
-void WeaponModelWidget::clearResources()
-{
-    if (QMessageBox::question(this, QString::fromUtf8("清除本地模型资源"),
-        QString::fromUtf8("只会删除修改器本地缓存，不会删除原始解包目录。继续吗？"),
-        QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes) return;
-    QString error;
-    if (!m_resources.clearWeaponResources(&error)) { QMessageBox::warning(this, QString::fromUtf8("清除失败"), error); return; }
-    ++m_request; m_cache.clear(); m_lru.clear(); m_cacheBytes = 0; m_model.clear();
-    if (m_glReady) { makeCurrent(); releaseGpu(); doneCurrent(); }
-    m_clear->setEnabled(false); setStatus(m_resources.statusText()); emit resourcesChanged(); update();
 }
