@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the standalone MH3G resource-pack Release Asset.
+"""Build the unified MH3G weapon and armor resource-pack Release Asset.
 
 The ZIP contains only the fixed ``resources/`` tree consumed by the editor.
 It is intentionally generated outside Git and can be combined with any
@@ -9,6 +9,7 @@ compatible program build by extracting both archives into the same folder.
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import json
 import os
@@ -19,6 +20,8 @@ from pathlib import Path
 
 
 FOLDERS = ("w00", "w01", "w02", "w03", "w04", "w06", "w07", "w08", "w09", "w10", "w11", "w12")
+ARMOR_COUNTS = {"f": 1009, "m": 995}
+ARMOR_MODEL_CSV = Path(__file__).with_name("mh3g_armor_model_resources.csv")
 TYPE_MAGIC_VERSION = {
     0x58A15856: (b"MOD\0", 0xE6),
     0x241F5DEB: (b"TEX\0", 0xA5),
@@ -30,7 +33,7 @@ def looks_like_root(path: Path) -> bool:
     return path.is_dir() and all((path / folder).is_dir() for folder in FOLDERS)
 
 
-def locate_root(selected: Path) -> Path:
+def locate_weapon_root(selected: Path) -> Path:
     selected = selected.resolve()
     candidates = (
         selected,
@@ -43,6 +46,21 @@ def locate_root(selected: Path) -> Path:
         if looks_like_root(candidate):
             return candidate
     raise ValueError("找不到包含 12 个 wXX 目录的 arc/weapon/mod")
+
+
+def locate_armor_root(selected: Path) -> Path:
+    selected = selected.resolve()
+    candidates = (
+        selected,
+        selected / "player" / "mod",
+        selected / "arc" / "player" / "mod",
+        selected / "romfs" / "arc" / "player" / "mod",
+        selected / "cci_unpacked" / "romfs" / "arc" / "player" / "mod",
+    )
+    for candidate in candidates:
+        if (candidate / "f" / "pl000").is_dir() and (candidate / "m" / "pl000").is_dir():
+            return candidate
+    raise ValueError("找不到 romfs/arc/player/mod/{f,m}/plXXX")
 
 
 def validate_arc(path: Path) -> None:
@@ -90,27 +108,49 @@ def zip_info(path: str) -> zipfile.ZipInfo:
     return info
 
 
-def build_resource_pack(source: Path, output: Path) -> Path:
-    source_root = locate_root(source)
-    relative_files = [Path(folder) / name for folder in FOLDERS
-                      for name in sorted(item.name for item in (source_root / folder).glob("*.arc"))]
-    if len(relative_files) != 558:
-        raise ValueError(f"武器 ARC 数量应为 558，实际为 {len(relative_files)}")
+def build_resource_pack(weapon_source: Path, armor_source: Path, output: Path) -> Path:
+    weapon_root = locate_weapon_root(weapon_source)
+    armor_root = locate_armor_root(armor_source)
+    source_files: list[tuple[Path, Path, str]] = []
+    for folder in FOLDERS:
+        for item in sorted((weapon_root / folder).glob("*.arc")):
+            source_files.append((item, Path("weapon-mod") / folder / item.name, "weapon"))
+    weapon_count = sum(kind == "weapon" for _, _, kind in source_files)
+    if weapon_count != 558:
+        raise ValueError(f"武器 ARC 数量应为 558，实际为 {weapon_count}")
+    armor_counts: dict[str, int] = {}
+    for gender in ("f", "m"):
+        before = len(source_files)
+        for directory in sorted((armor_root / gender).glob("pl[0-9][0-9][0-9]")):
+            for item in sorted(directory.glob("*.arc")):
+                source_files.append((item, Path("armor-mod") / gender / directory.name / item.name, f"armor-{gender}"))
+        armor_counts[gender] = len(source_files) - before
+        if armor_counts[gender] != ARMOR_COUNTS[gender]:
+            raise ValueError(f"{gender} 防具 ARC 数量应为 {ARMOR_COUNTS[gender]}，实际为 {armor_counts[gender]}")
+    with ARMOR_MODEL_CSV.open("r", encoding="utf-8-sig", newline="") as handle:
+        expected_armor_paths = {row["arc_relative_path"] for row in csv.DictReader(handle)}
+    actual_armor_paths = {relative.as_posix() for _, relative, kind in source_files if kind.startswith("armor-")}
+    if actual_armor_paths != expected_armor_paths:
+        missing = sorted(expected_armor_paths - actual_armor_paths)[:5]
+        extra = sorted(actual_armor_paths - expected_armor_paths)[:5]
+        raise ValueError(f"防具资源与显式模型表不一致；缺少={missing} 额外={extra}")
 
     manifest_files: list[dict[str, object]] = []
-    for relative in relative_files:
-        source_file = source_root / relative
+    for source_file, relative, kind in source_files:
         validate_arc(source_file)
         manifest_files.append({
             "path": relative.as_posix(),
             "bytes": source_file.stat().st_size,
             "sha256": sha256(source_file),
+            "kind": kind,
         })
     manifest = {
-        "arc_count": 558,
+        "arc_count": len(source_files),
+        "counts": {"weapon": weapon_count, "armor_female": armor_counts["f"], "armor_male": armor_counts["m"]},
         "files": manifest_files,
-        "format": "mh3g-weapon-resources-v1",
+        "format": "mh3g-resources-v2",
         "game": "mh3g",
+        "armor_model_inventory_sha256": sha256(ARMOR_MODEL_CSV),
     }
     manifest_data = (json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("utf-8")
 
@@ -119,12 +159,12 @@ def build_resource_pack(source: Path, output: Path) -> Path:
     staging = output.with_name(output.name + ".packaging")
     if staging.exists():
         staging.unlink()
-    prefix = "resources/mh3g/weapon-mod/v1/"
+    prefix = "resources/mh3g/v2/"
     try:
         with zipfile.ZipFile(staging, "w", allowZip64=True) as archive:
             archive.writestr(zip_info(prefix + "manifest.json"), manifest_data)
-            for relative in relative_files:
-                archive.writestr(zip_info(prefix + relative.as_posix()), (source_root / relative).read_bytes())
+            for source_file, relative, _ in source_files:
+                archive.writestr(zip_info(prefix + relative.as_posix()), source_file.read_bytes())
         os.replace(staging, output)
     except Exception:
         if staging.exists():
@@ -135,11 +175,12 @@ def build_resource_pack(source: Path, output: Path) -> Path:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--source", required=True, type=Path, help="MH3G arc/weapon/mod、romfs 或其父目录")
+    parser.add_argument("--weapon-source", required=True, type=Path, help="MH3G arc/weapon/mod、romfs 或其父目录")
+    parser.add_argument("--armor-source", required=True, type=Path, help="MH3G arc/player/mod、romfs 或其父目录")
     parser.add_argument("--output", required=True, type=Path, help="输出的独立资源包 ZIP")
     args = parser.parse_args()
-    target = build_resource_pack(args.source, args.output)
-    print(json.dumps({"arc_count": 558, "bytes": target.stat().st_size,
+    target = build_resource_pack(args.weapon_source, args.armor_source, args.output)
+    print(json.dumps({"arc_count": 2562, "bytes": target.stat().st_size,
                       "output": str(target)}, ensure_ascii=False, sort_keys=True))
     return 0
 

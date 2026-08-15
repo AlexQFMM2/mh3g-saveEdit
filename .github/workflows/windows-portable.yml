@@ -39,10 +39,13 @@ jobs:
           python .\tools\validate_data.py .\data
           python .\tools\validate_encyclopedia.py .\data
           python .\tools\validate_model_crosswalk.py
+          python .\tools\validate_armor_sets.py
 
       - name: Test model parser fixtures
         shell: msys2 {0}
-        run: ./tests/run-model-tests.sh
+        run: |
+          ./tests/run-model-tests.sh
+          ./tests/run-encyclopedia-tests.sh
 
       - name: Build portable package
         shell: pwsh
@@ -51,17 +54,17 @@ jobs:
         run: |
           .\build-windows.ps1 -QtBin "$env:MSYS2_LOCATION\mingw64\bin"
 
-      - name: Download MH3G resource pack
+      - name: Download unified MH3G resource pack v2
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release download mh3g-resources-v1 `
+          gh release download mh3g-resources-v2 `
             --repo "${{ github.repository }}" `
-            --pattern "MH3GResources-v1.zip" `
-            --output .\MH3GResources-v1.zip `
+            --pattern "MH3GResources-v2.zip" `
+            --output .\MH3GResources-v2.zip `
             --clobber
-          Expand-Archive -Path .\MH3GResources-v1.zip -DestinationPath .\release\windows -Force
+          Expand-Archive -Path .\MH3GResources-v2.zip -DestinationPath .\release\windows -Force
           python .\tools\validate_resource_pack.py .\release\windows
 
       - name: Smoke test management window

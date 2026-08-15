@@ -12,7 +12,7 @@ The Chinese management interface keeps Character, Item Chest, and Equipment Box 
 Saving atomically replaces the currently opened file; there is no Save As command and the editor
 does not create a backup. A successful save is confirmed by a message box.
 
-## 武器资料库
+## 武器与防具资料库
 
 左侧“资料库”无需读取存档即可使用。首版收录 3G 的 12 类、1,421 件武器，支持中英日文搜索、
 属性与稀有度筛选、横向强化树、路线高亮、七色斩味、生产/强化素材，以及素材到相关武器的
@@ -22,7 +22,13 @@ does not create a backup. A successful save is confirmed by a message box.
 内存中的箱子数据，不会直接穿戴，也不会自动保存；确认无误后仍需点击“保存修改”。武器写入
 使用经 `ID_res.arc` 校验的真实类型和 ID，不使用 Dex 的全局行号。
 
-### 实时 3D 武器模型
+防具图鉴收录 1,651 件防具和 331 条人工维护的套装记录。左侧可切换下位、上位、G 位和
+特殊档位并筛选剑士/枪手与性别；中间每套固定显示头、胸、腕、腰、腿五张卡片。右侧显示
+当前单件的模型、基础/最大防御、五耐性、孔位、技能点、发动条件和生产素材。可以加入当前
+单件，也可以把当前性别下的整套一次性加入装备箱；整套操作会先预留全部空格，失败时不会
+部分写入。51 件尚无唯一存档映射的条目仍可浏览，但不能快速加入。
+
+### 实时 3D 武器与防具模型
 
 武器详情右侧可以实时浏览游戏模型；模型框四边中点的上下左右箭头用于旋转，每次旋转 15°并支持长按。
 模型区域不响应鼠标拖动或滚轮，切换武器时会自动恢复初始视角。完整整合包已经把 558 个武器
@@ -31,11 +37,11 @@ ARC 放在程序旁的固定目录，解压后即可使用，
 
 ```text
 MH3USaveEditorGUI.exe
-resources/mh3g/weapon-mod/v1/
+resources/mh3g/v2/
 ├─ manifest.json
-├─ w00/*.arc
-├─ ...
-└─ w12/*.arc
+├─ weapon-mod/w00/*.arc
+├─ weapon-mod/.../w12/*.arc
+└─ armor-mod/{f,m}/plXXX/*.arc
 ```
 
 程序只读取这一固定相对路径，不修改资源文件。模型浏览不会把存档标记为已修改。没有资源、
@@ -49,18 +55,18 @@ Alpha 对绝大多数不透明材质是高光/反射遮罩，只有 MRL 明确�
 和 Gamma 转换。当前武器 ARC 没有独立法线或高光 TEX，相关材质槽已保留供后续防具等资源
 使用。游戏专用粒子、发光和动态机关仍使用静态近似。
 
-游戏资源不进入 Git 仓库，而是独立发布为 `MH3GResources-v1.zip` Release Asset。它与程序
-完全分离，内部只有上述 `resources/` 树；以后防具模型、道具图片等也沿用这套资源包结构。
-本地可从已解包的武器资源确定性生成该 Asset：
+游戏资源不进入 Git 仓库，而是独立发布为 `MH3GResources-v2.zip` Release Asset。统一包包含
+558 个武器 ARC、1,009 个女性防具 ARC 和 995 个男性防具 ARC。本地可从已解包资源确定性生成：
 
 ```bash
 python3 tools/build_resource_pack.py \
-  --source /path/to/romfs/arc/weapon/mod \
-  --output MH3GResources-v1.zip
+  --weapon-source /path/to/romfs/arc/weapon/mod \
+  --armor-source /path/to/romfs/arc/player/mod \
+  --output MH3GResources-v2.zip
 ```
 
 脚本会校验 ARC v0x10、MOD v0xE6、TEX v0xA5、MRL v0x20 并生成 manifest。Windows Action
-先构建不含资源的程序，再下载 `mh3g-resources-v1` Release 下的这个 Asset，校验每个文件的
+先构建不含资源的程序，再下载 `mh3g-resources-v2` Release 下的这个 Asset，校验每个文件的
 尺寸和 SHA-256，最后把程序和资源统一压缩为可直接使用的完整 portable 包。
 
 ## Game-resource ID tables
@@ -125,6 +131,7 @@ The test verifies byte-identical unchanged round trips, read/write byte-order co
 
 ```bash
 ./tests/run-model-tests.sh
+./tests/run-encyclopedia-tests.sh
 ```
 
 本地拥有解包资源时，可额外对全部 558 个 ARC 执行解析、纹理和导入往返测试；测试缓存位于
@@ -133,4 +140,11 @@ The test verifies byte-identical unchanged round trips, read/write byte-order co
 ```bash
 ./tests/run-model-tests.sh /path/to/romfs/arc/weapon/mod
 python3 tools/validate_model_crosswalk.py --resources /path/to/romfs/arc/weapon/mod
+```
+
+全部 2,004 个男女防具 ARC 可使用同一解析器批量验证：
+
+```bash
+./tests/run-model-tests.sh
+/tmp/mh3u-se-model-tests/test_mh3g_models --armor-root /path/to/romfs/arc/player/mod
 ```
