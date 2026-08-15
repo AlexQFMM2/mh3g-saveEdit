@@ -18,6 +18,7 @@ class QListWidget;
 class QPushButton;
 class QVBoxLayout;
 class SaveActionBridge;
+class WeaponModelWidget;
 
 class SharpnessWidget : public QWidget
 {
@@ -91,7 +92,7 @@ private:
     QLabel *m_breadcrumb;
     QLabel *m_detailTitle;
     QLabel *m_detailSubtitle;
-    QLabel *m_imagePlaceholder;
+    WeaponModelWidget *m_modelViewer;
     QLabel *m_properties;
     QLabel *m_materialTitle;
     QLabel *m_upgradeTitle;

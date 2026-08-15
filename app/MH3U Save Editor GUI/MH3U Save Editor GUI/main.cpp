@@ -105,6 +105,23 @@ static void applyApplicationStyle(QApplication &app)
             border-radius: 9px;
             padding: 10px;
         }
+        QOpenGLWidget#weaponModelWidget {
+            background: #e9eef5;
+            border: 1px solid #9eacbd;
+            border-radius: 9px;
+        }
+        QLabel#modelViewerStatus {
+            color: #526176;
+            background: rgba(244, 247, 251, 218);
+            border: 1px solid #aebaca;
+            border-radius: 8px;
+            padding: 9px;
+        }
+        QLabel#modelViewerStatus[error="true"] {
+            color: #8f2f2f;
+            background: rgba(255, 239, 239, 230);
+            border-color: #d9a4a4;
+        }
         QPushButton#linkButton {
             color: #205fae;
             background: transparent;

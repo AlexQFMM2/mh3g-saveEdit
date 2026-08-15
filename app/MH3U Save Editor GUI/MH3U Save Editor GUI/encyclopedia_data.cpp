@@ -129,7 +129,9 @@ bool EncyclopediaRepository::loadAll()
         "production_price,upgrade_price,sharp_red,sharp_orange,sharp_yellow,sharp_green,sharp_blue,"
         "sharp_white,sharp_purple,sharp_plus,gunlance_type,switch_axe_phial,hunting_note1,hunting_note2,"
         "hunting_note3,gun_reload,gun_steadiness,gun_recoil,bow_shot,bow_charge1,bow_charge2,bow_charge3,"
-        "bow_charge4,image_key,writable,mapping_source FROM weapons ORDER BY dex_type,display_order";
+        "bow_charge4,image_key,writable,w.mapping_source,wm.model_key,mr.arc_relative_path,wm.mapping_status "
+        "FROM weapons w LEFT JOIN weapon_models wm ON wm.weapon_dex_id=w.dex_id "
+        "LEFT JOIN model_resources mr ON mr.model_key=wm.model_key ORDER BY dex_type,display_order";
     if (!query.exec(weaponSql))
     {
         m_error = query.lastError().text();
@@ -172,6 +174,9 @@ bool EncyclopediaRepository::loadAll()
         weapon.imageKey = query.value(column++).toString();
         weapon.writable = query.value(column++).toBool();
         weapon.mappingSource = query.value(column++).toString();
+        weapon.modelKey = query.value(column++).toString();
+        weapon.modelArcPath = query.value(column++).toString();
+        weapon.modelMappingStatus = query.value(column++).toString();
         m_weapons[weapon.dexId] = weapon;
         m_weaponsByType[weapon.dexType].append(weapon.dexId);
         if (weapon.saveType >= 0 && weapon.saveId >= 0)

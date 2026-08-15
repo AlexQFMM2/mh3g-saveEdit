@@ -47,6 +47,9 @@ struct EncyclopediaWeapon
     int bowShot = 0;
     int bowCharges[4] = {0, 0, 0, 0};
     QString imageKey;
+    QString modelKey;
+    QString modelArcPath;
+    QString modelMappingStatus;
     bool writable = false;
     QString mappingSource;
 };

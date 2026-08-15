@@ -1,5 +1,6 @@
 #include "encyclopedia_page.hpp"
 #include "save_action_bridge.hpp"
+#include "weapon_model_widget.hpp"
 
 #include <QComboBox>
 #include <QFrame>
@@ -176,17 +177,14 @@ EncyclopediaPage::EncyclopediaPage(SaveActionBridge *bridge, QWidget *parent)
 
     QFrame *details = new QFrame(this);
     details->setObjectName("contentCard");
-    details->setFixedWidth(330);
+    details->setFixedWidth(370);
     QVBoxLayout *detailShell = new QVBoxLayout(details);
     QScrollArea *detailScroll = new QScrollArea(details);
     detailScroll->setWidgetResizable(true);
     detailScroll->setFrameShape(QFrame::NoFrame);
     QWidget *detailBody = new QWidget(detailScroll);
     QVBoxLayout *detailLayout = new QVBoxLayout(detailBody);
-    m_imagePlaceholder = new QLabel(QString::fromUtf8("武器详情图\n资源管线预留"), detailBody);
-    m_imagePlaceholder->setObjectName("encyclopediaImage");
-    m_imagePlaceholder->setAlignment(Qt::AlignCenter);
-    m_imagePlaceholder->setMinimumHeight(110);
+    m_modelViewer = new WeaponModelWidget(detailBody);
     m_detailTitle = new QLabel(detailBody);
     m_detailTitle->setObjectName("detailTitle");
     m_detailTitle->setWordWrap(true);
@@ -211,7 +209,7 @@ EncyclopediaPage::EncyclopediaPage(SaveActionBridge *bridge, QWidget *parent)
     m_addButton->setObjectName("primaryButton");
     m_addButton->setEnabled(false);
     m_addButton->setToolTip(QString::fromUtf8("快速加入将在存档桥接阶段启用。"));
-    detailLayout->addWidget(m_imagePlaceholder);
+    detailLayout->addWidget(m_modelViewer);
     detailLayout->addWidget(m_detailTitle);
     detailLayout->addWidget(m_detailSubtitle);
     detailLayout->addWidget(m_properties);
@@ -469,7 +467,9 @@ void EncyclopediaPage::showWeapon(int dexId)
                   << QString::fromUtf8("孔位：%1").arg(weapon.slotCount)
                   << QString::fromUtf8("生产：%1 z").arg(weapon.productionPrice)
                   << QString::fromUtf8("强化：%1 z").arg(weapon.upgradePrice)
-                  << QString::fromUtf8("存档映射：类型 %1 / ID %2").arg(weapon.saveType).arg(weapon.saveId);
+                  << QString::fromUtf8("存档映射：类型 %1 / ID %2").arg(weapon.saveType).arg(weapon.saveId)
+                  << (weapon.modelKey.isEmpty() ? QString::fromUtf8("3D 模型：映射待确认")
+                      : QString::fromUtf8("3D 模型：%1（已确认）").arg(weapon.modelKey));
     if (weapon.dexType == 6)
         propertyLines << QString::fromUtf8("音色 ID：%1 / %2 / %3")
             .arg(weapon.huntingNotes[0]).arg(weapon.huntingNotes[1]).arg(weapon.huntingNotes[2]);
@@ -493,7 +493,7 @@ void EncyclopediaPage::showWeapon(int dexId)
     m_properties->setText(propertyLines.join('\n'));
     m_sharpness->setVisible(weapon.dexType <= 9);
     m_sharpness->setSegments(weapon.sharpness);
-    m_imagePlaceholder->setText(QString::fromUtf8("%1\n详情图片资源预留").arg(weapon.imageKey));
+    m_modelViewer->setModel(weapon.modelKey, weapon.modelArcPath);
     clearLayout(m_materialLinks);
     clearLayout(m_upgradeLinks);
     const QVector<EncyclopediaMaterial> materials = m_repository.materials(dexId);
@@ -529,7 +529,7 @@ void EncyclopediaPage::showItem(int dexId)
     m_properties->setText(QString::fromUtf8("稀有度：%1\n持有上限：%2\n买入：%3 z\n卖出：%4 z\n存档 ID：%5")
         .arg(item.rarity).arg(item.maxCount).arg(item.buyPrice).arg(item.sellPrice).arg(item.saveId));
     m_sharpness->hide();
-    m_imagePlaceholder->setText(QString::fromUtf8("道具图标\n资源管线预留"));
+    m_modelViewer->showItemPlaceholder();
     clearLayout(m_materialLinks);
     clearLayout(m_upgradeLinks);
     const QVector<int> uses = m_repository.weaponUses(dexId);
