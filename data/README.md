@@ -39,6 +39,15 @@ items referenced by those recipes. `encyclopedia-manifest.json` records every
 raw input hash and the database hash. Raw Dex CSV files stay outside the
 repository.
 
+`model_resources` contains the 558 canonical ARC paths and format selectors;
+`weapon_models` maps all 1,421 weapon rows to those shared models. The audited
+crosswalk is `tools/mh3g_weapon_model_crosswalk.json`. It was extracted from
+the decompressed ExeFS weapon parameter records (SHA-256
+`5374eaac8de5395f346933c4523019a6f643b72e3a73778ccf9a2ac4c32aaa1d`), where
+record offset zero is the model ID used by the game's resource-path builder.
+The compact run-length representation is keyed by real save ID and is checked
+against the SQLite rows on every Action build.
+
 ## Rebuild
 
 On Windows, export the audited resource arrays to a temporary JSON file:
@@ -72,6 +81,7 @@ Generate the weapon encyclopedia from the external Dex dump:
 ```bash
 python3 tools/build_encyclopedia.py --dex-dump /tmp/mh3g-dex
 python3 tools/validate_encyclopedia.py data
+python3 tools/validate_model_crosswalk.py
 ```
 
 The required dump files and their exact hashes are listed in

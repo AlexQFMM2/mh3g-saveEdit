@@ -39,11 +39,15 @@ def main() -> int:
             "items": scalar(db, "SELECT count(*) FROM items"),
             "mapped_items": scalar(db, "SELECT count(*) FROM items WHERE writable=1"),
             "materials": scalar(db, "SELECT count(*) FROM weapon_materials"),
+            "model_resources": scalar(db, "SELECT count(*) FROM model_resources"),
+            "weapon_models": scalar(db, "SELECT count(*) FROM weapon_models"),
         }
         if checks != expected:
             raise ValueError(f"row counts differ: expected {expected}, got {checks}")
         if checks["weapon_types"] != 12 or checks["weapons"] != 1421:
             raise ValueError("unexpected MH3G weapon coverage")
+        if checks["model_resources"] != 558 or checks["weapon_models"] != checks["mapped_weapons"]:
+            raise ValueError("unexpected MH3G weapon model coverage")
         if scalar(db, "SELECT count(*) FROM weapons WHERE name_cn='' OR name_en='' OR name_jp=''"):
             raise ValueError("weapon with empty localized name")
         if scalar(db, "SELECT count(*) FROM weapons WHERE min(sharp_red,sharp_orange,sharp_yellow,sharp_green,sharp_blue,sharp_white,sharp_purple)<0"):
@@ -52,6 +56,8 @@ def main() -> int:
             raise ValueError("dangling weapon edge")
         if scalar(db, "SELECT count(*) FROM weapon_materials m LEFT JOIN items i ON i.dex_id=m.item_dex_id WHERE i.dex_id IS NULL"):
             raise ValueError("dangling material item")
+        if scalar(db, "SELECT count(*) FROM weapon_models m LEFT JOIN weapons w ON w.dex_id=m.weapon_dex_id LEFT JOIN model_resources r ON r.model_key=m.model_key WHERE w.dex_id IS NULL OR r.model_key IS NULL"):
+            raise ValueError("dangling weapon model mapping")
     finally:
         db.close()
     print(json.dumps(checks, ensure_ascii=False, sort_keys=True))

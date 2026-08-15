@@ -20,9 +20,10 @@ from collections import defaultdict
 from pathlib import Path
 
 
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 ROOT = Path(__file__).resolve().parents[1]
 CROSSWALK = Path(__file__).with_name("mh3g_encyclopedia_crosswalk.json")
+MODEL_CROSSWALK = Path(__file__).with_name("mh3g_weapon_model_crosswalk.json")
 TYPE_MAP = {
     1: (7, "gs_weapons", "great-sword", "大剑", "Great Sword"),
     2: (14, "ls_weapons", "long-sword", "太刀", "Long Sword"),
@@ -156,6 +157,20 @@ def create_schema(db: sqlite3.Connection) -> None:
           region TEXT NOT NULL,
           PRIMARY KEY(weapon_dex_id, item_dex_id, kind, region)
         );
+        CREATE TABLE model_resources(
+          model_key TEXT PRIMARY KEY,
+          arc_relative_path TEXT NOT NULL UNIQUE,
+          mod_selector TEXT NOT NULL,
+          mrl_selector TEXT NOT NULL,
+          texture_selector TEXT NOT NULL,
+          mapping_source TEXT NOT NULL
+        );
+        CREATE TABLE weapon_models(
+          weapon_dex_id INTEGER PRIMARY KEY REFERENCES weapons(dex_id),
+          model_key TEXT NOT NULL REFERENCES model_resources(model_key),
+          mapping_status TEXT NOT NULL CHECK(mapping_status IN ('confirmed','unmapped')),
+          mapping_source TEXT NOT NULL
+        );
         CREATE INDEX idx_weapons_type_order ON weapons(dex_type, display_order);
         CREATE INDEX idx_material_item ON weapon_materials(item_dex_id, weapon_dex_id);
         CREATE INDEX idx_edges_child ON weapon_edges(child_dex_id);
@@ -187,6 +202,21 @@ def build(dex_root: Path, data_root: Path, output: Path, manifest_path: Path) ->
         raise ValueError("unsupported crosswalk format")
     explicit_weapons = {int(key): value for key, value in crosswalk["weapons"].items()}
     explicit_items = {int(key): value for key, value in crosswalk["items"].items()}
+    model_crosswalk = json.loads(MODEL_CROSSWALK.read_text(encoding="utf-8"))
+    if model_crosswalk.get("format") != "mh3g-weapon-model-crosswalk-v1":
+        raise ValueError("unsupported weapon model crosswalk format")
+    model_by_save: dict[tuple[int, int], tuple[str, str]] = {}
+    for dex_type, values in sorted(((int(key), value) for key, value in model_crosswalk["types"].items())):
+        folder = values["resource_folder"]
+        model_ids: list[int] = []
+        for model_id, count in values["model_id_runs"]:
+            model_ids.extend([int(model_id)] * int(count))
+        if len(model_ids) != int(values["save_id_count"]):
+            raise ValueError(f"model crosswalk type {dex_type}: invalid run length")
+        save_type = TYPE_MAP[dex_type][0]
+        for save_id, model_id in enumerate(model_ids, 1):
+            model_key = f"{folder}_{model_id:02d}"
+            model_by_save[(save_type, save_id)] = (model_key, f"{folder}/{model_key}.arc")
 
     weapon_names = {int(row["Wpn_ID"]): row for row in read_csv(paths["weapon_names"]) if int(row["Wpn_ID"]) >= 0}
     weapon_rows = read_csv(paths["weapons"])
@@ -338,6 +368,26 @@ def build(dex_root: Path, data_root: Path, output: Path, manifest_path: Path) ->
                     "production" if row["Type"] == "P" else "upgrade", row["Region"],
                 ))
 
+            model_resources: dict[str, str] = {}
+            weapon_model_rows: list[tuple[int, str, str, str]] = []
+            for dex_id, (save_type, save_id, _) in sorted(resolved_weapons.items()):
+                if save_type is None or save_id is None:
+                    continue
+                model = model_by_save.get((save_type, save_id))
+                if model is None:
+                    raise ValueError(f"weapon {dex_id}: missing confirmed model mapping")
+                model_key, arc_path = model
+                previous = model_resources.setdefault(model_key, arc_path)
+                if previous != arc_path:
+                    raise ValueError(f"model {model_key}: conflicting ARC paths")
+                weapon_model_rows.append((dex_id, model_key, "confirmed", "exefs-weapon-parameter-model-id"))
+            for model_key, arc_path in sorted(model_resources.items()):
+                db.execute("INSERT INTO model_resources VALUES(?,?,?,?,?,?)", (
+                    model_key, arc_path, "type-hash:0x58a15856", "type-hash:0x2749c8a8",
+                    "model-prefix-BM;exclude-common", "exefs-path-builder-and-parameter-table",
+                ))
+            db.executemany("INSERT INTO weapon_models VALUES(?,?,?,?)", weapon_model_rows)
+
             db.commit()
             integrity = db.execute("PRAGMA integrity_check").fetchone()[0]
             if integrity != "ok":
@@ -354,6 +404,7 @@ def build(dex_root: Path, data_root: Path, output: Path, manifest_path: Path) ->
         "generator_version": VERSION,
         "source_files": file_hashes,
         "crosswalk_sha256": sha256(CROSSWALK),
+        "model_crosswalk_sha256": sha256(MODEL_CROSSWALK),
         "database": {"file": output.name, "sha256": sha256(output), "bytes": output.stat().st_size},
         "counts": {
             "weapon_types": 12,
@@ -362,6 +413,8 @@ def build(dex_root: Path, data_root: Path, output: Path, manifest_path: Path) ->
             "items": len(used_item_ids),
             "mapped_items": sum(value[0] is not None for value in resolved_items.values()),
             "materials": len(material_rows),
+            "model_resources": len({value[0] for value in model_by_save.values()}),
+            "weapon_models": sum(value[1] is not None for value in resolved_weapons.values()),
         },
     }
     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
