@@ -76,6 +76,62 @@ struct EncyclopediaMaterial
     QString region;
 };
 
+struct EncyclopediaActiveSkill
+{
+    int id = -1;
+    int points = 0;
+    QString name;
+};
+
+struct EncyclopediaArmorSkill
+{
+    int treeId = -1;
+    QString treeName;
+    int points = 0;
+    QVector<EncyclopediaActiveSkill> thresholds;
+};
+
+struct EncyclopediaArmor
+{
+    int dexId = -1;
+    int saveType = -1;
+    int saveId = -1;
+    QString setId;
+    QString part;
+    QString combat;
+    QString gender;
+    QString name;
+    QString english;
+    QString japanese;
+    int rarity = 0;
+    int slotCount = 0;
+    int defense = 0;
+    int maxDefense = 0;
+    int price = 0;
+    int resistances[5] = {0, 0, 0, 0, 0};
+    bool writable = false;
+    QString mappingSource;
+};
+
+struct EncyclopediaArmorSet
+{
+    QString setId;
+    QString rank;
+    QString combat;
+    int modelId = -1;
+    QString name;
+    QString english;
+    int displayOrder = 0;
+    QString reviewStatus;
+    QVector<int> members;
+};
+
+struct EncyclopediaArmorModel
+{
+    QString modelKey;
+    QString arcRelativePath;
+};
+
 class EncyclopediaRepository
 {
 public:
@@ -99,7 +155,14 @@ public:
     QVector<int> childIds(int dexId) const;
     QVector<EncyclopediaMaterial> materials(int weaponDexId) const;
     QVector<int> weaponUses(int itemDexId) const;
+    QVector<int> armorUses(int itemDexId) const;
     QString attributeName(int id) const;
+    QVector<EncyclopediaArmorSet> armorSets() const;
+    EncyclopediaArmorSet armorSet(const QString &setId) const;
+    EncyclopediaArmor armor(int dexId) const;
+    QVector<EncyclopediaMaterial> armorMaterials(int armorDexId) const;
+    QVector<EncyclopediaArmorSkill> armorSkills(int armorDexId) const;
+    EncyclopediaArmorModel armorModel(int modelId, const QString &gender, const QString &part) const;
 
 private:
     QString locateDatabase() const;
@@ -121,6 +184,13 @@ private:
     QMap<int, QVector<EncyclopediaMaterial> > m_materials;
     QMap<int, QVector<int> > m_itemUses;
     QMap<int, QString> m_attributes;
+    QVector<EncyclopediaArmorSet> m_armorSets;
+    QMap<QString, EncyclopediaArmorSet> m_armorSetsById;
+    QMap<int, EncyclopediaArmor> m_armors;
+    QMap<int, QVector<EncyclopediaMaterial> > m_armorMaterials;
+    QMap<int, QVector<EncyclopediaArmorSkill> > m_armorSkills;
+    QMap<int, QVector<int> > m_armorItemUses;
+    QMap<QString, EncyclopediaArmorModel> m_armorModels;
 };
 
 #endif
