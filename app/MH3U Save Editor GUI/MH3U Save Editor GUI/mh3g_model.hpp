@@ -43,6 +43,7 @@ struct Mh3gMaterial
     float specularStrength = 0.28f;
     float roughness = 0.55f;
     float environmentStrength = 0.08f;
+    bool transparent = false;
 };
 
 struct Mh3gDrawCall

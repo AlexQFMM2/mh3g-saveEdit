@@ -4,7 +4,6 @@
 #include <QGridLayout>
 #include <QHBoxLayout>
 #include <QLabel>
-#include <QMouseEvent>
 #include <QOpenGLContext>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
@@ -13,18 +12,15 @@
 #include <QStyle>
 #include <QTimer>
 #include <QVBoxLayout>
-#include <QWheelEvent>
 #include <QtConcurrent>
 
 WeaponModelWidget::WeaponModelWidget(QWidget *parent)
     : QOpenGLWidget(parent), m_request(0), m_glReady(false), m_gpuReady(false), m_cacheBytes(0),
       m_program(0), m_vertexBuffer(QOpenGLBuffer::VertexBuffer), m_indexBuffer(QOpenGLBuffer::IndexBuffer),
-      m_dragButton(Qt::NoButton), m_yaw(-32.0f), m_pitch(18.0f), m_distance(3.0f)
+      m_yaw(-32.0f), m_pitch(18.0f), m_distance(3.0f)
 {
     setObjectName("weaponModelWidget");
     setMinimumHeight(210);
-    setFocusPolicy(Qt::StrongFocus);
-    setMouseTracking(true);
     QSurfaceFormat format;
     format.setRenderableType(QSurfaceFormat::OpenGL);
     format.setVersion(3, 3);
@@ -64,16 +60,14 @@ WeaponModelWidget::WeaponModelWidget(QWidget *parent)
     directions->addWidget(left, 1, 0);
     directions->addWidget(down, 1, 1);
     directions->addWidget(right, 1, 2);
-    buttons->addLayout(directions);
-    m_reset = new QPushButton(QString::fromUtf8("重置视角"), this);
     buttons->addStretch();
-    buttons->addWidget(m_reset);
+    buttons->addLayout(directions);
+    buttons->addStretch();
     overlay->addLayout(buttons);
     connect(up, SIGNAL(clicked()), this, SLOT(rotateUp()));
     connect(down, SIGNAL(clicked()), this, SLOT(rotateDown()));
     connect(left, SIGNAL(clicked()), this, SLOT(rotateLeft()));
     connect(right, SIGNAL(clicked()), this, SLOT(rotateRight()));
-    connect(m_reset, SIGNAL(clicked()), this, SLOT(resetView()));
     setStatus(m_resources.statusText());
 }
 
@@ -183,18 +177,18 @@ void WeaponModelWidget::initializeGL()
         "#version 330 core\n"
         "in vec3 n; in vec3 tan; in float hand; in vec2 t; in vec3 p;\n"
         "uniform sampler2D albedoMap; uniform sampler2D normalMap; uniform sampler2D specularMap; uniform sampler2D environmentMap;\n"
-        "uniform bool hasAlbedo; uniform bool hasNormal; uniform bool hasSpecular; uniform bool hasEnvironment;\n"
+        "uniform bool hasAlbedo; uniform bool hasNormal; uniform bool hasSpecular; uniform bool hasEnvironment; uniform bool useAlpha;\n"
         "uniform vec4 albedoFactor; uniform float specularStrength; uniform float roughness; uniform float environmentStrength; out vec4 color;\n"
-        "void main(){ vec4 base=(hasAlbedo?texture(albedoMap,t):vec4(0.48,0.54,0.62,1.0))*albedoFactor; if(base.a<0.08)discard;"
+        "void main(){ vec4 base=(hasAlbedo?texture(albedoMap,t):vec4(0.48,0.54,0.62,1.0))*albedoFactor; if(useAlpha&&base.a<0.08)discard;"
         "vec3 N=normalize(n); vec3 T=normalize(tan-N*dot(N,tan)); vec3 B=normalize(cross(N,T))*hand;"
         "if(hasNormal){ vec3 mapped=texture(normalMap,t).xyz*2.0-1.0; N=normalize(mat3(T,B,N)*mapped); }"
         "vec3 L=normalize(vec3(-0.35,0.72,0.60)); vec3 L2=normalize(vec3(0.55,0.25,0.80)); vec3 V=normalize(-p);"
         "float diffuse=0.22+0.62*max(dot(N,L),0.0)+0.16*max(dot(N,L2),0.0);"
-        "float mask=specularStrength*(hasSpecular?clamp(dot(texture(specularMap,t).rgb,vec3(0.3333)),0.0,1.0):1.0);"
+        "float textureMask=hasSpecular?clamp(dot(texture(specularMap,t).rgb,vec3(0.3333)),0.0,1.0):base.a; float mask=specularStrength*textureMask;"
         "float shine=mix(88.0,12.0,roughness); float highlight=pow(max(dot(reflect(-L,N),V),0.0),shine)*mask*0.52;"
         "vec3 R=reflect(-V,N); vec2 euv=R.xy*0.34+vec2(0.5); vec3 env=hasEnvironment?pow(texture(environmentMap,euv).rgb,vec3(2.2)):vec3(0.08);"
         "vec3 baseLinear=pow(base.rgb,vec3(2.2)); vec3 linear=baseLinear*diffuse+env*environmentStrength+vec3(highlight);"
-        "vec3 mapped=vec3(1.0)-exp(-linear*0.92); color=vec4(pow(clamp(mapped,0.0,1.0),vec3(1.0/2.2)),base.a); }";
+        "vec3 mapped=vec3(1.0)-exp(-linear*0.92); color=vec4(pow(clamp(mapped,0.0,1.0),vec3(1.0/2.2)),useAlpha?base.a:1.0); }";
     if (!m_program->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShader)
         || !m_program->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShader) || !m_program->link())
     { setStatus(QString::fromUtf8("OpenGL 着色器初始化失败\n%1").arg(m_program->log()), true); return; }
@@ -309,6 +303,7 @@ void WeaponModelWidget::paintGL()
         m_program->setUniformValue("hasNormal", material.normal != 0);
         m_program->setUniformValue("hasSpecular", material.specular != 0);
         m_program->setUniformValue("hasEnvironment", material.environment != 0);
+        m_program->setUniformValue("useAlpha", source.transparent);
         m_program->setUniformValue("albedoFactor", source.albedoFactor);
         m_program->setUniformValue("specularStrength", source.specularStrength);
         m_program->setUniformValue("roughness", source.roughness);
@@ -349,27 +344,3 @@ void WeaponModelWidget::rotateUp() { rotateView(0.0f, -15.0f); }
 void WeaponModelWidget::rotateDown() { rotateView(0.0f, 15.0f); }
 void WeaponModelWidget::rotateLeft() { rotateView(-15.0f, 0.0f); }
 void WeaponModelWidget::rotateRight() { rotateView(15.0f, 0.0f); }
-
-void WeaponModelWidget::mousePressEvent(QMouseEvent *event)
-{
-    if (event->button() == Qt::LeftButton || event->button() == Qt::RightButton)
-    { m_dragButton = event->button(); m_lastMouse = event->pos(); event->accept(); return; }
-    QOpenGLWidget::mousePressEvent(event);
-}
-
-void WeaponModelWidget::mouseMoveEvent(QMouseEvent *event)
-{
-    if (m_dragButton == Qt::NoButton) { QOpenGLWidget::mouseMoveEvent(event); return; }
-    const QPoint delta = event->pos() - m_lastMouse; m_lastMouse = event->pos();
-    if (m_dragButton == Qt::LeftButton) { m_yaw += delta.x() * 0.6f; m_pitch = qBound(-89.0f, m_pitch + delta.y() * 0.6f, 89.0f); }
-    else { m_pan += QVector3D(delta.x() / float(qMax(1, width())) * 2.0f, -delta.y() / float(qMax(1, height())) * 2.0f, 0); }
-    update(); event->accept();
-}
-
-void WeaponModelWidget::mouseDoubleClickEvent(QMouseEvent *event) { resetView(); event->accept(); }
-
-void WeaponModelWidget::wheelEvent(QWheelEvent *event)
-{
-    m_distance = qBound(1.05f, m_distance * (event->angleDelta().y() > 0 ? 0.88f : 1.14f), 12.0f);
-    update(); event->accept();
-}

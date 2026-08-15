@@ -13,10 +13,8 @@ g++ -std=c++11 -Wall -Wextra -fPIC \
   $(pkg-config --cflags --libs Qt5Core Qt5Gui) \
   -o "$build_dir/test_mh3g_models"
 
-if [[ $# -gt 1 ]]; then
-  XDG_DATA_HOME="$build_dir/local-data" "$build_dir/test_mh3g_models" "$1" "$2"
-elif [[ $# -gt 0 ]]; then
-  XDG_DATA_HOME="$build_dir/local-data" "$build_dir/test_mh3g_models" "$1"
+if [[ $# -gt 0 ]]; then
+  XDG_DATA_HOME="$build_dir/local-data" "$build_dir/test_mh3g_models" "$@"
 else
   "$build_dir/test_mh3g_models"
 fi

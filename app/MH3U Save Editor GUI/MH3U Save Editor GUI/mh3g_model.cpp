@@ -111,8 +111,9 @@ bool parseMrl(const QByteArray &data, const QHash<QString, QImage> &textures,
     for (quint32 materialIndex = 0; materialIndex < materialCount; ++materialIndex)
     {
         const int base = int(materialOffset + materialIndex * 0x3c);
-        quint32 nameHash = 0, commandInfo = 0, commandOffset = 0;
+        quint32 nameHash = 0, blendState = 0, commandInfo = 0, commandOffset = 0;
         readLe(data, base + 4, &nameHash);
+        readLe(data, base + 0x0c, &blendState);
         readLe(data, base + 0x18, &commandInfo);
         readLe(data, base + 0x34, &commandOffset);
         const int encodedCount = int(commandInfo & 0xfffU);
@@ -123,6 +124,8 @@ bool parseMrl(const QByteArray &data, const QHash<QString, QImage> &textures,
 
         Mh3gMaterial material;
         material.name = QString("0x%1").arg(nameHash, 8, 16, QLatin1Char('0'));
+        const quint32 blendHash = blendState >> 12;
+        material.transparent = blendHash != 0x4d2c8U && blendHash != 0x62b2dU && blendHash != 0x67927U;
         for (int command = 0; command < commandCount; ++command)
         {
             const int commandBase = int(commandOffset) + command * 0x18;

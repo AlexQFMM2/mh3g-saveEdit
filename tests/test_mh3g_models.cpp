@@ -132,7 +132,7 @@ int main(int argc, char **argv)
         const QDir root(app.arguments().at(1));
         const QStringList folders = QStringList() << "w00" << "w01" << "w02" << "w03" << "w04" << "w06"
             << "w07" << "w08" << "w09" << "w10" << "w11" << "w12";
-        int count = 0, failed = 0, environments = 0;
+        int count = 0, failed = 0, environments = 0, materialCount = 0, transparentMaterials = 0;
         for (const QString &folder : folders)
         {
             QDir directory(root.filePath(folder));
@@ -143,6 +143,8 @@ int main(int argc, char **argv)
                 bool hasAlbedo = false, hasEnvironment = false, usedFallbackMaterial = false;
                 for (const Mh3gMaterial &material : loaded->materials)
                 {
+                    ++materialCount;
+                    if (material.transparent) ++transparentMaterials;
                     if (!material.albedo.isNull()) hasAlbedo = true;
                     if (!material.environment.isNull()) hasEnvironment = true;
                     if (material.name == QString::fromUtf8("默认材质")) usedFallbackMaterial = true;
@@ -161,12 +163,15 @@ int main(int argc, char **argv)
                 if (hasEnvironment) ++environments;
             }
         }
-        std::cout << "archives=" << count << " failed=" << failed << " environments=" << environments << '\n';
+        std::cout << "archives=" << count << " failed=" << failed << " environments=" << environments
+            << " materials=" << materialCount << " transparent=" << transparentMaterials << '\n';
         if (count != 558 || failed != 0 || environments != 462) return 1;
 
         if (app.arguments().size() > 2)
         {
-            const QSharedPointer<Mh3gCpuModel> sample = Mh3gModelLoader::load("w00_01", root.filePath("w00/w00_01.arc"));
+            const QString sampleKey = app.arguments().size() > 3 ? app.arguments().at(3) : QString("w00_01");
+            const QString samplePath = root.filePath(sampleKey.left(3) + "/" + sampleKey + ".arc");
+            const QSharedPointer<Mh3gCpuModel> sample = Mh3gModelLoader::load(sampleKey, samplePath);
             if (!sample->valid() || sample->materials.isEmpty() || sample->materials.first().albedo.isNull()
                 || !sample->materials.first().albedo.save(app.arguments().at(2)))
             { std::cerr << "texture preview export failed\n"; return 1; }

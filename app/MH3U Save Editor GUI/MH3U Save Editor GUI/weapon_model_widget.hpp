@@ -10,7 +10,6 @@
 #include <QOpenGLFunctions_3_3_Core>
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLWidget>
-#include <QPoint>
 #include <QSharedPointer>
 #include <QStringList>
 
@@ -31,7 +30,6 @@ public:
     QString resourceStatus() const;
 
 public slots:
-    void resetView();
     void rotateUp();
     void rotateDown();
     void rotateLeft();
@@ -42,10 +40,6 @@ protected:
     void resizeGL(int width, int height);
     void paintGL();
     void showEvent(QShowEvent *event);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void mouseDoubleClickEvent(QMouseEvent *event);
-    void wheelEvent(QWheelEvent *event);
 
 private:
     void requestLoad();
@@ -55,6 +49,7 @@ private:
     void setStatus(const QString &text, bool error = false);
     void touchCache(const QString &key, const QSharedPointer<Mh3gCpuModel> &model);
     void trimCache();
+    void resetView();
     void rotateView(float yawDelta, float pitchDelta);
 
     struct GpuMaterial
@@ -83,9 +78,6 @@ private:
     QVector<GpuMaterial> m_gpuMaterials;
 
     QLabel *m_status;
-    QPushButton *m_reset;
-    QPoint m_lastMouse;
-    Qt::MouseButton m_dragButton;
     float m_yaw;
     float m_pitch;
     float m_distance;
