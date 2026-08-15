@@ -24,6 +24,8 @@
 #include <QVBoxLayout>
 #include <QWheelEvent>
 
+#include <algorithm>
+
 namespace
 {
 QIcon typeIcon(const QString &name, int index)
@@ -275,6 +277,24 @@ void EncyclopediaPage::addBranch(int dexId, int depth, QMap<int, int> &depths)
     for (int index = 0; index < children.size(); ++index) addBranch(children[index], depth + 1, depths);
 }
 
+void EncyclopediaPage::assignBranchRows(int dexId, int row, QMap<int, int> &rows, int &nextRow)
+{
+    if (rows.contains(dexId)) return;
+    rows[dexId] = row;
+    nextRow = qMax(nextRow, row + 1);
+    QVector<int> children = m_repository.childIds(dexId);
+    std::sort(children.begin(), children.end(), [this](int left, int right) {
+        const int leftOrder = m_repository.weapon(left).displayOrder;
+        const int rightOrder = m_repository.weapon(right).displayOrder;
+        return leftOrder == rightOrder ? left < right : leftOrder < rightOrder;
+    });
+    for (int index = 0; index < children.size(); ++index)
+    {
+        const int childRow = index == 0 ? row : nextRow;
+        assignBranchRows(children[index], childRow, rows, nextRow);
+    }
+}
+
 void EncyclopediaPage::rebuildTree()
 {
     m_scene->clear();
@@ -283,14 +303,32 @@ void EncyclopediaPage::rebuildTree()
     const int row = m_types->currentRow();
     if (row < 0) return;
     const int dexType = m_types->item(row)->data(Qt::UserRole).toInt();
-    const QVector<int> roots = m_repository.rootIdsForType(dexType);
+    QVector<int> roots = m_repository.rootIdsForType(dexType);
+    std::sort(roots.begin(), roots.end(), [this](int left, int right) {
+        const int leftOrder = m_repository.weapon(left).displayOrder;
+        const int rightOrder = m_repository.weapon(right).displayOrder;
+        return leftOrder == rightOrder ? left < right : leftOrder < rightOrder;
+    });
     for (int index = 0; index < roots.size(); ++index) addBranch(roots[index], 0, m_depths);
     const QVector<int> weapons = m_repository.weaponIdsForType(dexType);
+    QMap<int, int> rows;
+    int nextRow = 0;
+    for (int index = 0; index < roots.size(); ++index)
+    {
+        assignBranchRows(roots[index], nextRow, rows, nextRow);
+        ++nextRow;
+    }
+    for (int index = 0; index < weapons.size(); ++index)
+    {
+        if (rows.contains(weapons[index])) continue;
+        assignBranchRows(weapons[index], nextRow, rows, nextRow);
+        ++nextRow;
+    }
     for (int index = 0; index < weapons.size(); ++index)
     {
         const EncyclopediaWeapon weapon = m_repository.weapon(weapons[index]);
         const qreal x = m_depths.value(weapon.dexId, 0) * 185.0;
-        const qreal y = weapon.displayOrder * 70.0;
+        const qreal y = rows.value(weapon.dexId, 0) * 70.0;
         QGraphicsRectItem *card = m_scene->addRect(QRectF(0, 0, 156, 54), QPen(QColor("#8191a6")), QBrush(QColor("#fbfdff")));
         card->setPos(x, y);
         card->setFlag(QGraphicsItem::ItemIsSelectable, true);

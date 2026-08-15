@@ -67,6 +67,7 @@ private slots:
 private:
     void rebuildTree();
     void addBranch(int dexId, int depth, QMap<int, int> &depths);
+    void assignBranchRows(int dexId, int row, QMap<int, int> &rows, int &nextRow);
     void applyFilters();
     void selectWeaponNode(int dexId);
     void navigate(const QString &uri, bool pushHistory = true);
