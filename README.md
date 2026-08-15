@@ -37,24 +37,26 @@ resources/mh3g/weapon-mod/v1/
 └─ w12/*.arc
 ```
 
-程序只读取这一固定相对路径，不修改资源文件。模型浏览不会把存档标记为已修改。普通 GitHub
-Action portable 包不含模型，使用时会在查看器内提示改用完整整合包；没有资源、单件解析失败或
-OpenGL 3.3 不可用时，图鉴属性、路线、素材和快速加入仍可正常使用。
+程序只读取这一固定相对路径，不修改资源文件。模型浏览不会把存档标记为已修改。没有资源、
+单件解析失败或 OpenGL 3.3 不可用时，图鉴属性、路线、素材和快速加入仍可正常使用。
 
 模型映射来自游戏 ExeFS 武器参数记录中的真实 `model_id`，完整覆盖 1,421 个武器形态到
 558 个复用模型；不使用 Dex 行号、`WpnImg_*` 顺序或目录偏移猜测。首版显示绑定姿势和基础
 漫反射/透明/高光近似，不复刻游戏专用的粒子、发光及动态机关着色。
 
-仓库和 GitHub Action 生成的公开 portable 包不包含 CCI、ARC、MOD、TEX 或 MRL。私下制作
-完整整合包时，可在 Windows 仓库根目录运行：
+游戏资源不进入 Git 仓库，而是独立发布为 `MH3GResources-v1.zip` Release Asset。它与程序
+完全分离，内部只有上述 `resources/` 树；以后防具模型、道具图片等也沿用这套资源包结构。
+本地可从已解包的武器资源确定性生成该 Asset：
 
-```powershell
-.\build-windows.ps1 -QtBin C:\msys64\mingw64\bin `
-  -ModelSource "D:\MH\mh3G\cci_unpacked\romfs\arc\weapon\mod"
+```bash
+python3 tools/build_resource_pack.py \
+  --source /path/to/romfs/arc/weapon/mod \
+  --output MH3GResources-v1.zip
 ```
 
-脚本会校验 ARC v0x10、MOD v0xE6、TEX v0xA5、MRL v0x20，随后把约 36 MiB 资源直接写入
-`release/windows/resources/mh3g/weapon-mod/v1/`。这个完整包只在本地生成，不上传 GitHub。
+脚本会校验 ARC v0x10、MOD v0xE6、TEX v0xA5、MRL v0x20 并生成 manifest。Windows Action
+先构建不含资源的程序，再下载 `mh3g-resources-v1` Release 下的这个 Asset，校验每个文件的
+尺寸和 SHA-256，最后把程序和资源统一压缩为可直接使用的完整 portable 包。
 
 ## Game-resource ID tables
 

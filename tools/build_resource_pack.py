@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Add user-owned MH3G weapon models to a private portable package.
+"""Build the standalone MH3G resource-pack Release Asset.
 
-This tool intentionally writes only below the supplied package directory.
-The generated resources are excluded from Git and are never used by CI.
+The ZIP contains only the fixed ``resources/`` tree consumed by the editor.
+It is intentionally generated outside Git and can be combined with any
+compatible program build by extracting both archives into the same folder.
 """
 
 from __future__ import annotations
@@ -11,9 +12,9 @@ import argparse
 import hashlib
 import json
 import os
-import shutil
 import struct
 import zlib
+import zipfile
 from pathlib import Path
 
 
@@ -82,74 +83,64 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def package(source: Path, package_root: Path) -> Path:
-    source_root = locate_root(source)
-    package_root = package_root.resolve()
-    executable = package_root / "MH3USaveEditorGUI.exe"
-    if not executable.is_file():
-        raise ValueError(f"portable 包内找不到 {executable.name}: {package_root}")
+def zip_info(path: str) -> zipfile.ZipInfo:
+    info = zipfile.ZipInfo(path, (1980, 1, 1, 0, 0, 0))
+    info.compress_type = zipfile.ZIP_STORED
+    info.external_attr = 0o100644 << 16
+    return info
 
+
+def build_resource_pack(source: Path, output: Path) -> Path:
+    source_root = locate_root(source)
     relative_files = [Path(folder) / name for folder in FOLDERS
                       for name in sorted(item.name for item in (source_root / folder).glob("*.arc"))]
     if len(relative_files) != 558:
         raise ValueError(f"武器 ARC 数量应为 558，实际为 {len(relative_files)}")
 
-    parent = package_root / "resources" / "mh3g" / "weapon-mod"
-    target = parent / "v1"
-    staging = parent / "v1.packaging"
-    previous = parent / "v1.old"
-    if staging.exists():
-        shutil.rmtree(staging)
-    if previous.exists():
-        shutil.rmtree(previous)
-    staging.mkdir(parents=True)
-
     manifest_files: list[dict[str, object]] = []
+    for relative in relative_files:
+        source_file = source_root / relative
+        validate_arc(source_file)
+        manifest_files.append({
+            "path": relative.as_posix(),
+            "bytes": source_file.stat().st_size,
+            "sha256": sha256(source_file),
+        })
+    manifest = {
+        "arc_count": 558,
+        "files": manifest_files,
+        "format": "mh3g-weapon-resources-v1",
+        "game": "mh3g",
+    }
+    manifest_data = (json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("utf-8")
+
+    output = output.resolve()
+    output.parent.mkdir(parents=True, exist_ok=True)
+    staging = output.with_name(output.name + ".packaging")
+    if staging.exists():
+        staging.unlink()
+    prefix = "resources/mh3g/weapon-mod/v1/"
     try:
-        for relative in relative_files:
-            source_file = source_root / relative
-            validate_arc(source_file)
-            destination = staging / relative
-            destination.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(source_file, destination)
-            manifest_files.append({
-                "path": relative.as_posix(),
-                "bytes": destination.stat().st_size,
-                "sha256": sha256(destination),
-            })
-        manifest = {
-            "arc_count": 558,
-            "files": manifest_files,
-            "format": "mh3g-weapon-resources-v1",
-            "game": "mh3g",
-        }
-        (staging / "manifest.json").write_text(
-            json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-            encoding="utf-8",
-            newline="\n",
-        )
-        if target.exists():
-            os.replace(target, previous)
-        os.replace(staging, target)
-        if previous.exists():
-            shutil.rmtree(previous)
+        with zipfile.ZipFile(staging, "w", allowZip64=True) as archive:
+            archive.writestr(zip_info(prefix + "manifest.json"), manifest_data)
+            for relative in relative_files:
+                archive.writestr(zip_info(prefix + relative.as_posix()), (source_root / relative).read_bytes())
+        os.replace(staging, output)
     except Exception:
         if staging.exists():
-            shutil.rmtree(staging)
-        if previous.exists() and not target.exists():
-            os.replace(previous, target)
+            staging.unlink()
         raise
-    return target
+    return output
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source", required=True, type=Path, help="MH3G arc/weapon/mod、romfs 或其父目录")
-    parser.add_argument("--package", required=True, type=Path, help="包含 MH3USaveEditorGUI.exe 的 portable 目录")
+    parser.add_argument("--output", required=True, type=Path, help="输出的独立资源包 ZIP")
     args = parser.parse_args()
-    target = package(args.source, args.package)
-    print(json.dumps({"arc_count": 558, "bytes": sum(path.stat().st_size for path in target.rglob("*.arc")),
-                      "target": str(target)}, ensure_ascii=False, sort_keys=True))
+    target = build_resource_pack(args.source, args.output)
+    print(json.dumps({"arc_count": 558, "bytes": target.stat().st_size,
+                      "output": str(target)}, ensure_ascii=False, sort_keys=True))
     return 0
 
 
