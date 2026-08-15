@@ -93,11 +93,12 @@ private:
     QLabel *m_detailSubtitle;
     QLabel *m_imagePlaceholder;
     QLabel *m_properties;
-    QLabel *m_relationTitle;
     QLabel *m_materialTitle;
+    QLabel *m_upgradeTitle;
+    QWidget *m_upgradeBody;
     SharpnessWidget *m_sharpness;
     QVBoxLayout *m_materialLinks;
-    QVBoxLayout *m_relationLinks;
+    QVBoxLayout *m_upgradeLinks;
     QPushButton *m_addButton;
     QMap<int, QGraphicsRectItem *> m_nodeItems;
     QMap<int, int> m_depths;

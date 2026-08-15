@@ -197,16 +197,16 @@ EncyclopediaPage::EncyclopediaPage(SaveActionBridge *bridge, QWidget *parent)
     m_properties->setTextInteractionFlags(Qt::TextSelectableByMouse);
     m_properties->setWordWrap(true);
     m_sharpness = new SharpnessWidget(detailBody);
-    m_materialTitle = new QLabel(QString::fromUtf8("生产 / 强化素材"), detailBody);
+    m_materialTitle = new QLabel(QString::fromUtf8("生产素材"), detailBody);
     m_materialTitle->setObjectName("sectionTitle");
     QWidget *materialBody = new QWidget(detailBody);
     m_materialLinks = new QVBoxLayout(materialBody);
     m_materialLinks->setContentsMargins(0, 0, 0, 0);
-    m_relationTitle = new QLabel(QString::fromUtf8("强化路线"), detailBody);
-    m_relationTitle->setObjectName("sectionTitle");
-    QWidget *relationBody = new QWidget(detailBody);
-    m_relationLinks = new QVBoxLayout(relationBody);
-    m_relationLinks->setContentsMargins(0, 0, 0, 0);
+    m_upgradeTitle = new QLabel(QString::fromUtf8("强化素材"), detailBody);
+    m_upgradeTitle->setObjectName("sectionTitle");
+    m_upgradeBody = new QWidget(detailBody);
+    m_upgradeLinks = new QVBoxLayout(m_upgradeBody);
+    m_upgradeLinks->setContentsMargins(0, 0, 0, 0);
     m_addButton = new QPushButton(QString::fromUtf8("加入装备箱"), detailBody);
     m_addButton->setObjectName("primaryButton");
     m_addButton->setEnabled(false);
@@ -218,8 +218,8 @@ EncyclopediaPage::EncyclopediaPage(SaveActionBridge *bridge, QWidget *parent)
     detailLayout->addWidget(m_sharpness);
     detailLayout->addWidget(m_materialTitle);
     detailLayout->addWidget(materialBody);
-    detailLayout->addWidget(m_relationTitle);
-    detailLayout->addWidget(relationBody);
+    detailLayout->addWidget(m_upgradeTitle);
+    detailLayout->addWidget(m_upgradeBody);
     detailLayout->addStretch();
     detailLayout->addWidget(m_addButton);
     detailScroll->setWidget(detailBody);
@@ -293,7 +293,8 @@ void EncyclopediaPage::rebuildTree()
         const EncyclopediaWeapon weapon = m_repository.weapon(weapons[index]);
         const qreal x = m_depths.value(weapon.dexId, 0) * 185.0;
         const qreal y = weapon.displayOrder * 70.0;
-        QGraphicsRectItem *card = m_scene->addRect(QRectF(x, y, 156, 54), QPen(QColor("#8191a6")), QBrush(QColor("#fbfdff")));
+        QGraphicsRectItem *card = m_scene->addRect(QRectF(0, 0, 156, 54), QPen(QColor("#8191a6")), QBrush(QColor("#fbfdff")));
+        card->setPos(x, y);
         card->setFlag(QGraphicsItem::ItemIsSelectable, true);
         card->setData(0, weapon.dexId);
         card->setToolTip(QString("%1\n%2\nDex %3 · Save %4:%5")
@@ -494,30 +495,23 @@ void EncyclopediaPage::showWeapon(int dexId)
     m_sharpness->setSegments(weapon.sharpness);
     m_imagePlaceholder->setText(QString::fromUtf8("%1\n详情图片资源预留").arg(weapon.imageKey));
     clearLayout(m_materialLinks);
+    clearLayout(m_upgradeLinks);
     const QVector<EncyclopediaMaterial> materials = m_repository.materials(dexId);
+    int productionCount = 0;
+    int upgradeCount = 0;
     for (int index = 0; index < materials.size(); ++index)
     {
         const EncyclopediaMaterial material = materials[index];
-        const QString kind = material.kind == "production" ? QString::fromUtf8("生产") : QString::fromUtf8("强化");
-        m_materialLinks->addWidget(makeLink(QString("[%1] %2 × %3").arg(kind, material.item.name).arg(material.quantity), itemUri(material.item)));
+        QVBoxLayout *target = material.kind == "production" ? m_materialLinks : m_upgradeLinks;
+        target->addWidget(makeLink(QString("%1 × %2").arg(material.item.name).arg(material.quantity), itemUri(material.item)));
+        if (material.kind == "production") ++productionCount;
+        else ++upgradeCount;
     }
-    if (materials.isEmpty()) m_materialLinks->addWidget(new QLabel(QString::fromUtf8("无素材记录"), this));
-    clearLayout(m_relationLinks);
-    const QVector<int> parents = m_repository.parentIds(dexId);
-    const QVector<int> children = m_repository.childIds(dexId);
-    for (int index = 0; index < parents.size(); ++index)
-    {
-        const EncyclopediaWeapon parent = m_repository.weapon(parents[index]);
-        m_relationLinks->addWidget(makeLink(QString::fromUtf8("← %1").arg(parent.name), weaponUri(parent)));
-    }
-    for (int index = 0; index < children.size(); ++index)
-    {
-        const EncyclopediaWeapon child = m_repository.weapon(children[index]);
-        m_relationLinks->addWidget(makeLink(QString::fromUtf8("→ %1").arg(child.name), weaponUri(child)));
-    }
-    if (parents.isEmpty() && children.isEmpty()) m_relationLinks->addWidget(new QLabel(QString::fromUtf8("独立生产武器"), this));
-    m_relationTitle->setText(QString::fromUtf8("强化路线"));
-    m_materialTitle->setText(QString::fromUtf8("生产 / 强化素材"));
+    if (productionCount == 0) m_materialLinks->addWidget(new QLabel(QString::fromUtf8("不可直接生产"), this));
+    if (upgradeCount == 0) m_upgradeLinks->addWidget(new QLabel(QString::fromUtf8("无强化素材记录"), this));
+    m_materialTitle->setText(QString::fromUtf8("生产素材"));
+    m_upgradeTitle->show();
+    m_upgradeBody->show();
     m_addButton->setText(QString::fromUtf8("加入装备箱"));
     m_breadcrumb->setText(QString::fromUtf8("资料库 / 武器 / %1").arg(weapon.name));
     highlightRoute(dexId);
@@ -537,16 +531,16 @@ void EncyclopediaPage::showItem(int dexId)
     m_sharpness->hide();
     m_imagePlaceholder->setText(QString::fromUtf8("道具图标\n资源管线预留"));
     clearLayout(m_materialLinks);
+    clearLayout(m_upgradeLinks);
     const QVector<int> uses = m_repository.weaponUses(dexId);
     for (int index = 0; index < uses.size(); ++index)
     {
         const EncyclopediaWeapon weapon = m_repository.weapon(uses[index]);
         m_materialLinks->addWidget(makeLink(weapon.name, weaponUri(weapon)));
     }
-    clearLayout(m_relationLinks);
-    m_relationLinks->addWidget(new QLabel(QString::fromUtf8("点击上方武器返回其强化路线。"), this));
-    m_relationTitle->setText(QString::fromUtf8("相关跳转"));
     m_materialTitle->setText(QString::fromUtf8("用于以下武器"));
+    m_upgradeTitle->hide();
+    m_upgradeBody->hide();
     m_addButton->setText(QString::fromUtf8("加入道具箱"));
     m_breadcrumb->setText(QString::fromUtf8("资料库 / 道具 / %1").arg(item.name));
     refreshAddButton();
