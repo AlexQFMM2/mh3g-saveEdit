@@ -1,0 +1,48 @@
+{
+  "counts": {
+    "items": 656,
+    "mapped_items": 656,
+    "mapped_weapons": 1421,
+    "materials": 5806,
+    "weapon_types": 12,
+    "weapons": 1421
+  },
+  "crosswalk_sha256": "c4d81eb7b8f2c79a7b8a404b3180a2da9a2b283f4798b7281a6de45e80faca63",
+  "database": {
+    "bytes": 815104,
+    "file": "encyclopedia.sqlite",
+    "sha256": "7f4b07f0a208ae27a630337d8b4833f6ba3c0052fde38c43aed79e7a6a76c10d"
+  },
+  "format": "mh3g-encyclopedia-manifest-v1",
+  "generator_version": "1.0.0",
+  "source_files": {
+    "attributes": {
+      "bytes": 582,
+      "sha256": "45339ca23914072bb356081f75ed1042cecd6c42a1356ee15f29b15f6d3e65d2"
+    },
+    "item_attributes": {
+      "bytes": 31481,
+      "sha256": "9af7ff77fe84c3b45fa46a91db42926c9bc2268badcb4e285e6cfdb383d9a9e5"
+    },
+    "items": {
+      "bytes": 118311,
+      "sha256": "1ef1288446385e644b136e423f20f82ac8e23e21aedc0883503021ac5b232066"
+    },
+    "manifest": {
+      "bytes": 30981,
+      "sha256": "a7e2e73b658f19898b0962228c7abc395c62763c3b68c76c2e719b683a8ae192"
+    },
+    "materials": {
+      "bytes": 116805,
+      "sha256": "224dd0a6205b36aff9cf41f23d9ea8d7f54a787ce4ad87b58f153992718e647e"
+    },
+    "weapon_names": {
+      "bytes": 236552,
+      "sha256": "1548b7492b97e54c96669444f4779e9e7954118d6368d28e98cfed2cb7f19180"
+    },
+    "weapons": {
+      "bytes": 158355,
+      "sha256": "8844bbe85185877dfd91b6b84bc9e37e0c068894b63866e7f7247521d4ba0c33"
+    }
+  }
+}

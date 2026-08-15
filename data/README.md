@@ -26,6 +26,19 @@ game resources and the save format.
 CSV row counts, and CSV hashes. Raw CCI, RomFS, ARC, GMD, and save samples are
 not part of this repository.
 
+## Weapon encyclopedia
+
+`encyclopedia.sqlite` is a generated, read-only MH3G weapon database. The Dex
+supplies attributes, the preorder upgrade tree and recipe relationships, but
+its global `Wpn_ID` and `Itm_ID` values are never written to a save. The build
+crosswalks every weapon and recipe material to the audited `ID_res.arc` arrays
+and stores the result separately as `save_type/save_id`.
+
+The committed database contains 1,421 weapons, 5,806 recipe rows and the 656
+items referenced by those recipes. `encyclopedia-manifest.json` records every
+raw input hash and the database hash. Raw Dex CSV files stay outside the
+repository.
+
 ## Rebuild
 
 On Windows, export the audited resource arrays to a temporary JSON file:
@@ -53,3 +66,15 @@ python3 tools/validate_data.py data \
 
 For a determinism check, generate twice into two temporary directories and
 compare them with `diff -qr`.
+
+Generate the weapon encyclopedia from the external Dex dump:
+
+```bash
+python3 tools/build_encyclopedia.py --dex-dump /tmp/mh3g-dex
+python3 tools/validate_encyclopedia.py data
+```
+
+The required dump files and their exact hashes are listed in
+`encyclopedia-manifest.json`. Any exact-name mismatch must be reviewed in
+`tools/mh3g_encyclopedia_crosswalk.json`; the generator does not use fuzzy
+matching or positional offsets.
