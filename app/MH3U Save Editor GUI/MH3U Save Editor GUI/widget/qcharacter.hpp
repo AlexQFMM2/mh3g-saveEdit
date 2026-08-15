@@ -19,6 +19,7 @@ public:
 
 signals:
     void modified();
+    void appearanceChanged(int gender, int face, int hair);
 
 private slots:
     void notifyModified();

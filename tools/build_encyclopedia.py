@@ -20,13 +20,14 @@ from collections import defaultdict
 from pathlib import Path
 
 
-VERSION = "2.0.0"
+VERSION = "3.0.0"
 ROOT = Path(__file__).resolve().parents[1]
 CROSSWALK = Path(__file__).with_name("mh3g_encyclopedia_crosswalk.json")
 MODEL_CROSSWALK = Path(__file__).with_name("mh3g_weapon_model_crosswalk.json")
 ARMOR_SETS = Path(__file__).with_name("mh3g_armor_sets.csv")
 ARMOR_MEMBERS = Path(__file__).with_name("mh3g_armor_set_members.csv")
 ARMOR_MODELS = Path(__file__).with_name("mh3g_armor_model_resources.csv")
+ARMOR_EXEFS = Path(__file__).with_name("mh3g_armor_exefs_crosswalk.csv")
 TYPE_MAP = {
     1: (7, "gs_weapons", "great-sword", "大剑", "Great Sword"),
     2: (14, "ls_weapons", "long-sword", "太刀", "Long Sword"),
@@ -111,6 +112,7 @@ def create_schema(db: sqlite3.Connection) -> None:
         PRAGMA journal_mode=OFF;
         PRAGMA synchronous=OFF;
         PRAGMA foreign_keys=ON;
+        PRAGMA user_version=3;
         CREATE TABLE meta(key TEXT PRIMARY KEY, value TEXT NOT NULL);
         CREATE TABLE weapon_types(
           dex_type INTEGER PRIMARY KEY, save_type INTEGER NOT NULL UNIQUE,
@@ -188,7 +190,7 @@ def create_schema(db: sqlite3.Connection) -> None:
         );
         CREATE TABLE armor_sets(
           set_id TEXT PRIMARY KEY, rank TEXT NOT NULL CHECK(rank IN ('low','high','g','special')),
-          combat TEXT NOT NULL CHECK(combat IN ('both','blade','gunner')), model_id INTEGER NOT NULL,
+          combat TEXT NOT NULL CHECK(combat IN ('both','blade','gunner')),
           name_cn TEXT NOT NULL, name_en TEXT NOT NULL, display_order INTEGER NOT NULL UNIQUE,
           review_status TEXT NOT NULL, source TEXT NOT NULL, notes TEXT NOT NULL
         );
@@ -202,6 +204,9 @@ def create_schema(db: sqlite3.Connection) -> None:
           price INTEGER NOT NULL, fire_res INTEGER NOT NULL, water_res INTEGER NOT NULL,
           ice_res INTEGER NOT NULL, thunder_res INTEGER NOT NULL, dragon_res INTEGER NOT NULL,
           writable INTEGER NOT NULL, mapping_source TEXT NOT NULL,
+          male_model_id INTEGER, female_model_id INTEGER,
+          model_mapping_status TEXT NOT NULL CHECK(model_mapping_status IN ('confirmed_exefs','exact_shared_appearance','unmapped')),
+          model_mapping_source TEXT NOT NULL,
           UNIQUE(save_type, save_id)
         );
         CREATE TABLE armor_set_members(
@@ -223,6 +228,15 @@ def create_schema(db: sqlite3.Connection) -> None:
           part TEXT NOT NULL CHECK(part IN ('head','chest','arms','waist','legs')),
           arc_relative_path TEXT NOT NULL UNIQUE, mapping_source TEXT NOT NULL,
           UNIQUE(model_id, gender, part)
+        );
+        CREATE TABLE character_model_resources(
+          model_key TEXT PRIMARY KEY,
+          gender TEXT NOT NULL CHECK(gender IN ('male','female')),
+          kind TEXT NOT NULL CHECK(kind IN ('face','hair')),
+          variant INTEGER NOT NULL,
+          arc_relative_path TEXT NOT NULL UNIQUE,
+          mapping_source TEXT NOT NULL,
+          UNIQUE(gender,kind,variant)
         );
         CREATE INDEX idx_weapons_type_order ON weapons(dex_type, display_order);
         CREATE INDEX idx_material_item ON weapon_materials(item_dex_id, weapon_dex_id);
@@ -253,6 +267,7 @@ def build(dex_root: Path, data_root: Path, output: Path, manifest_path: Path) ->
         "armor_sets": ARMOR_SETS,
         "armor_members": ARMOR_MEMBERS,
         "armor_models": ARMOR_MODELS,
+        "armor_exefs": ARMOR_EXEFS,
     }
     missing = [str(path) for path in paths.values() if not path.is_file()]
     if missing:
@@ -299,6 +314,10 @@ def build(dex_root: Path, data_root: Path, output: Path, manifest_path: Path) ->
     armor_set_rows = read_csv(ARMOR_SETS)
     armor_member_rows = read_csv(ARMOR_MEMBERS)
     armor_model_rows = read_csv(ARMOR_MODELS)
+    armor_exefs_rows = read_csv(ARMOR_EXEFS)
+    armor_exefs_by_dex = {int(row["dex_id"]): row for row in armor_exefs_rows}
+    if sorted(armor_exefs_by_dex) != list(range(1, 1652)):
+        raise ValueError("armor ExeFS crosswalk must cover Dex IDs 1..1651")
 
     save_weapon_rows: dict[int, list[dict[str, str]]] = {}
     save_weapon_indexes = {}
@@ -403,7 +422,7 @@ def build(dex_root: Path, data_root: Path, output: Path, manifest_path: Path) ->
         try:
             create_schema(db)
             db.executemany("INSERT INTO meta VALUES(?,?)", [
-                ("format", "mh3g-encyclopedia-v2"),
+                ("format", "mh3g-encyclopedia-v3"),
                 ("generator_version", VERSION),
                 ("game", "mh3g"),
             ])
@@ -527,8 +546,8 @@ def build(dex_root: Path, data_root: Path, output: Path, manifest_path: Path) ->
                 ))
 
             for row in armor_set_rows:
-                db.execute("INSERT INTO armor_sets VALUES(?,?,?,?,?,?,?,?,?,?)", (
-                    row["set_id"], row["rank"], row["combat"], int(row["model_id"]),
+                db.execute("INSERT INTO armor_sets VALUES(?,?,?,?,?,?,?,?,?)", (
+                    row["set_id"], row["rank"], row["combat"],
                     row["name_cn"], row["name_en"], int(row["display_order"]),
                     row["review_status"], row["source"], row["notes"],
                 ))
@@ -538,13 +557,19 @@ def build(dex_root: Path, data_root: Path, output: Path, manifest_path: Path) ->
                 names = armor_names[dex_id]
                 part, save_type = ARMOR_PARTS[int(row["Part"])]
                 save_id = int(member["save_id"]) if member["save_id"] else None
-                db.execute("INSERT INTO armors VALUES(" + ",".join("?" for _ in range(21)) + ")", (
+                model = armor_exefs_by_dex[dex_id]
+                if int(model["save_type"]) != save_type or (model["save_id"] or "") != (member["save_id"] or ""):
+                    raise ValueError(f"armor {dex_id}: ExeFS crosswalk save mapping mismatch")
+                male_model = int(model["male_model_id"]) if model["male_model_id"] else None
+                female_model = int(model["female_model_id"]) if model["female_model_id"] else None
+                db.execute("INSERT INTO armors VALUES(" + ",".join("?" for _ in range(25)) + ")", (
                     dex_id, save_type if save_id is not None else None, save_id,
                     part, ARMOR_COMBAT[int(row["BorG"])], ARMOR_GENDER[int(row["MorF"])],
                     names["Amr_Name_1"], names["Amr_Name_0"], names["Amr_Name_3"],
                     int(row["Rare"]), int(row["Slot"]), int(row["Def"]), int(row["MaxDef"]), int(row["Price"]),
                     int(row["Res_Fire"]), int(row["Res_Water"]), int(row["Res_Ice"]),
                     int(row["Res_Thunder"]), int(row["Res_Dragon"]), int(save_id is not None), member["mapping_source"],
+                    male_model, female_model, model["mapping_status"], model["mapping_source"],
                 ))
             for member in armor_member_rows:
                 db.execute("INSERT INTO armor_set_members VALUES(?,?,?,?)", (
@@ -563,6 +588,15 @@ def build(dex_root: Path, data_root: Path, output: Path, manifest_path: Path) ->
                     row["model_key"], int(row["model_id"]), row["gender"], row["part"],
                     row["arc_relative_path"], row["mapping_source"],
                 ))
+            for short_gender, gender in (("f", "female"), ("m", "male")):
+                for kind, count in (("face", 11), ("hair", 14)):
+                    for variant in range(count):
+                        name = f"{short_gender}_{kind}{variant:03d}.arc"
+                        db.execute("INSERT INTO character_model_resources VALUES(?,?,?,?,?,?)", (
+                            f"character-{short_gender}-{kind}{variant:03d}", gender, kind, variant,
+                            f"character-mod/{short_gender}/{kind}{variant:03d}/{name}",
+                            "romfs-player-model-inventory",
+                        ))
 
             db.commit()
             integrity = db.execute("PRAGMA integrity_check").fetchone()[0]
@@ -576,7 +610,7 @@ def build(dex_root: Path, data_root: Path, output: Path, manifest_path: Path) ->
 
     file_hashes = {name: {"sha256": sha256(path), "bytes": path.stat().st_size} for name, path in sorted(paths.items())}
     manifest = {
-        "format": "mh3g-encyclopedia-manifest-v2",
+        "format": "mh3g-encyclopedia-manifest-v3",
         "generator_version": VERSION,
         "source_files": file_hashes,
         "crosswalk_sha256": sha256(CROSSWALK),
@@ -600,6 +634,10 @@ def build(dex_root: Path, data_root: Path, output: Path, manifest_path: Path) ->
             "active_skills": len(read_csv(paths["active_skills"])),
             "armor_skill_points": len(read_csv(paths["armor_skill_points"])),
             "armor_model_resources": len(armor_model_rows),
+            "armor_models_confirmed_exefs": sum(row["mapping_status"] == "confirmed_exefs" for row in armor_exefs_rows),
+            "armor_models_shared_appearance": sum(row["mapping_status"] == "exact_shared_appearance" for row in armor_exefs_rows),
+            "armor_models_unmapped": sum(row["mapping_status"] == "unmapped" for row in armor_exefs_rows),
+            "character_model_resources": 50,
         },
     }
     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")

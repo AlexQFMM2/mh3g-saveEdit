@@ -21,18 +21,19 @@ def digest(path: Path) -> str:
 
 
 def validate(package_root: Path) -> None:
-    root = package_root.resolve() / "resources" / "mh3g" / "v2"
+    root = package_root.resolve() / "resources" / "mh3g" / "v3"
     manifest_path = root / "manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     files = manifest.get("files")
-    if manifest.get("format") != "mh3g-resources-v2" or manifest.get("game") != "mh3g":
+    if manifest.get("format") != "mh3g-resources-v3" or manifest.get("game") != "mh3g":
         raise ValueError("资源 manifest 格式或游戏版本不匹配")
     if manifest.get("armor_model_inventory_sha256") != digest(INVENTORY):
         raise ValueError("资源包的防具模型映射版本与程序不一致")
-    expected_counts = {"weapon": 558, "armor_female": 1009, "armor_male": 995}
-    if (manifest.get("arc_count") != 2562 or manifest.get("counts") != expected_counts
-            or not isinstance(files, list) or len(files) != 2562):
-        raise ValueError("资源 manifest 必须包含 558 个武器、1009 个女性和 995 个男性防具 ARC")
+    expected_counts = {"weapon": 558, "armor_female": 1009, "armor_male": 995,
+                       "character_female": 25, "character_male": 25}
+    if (manifest.get("arc_count") != 2612 or manifest.get("counts") != expected_counts
+            or not isinstance(files, list) or len(files) != 2612):
+        raise ValueError("资源 manifest 必须包含 558 个武器、2004 个防具和 50 个人物 ARC")
 
     seen: set[str] = set()
     for entry in files:
@@ -44,7 +45,11 @@ def validate(package_root: Path) -> None:
         armor_path = (len(parts) == 4 and parts[0] == "armor-mod" and parts[1] in {"f", "m"}
             and parts[2].startswith("pl") and len(parts[2]) == 5
             and entry.get("kind") == f"armor-{parts[1]}")
-        if (not relative.endswith(".arc") or not (weapon_path or armor_path)
+        character_path = (len(parts) == 4 and parts[0] == "character-mod" and parts[1] in {"f", "m"}
+            and ((parts[2].startswith("face") and len(parts[2]) == 7)
+                 or (parts[2].startswith("hair") and len(parts[2]) == 7))
+            and entry.get("kind") == f"character-{parts[1]}")
+        if (not relative.endswith(".arc") or not (weapon_path or armor_path or character_path)
                 or ".." in parts or relative in seen):
             raise ValueError(f"非法或重复的资源路径: {relative}")
         seen.add(relative)

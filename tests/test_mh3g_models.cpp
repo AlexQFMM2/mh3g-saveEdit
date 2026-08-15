@@ -40,6 +40,53 @@ QByteArray fixtureMod()
     return data;
 }
 
+QByteArray bindPoseFixture(int stride, const QVector<int> &boneIndexes,
+                           const QVector<int> &boneWeights, bool invalidBone = false)
+{
+    const int boneCount = qMax(1, boneIndexes.size());
+    const int boneOffset = 64;
+    const int primitiveOffset = boneOffset + boneCount * (24 + 64 + 64) + 256;
+    const int vertexOffset = primitiveOffset + 52;
+    const int indexOffset = vertexOffset + stride * 3;
+    QByteArray data(indexOffset + 6, '\0');
+    std::memcpy(data.data(), "MOD\0", 4);
+    put<quint16>(data, 4, 0xE6); put<quint16>(data, 6, quint16(boneCount));
+    put<quint16>(data, 8, 1); put<quint16>(data, 0x0a, 1); put<quint32>(data, 12, 3);
+    put<quint32>(data, 0x28, boneOffset); put<quint32>(data, 0x34, primitiveOffset);
+    put<quint32>(data, 0x38, vertexOffset); put<quint32>(data, 0x3c, indexOffset);
+    const int matrices = boneOffset + boneCount * 24 + boneCount * 64;
+    for (int bone = 0; bone < boneCount; ++bone)
+    {
+        const int matrix = matrices + bone * 64;
+        putFloat(data, matrix + 0, 1.0f); putFloat(data, matrix + 20, 1.0f);
+        putFloat(data, matrix + 40, 1.0f); putFloat(data, matrix + 60, 1.0f);
+        putFloat(data, matrix + 48, float(bone + 1));
+    }
+    put<quint16>(data, primitiveOffset + 2, 3); data[primitiveOffset + 10] = char(stride);
+    put<quint32>(data, primitiveOffset + 12, 0); put<quint32>(data, primitiveOffset + 16, 0);
+    put<quint32>(data, primitiveOffset + 24, 0); put<quint32>(data, primitiveOffset + 28, 3);
+    const float positions[3][3] = {{0,0,0},{1,0,0},{0,1,0}};
+    for (int vertex = 0; vertex < 3; ++vertex)
+    {
+        const int base = vertexOffset + vertex * stride;
+        putFloat(data, base, positions[vertex][0]); putFloat(data, base + 4, positions[vertex][1]);
+        putFloat(data, base + 8, positions[vertex][2]); data[base + 14] = 127;
+        putFloat(data, base + 16, vertex == 1 ? 1.0f : 0.0f);
+        putFloat(data, base + 20, vertex == 2 ? 1.0f : 0.0f);
+        data[base + 24] = char(invalidBone ? boneCount : boneIndexes.value(0));
+        data[base + 25] = char(boneIndexes.value(1));
+        data[base + 26] = char(boneWeights.value(0));
+        data[base + 27] = char(boneWeights.value(1));
+        if (stride >= 36)
+        {
+            data[base + 32] = char(boneIndexes.value(2)); data[base + 33] = char(boneIndexes.value(3));
+            data[base + 34] = char(boneWeights.value(2)); data[base + 35] = char(boneWeights.value(3));
+        }
+    }
+    put<quint16>(data, indexOffset, 0); put<quint16>(data, indexOffset + 2, 1); put<quint16>(data, indexOffset + 4, 2);
+    return data;
+}
+
 QByteArray fixtureTex()
 {
     QByteArray data(52, '\0'); std::memcpy(data.data(), "TEX\0", 4); put<quint16>(data, 4, 0xA5);
@@ -114,13 +161,16 @@ int main(int argc, char **argv)
         for (const QString &gender : genders)
         {
             QDir genderRoot(root.filePath(gender));
-            for (const QString &directoryName : genderRoot.entryList(QStringList() << "pl???", QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name))
+            for (const QString &directoryName : genderRoot.entryList(
+                     QStringList() << "pl???" << "face???" << "hair???",
+                     QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name))
             {
                 QDir directory(genderRoot.filePath(directoryName));
                 for (const QString &file : directory.entryList(QStringList() << "*.arc", QDir::Files, QDir::Name))
                 {
                     ++count;
-                    QSharedPointer<Mh3gCpuModel> loaded = Mh3gModelLoader::load(directoryName + "/" + file, directory.filePath(file));
+                    QSharedPointer<Mh3gCpuModel> loaded = Mh3gModelLoader::load(
+                        directoryName + "/" + file, directory.filePath(file), Mh3gModelLoadMode::BindPose);
                     bool hasAlbedo = false, materialRangesValid = true;
                     for (const Mh3gMaterial &material : loaded->materials) if (!material.albedo.isNull()) hasAlbedo = true;
                     for (const Mh3gDrawCall &draw : loaded->drawCalls)
@@ -135,14 +185,68 @@ int main(int argc, char **argv)
                     }
                 }
             }
+            QVector<QSharedPointer<Mh3gCpuModel> > baseCharacter;
+            const QStringList baseFiles = QStringList()
+                << QString("pl000/%1_helm000.arc").arg(gender)
+                << QString("pl000/%1_body000.arc").arg(gender)
+                << QString("pl000/%1_arm000.arc").arg(gender)
+                << QString("pl000/%1_wst000.arc").arg(gender)
+                << QString("pl000/%1_leg000.arc").arg(gender)
+                << QString("face000/%1_face000.arc").arg(gender)
+                << QString("hair000/%1_hair000.arc").arg(gender);
+            int vertexSum = 0, indexSum = 0, drawSum = 0;
+            for (const QString &relative : baseFiles)
+            {
+                QSharedPointer<Mh3gCpuModel> component = Mh3gModelLoader::load(
+                    gender + "/" + relative, genderRoot.filePath(relative), Mh3gModelLoadMode::BindPose);
+                if (!component->valid())
+                {
+                    std::cerr << "base character component failed: " << relative.toStdString() << " "
+                        << component->error.toStdString() << '\n';
+                    return 1;
+                }
+                vertexSum += component->vertices.size(); indexSum += component->indices.size();
+                drawSum += component->drawCalls.size(); baseCharacter.append(component);
+            }
+            const QSharedPointer<Mh3gCpuModel> combined = Mh3gModelLoader::combine(
+                "base-character-" + gender, baseCharacter);
+            const QVector3D extent = combined->boundsMaximum - combined->boundsMinimum;
+            if (!combined->valid() || combined->vertices.size() != vertexSum
+                || combined->indices.size() != indexSum || combined->drawCalls.size() != drawSum
+                || extent.x() < 10.0f || extent.y() < 20.0f || extent.z() < 5.0f)
+            {
+                std::cerr << "combined base character is incomplete or flattened: "
+                    << combined->error.toStdString() << '\n';
+                return 1;
+            }
         }
-        std::cout << "armor archives=" << count << " failed=" << failed << '\n';
-        return count == 2004 && failed == 0 ? 0 : 1;
+        std::cout << "character and armor archives=" << count << " failed=" << failed << '\n';
+        return count == 2054 && failed == 0 ? 0 : 1;
     }
     QString error; Mh3gCpuModel model;
     if (!Mh3gModelLoader::parseMod(fixtureMod(), &model, &error) || model.vertices.size() != 3
         || model.indices.size() != 3 || model.drawCalls.size() != 1)
     { std::cerr << "synthetic MOD failed: " << error.toStdString() << '\n'; return 1; }
+    const struct BindCase { int stride; QVector<int> indexes; QVector<int> weights; float expectedX; } bindCases[] = {
+        {28, QVector<int>() << 0 << 0, QVector<int>() << 255 << 0, 1.0f},
+        {32, QVector<int>() << 0 << 1, QVector<int>() << 128 << 127, 1.4980392f},
+        {44, QVector<int>() << 0 << 1 << 2 << 3, QVector<int>() << 60 << 60 << 60 << 69, 2.5542169f}
+    };
+    for (const BindCase &test : bindCases)
+    {
+        Mh3gCpuModel bound;
+        if (!Mh3gModelLoader::parseMod(bindPoseFixture(test.stride, test.indexes, test.weights),
+                &bound, &error, Mh3gModelLoadMode::BindPose)
+            || bound.vertices.size() != 3 || qAbs(bound.vertices.first().position.x() - test.expectedX) > 0.0002f)
+        {
+            std::cerr << "bind-pose stride " << test.stride << " failed: " << error.toStdString() << '\n';
+            return 1;
+        }
+    }
+    Mh3gCpuModel invalidBound;
+    if (Mh3gModelLoader::parseMod(bindPoseFixture(28, QVector<int>() << 0 << 0,
+            QVector<int>() << 255 << 0, true), &invalidBound, &error, Mh3gModelLoadMode::BindPose))
+    { std::cerr << "out-of-range bone index accepted\n"; return 1; }
     QImage image;
     if (!Mh3gModelLoader::decodeTex(fixtureTex(), &image, &error) || image.size() != QSize(8, 8))
     { std::cerr << "synthetic TEX failed: " << error.toStdString() << '\n'; return 1; }

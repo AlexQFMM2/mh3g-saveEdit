@@ -54,17 +54,17 @@ jobs:
         run: |
           .\build-windows.ps1 -QtBin "$env:MSYS2_LOCATION\mingw64\bin"
 
-      - name: Download unified MH3G resource pack v2
+      - name: Download unified MH3G resource pack v3
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release download mh3g-resources-v2 `
+          gh release download mh3g-resources-v3 `
             --repo "${{ github.repository }}" `
-            --pattern "MH3GResources-v2.zip" `
-            --output .\MH3GResources-v2.zip `
+            --pattern "MH3GResources-v3.zip" `
+            --output .\MH3GResources-v3.zip `
             --clobber
-          Expand-Archive -Path .\MH3GResources-v2.zip -DestinationPath .\release\windows -Force
+          Expand-Archive -Path .\MH3GResources-v3.zip -DestinationPath .\release\windows -Force
           python .\tools\validate_resource_pack.py .\release\windows
 
       - name: Smoke test management window

@@ -3,10 +3,14 @@
     "active_skills": 238,
     "armor_materials": 6398,
     "armor_model_resources": 2004,
+    "armor_models_confirmed_exefs": 1600,
+    "armor_models_shared_appearance": 31,
+    "armor_models_unmapped": 20,
     "armor_set_members": 1651,
     "armor_sets": 331,
     "armor_skill_points": 6814,
     "armors": 1651,
+    "character_model_resources": 50,
     "items": 701,
     "mapped_armors": 1600,
     "mapped_items": 698,
@@ -20,12 +24,12 @@
   },
   "crosswalk_sha256": "c4d81eb7b8f2c79a7b8a404b3180a2da9a2b283f4798b7281a6de45e80faca63",
   "database": {
-    "bytes": 2453504,
+    "bytes": 2576384,
     "file": "encyclopedia.sqlite",
-    "sha256": "e2af30873d1e17a86887961e8c0b2524302bc2be113efe7bed1832da2d82f16c"
+    "sha256": "3dd83a4105183e3445f670503ee4fa456a1848b945dc5194eb6309a1666467f6"
   },
-  "format": "mh3g-encyclopedia-manifest-v2",
-  "generator_version": "2.0.0",
+  "format": "mh3g-encyclopedia-manifest-v3",
+  "generator_version": "3.0.0",
   "model_crosswalk_sha256": "cb89e5140e137a9f19fe59ea448499944869f375dec0d6922b157e880606201d",
   "source_files": {
     "active_skill_names": {
@@ -35,6 +39,10 @@
     "active_skills": {
       "bytes": 2613,
       "sha256": "a302c6d4b85ea7b369470fe70ad32084bea7caeec0bb0276c37a21133316788c"
+    },
+    "armor_exefs": {
+      "bytes": 109398,
+      "sha256": "1dcb6cc9605659aaf7334f94343093fff660ce2ce1577d3de6f660fb8dc5aa1b"
     },
     "armor_materials": {
       "bytes": 104088,
@@ -53,8 +61,8 @@
       "sha256": "5946c55de9523e333090f2dcbe6260fa118b8bba643fc777f838aa9102861d55"
     },
     "armor_sets": {
-      "bytes": 28537,
-      "sha256": "a7b216162db7a5ba753eb0b02bdc65d0fde91cd8a86a7460b42a4ddacc2a0a37"
+      "bytes": 27436,
+      "sha256": "6da561b690c2b9490b4929a0a3d1bbf2ea1fd1627f329063b2b98d773a3fa47a"
     },
     "armor_skill_points": {
       "bytes": 105464,

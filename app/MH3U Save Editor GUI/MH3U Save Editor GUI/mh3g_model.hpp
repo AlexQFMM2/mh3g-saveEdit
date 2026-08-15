@@ -53,6 +53,12 @@ struct Mh3gDrawCall
     int materialIndex = 0;
 };
 
+enum class Mh3gModelLoadMode
+{
+    Raw,
+    BindPose
+};
+
 struct Mh3gCpuModel
 {
     QString modelKey;
@@ -71,8 +77,12 @@ struct Mh3gCpuModel
 class Mh3gModelLoader
 {
 public:
-    static QSharedPointer<Mh3gCpuModel> load(const QString &modelKey, const QString &arcPath);
-    static bool parseMod(const QByteArray &data, Mh3gCpuModel *model, QString *error);
+    static QSharedPointer<Mh3gCpuModel> load(const QString &modelKey, const QString &arcPath,
+                                             Mh3gModelLoadMode mode = Mh3gModelLoadMode::Raw);
+    static QSharedPointer<Mh3gCpuModel> combine(const QString &modelKey,
+                                                const QVector<QSharedPointer<Mh3gCpuModel> > &parts);
+    static bool parseMod(const QByteArray &data, Mh3gCpuModel *model, QString *error,
+                         Mh3gModelLoadMode mode = Mh3gModelLoadMode::Raw);
     static bool decodeTex(const QByteArray &data, QImage *image, QString *error);
 };
 

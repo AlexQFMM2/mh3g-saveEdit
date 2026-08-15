@@ -79,9 +79,9 @@ bool EncyclopediaRepository::loadAll()
 {
     QSqlQuery query(m_database);
     if (!query.exec("SELECT value FROM meta WHERE key='format'") || !query.next()
-        || query.value(0).toString() != "mh3g-encyclopedia-v2")
+        || query.value(0).toString() != "mh3g-encyclopedia-v3")
     {
-        m_error = QString::fromUtf8("图鉴数据库版本不匹配，需要 v2。");
+        m_error = QString::fromUtf8("图鉴数据库版本不匹配，需要 v3。");
         return false;
     }
     if (!query.exec("SELECT dex_type,save_type,slug,name_cn,name_en FROM weapon_types ORDER BY display_order"))
@@ -225,7 +225,7 @@ bool EncyclopediaRepository::loadAll()
         m_itemUses[itemId].append(weaponId);
     }
 
-    if (!query.exec("SELECT set_id,rank,combat,model_id,name_cn,name_en,display_order,review_status FROM armor_sets ORDER BY display_order"))
+    if (!query.exec("SELECT set_id,rank,combat,name_cn,name_en,display_order,review_status FROM armor_sets ORDER BY display_order"))
     { m_error = query.lastError().text(); return false; }
     QStringList orderedSetIds;
     while (query.next())
@@ -234,18 +234,18 @@ bool EncyclopediaRepository::loadAll()
         set.setId = query.value(0).toString();
         set.rank = query.value(1).toString();
         set.combat = query.value(2).toString();
-        set.modelId = query.value(3).toInt();
-        set.name = query.value(4).toString();
-        set.english = query.value(5).toString();
-        set.displayOrder = query.value(6).toInt();
-        set.reviewStatus = query.value(7).toString();
+        set.name = query.value(3).toString();
+        set.english = query.value(4).toString();
+        set.displayOrder = query.value(5).toInt();
+        set.reviewStatus = query.value(6).toString();
         m_armorSetsById[set.setId] = set;
         orderedSetIds.append(set.setId);
     }
     const char *armorSql =
         "SELECT a.dex_id,a.save_type,a.save_id,m.set_id,a.part,a.combat,a.gender,a.name_cn,a.name_en,a.name_jp,"
         "a.rarity,a.slots,a.defense,a.max_defense,a.price,a.fire_res,a.water_res,a.ice_res,a.thunder_res,a.dragon_res,"
-        "a.writable,a.mapping_source FROM armors a JOIN armor_set_members m ON m.armor_dex_id=a.dex_id "
+        "a.writable,a.mapping_source,a.male_model_id,a.female_model_id,a.model_mapping_status,a.model_mapping_source "
+        "FROM armors a JOIN armor_set_members m ON m.armor_dex_id=a.dex_id "
         "ORDER BY m.set_id,m.slot_order";
     if (!query.exec(armorSql)) { m_error = query.lastError().text(); return false; }
     while (query.next())
@@ -270,6 +270,10 @@ bool EncyclopediaRepository::loadAll()
         for (int index = 0; index < 5; ++index) armor.resistances[index] = query.value(column++).toInt();
         armor.writable = query.value(column++).toBool();
         armor.mappingSource = query.value(column++).toString();
+        armor.maleModelId = query.value(column).isNull() ? -1 : query.value(column).toInt(); column++;
+        armor.femaleModelId = query.value(column).isNull() ? -1 : query.value(column).toInt(); column++;
+        armor.modelMappingStatus = query.value(column++).toString();
+        armor.modelMappingSource = query.value(column++).toString();
         m_armors[armor.dexId] = armor;
         m_armorSetsById[armor.setId].members.append(armor.dexId);
     }
@@ -316,8 +320,19 @@ bool EncyclopediaRepository::loadAll()
     {
         const QString key = QString("%1|%2|%3").arg(query.value(0).toInt()).arg(query.value(1).toString(), query.value(2).toString());
         EncyclopediaArmorModel model;
+        model.modelId = query.value(0).toInt();
         model.modelKey = query.value(3).toString(); model.arcRelativePath = query.value(4).toString();
         m_armorModels[key] = model;
+    }
+    if (!query.exec("SELECT gender,kind,variant,model_key,arc_relative_path FROM character_model_resources ORDER BY gender,kind,variant"))
+    { m_error = query.lastError().text(); return false; }
+    while (query.next())
+    {
+        EncyclopediaCharacterModel model;
+        model.gender = query.value(0).toString(); model.kind = query.value(1).toString();
+        model.variant = query.value(2).toInt(); model.modelKey = query.value(3).toString();
+        model.arcRelativePath = query.value(4).toString();
+        m_characterModels[QString("%1|%2|%3").arg(model.gender, model.kind).arg(model.variant)] = model;
     }
     return true;
 }
@@ -339,9 +354,31 @@ EncyclopediaArmorSet EncyclopediaRepository::armorSet(const QString &setId) cons
 EncyclopediaArmor EncyclopediaRepository::armor(int dexId) const { return m_armors.value(dexId); }
 QVector<EncyclopediaMaterial> EncyclopediaRepository::armorMaterials(int armorDexId) const { return m_armorMaterials.value(armorDexId); }
 QVector<EncyclopediaArmorSkill> EncyclopediaRepository::armorSkills(int armorDexId) const { return m_armorSkills.value(armorDexId); }
-EncyclopediaArmorModel EncyclopediaRepository::armorModel(int modelId, const QString &gender, const QString &part) const
+EncyclopediaArmorModel EncyclopediaRepository::armorModel(int armorDexId, const QString &gender) const
 {
-    return m_armorModels.value(QString("%1|%2|%3").arg(modelId).arg(gender, part));
+    const EncyclopediaArmor armor = m_armors.value(armorDexId);
+    EncyclopediaArmorModel result;
+    result.mappingStatus = armor.modelMappingStatus;
+    result.mappingSource = armor.modelMappingSource;
+    const int modelId = gender == "female" ? armor.femaleModelId : armor.maleModelId;
+    if (modelId < 0) return result;
+    result = m_armorModels.value(QString("%1|%2|%3").arg(modelId).arg(gender, armor.part));
+    result.mappingStatus = armor.modelMappingStatus;
+    result.mappingSource = armor.modelMappingSource;
+    return result;
+}
+
+EncyclopediaArmorModel EncyclopediaRepository::baseArmorModel(const QString &gender, const QString &part) const
+{
+    EncyclopediaArmorModel result = m_armorModels.value(QString("0|%1|%2").arg(gender, part));
+    result.mappingStatus = "confirmed_exefs";
+    result.mappingSource = "player-base-pl000";
+    return result;
+}
+
+EncyclopediaCharacterModel EncyclopediaRepository::characterModel(const QString &gender, const QString &kind, int variant) const
+{
+    return m_characterModels.value(QString("%1|%2|%3").arg(gender, kind).arg(variant));
 }
 
 EncyclopediaWeapon EncyclopediaRepository::weaponBySaveId(int saveType, int saveId) const

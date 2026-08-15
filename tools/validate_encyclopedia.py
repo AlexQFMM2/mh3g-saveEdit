@@ -25,7 +25,7 @@ def main() -> int:
     database = args.data / "encyclopedia.sqlite"
     manifest_path = args.data / "encyclopedia-manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    if manifest.get("format") != "mh3g-encyclopedia-manifest-v2":
+    if manifest.get("format") != "mh3g-encyclopedia-manifest-v3":
         raise ValueError("unsupported encyclopedia manifest")
     if sha256(database) != manifest["database"]["sha256"]:
         raise ValueError("encyclopedia.sqlite hash does not match manifest")
@@ -52,6 +52,10 @@ def main() -> int:
             "active_skills": scalar(db, "SELECT count(*) FROM active_skills"),
             "armor_skill_points": scalar(db, "SELECT count(*) FROM armor_skill_points"),
             "armor_model_resources": scalar(db, "SELECT count(*) FROM armor_model_resources"),
+            "armor_models_confirmed_exefs": scalar(db, "SELECT count(*) FROM armors WHERE model_mapping_status='confirmed_exefs'"),
+            "armor_models_shared_appearance": scalar(db, "SELECT count(*) FROM armors WHERE model_mapping_status='exact_shared_appearance'"),
+            "armor_models_unmapped": scalar(db, "SELECT count(*) FROM armors WHERE model_mapping_status='unmapped'"),
+            "character_model_resources": scalar(db, "SELECT count(*) FROM character_model_resources"),
         }
         if checks != expected:
             raise ValueError(f"row counts differ: expected {expected}, got {checks}")
@@ -67,6 +71,13 @@ def main() -> int:
             raise ValueError("unexpected MH3G armor skill coverage")
         if checks["armor_model_resources"] != 2004:
             raise ValueError("unexpected MH3G armor model inventory")
+        if scalar(db, "PRAGMA user_version") != 3:
+            raise ValueError("encyclopedia database user_version is not 3")
+        if (checks["armor_models_confirmed_exefs"] != 1600
+                or checks["armor_models_shared_appearance"] != 31
+                or checks["armor_models_unmapped"] != 20
+                or checks["character_model_resources"] != 50):
+            raise ValueError("unexpected armor/character model mapping coverage")
         if scalar(db, "SELECT count(*) FROM weapons WHERE name_cn='' OR name_en='' OR name_jp=''"):
             raise ValueError("weapon with empty localized name")
         if scalar(db, "SELECT count(*) FROM weapons WHERE min(sharp_red,sharp_orange,sharp_yellow,sharp_green,sharp_blue,sharp_white,sharp_purple)<0"):
@@ -87,6 +98,21 @@ def main() -> int:
             raise ValueError("dangling armor skill points")
         if scalar(db, "SELECT count(*) FROM active_skills a LEFT JOIN skill_trees s ON s.id=a.skill_tree_id WHERE s.id IS NULL"):
             raise ValueError("dangling active skill")
+        if scalar(db, "SELECT count(*) FROM armors WHERE model_mapping_status='unmapped' AND (male_model_id IS NOT NULL OR female_model_id IS NOT NULL)"):
+            raise ValueError("unmapped armor unexpectedly has a model ID")
+        if scalar(db, "SELECT count(*) FROM armors a WHERE a.male_model_id>0 AND NOT EXISTS (SELECT 1 FROM armor_model_resources r WHERE r.model_id=a.male_model_id AND r.gender='male' AND r.part=a.part)"):
+            raise ValueError("male armor model references a missing resource")
+        if scalar(db, "SELECT count(*) FROM armors a WHERE a.female_model_id>0 AND NOT EXISTS (SELECT 1 FROM armor_model_resources r WHERE r.model_id=a.female_model_id AND r.gender='female' AND r.part=a.part)"):
+            raise ValueError("female armor model references a missing resource")
+        expected_samples = {
+            1: (1, 1),       # Leather / pl001
+            14: (2, 2),      # Chainmail / pl002
+            72: (3, 3),      # Jaggi / pl003
+        }
+        for dex_id, models in expected_samples.items():
+            actual = db.execute("SELECT male_model_id,female_model_id FROM armors WHERE dex_id=?", (dex_id,)).fetchone()
+            if actual != models:
+                raise ValueError(f"armor {dex_id}: expected models {models}, got {actual}")
     finally:
         db.close()
     print(json.dumps(checks, ensure_ascii=False, sort_keys=True))

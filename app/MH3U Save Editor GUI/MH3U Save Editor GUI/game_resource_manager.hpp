@@ -9,10 +9,12 @@ public:
     GameResourceManager();
 
     QString bundledRoot() const;
+    QString legacyUnifiedRoot() const;
     QString legacyWeaponRoot() const;
     QString activeRoot() const;
     bool available() const;
     bool armorAvailable() const;
+    bool characterAvailable() const;
     QString statusText(const QString &relativePath = QString()) const;
     QString archivePath(const QString &relativePath) const;
 
@@ -23,6 +25,7 @@ private:
     QString m_status;
     bool m_available = false;
     bool m_v2 = false;
+    bool m_v3 = false;
 };
 
 #endif

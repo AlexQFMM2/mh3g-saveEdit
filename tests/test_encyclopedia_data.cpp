@@ -28,14 +28,20 @@ int main(int argc, char **argv)
         require(!repository.armorMaterials(1).isEmpty(), "armor production materials missing");
         require(!repository.armorSkills(1).isEmpty(), "armor skill points missing");
         const EncyclopediaArmorSet leatherSet = repository.armorSet(leather.setId);
-        require(leatherSet.members.size() == 5 && leatherSet.modelId == 0, "Leather set grouping mismatch");
-        const EncyclopediaArmorModel femaleHead = repository.armorModel(0, "female", "head");
-        require(femaleHead.modelKey == "armor-f-pl000-head"
-            && femaleHead.arcRelativePath == "armor-mod/f/pl000/f_helm000.arc",
+        require(leatherSet.members.size() == 5, "Leather set grouping mismatch");
+        const EncyclopediaArmorModel femaleHead = repository.armorModel(1, "female");
+        require(femaleHead.modelId == 1 && femaleHead.modelKey == "armor-f-pl001-head"
+            && femaleHead.arcRelativePath == "armor-mod/f/pl001/f_helm001.arc",
             "female armor model mapping mismatch");
+        require(repository.armor(14).maleModelId == 2 && repository.armor(72).maleModelId == 3,
+            "confirmed armor models do not match ExeFS");
+        const EncyclopediaCharacterModel face = repository.characterModel("male", "face", 0);
+        require(face.modelKey == "character-m-face000"
+            && face.arcRelativePath == "character-mod/m/face000/m_face000.arc",
+            "male face model mapping mismatch");
         require(repository.armor(1650).setId != repository.armor(966).setId,
             "Sword Saint Earring was merged into Chakra set");
-        std::cout << "encyclopedia v2 data tests passed" << std::endl;
+        std::cout << "encyclopedia v3 data tests passed" << std::endl;
         return 0;
     }
     catch (const std::exception &error)

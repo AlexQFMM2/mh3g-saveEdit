@@ -160,6 +160,8 @@ void MH3U_SV::createPages()
     pageStack->addWidget(chestPage);
     pageStack->addWidget(boxPage);
     connect(characterPage, SIGNAL(modified()), this, SLOT(markModified()));
+    connect(characterPage, SIGNAL(appearanceChanged(int,int,int)),
+        encyclopediaPage, SLOT(setCharacterAppearance(int,int,int)));
     connect(chestPage, SIGNAL(modified()), this, SLOT(markModified()));
     connect(boxPage, SIGNAL(modified()), this, SLOT(markModified()));
 }

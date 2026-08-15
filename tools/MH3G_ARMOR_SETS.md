@@ -1,9 +1,9 @@
 # MH3G 防具套装表
 
-防具图鉴以仓库内的两张 CSV 为权威数据，不在程序运行时按名称、稀有度或
-`plXXX` 模型号推测套装：
+防具图鉴以仓库内的两张 CSV 作为“套装分组与显示顺序”的权威数据，不在程序
+运行时按名称、稀有度或 `plXXX` 模型号推测套装：
 
-- `mh3g_armor_sets.csv`：一行代表图鉴中的一套，负责档位、职业、模型和显示顺序。
+- `mh3g_armor_sets.csv`：一行代表图鉴中的一套，负责档位、职业、名称和显示顺序。
 - `mh3g_armor_set_members.csv`：把每个 Dex 防具实体明确放入某套，并记录部位、性别和真实存档 ID。
 
 `suggest_armor_sets.py` 只用于从 Dex 和模型引用生成第一版候选。不要把它加入
@@ -20,10 +20,9 @@ python3 tools/suggest_armor_sets.py \
 
 ## 套装字段
 
-- `set_id`：稳定主键。修改名称、模型或成员时不要改它。
+- `set_id`：稳定主键。修改名称或成员时不要改它。
 - `rank`：`low`、`high`、`g` 或 `special`。
 - `combat`：`blade`、`gunner` 或 `both`。
-- `model_id`：资源包中的 `plXXX` 数字部分，可人工改正。
 - `name_cn/name_en`：套装显示名。
 - `display_order`：全局稳定顺序，必须从 0 连续排列。
 - `review_status`：自动初稿为 `candidate`，人工核对后改为 `reviewed`。
@@ -38,8 +37,15 @@ python3 tools/suggest_armor_sets.py \
 - `save_type/save_id`：加入装备箱时写入的真实存档类型和 ID。未确认时 `save_id`
   留空并设 `mapping_source=unmapped`，界面仍展示资料但禁用快速加入。
 
-同一模型组内的独立单件要拆成特殊套装。例如三眼套、剑圣耳环和增弹耳环都使用
-`pl115`，但正式表中是三条套装记录，不能仅因模型相同而合并。
+套装归属和模型绑定是两层独立数据。即使多个条目复用模型，也不能仅因模型相同
+而合并套装；反过来，同一套中的每一件也必须读取自己的游戏参数记录。三眼套和
+增弹耳环的游戏模型字段实际为 0，代表没有普通独立防具模型，不能再按旧表绑定到
+`pl115`；完整人物试衣间会使用该部位的 `pl000` 基础组件补全人物。
+
+真实防具模型映射位于 ExeFS 的五张 24 字节参数表，记录的 byte 2/3 分别是男性和
+女性 `plXXX` 编号。证据、地址、验证结果及迁移步骤见
+[`MH3G_ARMOR_MODEL_RESEARCH.md`](MH3G_ARMOR_MODEL_RESEARCH.md)。数据库 v3 已完成迁移，
+套装 CSV 不再包含或驱动任何模型编号。
 
 每次调整后运行：
 

@@ -18,6 +18,12 @@ class QOpenGLShaderProgram;
 class QOpenGLTexture;
 class QPushButton;
 
+struct Mh3gModelReference
+{
+    QString modelKey;
+    QString arcRelativePath;
+};
+
 class WeaponModelWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
 {
     Q_OBJECT
@@ -26,7 +32,9 @@ public:
     ~WeaponModelWidget();
 
     void setModel(const QString &modelKey, const QString &arcRelativePath, bool upright = false);
+    void setCharacterModel(const QString &modelKey, const QVector<Mh3gModelReference> &components);
     void showItemPlaceholder();
+    void showModelMessage(const QString &message, bool error = false);
     QString resourceStatus() const;
 
 public slots:
@@ -63,6 +71,8 @@ private:
     GameResourceManager m_resources;
     QString m_modelKey;
     QString m_arcRelativePath;
+    QVector<Mh3gModelReference> m_components;
+    bool m_characterMode = false;
     bool m_upright;
     int m_request;
     bool m_glReady;

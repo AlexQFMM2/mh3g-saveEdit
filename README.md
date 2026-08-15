@@ -23,10 +23,19 @@ does not create a backup. A successful save is confirmed by a message box.
 使用经 `ID_res.arc` 校验的真实类型和 ID，不使用 Dex 的全局行号。
 
 防具图鉴收录 1,651 件防具和 331 条人工维护的套装记录。左侧可切换下位、上位、G 位和
-特殊档位并筛选剑士/枪手与性别；中间每套固定显示头、胸、腕、腰、腿五张卡片。右侧显示
-当前单件的模型、基础/最大防御、五耐性、孔位、技能点、发动条件和生产素材。可以加入当前
+特殊档位并筛选剑士/枪手与性别；中间每套固定显示头、胸、腕、腰、腿五张卡片。右侧使用
+完整人物试衣间显示当前混搭，并列出当前单件的基础/最大防御、五耐性、孔位、技能点、发动
+条件和生产素材。点击卡片只替换对应部位，也可试穿整套或恢复基础装；这些预览操作不会修改
+存档。可以加入当前
 单件，也可以把当前性别下的整套一次性加入装备箱；整套操作会先预留全部空格，失败时不会
 部分写入。51 件尚无唯一存档映射的条目仍可浏览，但不能快速加入。
+
+第一版防具预览曾把 Dex 外观组顺序误当作 `plXXX`，导致锁链头盔显示为狗龙头。数据库 v3
+已经改为读取五张 ExeFS 防具参数表中每条 24 字节记录的 byte 2/3，分别作为男性/女性真实
+模型编号；轻皮、锁链和狗龙因此稳定对应 `pl001/pl002/pl003`。完整调查和踩坑记录见
+[`tools/MH3G_ARMOR_MODEL_RESEARCH.md`](tools/MH3G_ARMOR_MODEL_RESEARCH.md)。
+ExeFS 仅用于离线重建图鉴数据；正式程序仍只通过 `EncyclopediaData` 读取随包发布的
+`data/encyclopedia.sqlite`，不会在用户机器上解析游戏主程序。
 
 ### 实时 3D 武器与防具模型
 
@@ -37,11 +46,12 @@ ARC 放在程序旁的固定目录，解压后即可使用，
 
 ```text
 MH3USaveEditorGUI.exe
-resources/mh3g/v2/
+resources/mh3g/v3/
 ├─ manifest.json
 ├─ weapon-mod/w00/*.arc
 ├─ weapon-mod/.../w12/*.arc
-└─ armor-mod/{f,m}/plXXX/*.arc
+├─ armor-mod/{f,m}/plXXX/*.arc
+└─ character-mod/{f,m}/{faceXXX,hairXXX}/*.arc
 ```
 
 程序只读取这一固定相对路径，不修改资源文件。模型浏览不会把存档标记为已修改。没有资源、
@@ -55,19 +65,25 @@ Alpha 对绝大多数不透明材质是高光/反射遮罩，只有 MRL 明确�
 和 Gamma 转换。当前武器 ARC 没有独立法线或高光 TEX，相关材质槽已保留供后续防具等资源
 使用。游戏专用粒子、发光和动态机关仍使用静态近似。
 
-游戏资源不进入 Git 仓库，而是独立发布为 `MH3GResources-v2.zip` Release Asset。统一包包含
-558 个武器 ARC、1,009 个女性防具 ARC 和 995 个男性防具 ARC。本地可从已解包资源确定性生成：
+防具与人物组件在 CPU 后台按 MOD v0xE6 的骨骼权重和绑定矩阵转换到统一人物坐标系，再合并
+五个部位、脸型和发型。角色页尚未保存的性别、脸型和发型也会同步到试衣间；切换性别时仅
+保留男女通用且有对应模型的混搭部位。首版使用静态绑定姿势，不解析 LMT 动画，也不挂载武器。
+
+游戏资源不进入 Git 仓库，而是独立发布为 `MH3GResources-v3.zip` Release Asset。统一包包含
+558 个武器 ARC、1,009 个女性防具 ARC、995 个男性防具 ARC，以及男女各 11 个脸型和 14 个
+发型，共 2,612 个 ARC。本地可从已解包资源确定性生成：
 
 ```bash
 python3 tools/build_resource_pack.py \
   --weapon-source /path/to/romfs/arc/weapon/mod \
   --armor-source /path/to/romfs/arc/player/mod \
-  --output MH3GResources-v2.zip
+  --output MH3GResources-v3.zip
 ```
 
 脚本会校验 ARC v0x10、MOD v0xE6、TEX v0xA5、MRL v0x20 并生成 manifest。Windows Action
-先构建不含资源的程序，再下载 `mh3g-resources-v2` Release 下的这个 Asset，校验每个文件的
+先构建不含资源的程序，再下载 `mh3g-resources-v3` Release 下的这个 Asset，校验每个文件的
 尺寸和 SHA-256，最后把程序和资源统一压缩为可直接使用的完整 portable 包。
+旧 Resources v2 仍可浏览资料和武器/单件防具模型，但完整人物试衣间会明确提示需要 v3。
 
 ## Game-resource ID tables
 
@@ -142,9 +158,8 @@ The test verifies byte-identical unchanged round trips, read/write byte-order co
 python3 tools/validate_model_crosswalk.py --resources /path/to/romfs/arc/weapon/mod
 ```
 
-全部 2,004 个男女防具 ARC 可使用同一解析器批量验证：
+全部 2,004 个男女防具 ARC 与 50 个人物组件 ARC 可使用绑定姿势模式批量验证：
 
 ```bash
-./tests/run-model-tests.sh
-/tmp/mh3u-se-model-tests/test_mh3g_models --armor-root /path/to/romfs/arc/player/mod
+./tests/run-model-tests.sh --armor-root /path/to/romfs/arc/player/mod
 ```

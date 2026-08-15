@@ -52,6 +52,9 @@ public:
     QString error() const;
     void updateSaveState();
 
+public slots:
+    void setCharacterAppearance(int gender, int face, int hair);
+
 signals:
     void modified();
     void itemAdded();
@@ -70,6 +73,8 @@ private slots:
     void armorFiltersChanged();
     void addCurrentArmor();
     void addCurrentArmorSet();
+    void tryOnCurrentArmorSet();
+    void resetFittingRoom();
 
 private:
     void rebuildTree();
@@ -92,6 +97,9 @@ private:
     void showArmor(int dexId);
     QVector<int> visibleArmorMembers(const EncyclopediaArmorSet &set) const;
     QString selectedArmorGender() const;
+    bool armorSupportsGender(const EncyclopediaArmor &armor, const QString &gender) const;
+    bool tryOnArmor(int dexId);
+    void rebuildCharacterPreview();
 
     EncyclopediaRepository m_repository;
     SaveActionBridge *m_bridge;
@@ -121,6 +129,8 @@ private:
     QVBoxLayout *m_upgradeLinks;
     QPushButton *m_addButton;
     QPushButton *m_addSetButton;
+    QPushButton *m_tryOnSetButton;
+    QPushButton *m_resetPreviewButton;
     QScrollArea *m_armorScroll;
     QVBoxLayout *m_armorListLayout;
     QLabel *m_armorBreadcrumb;
@@ -134,6 +144,9 @@ private:
     int m_currentArmor;
     QString m_currentArmorSet;
     QString m_selectedArmorPart;
+    QMap<QString, int> m_previewArmorByPart;
+    int m_characterFace;
+    int m_characterHair;
 };
 
 #endif

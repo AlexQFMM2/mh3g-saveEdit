@@ -12,7 +12,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SET_FIELDS = [
-    "set_id", "rank", "combat", "model_id", "name_cn", "name_en",
+    "set_id", "rank", "combat", "name_cn", "name_en",
     "display_order", "review_status", "source", "notes",
 ]
 MEMBER_FIELDS = [
@@ -50,7 +50,6 @@ def validate(sets_path: Path, members_path: Path, models_path: Path) -> tuple[in
         label = f"armor_sets {row['set_id']}"
         require(row["rank"] in {"low", "high", "g", "special"}, f"{label}: invalid rank", errors)
         require(row["combat"] in {"both", "blade", "gunner"}, f"{label}: invalid combat", errors)
-        require(0 <= int(row["model_id"]) <= 999, f"{label}: invalid model_id", errors)
         require(bool(row["name_cn"].strip()) and bool(row["name_en"].strip()), f"{label}: empty name", errors)
         require(row["review_status"] in {"candidate", "reviewed"}, f"{label}: invalid review_status", errors)
         require(bool(row["source"].strip()), f"{label}: empty source", errors)

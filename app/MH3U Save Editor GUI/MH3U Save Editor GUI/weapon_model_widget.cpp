@@ -90,7 +90,21 @@ void WeaponModelWidget::setModel(const QString &modelKey, const QString &arcRela
         && (m_model || !m_resources.available())) return;
     m_modelKey = modelKey;
     m_arcRelativePath = arcRelativePath;
+    m_components.clear(); m_characterMode = false; setMinimumHeight(210);
     m_upright = upright;
+    requestLoad();
+}
+
+void WeaponModelWidget::setCharacterModel(const QString &modelKey, const QVector<Mh3gModelReference> &components)
+{
+    bool sameComponents = m_components.size() == components.size();
+    for (int index = 0; sameComponents && index < components.size(); ++index)
+        sameComponents = m_components[index].modelKey == components[index].modelKey
+            && m_components[index].arcRelativePath == components[index].arcRelativePath;
+    if (m_characterMode && m_modelKey == modelKey && sameComponents
+        && (m_model || !m_resources.characterAvailable())) return;
+    m_modelKey = modelKey; m_arcRelativePath.clear(); m_components = components;
+    m_characterMode = true; m_upright = true; setMinimumHeight(340);
     requestLoad();
 }
 
@@ -103,13 +117,22 @@ void WeaponModelWidget::showItemPlaceholder()
     update();
 }
 
+void WeaponModelWidget::showModelMessage(const QString &message, bool error)
+{
+    ++m_request; m_modelKey.clear(); m_arcRelativePath.clear(); m_components.clear(); m_model.clear();
+    if (m_glReady) { makeCurrent(); releaseGpu(); doneCurrent(); }
+    setStatus(message, error); update();
+}
+
 void WeaponModelWidget::requestLoad()
 {
     const int request = ++m_request;
     m_model.clear();
     if (m_glReady) { makeCurrent(); releaseGpu(); doneCurrent(); }
-    if (m_modelKey.isEmpty() || m_arcRelativePath.isEmpty())
+    if (m_modelKey.isEmpty() || (!m_characterMode && m_arcRelativePath.isEmpty()))
     { setStatus(QString::fromUtf8("该条目没有独立模型资源")); update(); return; }
+    if (m_characterMode && !m_resources.characterAvailable())
+    { setStatus(m_resources.statusText("character-mod/")); update(); return; }
     if (m_arcRelativePath.startsWith("armor-mod/") && !m_resources.armorAvailable())
     { setStatus(m_resources.statusText(m_arcRelativePath)); update(); return; }
     if (!m_resources.available())
@@ -117,8 +140,8 @@ void WeaponModelWidget::requestLoad()
     const QSharedPointer<Mh3gCpuModel> cached = m_cache.value(m_modelKey);
     if (cached)
     { touchCache(m_modelKey, cached); acceptModel(request, cached); return; }
-    const QString path = m_resources.archivePath(m_arcRelativePath);
-    if (path.isEmpty()) { setStatus(QString::fromUtf8("整合包资源缺少 %1").arg(m_arcRelativePath), true); return; }
+    const QString path = m_characterMode ? QString() : m_resources.archivePath(m_arcRelativePath);
+    if (!m_characterMode && path.isEmpty()) { setStatus(QString::fromUtf8("整合包资源缺少 %1").arg(m_arcRelativePath), true); return; }
     setStatus(QString::fromUtf8("正在加载 %1…").arg(m_modelKey));
     QFutureWatcher<QSharedPointer<Mh3gCpuModel> > *watcher = new QFutureWatcher<QSharedPointer<Mh3gCpuModel> >(this);
     connect(watcher, &QFutureWatcher<QSharedPointer<Mh3gCpuModel> >::finished, this, [this, watcher, request]() {
@@ -129,7 +152,30 @@ void WeaponModelWidget::requestLoad()
         acceptModel(request, result);
     });
     const QString key = m_modelKey;
-    watcher->setFuture(QtConcurrent::run([key, path]() { return Mh3gModelLoader::load(key, path); }));
+    const bool characterMode = m_characterMode;
+    QVector<QPair<QString, QString> > componentPaths;
+    if (characterMode)
+    {
+        for (const Mh3gModelReference &component : m_components)
+        {
+            const QString componentPath = m_resources.archivePath(component.arcRelativePath);
+            if (componentPath.isEmpty())
+            { watcher->deleteLater(); setStatus(QString::fromUtf8("整合包资源缺少 %1").arg(component.arcRelativePath), true); return; }
+            componentPaths.append(qMakePair(component.modelKey, componentPath));
+        }
+    }
+    watcher->setFuture(QtConcurrent::run([key, path, characterMode, componentPaths]() {
+        if (!characterMode) return Mh3gModelLoader::load(key, path, Mh3gModelLoadMode::Raw);
+        QVector<QSharedPointer<Mh3gCpuModel> > parts;
+        for (const QPair<QString, QString> &component : componentPaths)
+        {
+            QSharedPointer<Mh3gCpuModel> part = Mh3gModelLoader::load(
+                component.first, component.second, Mh3gModelLoadMode::BindPose);
+            if (!part->valid()) return part;
+            parts.append(part);
+        }
+        return Mh3gModelLoader::combine(key, parts);
+    }));
 }
 
 void WeaponModelWidget::acceptModel(int request, const QSharedPointer<Mh3gCpuModel> &model)
@@ -151,7 +197,7 @@ void WeaponModelWidget::touchCache(const QString &key, const QSharedPointer<Mh3g
 
 void WeaponModelWidget::trimCache()
 {
-    while ((m_cache.size() > 4 || m_cacheBytes > 128LL * 1024LL * 1024LL) && m_lru.size() > 1)
+    while ((m_cache.size() > 8 || m_cacheBytes > 128LL * 1024LL * 1024LL) && m_lru.size() > 1)
     {
         const QString key = m_lru.takeFirst();
         if (key == m_modelKey) { m_lru.append(key); continue; }
@@ -317,8 +363,20 @@ void WeaponModelWidget::paintGL()
         if (material.environment) material.environment->release(3);
     };
     if (m_model->drawCalls.isEmpty()) drawMaterial(0, 0, m_model->indices.size());
-    else for (const Mh3gDrawCall &draw : m_model->drawCalls)
-        drawMaterial(draw.materialIndex, draw.firstIndex, draw.indexCount);
+    else
+    {
+        glDepthMask(GL_TRUE);
+        for (const Mh3gDrawCall &draw : m_model->drawCalls)
+            if (draw.materialIndex < 0 || draw.materialIndex >= m_model->materials.size()
+                || !m_model->materials[draw.materialIndex].transparent)
+                drawMaterial(draw.materialIndex, draw.firstIndex, draw.indexCount);
+        glDepthMask(GL_FALSE);
+        for (const Mh3gDrawCall &draw : m_model->drawCalls)
+            if (draw.materialIndex >= 0 && draw.materialIndex < m_model->materials.size()
+                && m_model->materials[draw.materialIndex].transparent)
+                drawMaterial(draw.materialIndex, draw.firstIndex, draw.indexCount);
+        glDepthMask(GL_TRUE);
+    }
     m_vertexArray.release();
     m_program->release();
 }

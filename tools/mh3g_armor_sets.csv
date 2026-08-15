@@ -1,332 +1,332 @@
-set_id,rank,combat,model_id,name_cn,name_en,display_order,review_status,source,notes
-as-0001-both,low,both,0,轻皮,Leather,0,candidate,generated-seed,
-as-0006-both,low,both,1,结云,Yukumo Obi,1,candidate,generated-seed,
-as-0011-both,special,both,2,潜水,Piscine,2,candidate,generated-seed,generated-review-required
-as-0014-both,low,both,3,锁链,Chainmail,3,candidate,generated-seed,
-as-0019-both,special,both,4,洛克拉克,Loc Lac,4,candidate,generated-seed,generated-review-required
-as-0022-blade,low,blade,5,猎人,Hunter's,5,candidate,generated-seed,
-as-0027-gunner,low,gunner,6,猎人,Hunter's,6,candidate,generated-seed,
-as-0032-blade,low,blade,7,合金,Alloy,7,candidate,generated-seed,
-as-0037-gunner,low,gunner,8,合金,Alloy,8,candidate,generated-seed,
-as-0042-blade,low,blade,9,骨制,Bone,9,candidate,generated-seed,
-as-0047-gunner,low,gunner,10,骨制,Bone,10,candidate,generated-seed,
-as-0052-blade,low,blade,11,飞虫,Bnahabra,11,candidate,generated-seed,
-as-0057-gunner,low,gunner,12,飞虫,Bnahabra,12,candidate,generated-seed,
-as-0062-blade,low,blade,13,草食龙,Rhenoplos,13,candidate,generated-seed,
-as-0067-gunner,low,gunner,14,草食龙,Rhenoplos,14,candidate,generated-seed,
-as-0072-blade,low,blade,15,狗龙,Jaggi,15,candidate,generated-seed,
-as-0077-gunner,low,gunner,16,狗龙,Jaggi,16,candidate,generated-seed,
-as-0082-blade,low,blade,17,青熊兽,Arzuros,17,candidate,generated-seed,
-as-0087-gunner,low,gunner,17,青熊兽,Arzuros,18,candidate,generated-seed,
-as-0092-blade,low,blade,18,毒狗龙,Wroggi,19,candidate,generated-seed,
-as-0097-gunner,low,gunner,19,毒狗龙,Wroggi,20,candidate,generated-seed,
-as-0102-blade,low,blade,20,彩鸟,Qurupeco,21,candidate,generated-seed,
-as-0107-gunner,low,gunner,21,彩鸟,Qurupeco,22,candidate,generated-seed,
-as-0112-blade,low,blade,22,水兽,Ludroth,23,candidate,generated-seed,
-as-0117-gunner,low,gunner,23,水兽,Ludroth,24,candidate,generated-seed,
-as-0122-blade,low,blade,24,眠狗龙,Baggi,25,candidate,generated-seed,
-as-0127-gunner,low,gunner,25,眠狗龙,Baggi,26,candidate,generated-seed,
-as-0132-blade,low,blade,26,白兔兽,Lagombi,27,candidate,generated-seed,
-as-0137-gunner,low,gunner,26,白兔兽,Lagombi,28,candidate,generated-seed,
-as-0142-blade,low,blade,27,土砂龙,Barroth,29,candidate,generated-seed,
-as-0147-gunner,low,gunner,28,土砂龙,Barroth,30,candidate,generated-seed,
-as-0152-blade,low,blade,29,赤甲兽,Volvidon,31,candidate,generated-seed,
-as-0157-gunner,low,gunner,29,赤甲兽,Volvidon,32,candidate,generated-seed,generated-review-required
-as-0162-blade,low,blade,30,灯鱼龙,Gobul,33,candidate,generated-seed,
-as-0167-gunner,low,gunner,31,灯鱼龙,Gobul,34,candidate,generated-seed,generated-review-required
-as-0172-blade,low,blade,32,雌火龙,Rathian,35,candidate,generated-seed,
-as-0177-gunner,low,gunner,33,雌火龙,Rathian,36,candidate,generated-seed,
-as-0182-blade,low,blade,34,毒怪龙,Gigginox,37,candidate,generated-seed,
-as-0187-gunner,low,gunner,35,毒怪龙,Gigginox,38,candidate,generated-seed,
-as-0192-blade,low,blade,36,高合金,Ingot,39,candidate,generated-seed,
-as-0197-gunner,low,gunner,37,高合金,Ingot,40,candidate,generated-seed,
-as-0202-blade,low,blade,38,冰牙龙,Barioth,41,candidate,generated-seed,
-as-0207-gunner,low,gunner,39,冰牙龙,Barioth,42,candidate,generated-seed,
-as-0212-both,special,both,40,狗龙,Jaggi,43,candidate,generated-seed,generated-review-required
-as-0213-blade,low,blade,41,潜口龙,Nibelsnarf,44,candidate,generated-seed,
-as-0218-gunner,low,gunner,42,潜口龙,Nibelsnarf,45,candidate,generated-seed,
-as-0223-blade,low,blade,43,公会精英,Guild Bard,46,candidate,generated-seed,
-as-0228-gunner,low,gunner,43,公会精英,Guild Bard,47,candidate,generated-seed,generated-review-required
-as-0243-blade,low,blade,44,海龙,Lagiacrus,48,candidate,generated-seed,
-as-0248-gunner,low,gunner,45,海龙,Lagiacrus,49,candidate,generated-seed,
-as-0253-blade,low,blade,46,雄火龙,Rathalos,50,candidate,generated-seed,
-as-0258-gunner,low,gunner,47,雄火龙,Rathalos,51,candidate,generated-seed,
-as-0263-blade,low,blade,48,尾槌龙,Duramboros,52,candidate,generated-seed,
-as-0268-gunner,low,gunner,49,尾槌龙,Duramboros,53,candidate,generated-seed,
-as-0273-blade,low,blade,50,角龙,Diablos,54,candidate,generated-seed,
-as-0278-gunner,low,gunner,51,角龙,Diablos,55,candidate,generated-seed,
-as-0283-blade,low,blade,52,爆锤龙,Uragaan,56,candidate,generated-seed,
-as-0288-gunner,low,gunner,53,爆锤龙,Uragaan,57,candidate,generated-seed,
-as-0293-blade,low,blade,54,炎戈龙,Agnaktor,58,candidate,generated-seed,
-as-0298-gunner,low,gunner,55,炎戈龙,Agnaktor,59,candidate,generated-seed,
-as-0303-blade,low,blade,56,月神,Helios,60,candidate,generated-seed,
-as-0308-gunner,low,gunner,57,月神,Helios,61,candidate,generated-seed,
-as-0323-blade,high,blade,0,轻皮Ｓ,Leather S,62,candidate,generated-seed,
-as-0328-gunner,high,gunner,0,轻皮Ｓ,Leather S,63,candidate,generated-seed,
-as-0333-blade,high,blade,1,结云袴・天,Yukumo Sky Obi,64,candidate,generated-seed,
-as-0338-gunner,high,gunner,1,结云袴・地,Yukumo Land Obi,65,candidate,generated-seed,
-as-0343-blade,high,blade,3,锁链Ｓ,Chainmail S,66,candidate,generated-seed,
-as-0348-gunner,high,gunner,3,锁链Ｓ,Chainmail S,67,candidate,generated-seed,
-as-0353-blade,special,blade,4,洛克拉克Ｓ,Loc Lac S,68,candidate,generated-seed,generated-review-required
-as-0356-gunner,special,gunner,4,洛克拉克Ｓ,Loc Lac S,69,candidate,generated-seed,generated-review-required
-as-0359-blade,high,blade,5,猎人Ｓ,Hunter's S,70,candidate,generated-seed,
-as-0364-gunner,high,gunner,6,猎人Ｓ,Hunter's S,71,candidate,generated-seed,
-as-0369-blade,special,blade,2,潜水Ｓ,Piscine S,72,candidate,generated-seed,generated-review-required
-as-0372-gunner,special,gunner,2,潜水Ｓ,Piscine S,73,candidate,generated-seed,generated-review-required
-as-0375-blade,high,blade,9,骨制Ｓ,Bone S,74,candidate,generated-seed,
-as-0380-gunner,high,gunner,10,骨制Ｓ,Bone S,75,candidate,generated-seed,
-as-0385-blade,high,blade,7,合金Ｓ,Alloy S,76,candidate,generated-seed,
-as-0390-gunner,high,gunner,8,合金Ｓ,Alloy S,77,candidate,generated-seed,
-as-0395-blade,high,blade,11,飞虫Ｓ,Bnahabra S,78,candidate,generated-seed,
-as-0400-gunner,high,gunner,12,飞虫Ｓ,Bnahabra S,79,candidate,generated-seed,generated-review-required
-as-0405-blade,high,blade,13,草食龙Ｓ,Rhenoplos S,80,candidate,generated-seed,
-as-0410-gunner,high,gunner,14,草食龙Ｓ,Rhenoplos S,81,candidate,generated-seed,
-as-0415-blade,special,blade,58,垂皮头罩,Slagtoth Hood,82,candidate,generated-seed,generated-review-required
-as-0417-gunner,special,gunner,58,垂皮大衣,Slagtoth Cowl,83,candidate,generated-seed,generated-review-required
-as-0419-blade,high,blade,59,抚子【布冠】,Dianthus,84,candidate,generated-seed,
-as-0424-gunner,high,gunner,59,桔梗【布冠】,Campanile,85,candidate,generated-seed,
-as-0429-blade,high,blade,15,狗龙Ｓ,Jaggi S,86,candidate,generated-seed,
-as-0434-gunner,high,gunner,16,狗龙Ｓ,Jaggi S,87,candidate,generated-seed,
-as-0439-blade,high,blade,17,青熊兽Ｓ,Arzuros S,88,candidate,generated-seed,
-as-0444-gunner,high,gunner,17,青熊兽Ｓ,Arzuros S,89,candidate,generated-seed,
-as-0449-blade,high,blade,18,毒狗龙Ｓ,Wroggi S,90,candidate,generated-seed,
-as-0454-gunner,high,gunner,19,毒狗龙Ｓ,Wroggi S,91,candidate,generated-seed,
-as-0459-blade,high,blade,24,眠狗龙Ｓ,Baggi S,92,candidate,generated-seed,
-as-0464-gunner,high,gunner,25,眠狗龙Ｓ,Baggi S,93,candidate,generated-seed,
-as-0469-blade,high,blade,26,白兔兽Ｓ,Lagombi S,94,candidate,generated-seed,
-as-0474-gunner,high,gunner,26,白兔兽Ｓ,Lagombi S,95,candidate,generated-seed,
-as-0479-both,special,both,60,黑暗之眼,Shadow Shades,96,candidate,generated-seed,generated-review-required
-as-0480-both,special,both,61,丸鸟,Gargwa,97,candidate,generated-seed,generated-review-required
-as-0481-both,special,both,62,野猪,Bullfango,98,candidate,generated-seed,generated-review-required
-as-0482-blade,high,blade,20,彩鸟Ｓ,Qurupeco S,99,candidate,generated-seed,
-as-0487-gunner,high,gunner,21,彩鸟Ｓ,Qurupeco S,100,candidate,generated-seed,
-as-0492-blade,high,blade,63,红彩鸟Ｕ,Qurupeco U,101,candidate,generated-seed,
-as-0497-gunner,high,gunner,64,红彩鸟Ｕ,Qurupeco U,102,candidate,generated-seed,
-as-0502-blade,high,blade,22,水兽Ｓ,Ludroth S,103,candidate,generated-seed,
-as-0507-gunner,high,gunner,23,水兽Ｓ,Ludroth S,104,candidate,generated-seed,generated-review-required
-as-0512-blade,high,blade,65,紫水兽Ｕ,Ludroth U,105,candidate,generated-seed,generated-review-required
-as-0517-gunner,high,gunner,66,紫水兽Ｕ,Ludroth U,106,candidate,generated-seed,generated-review-required
-as-0522-blade,high,blade,29,赤甲兽Ｓ,Volvidon S,107,candidate,generated-seed,
-as-0527-gunner,high,gunner,29,赤甲兽Ｓ,Volvidon S,108,candidate,generated-seed,
-as-0532-blade,high,blade,67,蝴蝶,Rhopessa,109,candidate,generated-seed,generated-review-required
-as-0537-gunner,high,gunner,67,蝴蝶,Rhopessa Alae,110,candidate,generated-seed,
-as-0552-blade,special,blade,68,神秘,Artian,111,candidate,generated-seed,generated-review-required
-as-0555-gunner,special,gunner,68,神秘,Artian,112,candidate,generated-seed,generated-review-required
-as-0558-blade,high,blade,27,土砂龙Ｓ,Barroth S,113,candidate,generated-seed,
-as-0563-gunner,high,gunner,28,土砂龙Ｓ,Barroth S,114,candidate,generated-seed,
-as-0568-blade,high,blade,69,冰碎龙Ｕ,Barroth U,115,candidate,generated-seed,
-as-0573-gunner,high,gunner,70,冰碎龙Ｕ,Barroth U,116,candidate,generated-seed,
-as-0578-blade,high,blade,30,灯鱼龙Ｓ,Gobul S,117,candidate,generated-seed,
-as-0583-gunner,high,gunner,31,灯鱼龙Ｓ,Gobul S,118,candidate,generated-seed,
-as-0588-blade,high,blade,71,南瓜,Mosgharl Folia,119,candidate,generated-seed,
-as-0593-gunner,high,gunner,71,南瓜,Mosgharl Brim,120,candidate,generated-seed,
-as-0598-blade,high,blade,43,公会精英Ｓ,Guild Bard S,121,candidate,generated-seed,
-as-0603-gunner,high,gunner,43,公会精英Ｓ,Guild Bard S,122,candidate,generated-seed,
-as-0618-blade,high,blade,36,高合金Ｓ,Ingot S,123,candidate,generated-seed,
-as-0623-gunner,high,gunner,37,高合金Ｓ,Ingot S,124,candidate,generated-seed,
-as-0628-blade,high,blade,32,雌火龙Ｓ,Rathian S,125,candidate,generated-seed,
-as-0633-gunner,high,gunner,33,雌火龙Ｓ,Rathian S,126,candidate,generated-seed,
-as-0638-blade,high,blade,72,樱火龙,Rath Heart,127,candidate,generated-seed,generated-review-required
-as-0643-gunner,high,gunner,73,樱火龙,Rath Heart,128,candidate,generated-seed,generated-review-required
-as-0648-blade,high,blade,34,毒怪龙Ｓ,Gigginox S,129,candidate,generated-seed,generated-review-required
-as-0653-gunner,high,gunner,35,毒怪龙Ｓ,Gigginox S,130,candidate,generated-seed,generated-review-required
-as-0658-blade,high,blade,74,电怪龙Ｕ,Gigginox U,131,candidate,generated-seed,generated-review-required
-as-0663-gunner,high,gunner,75,电怪龙Ｕ,Gigginox U,132,candidate,generated-seed,generated-review-required
-as-0668-blade,special,blade,76,水龙,Plesioth,133,candidate,generated-seed,generated-review-required
-as-0672-gunner,special,gunner,77,水龙,Plesioth,134,candidate,generated-seed,generated-review-required
-as-0676-blade,high,blade,38,冰牙龙Ｓ,Barioth S,135,candidate,generated-seed,
-as-0681-gunner,high,gunner,39,冰牙龙Ｓ,Barioth S,136,candidate,generated-seed,
-as-0686-blade,high,blade,78,风牙龙Ｕ,Barioth U,137,candidate,generated-seed,
-as-0691-gunner,high,gunner,79,风牙龙Ｕ,Barioth U,138,candidate,generated-seed,
-as-0696-blade,high,blade,41,潜口龙Ｓ,Nibelsnarf S,139,candidate,generated-seed,
-as-0701-gunner,high,gunner,42,潜口龙Ｓ,Nibelsnarf S,140,candidate,generated-seed,
-as-0706-blade,high,blade,80,迅龙,Nargacuga,141,candidate,generated-seed,generated-review-required
-as-0711-gunner,high,gunner,81,迅龙,Nargacuga,142,candidate,generated-seed,
-as-0716-blade,high,blade,44,海龙Ｓ,Lagiacrus S,143,candidate,generated-seed,
-as-0721-gunner,high,gunner,45,海龙Ｓ,Lagiacrus S,144,candidate,generated-seed,
-as-0726-blade,high,blade,82,白海龙Ｕ,Lagiacrus U,145,candidate,generated-seed,
-as-0731-gunner,high,gunner,83,白海龙Ｕ,Lagiacrus U,146,candidate,generated-seed,
-as-0736-blade,high,blade,46,雄火龙Ｓ,Rathalos S,147,candidate,generated-seed,
-as-0741-gunner,high,gunner,47,雄火龙Ｓ,Rathalos S,148,candidate,generated-seed,
-as-0746-blade,high,blade,84,苍火龙,Rath Soul,149,candidate,generated-seed,
-as-0751-gunner,high,gunner,85,苍火龙,Rath Soul,150,candidate,generated-seed,
-as-0756-blade,high,blade,86,雷狼龙,Zinogre,151,candidate,generated-seed,
-as-0761-gunner,high,gunner,87,雷狼龙,Zinogre,152,candidate,generated-seed,
-as-0766-blade,high,blade,88,碎龙,Brachydios,153,candidate,generated-seed,
-as-0771-gunner,high,gunner,89,碎龙,Brachydios,154,candidate,generated-seed,
-as-0776-blade,high,blade,48,尾槌龙Ｓ,Duramboros S,155,candidate,generated-seed,
-as-0781-gunner,high,gunner,49,尾槌龙Ｓ,Duramboros S,156,candidate,generated-seed,
-as-0786-blade,high,blade,90,城塞游击队【刃笠】,Ranger's,157,candidate,generated-seed,
-as-0791-gunner,high,gunner,91,城塞弓击队【弹带】,Archer's,158,candidate,generated-seed,
-as-0796-blade,high,blade,92,远古龙,Dober,159,candidate,generated-seed,
-as-0801-gunner,high,gunner,93,远古龙,Dober,160,candidate,generated-seed,
-as-0806-blade,high,blade,50,角龙Ｓ,Diablos S,161,candidate,generated-seed,
-as-0811-gunner,high,gunner,51,角龙Ｓ,Diablos S,162,candidate,generated-seed,
-as-0816-blade,high,blade,94,黑角龙Ｕ,Diablos U,163,candidate,generated-seed,
-as-0821-gunner,high,gunner,95,黑角龙Ｕ,Diablos U,164,candidate,generated-seed,
-as-0826-blade,high,blade,54,炎戈龙Ｓ,Agnaktor S,165,candidate,generated-seed,
-as-0831-gunner,high,gunner,55,炎戈龙Ｓ,Agnaktor S,166,candidate,generated-seed,generated-review-required
-as-0836-blade,high,blade,96,冻戈龙Ｕ,Agnaktor U,167,candidate,generated-seed,
-as-0841-gunner,high,gunner,97,冻戈龙Ｕ,Agnaktor U,168,candidate,generated-seed,generated-review-required
-as-0846-blade,high,blade,52,爆锤龙Ｓ,Uragaan S,169,candidate,generated-seed,
-as-0851-gunner,high,gunner,53,爆锤龙Ｓ,Uragaan S,170,candidate,generated-seed,
-as-0856-blade,high,blade,98,钢锤龙Ｕ,Uragaan U,171,candidate,generated-seed,
-as-0861-gunner,high,gunner,99,钢锤龙Ｕ,Uragaan U,172,candidate,generated-seed,
-as-0866-blade,high,blade,100,大马士革,Damascus,173,candidate,generated-seed,
-as-0871-gunner,high,gunner,101,大马士革,Damascus,174,candidate,generated-seed,
-as-0876-blade,high,blade,102,大和【兜】,Hyuga Kote,175,candidate,generated-seed,
-as-0881-gunner,high,gunner,103,天城【袴】,Amagi Kote,176,candidate,generated-seed,
-as-0896-blade,high,blade,104,恐暴龙,Vangis,177,candidate,generated-seed,
-as-0901-gunner,high,gunner,105,恐暴龙,Vangis,178,candidate,generated-seed,
-as-0906-blade,high,blade,106,煌黑龙之,Escadora Arms,179,candidate,generated-seed,
-as-0911-gunner,high,gunner,107,煌黑龙之,Escadora Arma,180,candidate,generated-seed,
-as-0916-blade,high,blade,108,大海贼Ｊ,[JP] Buccaneer Hat J,181,candidate,generated-seed,
-as-0921-gunner,high,gunner,108,大海贼Ｊ,[JP] Buccaneer Cuffs J,182,candidate,generated-seed,generated-review-required
-as-0926-blade,special,blade,109,怪物猎人部,[JP] MH Club,183,candidate,generated-seed,generated-review-required
-as-0927-gunner,special,gunner,109,怪物猎人部运动衫,[JP] MH Club Jersey,184,candidate,generated-seed,generated-review-required
-as-0928-blade,special,blade,110,武装战线,[JP] Biker,185,candidate,generated-seed,generated-review-required
-as-0929-gunner,special,gunner,110,武装战线,[JP] Biker Leather,186,candidate,generated-seed,generated-review-required
-as-0930-blade,special,blade,111,狩猎战线,HellHunter,187,candidate,generated-seed,generated-review-required
-as-0931-gunner,special,gunner,111,狩猎战线,HellHunter Leather,188,candidate,generated-seed,generated-review-required
-as-0932-blade,special,blade,112,漆黑轻皮,Black Leather Chaps,189,candidate,generated-seed,generated-review-required
-as-0933-gunner,special,gunner,112,漆黑轻皮具足内,Black Leather,190,candidate,generated-seed,generated-review-required
-as-0934-blade,special,blade,113,坊屋,[JP] Booyah,191,candidate,generated-seed,generated-review-required
-as-0937-gunner,special,gunner,113,坊屋,[JP] Booyah Denim,192,candidate,generated-seed,generated-review-required
-as-0940-blade,special,blade,114,骷髅之脸,Skull,193,candidate,generated-seed,generated-review-required
-as-0941-gunner,special,gunner,114,骷髅头,Skull Visage,194,candidate,generated-seed,generated-review-required
-as-0942-blade,g,blade,11,飞虫Ｘ,Bnahabra X,195,candidate,generated-seed,
-as-0947-gunner,g,gunner,12,飞虫Ｘ,Bnahabra X,196,candidate,generated-seed,
-as-0952-blade,g,blade,13,草食龙Ｘ,Rhenoplos X,197,candidate,generated-seed,generated-review-required
-as-0957-gunner,g,gunner,14,草食龙Ｘ,Rhenoplos X,198,candidate,generated-seed,generated-review-required
-as-0962-blade,special,blade,58,垂皮头罩Ｘ,Slagtoth Hood X,199,candidate,generated-seed,generated-review-required
-as-0964-gunner,special,gunner,58,垂皮大衣Ｘ,Slagtoth Cowl X,200,candidate,generated-seed,generated-review-required
-as-0966-both,g,both,115,三眼,Chakra,201,candidate,generated-seed,
-as-1650-both,special,both,115,剑圣,Sword Saint,202,candidate,generated-seed,standalone-piece-sharing-model;generated-review-required
-as-1651-both,special,both,115,增弹,Barrage,203,candidate,generated-seed,standalone-piece-sharing-model;generated-review-required
-as-0971-blade,g,blade,71,南瓜Ｘ,Mosgharl Folia X,204,candidate,generated-seed,
-as-0976-gunner,g,gunner,71,南瓜Ｘ,Mosgharl Brim X,205,candidate,generated-seed,
-as-0981-blade,g,blade,116,狗龙Ｘ,Jaggi X,206,candidate,generated-seed,
-as-0986-gunner,g,gunner,117,狗龙Ｘ,Jaggi X,207,candidate,generated-seed,
-as-0991-blade,g,blade,24,眠狗龙Ｘ,Baggi X,208,candidate,generated-seed,
-as-0996-gunner,g,gunner,25,眠狗龙Ｘ,Baggi X,209,candidate,generated-seed,
-as-1001-blade,g,blade,18,毒狗龙Ｘ,Wroggi X,210,candidate,generated-seed,
-as-1006-gunner,g,gunner,19,毒狗龙Ｘ,Wroggi X,211,candidate,generated-seed,
-as-1011-blade,g,blade,17,青熊兽Ｘ,Arzuros X,212,candidate,generated-seed,
-as-1016-gunner,g,gunner,17,青熊兽Ｘ,Arzuros X,213,candidate,generated-seed,
-as-1021-blade,g,blade,26,白兔兽Ｘ,Lagombi X,214,candidate,generated-seed,
-as-1026-gunner,g,gunner,26,白兔兽Ｘ,Lagombi X,215,candidate,generated-seed,generated-review-required
-as-1031-blade,g,blade,29,赤甲兽Ｘ,Volvidon X,216,candidate,generated-seed,
-as-1036-gunner,g,gunner,29,赤甲兽Ｘ,Volvidon X,217,candidate,generated-seed,
-as-1041-blade,g,blade,36,高合金Ｘ,Ingot X,218,candidate,generated-seed,
-as-1046-gunner,g,gunner,37,高合金Ｘ,Ingot X,219,candidate,generated-seed,
-as-1051-blade,g,blade,59,抚子・华【布冠】,Dianthus Wealcap,220,candidate,generated-seed,generated-review-required
-as-1056-gunner,g,gunner,59,桔梗・华【布冠】,Campanile Wealcap,221,candidate,generated-seed,
-as-1061-blade,g,blade,118,水手,Sailor,222,candidate,generated-seed,
-as-1066-gunner,g,gunner,118,水手,Sailor,223,candidate,generated-seed,
-as-1071-blade,g,blade,119,彩鸟Ｘ,Qurupeco X,224,candidate,generated-seed,
-as-1076-gunner,g,gunner,120,彩鸟Ｘ,Qurupeco X,225,candidate,generated-seed,
-as-1081-blade,g,blade,121,红彩鸟Ｚ,Qurupeco Z,226,candidate,generated-seed,
-as-1086-gunner,g,gunner,122,红彩鸟Ｚ,Qurupeco Z,227,candidate,generated-seed,
-as-1091-blade,g,blade,123,水兽Ｘ,Ludroth X,228,candidate,generated-seed,
-as-1096-gunner,g,gunner,124,水兽Ｘ,Ludroth X,229,candidate,generated-seed,
-as-1101-blade,g,blade,125,紫水兽Ｚ,Ludroth Z,230,candidate,generated-seed,
-as-1106-gunner,g,gunner,126,紫水兽Ｚ,Ludroth Z,231,candidate,generated-seed,
-as-1111-blade,special,blade,68,神秘Ｘ,Artian X,232,candidate,generated-seed,generated-review-required
-as-1114-gunner,special,gunner,68,神秘Ｘ,Artian X,233,candidate,generated-seed,generated-review-required
-as-1117-blade,special,blade,76,水龙Ｘ,Plesioth X,234,candidate,generated-seed,generated-review-required
-as-1121-gunner,special,gunner,77,水龙Ｘ,Plesioth X,235,candidate,generated-seed,generated-review-required
-as-1125-blade,special,blade,127,翠水龙Ｚ,Plesioth Z,236,candidate,generated-seed,generated-review-required
-as-1129-gunner,special,gunner,128,翠水龙Ｚ,Plesioth Z,237,candidate,generated-seed,generated-review-required
-as-1133-blade,g,blade,129,雌火龙Ｘ,Rathian X,238,candidate,generated-seed,
-as-1138-gunner,g,gunner,130,雌火龙Ｘ,Rathian X,239,candidate,generated-seed,
-as-1143-blade,g,blade,131,樱火龙Ｚ,Rath Heart Z,240,candidate,generated-seed,
-as-1148-gunner,g,gunner,132,樱火龙Ｚ,Rath Heart Z,241,candidate,generated-seed,
-as-1153-blade,g,blade,43,公会精英Ｘ,Guild Bard X,242,candidate,generated-seed,
-as-1158-gunner,g,gunner,43,公会精英Ｘ,Guild Bard X,243,candidate,generated-seed,
-as-1173-blade,g,blade,90,城塞特攻队【刃笠】,Strider's,244,candidate,generated-seed,
-as-1178-gunner,g,gunner,91,城塞隐秘队【弹带】,Deadeye's,245,candidate,generated-seed,generated-review-required
-as-1183-blade,g,blade,133,冰牙龙Ｘ,Barioth X,246,candidate,generated-seed,
-as-1188-gunner,g,gunner,134,冰牙龙Ｘ,Barioth X,247,candidate,generated-seed,
-as-1193-blade,g,blade,135,风牙龙Ｚ,Barioth Z,248,candidate,generated-seed,
-as-1198-gunner,g,gunner,136,风牙龙Ｚ,Barioth Z,249,candidate,generated-seed,
-as-1203-blade,g,blade,137,土砂龙Ｘ,Barroth X,250,candidate,generated-seed,
-as-1208-gunner,g,gunner,138,土砂龙Ｘ,Barroth X,251,candidate,generated-seed,
-as-1213-blade,g,blade,139,冰碎龙Ｚ,Barroth Z,252,candidate,generated-seed,
-as-1218-gunner,g,gunner,140,冰碎龙Ｚ,Barroth Z,253,candidate,generated-seed,
-as-1223-blade,g,blade,141,灯鱼龙Ｘ,Gobul X,254,candidate,generated-seed,
-as-1228-gunner,g,gunner,142,灯鱼龙Ｘ,Gobul X,255,candidate,generated-seed,
-as-1233-blade,g,blade,143,毒怪龙Ｘ,Gigginox X,256,candidate,generated-seed,
-as-1238-gunner,g,gunner,144,毒怪龙Ｘ,Gigginox X,257,candidate,generated-seed,
-as-1243-blade,g,blade,145,电怪龙Ｚ,Gigginox Z,258,candidate,generated-seed,
-as-1248-gunner,g,gunner,146,电怪龙Ｚ,Gigginox Z,259,candidate,generated-seed,
-as-1253-blade,g,blade,147,潜口龙Ｘ,Nibelsnarf X,260,candidate,generated-seed,
-as-1258-gunner,g,gunner,148,潜口龙Ｘ,Nibelsnarf X,261,candidate,generated-seed,
-as-1263-blade,g,blade,149,尾槌龙Ｘ,Duramboros X,262,candidate,generated-seed,
-as-1268-gunner,g,gunner,150,尾槌龙Ｘ,Duramboros X,263,candidate,generated-seed,
-as-1273-blade,g,blade,151,尾斧龙Ｚ,Duramboros Z,264,candidate,generated-seed,
-as-1278-gunner,g,gunner,152,尾斧龙Ｚ,Duramboros Z,265,candidate,generated-seed,
-as-1283-blade,g,blade,153,迅龙Ｘ,Nargacuga X,266,candidate,generated-seed,
-as-1288-gunner,g,gunner,154,迅龙Ｘ,Nargacuga X,267,candidate,generated-seed,
-as-1293-blade,g,blade,155,绿迅龙Ｚ,Nargacuga Z,268,candidate,generated-seed,
-as-1298-gunner,g,gunner,156,绿迅龙Ｚ,Nargacuga Z,269,candidate,generated-seed,
-as-1303-blade,g,blade,157,月神Ｘ,Helios X,270,candidate,generated-seed,
-as-1308-gunner,g,gunner,158,月神Ｘ,Helios X,271,candidate,generated-seed,
-as-1323-blade,g,blade,159,月神Ｚ,Helios Z,272,candidate,generated-seed,
-as-1328-gunner,g,gunner,160,月神Ｚ,Helios Z,273,candidate,generated-seed,
-as-1343-blade,g,blade,67,蝴蝶Ｘ,Rhopessa X,274,candidate,generated-seed,
-as-1348-gunner,g,gunner,67,蝴蝶Ｘ,Rhopessa Alae X,275,candidate,generated-seed,
-as-1363-blade,g,blade,161,雄火龙Ｘ,Rathalos X,276,candidate,generated-seed,generated-review-required
-as-1368-gunner,g,gunner,162,雄火龙Ｘ,Rathalos X,277,candidate,generated-seed,generated-review-required
-as-1373-blade,g,blade,163,苍火龙Ｚ,Rath Soul Z,278,candidate,generated-seed,
-as-1378-gunner,g,gunner,164,苍火龙Ｚ,Rath Soul Z,279,candidate,generated-seed,
-as-1383-blade,g,blade,165,角龙Ｘ,Diablos X,280,candidate,generated-seed,
-as-1388-gunner,g,gunner,166,角龙Ｘ,Diablos X,281,candidate,generated-seed,
-as-1393-blade,g,blade,167,黑角龙Ｚ,Diablos Z,282,candidate,generated-seed,generated-review-required
-as-1398-gunner,g,gunner,168,黑角龙Ｚ,Diablos Z,283,candidate,generated-seed,
-as-1403-blade,g,blade,169,炎戈龙Ｘ,Agnaktor X,284,candidate,generated-seed,
-as-1408-gunner,g,gunner,170,炎戈龙Ｘ,Agnaktor X,285,candidate,generated-seed,
-as-1413-blade,g,blade,171,冻戈龙Ｚ,Agnaktor Z,286,candidate,generated-seed,
-as-1418-gunner,g,gunner,172,冻戈龙Ｚ,Agnaktor Z,287,candidate,generated-seed,
-as-1423-blade,g,blade,173,碎龙Ｘ,Brachydios X,288,candidate,generated-seed,
-as-1428-gunner,g,gunner,174,碎龙Ｘ,Brachydios X,289,candidate,generated-seed,
-as-1433-blade,g,blade,175,海龙Ｘ,Lagiacrus X,290,candidate,generated-seed,
-as-1438-gunner,g,gunner,176,海龙Ｘ,Lagiacrus X,291,candidate,generated-seed,
-as-1443-blade,g,blade,177,白海龙Ｚ,Lagiacrus Z,292,candidate,generated-seed,
-as-1448-gunner,g,gunner,178,白海龙Ｚ,Lagiacrus Z,293,candidate,generated-seed,
-as-1453-blade,g,blade,179,爆锤龙Ｘ,Uragaan X,294,candidate,generated-seed,
-as-1458-gunner,g,gunner,180,爆锤龙Ｘ,Uragaan X,295,candidate,generated-seed,
-as-1463-blade,g,blade,181,钢锤龙Ｚ,Uragaan Z,296,candidate,generated-seed,
-as-1468-gunner,g,gunner,182,钢锤龙Ｚ,Uragaan Z,297,candidate,generated-seed,
-as-1473-blade,g,blade,183,雷狼龙Ｘ,Zinogre X,298,candidate,generated-seed,
-as-1478-gunner,g,gunner,184,雷狼龙Ｘ,Zinogre X,299,candidate,generated-seed,
-as-1483-blade,g,blade,185,狱狼龙Ｚ,Zinogre Z,300,candidate,generated-seed,
-as-1488-gunner,g,gunner,186,狱狼龙Ｚ,Zinogre Z,301,candidate,generated-seed,
-as-1493-blade,g,blade,92,远古龙Ｘ,Dober X,302,candidate,generated-seed,
-as-1498-gunner,g,gunner,93,远古龙Ｘ,Dober X,303,candidate,generated-seed,
-as-1503-blade,g,blade,100,大马士革Ｘ,Damascus X,304,candidate,generated-seed,
-as-1508-gunner,g,gunner,101,大马士革Ｘ,Damascus X,305,candidate,generated-seed,
-as-1513-blade,g,blade,187,恐暴龙Ｘ,Vangis X,306,candidate,generated-seed,
-as-1518-gunner,g,gunner,188,恐暴龙Ｘ,Vangis X,307,candidate,generated-seed,
-as-1523-blade,g,blade,189,月光【带】,Lambent Sash,308,candidate,generated-seed,
-as-1528-gunner,g,gunner,190,白影【带】,Silhouette Sash,309,candidate,generated-seed,
-as-1533-blade,g,blade,191,银火龙,Silver Solcoil,310,candidate,generated-seed,
-as-1538-gunner,g,gunner,192,银火龙,Silver Solcap,311,candidate,generated-seed,
-as-1543-blade,g,blade,193,金火龙,Golden Lunecoil,312,candidate,generated-seed,
-as-1548-gunner,g,gunner,194,金火龙,Golden Lunecap,313,candidate,generated-seed,
-as-1553-blade,g,blade,195,大和・真【兜】,Grand Hyuga Kote,314,candidate,generated-seed,
-as-1558-gunner,g,gunner,196,天城・真【袴】,Grand Amagi Kote,315,candidate,generated-seed,
-as-1573-blade,g,blade,197,大和・极【兜】,Hyuga Kote Prime,316,candidate,generated-seed,
-as-1578-gunner,g,gunner,198,天城・极【袴】,Amagi Kote Prime,317,candidate,generated-seed,
-as-1593-blade,g,blade,199,冥海龙,Nether,318,candidate,generated-seed,
-as-1598-gunner,g,gunner,200,冥海龙,Nether,319,candidate,generated-seed,
-as-1603-blade,g,blade,201,炼黑龙之,Miralis Barbs,320,candidate,generated-seed,
-as-1608-gunner,g,gunner,202,炼黑龙之,Miralis,321,candidate,generated-seed,
-as-1613-blade,g,blade,203,煌黑龙之腕Ｘ,Escadora Arms X,322,candidate,generated-seed,
-as-1618-gunner,g,gunner,204,煌黑龙之Ｘ,Escadora Arma X,323,candidate,generated-seed,
-as-1623-both,special,both,205,Giroro,[JP] Corp. Giroro,324,candidate,generated-seed,generated-review-required
-as-1624-blade,g,blade,206,船长Ｊ,[JP] Captain Hat J,325,candidate,generated-seed,generated-review-required
-as-1629-gunner,g,gunner,206,船长Ｊ,[JP] Captain Vest J,326,candidate,generated-seed,generated-review-required
-as-1634-blade,g,blade,207,蓝星,[JP] Blue Star,327,candidate,generated-seed,generated-review-required
-as-1639-gunner,g,gunner,207,蓝星,[JP] Blue Star,328,candidate,generated-seed,generated-review-required
-as-1644-blade,special,blade,208,训练兵团,[JP] Training Corps,329,candidate,generated-seed,generated-review-required
-as-1647-gunner,special,gunner,208,训练兵团,[JP] Training Corps,330,candidate,generated-seed,generated-review-required
+set_id,rank,combat,name_cn,name_en,display_order,review_status,source,notes
+as-0001-both,low,both,轻皮,Leather,0,candidate,generated-seed,
+as-0006-both,low,both,结云,Yukumo Obi,1,candidate,generated-seed,
+as-0011-both,special,both,潜水,Piscine,2,candidate,generated-seed,generated-review-required
+as-0014-both,low,both,锁链,Chainmail,3,candidate,generated-seed,
+as-0019-both,special,both,洛克拉克,Loc Lac,4,candidate,generated-seed,generated-review-required
+as-0022-blade,low,blade,猎人,Hunter's,5,candidate,generated-seed,
+as-0027-gunner,low,gunner,猎人,Hunter's,6,candidate,generated-seed,
+as-0032-blade,low,blade,合金,Alloy,7,candidate,generated-seed,
+as-0037-gunner,low,gunner,合金,Alloy,8,candidate,generated-seed,
+as-0042-blade,low,blade,骨制,Bone,9,candidate,generated-seed,
+as-0047-gunner,low,gunner,骨制,Bone,10,candidate,generated-seed,
+as-0052-blade,low,blade,飞虫,Bnahabra,11,candidate,generated-seed,
+as-0057-gunner,low,gunner,飞虫,Bnahabra,12,candidate,generated-seed,
+as-0062-blade,low,blade,草食龙,Rhenoplos,13,candidate,generated-seed,
+as-0067-gunner,low,gunner,草食龙,Rhenoplos,14,candidate,generated-seed,
+as-0072-blade,low,blade,狗龙,Jaggi,15,candidate,generated-seed,
+as-0077-gunner,low,gunner,狗龙,Jaggi,16,candidate,generated-seed,
+as-0082-blade,low,blade,青熊兽,Arzuros,17,candidate,generated-seed,
+as-0087-gunner,low,gunner,青熊兽,Arzuros,18,candidate,generated-seed,
+as-0092-blade,low,blade,毒狗龙,Wroggi,19,candidate,generated-seed,
+as-0097-gunner,low,gunner,毒狗龙,Wroggi,20,candidate,generated-seed,
+as-0102-blade,low,blade,彩鸟,Qurupeco,21,candidate,generated-seed,
+as-0107-gunner,low,gunner,彩鸟,Qurupeco,22,candidate,generated-seed,
+as-0112-blade,low,blade,水兽,Ludroth,23,candidate,generated-seed,
+as-0117-gunner,low,gunner,水兽,Ludroth,24,candidate,generated-seed,
+as-0122-blade,low,blade,眠狗龙,Baggi,25,candidate,generated-seed,
+as-0127-gunner,low,gunner,眠狗龙,Baggi,26,candidate,generated-seed,
+as-0132-blade,low,blade,白兔兽,Lagombi,27,candidate,generated-seed,
+as-0137-gunner,low,gunner,白兔兽,Lagombi,28,candidate,generated-seed,
+as-0142-blade,low,blade,土砂龙,Barroth,29,candidate,generated-seed,
+as-0147-gunner,low,gunner,土砂龙,Barroth,30,candidate,generated-seed,
+as-0152-blade,low,blade,赤甲兽,Volvidon,31,candidate,generated-seed,
+as-0157-gunner,low,gunner,赤甲兽,Volvidon,32,candidate,generated-seed,generated-review-required
+as-0162-blade,low,blade,灯鱼龙,Gobul,33,candidate,generated-seed,
+as-0167-gunner,low,gunner,灯鱼龙,Gobul,34,candidate,generated-seed,generated-review-required
+as-0172-blade,low,blade,雌火龙,Rathian,35,candidate,generated-seed,
+as-0177-gunner,low,gunner,雌火龙,Rathian,36,candidate,generated-seed,
+as-0182-blade,low,blade,毒怪龙,Gigginox,37,candidate,generated-seed,
+as-0187-gunner,low,gunner,毒怪龙,Gigginox,38,candidate,generated-seed,
+as-0192-blade,low,blade,高合金,Ingot,39,candidate,generated-seed,
+as-0197-gunner,low,gunner,高合金,Ingot,40,candidate,generated-seed,
+as-0202-blade,low,blade,冰牙龙,Barioth,41,candidate,generated-seed,
+as-0207-gunner,low,gunner,冰牙龙,Barioth,42,candidate,generated-seed,
+as-0212-both,special,both,狗龙,Jaggi,43,candidate,generated-seed,generated-review-required
+as-0213-blade,low,blade,潜口龙,Nibelsnarf,44,candidate,generated-seed,
+as-0218-gunner,low,gunner,潜口龙,Nibelsnarf,45,candidate,generated-seed,
+as-0223-blade,low,blade,公会精英,Guild Bard,46,candidate,generated-seed,
+as-0228-gunner,low,gunner,公会精英,Guild Bard,47,candidate,generated-seed,generated-review-required
+as-0243-blade,low,blade,海龙,Lagiacrus,48,candidate,generated-seed,
+as-0248-gunner,low,gunner,海龙,Lagiacrus,49,candidate,generated-seed,
+as-0253-blade,low,blade,雄火龙,Rathalos,50,candidate,generated-seed,
+as-0258-gunner,low,gunner,雄火龙,Rathalos,51,candidate,generated-seed,
+as-0263-blade,low,blade,尾槌龙,Duramboros,52,candidate,generated-seed,
+as-0268-gunner,low,gunner,尾槌龙,Duramboros,53,candidate,generated-seed,
+as-0273-blade,low,blade,角龙,Diablos,54,candidate,generated-seed,
+as-0278-gunner,low,gunner,角龙,Diablos,55,candidate,generated-seed,
+as-0283-blade,low,blade,爆锤龙,Uragaan,56,candidate,generated-seed,
+as-0288-gunner,low,gunner,爆锤龙,Uragaan,57,candidate,generated-seed,
+as-0293-blade,low,blade,炎戈龙,Agnaktor,58,candidate,generated-seed,
+as-0298-gunner,low,gunner,炎戈龙,Agnaktor,59,candidate,generated-seed,
+as-0303-blade,low,blade,月神,Helios,60,candidate,generated-seed,
+as-0308-gunner,low,gunner,月神,Helios,61,candidate,generated-seed,
+as-0323-blade,high,blade,轻皮Ｓ,Leather S,62,candidate,generated-seed,
+as-0328-gunner,high,gunner,轻皮Ｓ,Leather S,63,candidate,generated-seed,
+as-0333-blade,high,blade,结云袴・天,Yukumo Sky Obi,64,candidate,generated-seed,
+as-0338-gunner,high,gunner,结云袴・地,Yukumo Land Obi,65,candidate,generated-seed,
+as-0343-blade,high,blade,锁链Ｓ,Chainmail S,66,candidate,generated-seed,
+as-0348-gunner,high,gunner,锁链Ｓ,Chainmail S,67,candidate,generated-seed,
+as-0353-blade,special,blade,洛克拉克Ｓ,Loc Lac S,68,candidate,generated-seed,generated-review-required
+as-0356-gunner,special,gunner,洛克拉克Ｓ,Loc Lac S,69,candidate,generated-seed,generated-review-required
+as-0359-blade,high,blade,猎人Ｓ,Hunter's S,70,candidate,generated-seed,
+as-0364-gunner,high,gunner,猎人Ｓ,Hunter's S,71,candidate,generated-seed,
+as-0369-blade,special,blade,潜水Ｓ,Piscine S,72,candidate,generated-seed,generated-review-required
+as-0372-gunner,special,gunner,潜水Ｓ,Piscine S,73,candidate,generated-seed,generated-review-required
+as-0375-blade,high,blade,骨制Ｓ,Bone S,74,candidate,generated-seed,
+as-0380-gunner,high,gunner,骨制Ｓ,Bone S,75,candidate,generated-seed,
+as-0385-blade,high,blade,合金Ｓ,Alloy S,76,candidate,generated-seed,
+as-0390-gunner,high,gunner,合金Ｓ,Alloy S,77,candidate,generated-seed,
+as-0395-blade,high,blade,飞虫Ｓ,Bnahabra S,78,candidate,generated-seed,
+as-0400-gunner,high,gunner,飞虫Ｓ,Bnahabra S,79,candidate,generated-seed,generated-review-required
+as-0405-blade,high,blade,草食龙Ｓ,Rhenoplos S,80,candidate,generated-seed,
+as-0410-gunner,high,gunner,草食龙Ｓ,Rhenoplos S,81,candidate,generated-seed,
+as-0415-blade,special,blade,垂皮头罩,Slagtoth Hood,82,candidate,generated-seed,generated-review-required
+as-0417-gunner,special,gunner,垂皮大衣,Slagtoth Cowl,83,candidate,generated-seed,generated-review-required
+as-0419-blade,high,blade,抚子【布冠】,Dianthus,84,candidate,generated-seed,
+as-0424-gunner,high,gunner,桔梗【布冠】,Campanile,85,candidate,generated-seed,
+as-0429-blade,high,blade,狗龙Ｓ,Jaggi S,86,candidate,generated-seed,
+as-0434-gunner,high,gunner,狗龙Ｓ,Jaggi S,87,candidate,generated-seed,
+as-0439-blade,high,blade,青熊兽Ｓ,Arzuros S,88,candidate,generated-seed,
+as-0444-gunner,high,gunner,青熊兽Ｓ,Arzuros S,89,candidate,generated-seed,
+as-0449-blade,high,blade,毒狗龙Ｓ,Wroggi S,90,candidate,generated-seed,
+as-0454-gunner,high,gunner,毒狗龙Ｓ,Wroggi S,91,candidate,generated-seed,
+as-0459-blade,high,blade,眠狗龙Ｓ,Baggi S,92,candidate,generated-seed,
+as-0464-gunner,high,gunner,眠狗龙Ｓ,Baggi S,93,candidate,generated-seed,
+as-0469-blade,high,blade,白兔兽Ｓ,Lagombi S,94,candidate,generated-seed,
+as-0474-gunner,high,gunner,白兔兽Ｓ,Lagombi S,95,candidate,generated-seed,
+as-0479-both,special,both,黑暗之眼,Shadow Shades,96,candidate,generated-seed,generated-review-required
+as-0480-both,special,both,丸鸟,Gargwa,97,candidate,generated-seed,generated-review-required
+as-0481-both,special,both,野猪,Bullfango,98,candidate,generated-seed,generated-review-required
+as-0482-blade,high,blade,彩鸟Ｓ,Qurupeco S,99,candidate,generated-seed,
+as-0487-gunner,high,gunner,彩鸟Ｓ,Qurupeco S,100,candidate,generated-seed,
+as-0492-blade,high,blade,红彩鸟Ｕ,Qurupeco U,101,candidate,generated-seed,
+as-0497-gunner,high,gunner,红彩鸟Ｕ,Qurupeco U,102,candidate,generated-seed,
+as-0502-blade,high,blade,水兽Ｓ,Ludroth S,103,candidate,generated-seed,
+as-0507-gunner,high,gunner,水兽Ｓ,Ludroth S,104,candidate,generated-seed,generated-review-required
+as-0512-blade,high,blade,紫水兽Ｕ,Ludroth U,105,candidate,generated-seed,generated-review-required
+as-0517-gunner,high,gunner,紫水兽Ｕ,Ludroth U,106,candidate,generated-seed,generated-review-required
+as-0522-blade,high,blade,赤甲兽Ｓ,Volvidon S,107,candidate,generated-seed,
+as-0527-gunner,high,gunner,赤甲兽Ｓ,Volvidon S,108,candidate,generated-seed,
+as-0532-blade,high,blade,蝴蝶,Rhopessa,109,candidate,generated-seed,generated-review-required
+as-0537-gunner,high,gunner,蝴蝶,Rhopessa Alae,110,candidate,generated-seed,
+as-0552-blade,special,blade,神秘,Artian,111,candidate,generated-seed,generated-review-required
+as-0555-gunner,special,gunner,神秘,Artian,112,candidate,generated-seed,generated-review-required
+as-0558-blade,high,blade,土砂龙Ｓ,Barroth S,113,candidate,generated-seed,
+as-0563-gunner,high,gunner,土砂龙Ｓ,Barroth S,114,candidate,generated-seed,
+as-0568-blade,high,blade,冰碎龙Ｕ,Barroth U,115,candidate,generated-seed,
+as-0573-gunner,high,gunner,冰碎龙Ｕ,Barroth U,116,candidate,generated-seed,
+as-0578-blade,high,blade,灯鱼龙Ｓ,Gobul S,117,candidate,generated-seed,
+as-0583-gunner,high,gunner,灯鱼龙Ｓ,Gobul S,118,candidate,generated-seed,
+as-0588-blade,high,blade,南瓜,Mosgharl Folia,119,candidate,generated-seed,
+as-0593-gunner,high,gunner,南瓜,Mosgharl Brim,120,candidate,generated-seed,
+as-0598-blade,high,blade,公会精英Ｓ,Guild Bard S,121,candidate,generated-seed,
+as-0603-gunner,high,gunner,公会精英Ｓ,Guild Bard S,122,candidate,generated-seed,
+as-0618-blade,high,blade,高合金Ｓ,Ingot S,123,candidate,generated-seed,
+as-0623-gunner,high,gunner,高合金Ｓ,Ingot S,124,candidate,generated-seed,
+as-0628-blade,high,blade,雌火龙Ｓ,Rathian S,125,candidate,generated-seed,
+as-0633-gunner,high,gunner,雌火龙Ｓ,Rathian S,126,candidate,generated-seed,
+as-0638-blade,high,blade,樱火龙,Rath Heart,127,candidate,generated-seed,generated-review-required
+as-0643-gunner,high,gunner,樱火龙,Rath Heart,128,candidate,generated-seed,generated-review-required
+as-0648-blade,high,blade,毒怪龙Ｓ,Gigginox S,129,candidate,generated-seed,generated-review-required
+as-0653-gunner,high,gunner,毒怪龙Ｓ,Gigginox S,130,candidate,generated-seed,generated-review-required
+as-0658-blade,high,blade,电怪龙Ｕ,Gigginox U,131,candidate,generated-seed,generated-review-required
+as-0663-gunner,high,gunner,电怪龙Ｕ,Gigginox U,132,candidate,generated-seed,generated-review-required
+as-0668-blade,special,blade,水龙,Plesioth,133,candidate,generated-seed,generated-review-required
+as-0672-gunner,special,gunner,水龙,Plesioth,134,candidate,generated-seed,generated-review-required
+as-0676-blade,high,blade,冰牙龙Ｓ,Barioth S,135,candidate,generated-seed,
+as-0681-gunner,high,gunner,冰牙龙Ｓ,Barioth S,136,candidate,generated-seed,
+as-0686-blade,high,blade,风牙龙Ｕ,Barioth U,137,candidate,generated-seed,
+as-0691-gunner,high,gunner,风牙龙Ｕ,Barioth U,138,candidate,generated-seed,
+as-0696-blade,high,blade,潜口龙Ｓ,Nibelsnarf S,139,candidate,generated-seed,
+as-0701-gunner,high,gunner,潜口龙Ｓ,Nibelsnarf S,140,candidate,generated-seed,
+as-0706-blade,high,blade,迅龙,Nargacuga,141,candidate,generated-seed,generated-review-required
+as-0711-gunner,high,gunner,迅龙,Nargacuga,142,candidate,generated-seed,
+as-0716-blade,high,blade,海龙Ｓ,Lagiacrus S,143,candidate,generated-seed,
+as-0721-gunner,high,gunner,海龙Ｓ,Lagiacrus S,144,candidate,generated-seed,
+as-0726-blade,high,blade,白海龙Ｕ,Lagiacrus U,145,candidate,generated-seed,
+as-0731-gunner,high,gunner,白海龙Ｕ,Lagiacrus U,146,candidate,generated-seed,
+as-0736-blade,high,blade,雄火龙Ｓ,Rathalos S,147,candidate,generated-seed,
+as-0741-gunner,high,gunner,雄火龙Ｓ,Rathalos S,148,candidate,generated-seed,
+as-0746-blade,high,blade,苍火龙,Rath Soul,149,candidate,generated-seed,
+as-0751-gunner,high,gunner,苍火龙,Rath Soul,150,candidate,generated-seed,
+as-0756-blade,high,blade,雷狼龙,Zinogre,151,candidate,generated-seed,
+as-0761-gunner,high,gunner,雷狼龙,Zinogre,152,candidate,generated-seed,
+as-0766-blade,high,blade,碎龙,Brachydios,153,candidate,generated-seed,
+as-0771-gunner,high,gunner,碎龙,Brachydios,154,candidate,generated-seed,
+as-0776-blade,high,blade,尾槌龙Ｓ,Duramboros S,155,candidate,generated-seed,
+as-0781-gunner,high,gunner,尾槌龙Ｓ,Duramboros S,156,candidate,generated-seed,
+as-0786-blade,high,blade,城塞游击队【刃笠】,Ranger's,157,candidate,generated-seed,
+as-0791-gunner,high,gunner,城塞弓击队【弹带】,Archer's,158,candidate,generated-seed,
+as-0796-blade,high,blade,远古龙,Dober,159,candidate,generated-seed,
+as-0801-gunner,high,gunner,远古龙,Dober,160,candidate,generated-seed,
+as-0806-blade,high,blade,角龙Ｓ,Diablos S,161,candidate,generated-seed,
+as-0811-gunner,high,gunner,角龙Ｓ,Diablos S,162,candidate,generated-seed,
+as-0816-blade,high,blade,黑角龙Ｕ,Diablos U,163,candidate,generated-seed,
+as-0821-gunner,high,gunner,黑角龙Ｕ,Diablos U,164,candidate,generated-seed,
+as-0826-blade,high,blade,炎戈龙Ｓ,Agnaktor S,165,candidate,generated-seed,
+as-0831-gunner,high,gunner,炎戈龙Ｓ,Agnaktor S,166,candidate,generated-seed,generated-review-required
+as-0836-blade,high,blade,冻戈龙Ｕ,Agnaktor U,167,candidate,generated-seed,
+as-0841-gunner,high,gunner,冻戈龙Ｕ,Agnaktor U,168,candidate,generated-seed,generated-review-required
+as-0846-blade,high,blade,爆锤龙Ｓ,Uragaan S,169,candidate,generated-seed,
+as-0851-gunner,high,gunner,爆锤龙Ｓ,Uragaan S,170,candidate,generated-seed,
+as-0856-blade,high,blade,钢锤龙Ｕ,Uragaan U,171,candidate,generated-seed,
+as-0861-gunner,high,gunner,钢锤龙Ｕ,Uragaan U,172,candidate,generated-seed,
+as-0866-blade,high,blade,大马士革,Damascus,173,candidate,generated-seed,
+as-0871-gunner,high,gunner,大马士革,Damascus,174,candidate,generated-seed,
+as-0876-blade,high,blade,大和【兜】,Hyuga Kote,175,candidate,generated-seed,
+as-0881-gunner,high,gunner,天城【袴】,Amagi Kote,176,candidate,generated-seed,
+as-0896-blade,high,blade,恐暴龙,Vangis,177,candidate,generated-seed,
+as-0901-gunner,high,gunner,恐暴龙,Vangis,178,candidate,generated-seed,
+as-0906-blade,high,blade,煌黑龙之,Escadora Arms,179,candidate,generated-seed,
+as-0911-gunner,high,gunner,煌黑龙之,Escadora Arma,180,candidate,generated-seed,
+as-0916-blade,high,blade,大海贼Ｊ,[JP] Buccaneer Hat J,181,candidate,generated-seed,
+as-0921-gunner,high,gunner,大海贼Ｊ,[JP] Buccaneer Cuffs J,182,candidate,generated-seed,generated-review-required
+as-0926-blade,special,blade,怪物猎人部,[JP] MH Club,183,candidate,generated-seed,generated-review-required
+as-0927-gunner,special,gunner,怪物猎人部运动衫,[JP] MH Club Jersey,184,candidate,generated-seed,generated-review-required
+as-0928-blade,special,blade,武装战线,[JP] Biker,185,candidate,generated-seed,generated-review-required
+as-0929-gunner,special,gunner,武装战线,[JP] Biker Leather,186,candidate,generated-seed,generated-review-required
+as-0930-blade,special,blade,狩猎战线,HellHunter,187,candidate,generated-seed,generated-review-required
+as-0931-gunner,special,gunner,狩猎战线,HellHunter Leather,188,candidate,generated-seed,generated-review-required
+as-0932-blade,special,blade,漆黑轻皮,Black Leather Chaps,189,candidate,generated-seed,generated-review-required
+as-0933-gunner,special,gunner,漆黑轻皮具足内,Black Leather,190,candidate,generated-seed,generated-review-required
+as-0934-blade,special,blade,坊屋,[JP] Booyah,191,candidate,generated-seed,generated-review-required
+as-0937-gunner,special,gunner,坊屋,[JP] Booyah Denim,192,candidate,generated-seed,generated-review-required
+as-0940-blade,special,blade,骷髅之脸,Skull,193,candidate,generated-seed,generated-review-required
+as-0941-gunner,special,gunner,骷髅头,Skull Visage,194,candidate,generated-seed,generated-review-required
+as-0942-blade,g,blade,飞虫Ｘ,Bnahabra X,195,candidate,generated-seed,
+as-0947-gunner,g,gunner,飞虫Ｘ,Bnahabra X,196,candidate,generated-seed,
+as-0952-blade,g,blade,草食龙Ｘ,Rhenoplos X,197,candidate,generated-seed,generated-review-required
+as-0957-gunner,g,gunner,草食龙Ｘ,Rhenoplos X,198,candidate,generated-seed,generated-review-required
+as-0962-blade,special,blade,垂皮头罩Ｘ,Slagtoth Hood X,199,candidate,generated-seed,generated-review-required
+as-0964-gunner,special,gunner,垂皮大衣Ｘ,Slagtoth Cowl X,200,candidate,generated-seed,generated-review-required
+as-0966-both,g,both,三眼,Chakra,201,candidate,generated-seed,
+as-1650-both,special,both,剑圣,Sword Saint,202,candidate,generated-seed,standalone-piece-sharing-model;generated-review-required
+as-1651-both,special,both,增弹,Barrage,203,candidate,generated-seed,standalone-piece-sharing-model;generated-review-required
+as-0971-blade,g,blade,南瓜Ｘ,Mosgharl Folia X,204,candidate,generated-seed,
+as-0976-gunner,g,gunner,南瓜Ｘ,Mosgharl Brim X,205,candidate,generated-seed,
+as-0981-blade,g,blade,狗龙Ｘ,Jaggi X,206,candidate,generated-seed,
+as-0986-gunner,g,gunner,狗龙Ｘ,Jaggi X,207,candidate,generated-seed,
+as-0991-blade,g,blade,眠狗龙Ｘ,Baggi X,208,candidate,generated-seed,
+as-0996-gunner,g,gunner,眠狗龙Ｘ,Baggi X,209,candidate,generated-seed,
+as-1001-blade,g,blade,毒狗龙Ｘ,Wroggi X,210,candidate,generated-seed,
+as-1006-gunner,g,gunner,毒狗龙Ｘ,Wroggi X,211,candidate,generated-seed,
+as-1011-blade,g,blade,青熊兽Ｘ,Arzuros X,212,candidate,generated-seed,
+as-1016-gunner,g,gunner,青熊兽Ｘ,Arzuros X,213,candidate,generated-seed,
+as-1021-blade,g,blade,白兔兽Ｘ,Lagombi X,214,candidate,generated-seed,
+as-1026-gunner,g,gunner,白兔兽Ｘ,Lagombi X,215,candidate,generated-seed,generated-review-required
+as-1031-blade,g,blade,赤甲兽Ｘ,Volvidon X,216,candidate,generated-seed,
+as-1036-gunner,g,gunner,赤甲兽Ｘ,Volvidon X,217,candidate,generated-seed,
+as-1041-blade,g,blade,高合金Ｘ,Ingot X,218,candidate,generated-seed,
+as-1046-gunner,g,gunner,高合金Ｘ,Ingot X,219,candidate,generated-seed,
+as-1051-blade,g,blade,抚子・华【布冠】,Dianthus Wealcap,220,candidate,generated-seed,generated-review-required
+as-1056-gunner,g,gunner,桔梗・华【布冠】,Campanile Wealcap,221,candidate,generated-seed,
+as-1061-blade,g,blade,水手,Sailor,222,candidate,generated-seed,
+as-1066-gunner,g,gunner,水手,Sailor,223,candidate,generated-seed,
+as-1071-blade,g,blade,彩鸟Ｘ,Qurupeco X,224,candidate,generated-seed,
+as-1076-gunner,g,gunner,彩鸟Ｘ,Qurupeco X,225,candidate,generated-seed,
+as-1081-blade,g,blade,红彩鸟Ｚ,Qurupeco Z,226,candidate,generated-seed,
+as-1086-gunner,g,gunner,红彩鸟Ｚ,Qurupeco Z,227,candidate,generated-seed,
+as-1091-blade,g,blade,水兽Ｘ,Ludroth X,228,candidate,generated-seed,
+as-1096-gunner,g,gunner,水兽Ｘ,Ludroth X,229,candidate,generated-seed,
+as-1101-blade,g,blade,紫水兽Ｚ,Ludroth Z,230,candidate,generated-seed,
+as-1106-gunner,g,gunner,紫水兽Ｚ,Ludroth Z,231,candidate,generated-seed,
+as-1111-blade,special,blade,神秘Ｘ,Artian X,232,candidate,generated-seed,generated-review-required
+as-1114-gunner,special,gunner,神秘Ｘ,Artian X,233,candidate,generated-seed,generated-review-required
+as-1117-blade,special,blade,水龙Ｘ,Plesioth X,234,candidate,generated-seed,generated-review-required
+as-1121-gunner,special,gunner,水龙Ｘ,Plesioth X,235,candidate,generated-seed,generated-review-required
+as-1125-blade,special,blade,翠水龙Ｚ,Plesioth Z,236,candidate,generated-seed,generated-review-required
+as-1129-gunner,special,gunner,翠水龙Ｚ,Plesioth Z,237,candidate,generated-seed,generated-review-required
+as-1133-blade,g,blade,雌火龙Ｘ,Rathian X,238,candidate,generated-seed,
+as-1138-gunner,g,gunner,雌火龙Ｘ,Rathian X,239,candidate,generated-seed,
+as-1143-blade,g,blade,樱火龙Ｚ,Rath Heart Z,240,candidate,generated-seed,
+as-1148-gunner,g,gunner,樱火龙Ｚ,Rath Heart Z,241,candidate,generated-seed,
+as-1153-blade,g,blade,公会精英Ｘ,Guild Bard X,242,candidate,generated-seed,
+as-1158-gunner,g,gunner,公会精英Ｘ,Guild Bard X,243,candidate,generated-seed,
+as-1173-blade,g,blade,城塞特攻队【刃笠】,Strider's,244,candidate,generated-seed,
+as-1178-gunner,g,gunner,城塞隐秘队【弹带】,Deadeye's,245,candidate,generated-seed,generated-review-required
+as-1183-blade,g,blade,冰牙龙Ｘ,Barioth X,246,candidate,generated-seed,
+as-1188-gunner,g,gunner,冰牙龙Ｘ,Barioth X,247,candidate,generated-seed,
+as-1193-blade,g,blade,风牙龙Ｚ,Barioth Z,248,candidate,generated-seed,
+as-1198-gunner,g,gunner,风牙龙Ｚ,Barioth Z,249,candidate,generated-seed,
+as-1203-blade,g,blade,土砂龙Ｘ,Barroth X,250,candidate,generated-seed,
+as-1208-gunner,g,gunner,土砂龙Ｘ,Barroth X,251,candidate,generated-seed,
+as-1213-blade,g,blade,冰碎龙Ｚ,Barroth Z,252,candidate,generated-seed,
+as-1218-gunner,g,gunner,冰碎龙Ｚ,Barroth Z,253,candidate,generated-seed,
+as-1223-blade,g,blade,灯鱼龙Ｘ,Gobul X,254,candidate,generated-seed,
+as-1228-gunner,g,gunner,灯鱼龙Ｘ,Gobul X,255,candidate,generated-seed,
+as-1233-blade,g,blade,毒怪龙Ｘ,Gigginox X,256,candidate,generated-seed,
+as-1238-gunner,g,gunner,毒怪龙Ｘ,Gigginox X,257,candidate,generated-seed,
+as-1243-blade,g,blade,电怪龙Ｚ,Gigginox Z,258,candidate,generated-seed,
+as-1248-gunner,g,gunner,电怪龙Ｚ,Gigginox Z,259,candidate,generated-seed,
+as-1253-blade,g,blade,潜口龙Ｘ,Nibelsnarf X,260,candidate,generated-seed,
+as-1258-gunner,g,gunner,潜口龙Ｘ,Nibelsnarf X,261,candidate,generated-seed,
+as-1263-blade,g,blade,尾槌龙Ｘ,Duramboros X,262,candidate,generated-seed,
+as-1268-gunner,g,gunner,尾槌龙Ｘ,Duramboros X,263,candidate,generated-seed,
+as-1273-blade,g,blade,尾斧龙Ｚ,Duramboros Z,264,candidate,generated-seed,
+as-1278-gunner,g,gunner,尾斧龙Ｚ,Duramboros Z,265,candidate,generated-seed,
+as-1283-blade,g,blade,迅龙Ｘ,Nargacuga X,266,candidate,generated-seed,
+as-1288-gunner,g,gunner,迅龙Ｘ,Nargacuga X,267,candidate,generated-seed,
+as-1293-blade,g,blade,绿迅龙Ｚ,Nargacuga Z,268,candidate,generated-seed,
+as-1298-gunner,g,gunner,绿迅龙Ｚ,Nargacuga Z,269,candidate,generated-seed,
+as-1303-blade,g,blade,月神Ｘ,Helios X,270,candidate,generated-seed,
+as-1308-gunner,g,gunner,月神Ｘ,Helios X,271,candidate,generated-seed,
+as-1323-blade,g,blade,月神Ｚ,Helios Z,272,candidate,generated-seed,
+as-1328-gunner,g,gunner,月神Ｚ,Helios Z,273,candidate,generated-seed,
+as-1343-blade,g,blade,蝴蝶Ｘ,Rhopessa X,274,candidate,generated-seed,
+as-1348-gunner,g,gunner,蝴蝶Ｘ,Rhopessa Alae X,275,candidate,generated-seed,
+as-1363-blade,g,blade,雄火龙Ｘ,Rathalos X,276,candidate,generated-seed,generated-review-required
+as-1368-gunner,g,gunner,雄火龙Ｘ,Rathalos X,277,candidate,generated-seed,generated-review-required
+as-1373-blade,g,blade,苍火龙Ｚ,Rath Soul Z,278,candidate,generated-seed,
+as-1378-gunner,g,gunner,苍火龙Ｚ,Rath Soul Z,279,candidate,generated-seed,
+as-1383-blade,g,blade,角龙Ｘ,Diablos X,280,candidate,generated-seed,
+as-1388-gunner,g,gunner,角龙Ｘ,Diablos X,281,candidate,generated-seed,
+as-1393-blade,g,blade,黑角龙Ｚ,Diablos Z,282,candidate,generated-seed,generated-review-required
+as-1398-gunner,g,gunner,黑角龙Ｚ,Diablos Z,283,candidate,generated-seed,
+as-1403-blade,g,blade,炎戈龙Ｘ,Agnaktor X,284,candidate,generated-seed,
+as-1408-gunner,g,gunner,炎戈龙Ｘ,Agnaktor X,285,candidate,generated-seed,
+as-1413-blade,g,blade,冻戈龙Ｚ,Agnaktor Z,286,candidate,generated-seed,
+as-1418-gunner,g,gunner,冻戈龙Ｚ,Agnaktor Z,287,candidate,generated-seed,
+as-1423-blade,g,blade,碎龙Ｘ,Brachydios X,288,candidate,generated-seed,
+as-1428-gunner,g,gunner,碎龙Ｘ,Brachydios X,289,candidate,generated-seed,
+as-1433-blade,g,blade,海龙Ｘ,Lagiacrus X,290,candidate,generated-seed,
+as-1438-gunner,g,gunner,海龙Ｘ,Lagiacrus X,291,candidate,generated-seed,
+as-1443-blade,g,blade,白海龙Ｚ,Lagiacrus Z,292,candidate,generated-seed,
+as-1448-gunner,g,gunner,白海龙Ｚ,Lagiacrus Z,293,candidate,generated-seed,
+as-1453-blade,g,blade,爆锤龙Ｘ,Uragaan X,294,candidate,generated-seed,
+as-1458-gunner,g,gunner,爆锤龙Ｘ,Uragaan X,295,candidate,generated-seed,
+as-1463-blade,g,blade,钢锤龙Ｚ,Uragaan Z,296,candidate,generated-seed,
+as-1468-gunner,g,gunner,钢锤龙Ｚ,Uragaan Z,297,candidate,generated-seed,
+as-1473-blade,g,blade,雷狼龙Ｘ,Zinogre X,298,candidate,generated-seed,
+as-1478-gunner,g,gunner,雷狼龙Ｘ,Zinogre X,299,candidate,generated-seed,
+as-1483-blade,g,blade,狱狼龙Ｚ,Zinogre Z,300,candidate,generated-seed,
+as-1488-gunner,g,gunner,狱狼龙Ｚ,Zinogre Z,301,candidate,generated-seed,
+as-1493-blade,g,blade,远古龙Ｘ,Dober X,302,candidate,generated-seed,
+as-1498-gunner,g,gunner,远古龙Ｘ,Dober X,303,candidate,generated-seed,
+as-1503-blade,g,blade,大马士革Ｘ,Damascus X,304,candidate,generated-seed,
+as-1508-gunner,g,gunner,大马士革Ｘ,Damascus X,305,candidate,generated-seed,
+as-1513-blade,g,blade,恐暴龙Ｘ,Vangis X,306,candidate,generated-seed,
+as-1518-gunner,g,gunner,恐暴龙Ｘ,Vangis X,307,candidate,generated-seed,
+as-1523-blade,g,blade,月光【带】,Lambent Sash,308,candidate,generated-seed,
+as-1528-gunner,g,gunner,白影【带】,Silhouette Sash,309,candidate,generated-seed,
+as-1533-blade,g,blade,银火龙,Silver Solcoil,310,candidate,generated-seed,
+as-1538-gunner,g,gunner,银火龙,Silver Solcap,311,candidate,generated-seed,
+as-1543-blade,g,blade,金火龙,Golden Lunecoil,312,candidate,generated-seed,
+as-1548-gunner,g,gunner,金火龙,Golden Lunecap,313,candidate,generated-seed,
+as-1553-blade,g,blade,大和・真【兜】,Grand Hyuga Kote,314,candidate,generated-seed,
+as-1558-gunner,g,gunner,天城・真【袴】,Grand Amagi Kote,315,candidate,generated-seed,
+as-1573-blade,g,blade,大和・极【兜】,Hyuga Kote Prime,316,candidate,generated-seed,
+as-1578-gunner,g,gunner,天城・极【袴】,Amagi Kote Prime,317,candidate,generated-seed,
+as-1593-blade,g,blade,冥海龙,Nether,318,candidate,generated-seed,
+as-1598-gunner,g,gunner,冥海龙,Nether,319,candidate,generated-seed,
+as-1603-blade,g,blade,炼黑龙之,Miralis Barbs,320,candidate,generated-seed,
+as-1608-gunner,g,gunner,炼黑龙之,Miralis,321,candidate,generated-seed,
+as-1613-blade,g,blade,煌黑龙之腕Ｘ,Escadora Arms X,322,candidate,generated-seed,
+as-1618-gunner,g,gunner,煌黑龙之Ｘ,Escadora Arma X,323,candidate,generated-seed,
+as-1623-both,special,both,Giroro,[JP] Corp. Giroro,324,candidate,generated-seed,generated-review-required
+as-1624-blade,g,blade,船长Ｊ,[JP] Captain Hat J,325,candidate,generated-seed,generated-review-required
+as-1629-gunner,g,gunner,船长Ｊ,[JP] Captain Vest J,326,candidate,generated-seed,generated-review-required
+as-1634-blade,g,blade,蓝星,[JP] Blue Star,327,candidate,generated-seed,generated-review-required
+as-1639-gunner,g,gunner,蓝星,[JP] Blue Star,328,candidate,generated-seed,generated-review-required
+as-1644-blade,special,blade,训练兵团,[JP] Training Corps,329,candidate,generated-seed,generated-review-required
+as-1647-gunner,special,gunner,训练兵团,[JP] Training Corps,330,candidate,generated-seed,generated-review-required

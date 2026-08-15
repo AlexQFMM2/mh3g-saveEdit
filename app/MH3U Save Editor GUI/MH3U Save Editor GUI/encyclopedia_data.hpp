@@ -111,6 +111,10 @@ struct EncyclopediaArmor
     int resistances[5] = {0, 0, 0, 0, 0};
     bool writable = false;
     QString mappingSource;
+    int maleModelId = -1;
+    int femaleModelId = -1;
+    QString modelMappingStatus;
+    QString modelMappingSource;
 };
 
 struct EncyclopediaArmorSet
@@ -118,7 +122,6 @@ struct EncyclopediaArmorSet
     QString setId;
     QString rank;
     QString combat;
-    int modelId = -1;
     QString name;
     QString english;
     int displayOrder = 0;
@@ -128,8 +131,21 @@ struct EncyclopediaArmorSet
 
 struct EncyclopediaArmorModel
 {
+    int modelId = -1;
     QString modelKey;
     QString arcRelativePath;
+    QString mappingStatus;
+    QString mappingSource;
+    bool available() const { return modelId >= 0 && !modelKey.isEmpty() && !arcRelativePath.isEmpty(); }
+};
+
+struct EncyclopediaCharacterModel
+{
+    QString modelKey;
+    QString arcRelativePath;
+    QString gender;
+    QString kind;
+    int variant = -1;
 };
 
 class EncyclopediaRepository
@@ -162,7 +178,9 @@ public:
     EncyclopediaArmor armor(int dexId) const;
     QVector<EncyclopediaMaterial> armorMaterials(int armorDexId) const;
     QVector<EncyclopediaArmorSkill> armorSkills(int armorDexId) const;
-    EncyclopediaArmorModel armorModel(int modelId, const QString &gender, const QString &part) const;
+    EncyclopediaArmorModel armorModel(int armorDexId, const QString &gender) const;
+    EncyclopediaArmorModel baseArmorModel(const QString &gender, const QString &part) const;
+    EncyclopediaCharacterModel characterModel(const QString &gender, const QString &kind, int variant) const;
 
 private:
     QString locateDatabase() const;
@@ -191,6 +209,7 @@ private:
     QMap<int, QVector<EncyclopediaArmorSkill> > m_armorSkills;
     QMap<int, QVector<int> > m_armorItemUses;
     QMap<QString, EncyclopediaArmorModel> m_armorModels;
+    QMap<QString, EncyclopediaCharacterModel> m_characterModels;
 };
 
 #endif

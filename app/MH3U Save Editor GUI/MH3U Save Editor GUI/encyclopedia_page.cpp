@@ -132,7 +132,8 @@ void WeaponTreeView::wheelEvent(QWheelEvent *event)
 
 EncyclopediaPage::EncyclopediaPage(SaveActionBridge *bridge, QWidget *parent)
     : QWidget(parent), m_bridge(bridge), m_historyIndex(-1), m_internalSelection(false),
-      m_currentWeapon(-1), m_currentItem(-1), m_currentArmor(-1)
+      m_currentWeapon(-1), m_currentItem(-1), m_currentArmor(-1),
+      m_characterFace(0), m_characterHair(0)
 {
     setObjectName("encyclopediaPage");
     QHBoxLayout *root = new QHBoxLayout(this);
@@ -253,7 +254,17 @@ EncyclopediaPage::EncyclopediaPage(SaveActionBridge *bridge, QWidget *parent)
     m_addSetButton = new QPushButton(QString::fromUtf8("加入整套"), detailBody);
     m_addSetButton->setObjectName("primaryButton");
     m_addSetButton->hide();
+    m_tryOnSetButton = new QPushButton(QString::fromUtf8("试穿整套"), detailBody);
+    m_resetPreviewButton = new QPushButton(QString::fromUtf8("恢复基础装"), detailBody);
+    m_tryOnSetButton->setToolTip(QString::fromUtf8("只改变右侧预览，不修改存档。"));
+    m_resetPreviewButton->setToolTip(QString::fromUtf8("清空五个试穿部位，只保留基础人物、脸型和发型。"));
+    QHBoxLayout *previewActions = new QHBoxLayout;
+    previewActions->addWidget(m_tryOnSetButton);
+    previewActions->addWidget(m_resetPreviewButton);
+    m_tryOnSetButton->hide();
+    m_resetPreviewButton->hide();
     detailLayout->addWidget(m_modelViewer);
+    detailLayout->addLayout(previewActions);
     detailLayout->addWidget(m_detailTitle);
     detailLayout->addWidget(m_detailSubtitle);
     detailLayout->addWidget(m_properties);
@@ -282,6 +293,8 @@ EncyclopediaPage::EncyclopediaPage(SaveActionBridge *bridge, QWidget *parent)
     connect(fit, SIGNAL(clicked()), this, SLOT(fitTree()));
     connect(m_addButton, SIGNAL(clicked()), this, SLOT(addCurrent()));
     connect(m_addSetButton, SIGNAL(clicked()), this, SLOT(addCurrentArmorSet()));
+    connect(m_tryOnSetButton, SIGNAL(clicked()), this, SLOT(tryOnCurrentArmorSet()));
+    connect(m_resetPreviewButton, SIGNAL(clicked()), this, SLOT(resetFittingRoom()));
     connect(m_category, SIGNAL(currentIndexChanged(int)), this, SLOT(categoryChanged(int)));
     connect(m_armorCombat, SIGNAL(currentIndexChanged(int)), this, SLOT(armorFiltersChanged()));
     connect(m_armorGender, SIGNAL(currentIndexChanged(int)), this, SLOT(armorFiltersChanged()));
@@ -314,9 +327,30 @@ bool EncyclopediaPage::available() const { return m_repository.available(); }
 QString EncyclopediaPage::error() const { return m_repository.error(); }
 void EncyclopediaPage::updateSaveState()
 {
-    if (m_bridge && m_bridge->hasOpenSave() && m_currentArmor < 0)
-        m_armorGender->setCurrentIndex(m_bridge->characterGender() == 1 ? 1 : 0);
     refreshAddButton();
+}
+
+void EncyclopediaPage::setCharacterAppearance(int gender, int face, int hair)
+{
+    const QString oldGender = selectedArmorGender();
+    const QString newGender = gender == 1 ? "female" : "male";
+    m_characterFace = qBound(0, face, 10);
+    m_characterHair = qBound(0, hair, 13);
+    if (oldGender != newGender)
+    {
+        m_armorGender->blockSignals(true);
+        m_armorGender->setCurrentIndex(newGender == "female" ? 1 : 0);
+        m_armorGender->blockSignals(false);
+        for (auto it = m_previewArmorByPart.begin(); it != m_previewArmorByPart.end(); )
+        {
+            const EncyclopediaArmor armor = m_repository.armor(it.value());
+            const EncyclopediaArmorModel model = m_repository.armorModel(it.value(), newGender);
+            if (armor.gender != "both" || !model.available()) it = m_previewArmorByPart.erase(it);
+            else ++it;
+        }
+        if (m_category->currentData().toString() == "armor") rebuildArmorList();
+    }
+    rebuildCharacterPreview();
 }
 
 void EncyclopediaPage::typeChanged(int)
@@ -335,6 +369,8 @@ void EncyclopediaPage::categoryChanged(int)
     m_armorCombat->setVisible(armorMode);
     m_armorGender->setVisible(armorMode);
     m_addSetButton->setVisible(armorMode);
+    m_tryOnSetButton->setVisible(armorMode);
+    m_resetPreviewButton->setVisible(armorMode);
     m_types->blockSignals(true);
     m_types->clear();
     if (armorMode)
@@ -363,6 +399,7 @@ void EncyclopediaPage::categoryChanged(int)
     }
     m_types->blockSignals(false);
     m_types->setCurrentRow(0);
+    if (armorMode) rebuildCharacterPreview();
     refreshAddButton();
 }
 
@@ -473,7 +510,19 @@ void EncyclopediaPage::filtersChanged()
     else applyFilters();
 }
 
-void EncyclopediaPage::armorFiltersChanged() { rebuildArmorList(); }
+void EncyclopediaPage::armorFiltersChanged()
+{
+    const QString gender = selectedArmorGender();
+    for (auto it = m_previewArmorByPart.begin(); it != m_previewArmorByPart.end(); )
+    {
+        const EncyclopediaArmor armor = m_repository.armor(it.value());
+        const EncyclopediaArmorModel model = m_repository.armorModel(it.value(), gender);
+        if (!armorSupportsGender(armor, gender) || !model.available()) it = m_previewArmorByPart.erase(it);
+        else ++it;
+    }
+    rebuildArmorList();
+    rebuildCharacterPreview();
+}
 
 void EncyclopediaPage::applyFilters()
 {
@@ -499,6 +548,95 @@ void EncyclopediaPage::applyFilters()
 QString EncyclopediaPage::selectedArmorGender() const
 {
     return m_armorGender->currentData().toString();
+}
+
+bool EncyclopediaPage::armorSupportsGender(const EncyclopediaArmor &armor, const QString &gender) const
+{
+    return armor.dexId > 0 && (armor.gender == "both" || armor.gender == gender);
+}
+
+bool EncyclopediaPage::tryOnArmor(int dexId)
+{
+    const EncyclopediaArmor armor = m_repository.armor(dexId);
+    const QString gender = selectedArmorGender();
+    if (!armorSupportsGender(armor, gender)) return false;
+    const EncyclopediaArmorModel model = m_repository.armorModel(dexId, gender);
+    if (!model.available() || model.mappingStatus == "unmapped")
+    {
+        m_modelViewer->showModelMessage(QString::fromUtf8("模型映射待确认\n该防具不会替换当前试穿部位"));
+        return false;
+    }
+    m_previewArmorByPart[armor.part] = dexId;
+    rebuildCharacterPreview();
+    return true;
+}
+
+void EncyclopediaPage::rebuildCharacterPreview()
+{
+    if (!m_repository.available() || m_category->currentData().toString() != "armor") return;
+    const QString gender = selectedArmorGender();
+    static const QStringList parts = QStringList() << "head" << "chest" << "arms" << "waist" << "legs";
+    QVector<Mh3gModelReference> components;
+    QStringList keyParts;
+    keyParts << gender << QString("face%1").arg(m_characterFace) << QString("hair%1").arg(m_characterHair);
+    for (const QString &part : parts)
+    {
+        EncyclopediaArmorModel model;
+        const int dexId = m_previewArmorByPart.value(part, 0);
+        if (dexId > 0) model = m_repository.armorModel(dexId, gender);
+        else model = m_repository.baseArmorModel(gender, part);
+        if (!model.available())
+        {
+            m_modelViewer->showModelMessage(QString::fromUtf8("人物组件缺失：%1\n请检查 Resources v3 与图鉴数据库。")
+                .arg(part), true);
+            return;
+        }
+        Mh3gModelReference reference;
+        reference.modelKey = model.modelKey;
+        reference.arcRelativePath = model.arcRelativePath;
+        components.append(reference);
+        keyParts << QString("%1=%2").arg(part).arg(dexId > 0 ? dexId : 0);
+    }
+    const EncyclopediaCharacterModel face = m_repository.characterModel(gender, "face", m_characterFace);
+    const EncyclopediaCharacterModel hair = m_repository.characterModel(gender, "hair", m_characterHair);
+    if (face.modelKey.isEmpty() || hair.modelKey.isEmpty())
+    {
+        m_modelViewer->showModelMessage(QString::fromUtf8("脸型或发型资源映射缺失。"), true);
+        return;
+    }
+    Mh3gModelReference faceRef; faceRef.modelKey = face.modelKey; faceRef.arcRelativePath = face.arcRelativePath;
+    Mh3gModelReference hairRef; hairRef.modelKey = hair.modelKey; hairRef.arcRelativePath = hair.arcRelativePath;
+    components.append(faceRef); components.append(hairRef);
+    m_modelViewer->setCharacterModel("character|" + keyParts.join("|"), components);
+}
+
+void EncyclopediaPage::resetFittingRoom()
+{
+    m_previewArmorByPart.clear();
+    rebuildCharacterPreview();
+}
+
+void EncyclopediaPage::tryOnCurrentArmorSet()
+{
+    const EncyclopediaArmorSet set = m_repository.armorSet(m_currentArmorSet);
+    const QVector<int> members = visibleArmorMembers(set);
+    if (members.isEmpty()) return;
+    const QString gender = selectedArmorGender();
+    QMap<QString, int> replacement;
+    for (int dexId : members)
+    {
+        const EncyclopediaArmor armor = m_repository.armor(dexId);
+        const EncyclopediaArmorModel model = m_repository.armorModel(dexId, gender);
+        if (!armorSupportsGender(armor, gender) || !model.available() || model.mappingStatus == "unmapped")
+        {
+            QMessageBox::warning(this, QString::fromUtf8("无法试穿整套"),
+                QString::fromUtf8("%1 的模型映射尚未确认，预览保持不变。") .arg(armor.name));
+            return;
+        }
+        replacement[armor.part] = dexId;
+    }
+    m_previewArmorByPart = replacement;
+    rebuildCharacterPreview();
 }
 
 QVector<int> EncyclopediaPage::visibleArmorMembers(const EncyclopediaArmorSet &set) const
@@ -625,7 +763,11 @@ void EncyclopediaPage::selectArmor(int dexId, bool pushHistory)
 {
     const EncyclopediaArmor armor = m_repository.armor(dexId);
     if (armor.dexId <= 0) return;
-    if (pushHistory) navigate(armorUri(armor));
+    if (pushHistory)
+    {
+        tryOnArmor(dexId);
+        navigate(armorUri(armor));
+    }
     else showArmor(dexId);
 }
 
@@ -637,6 +779,8 @@ void EncyclopediaPage::showArmor(int dexId)
     m_currentArmor = dexId; m_currentArmorSet = armor.setId; m_selectedArmorPart = armor.part;
     m_currentWeapon = -1; m_currentItem = -1;
     m_addSetButton->show();
+    m_tryOnSetButton->show();
+    m_resetPreviewButton->show();
     const QList<QPushButton *> cards = m_armorScroll->widget()->findChildren<QPushButton *>("armorPieceCard");
     for (QPushButton *card : cards) card->setChecked(card->property("armorDexId").toInt() == dexId);
     m_detailTitle->setText(armor.name);
@@ -645,18 +789,25 @@ void EncyclopediaPage::showArmor(int dexId)
         : armor.combat == "gunner" ? QString::fromUtf8("枪手") : QString::fromUtf8("通用");
     const QString gender = armor.gender == "male" ? QString::fromUtf8("男性")
         : armor.gender == "female" ? QString::fromUtf8("女性") : QString::fromUtf8("男女通用");
+    const EncyclopediaArmorModel previewModel = m_repository.armorModel(dexId, selectedArmorGender());
+    const QString modelState = armor.modelMappingStatus == "confirmed_exefs"
+        ? QString::fromUtf8("游戏参数确认")
+        : armor.modelMappingStatus == "exact_shared_appearance"
+            ? QString::fromUtf8("完全一致的共享外观") : QString::fromUtf8("待确认");
     m_properties->setText(QString::fromUtf8(
         "套装：%1\n稀有度：%2 · 孔位：%3\n职业：%4 · 性别：%5\n防御：%6 → %7\n"
-        "耐性：火 %8 / 水 %9 / 冰 %10 / 雷 %11 / 龙 %12\n生产价格：%13 z\n存档映射：类型 %14 / ID %15")
+        "耐性：火 %8 / 水 %9 / 冰 %10 / 雷 %11 / 龙 %12\n生产价格：%13 z\n"
+        "存档映射：类型 %14 / ID %15\n模型映射：%16%17")
         .arg(set.name).arg(armor.rarity).arg(armor.slotCount).arg(combat, gender)
         .arg(armor.defense).arg(armor.maxDefense).arg(armor.resistances[0]).arg(armor.resistances[1])
         .arg(armor.resistances[2]).arg(armor.resistances[3]).arg(armor.resistances[4]).arg(armor.price)
-        .arg(armor.saveType).arg(armor.saveId));
+        .arg(armor.saveType).arg(armor.saveId).arg(modelState)
+        .arg(previewModel.modelId >= 0 ? QString::fromUtf8(" · pl%1").arg(previewModel.modelId, 3, 10, QChar('0')) : QString()));
     m_sharpness->hide();
-    const QString modelGender = armor.gender == "both" ? selectedArmorGender() : armor.gender;
-    const EncyclopediaArmorModel model = m_repository.armorModel(set.modelId, modelGender, armor.part);
-    m_modelViewer->setModel(model.modelKey, model.arcRelativePath, true);
-
+    if (!previewModel.available() || previewModel.mappingStatus == "unmapped")
+        m_modelViewer->showModelMessage(QString::fromUtf8("模型映射待确认\n当前试穿部位保持不变"));
+    else
+        rebuildCharacterPreview();
     clearLayout(m_materialLinks);
     for (const EncyclopediaMaterial &material : m_repository.armorMaterials(dexId))
         m_materialLinks->addWidget(makeLink(QString("%1 × %2").arg(material.item.name).arg(material.quantity), itemUri(material.item)));
@@ -800,6 +951,8 @@ void EncyclopediaPage::showWeapon(int dexId)
     m_currentItem = -1;
     m_currentArmor = -1;
     m_addSetButton->hide();
+    m_tryOnSetButton->hide();
+    m_resetPreviewButton->hide();
     m_detailTitle->setText(weapon.name);
     m_detailSubtitle->setText(QString("%1\n%2\n%3")
         .arg(weapon.english, weapon.japanese, weaponUri(weapon)));
@@ -877,6 +1030,8 @@ void EncyclopediaPage::showItem(int dexId)
     m_currentWeapon = -1;
     m_currentArmor = -1;
     m_addSetButton->hide();
+    m_tryOnSetButton->hide();
+    m_resetPreviewButton->hide();
     m_detailTitle->setText(item.name);
     m_detailSubtitle->setText(QString("%1\n%2\n%3").arg(item.english, item.japanese, itemUri(item)));
     m_properties->setText(QString::fromUtf8("稀有度：%1\n持有上限：%2\n买入：%3 z\n卖出：%4 z\n存档 ID：%5")

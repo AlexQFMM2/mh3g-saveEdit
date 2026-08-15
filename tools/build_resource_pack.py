@@ -21,6 +21,7 @@ from pathlib import Path
 
 FOLDERS = ("w00", "w01", "w02", "w03", "w04", "w06", "w07", "w08", "w09", "w10", "w11", "w12")
 ARMOR_COUNTS = {"f": 1009, "m": 995}
+CHARACTER_COUNTS = {"f": 25, "m": 25}
 ARMOR_MODEL_CSV = Path(__file__).with_name("mh3g_armor_model_resources.csv")
 TYPE_MAGIC_VERSION = {
     0x58A15856: (b"MOD\0", 0xE6),
@@ -127,6 +128,21 @@ def build_resource_pack(weapon_source: Path, armor_source: Path, output: Path) -
         armor_counts[gender] = len(source_files) - before
         if armor_counts[gender] != ARMOR_COUNTS[gender]:
             raise ValueError(f"{gender} 防具 ARC 数量应为 {ARMOR_COUNTS[gender]}，实际为 {armor_counts[gender]}")
+    character_counts: dict[str, int] = {}
+    for gender in ("f", "m"):
+        before = len(source_files)
+        for kind, count in (("face", 11), ("hair", 14)):
+            for variant in range(count):
+                directory = armor_root / gender / f"{kind}{variant:03d}"
+                expected = directory / f"{gender}_{kind}{variant:03d}.arc"
+                if not expected.is_file():
+                    raise ValueError(f"缺少人物资源: {expected}")
+                source_files.append((expected,
+                    Path("character-mod") / gender / directory.name / expected.name,
+                    f"character-{gender}"))
+        character_counts[gender] = len(source_files) - before
+        if character_counts[gender] != CHARACTER_COUNTS[gender]:
+            raise ValueError(f"{gender} 人物 ARC 数量应为 {CHARACTER_COUNTS[gender]}，实际为 {character_counts[gender]}")
     with ARMOR_MODEL_CSV.open("r", encoding="utf-8-sig", newline="") as handle:
         expected_armor_paths = {row["arc_relative_path"] for row in csv.DictReader(handle)}
     actual_armor_paths = {relative.as_posix() for _, relative, kind in source_files if kind.startswith("armor-")}
@@ -146,9 +162,10 @@ def build_resource_pack(weapon_source: Path, armor_source: Path, output: Path) -
         })
     manifest = {
         "arc_count": len(source_files),
-        "counts": {"weapon": weapon_count, "armor_female": armor_counts["f"], "armor_male": armor_counts["m"]},
+        "counts": {"weapon": weapon_count, "armor_female": armor_counts["f"], "armor_male": armor_counts["m"],
+                   "character_female": character_counts["f"], "character_male": character_counts["m"]},
         "files": manifest_files,
-        "format": "mh3g-resources-v2",
+        "format": "mh3g-resources-v3",
         "game": "mh3g",
         "armor_model_inventory_sha256": sha256(ARMOR_MODEL_CSV),
     }
@@ -159,7 +176,7 @@ def build_resource_pack(weapon_source: Path, armor_source: Path, output: Path) -
     staging = output.with_name(output.name + ".packaging")
     if staging.exists():
         staging.unlink()
-    prefix = "resources/mh3g/v2/"
+    prefix = "resources/mh3g/v3/"
     try:
         with zipfile.ZipFile(staging, "w", allowZip64=True) as archive:
             archive.writestr(zip_info(prefix + "manifest.json"), manifest_data)
@@ -180,7 +197,7 @@ def main() -> int:
     parser.add_argument("--output", required=True, type=Path, help="输出的独立资源包 ZIP")
     args = parser.parse_args()
     target = build_resource_pack(args.weapon_source, args.armor_source, args.output)
-    print(json.dumps({"arc_count": 2562, "bytes": target.stat().st_size,
+    print(json.dumps({"arc_count": 2612, "bytes": target.stat().st_size,
                       "output": str(target)}, ensure_ascii=False, sort_keys=True))
     return 0
 

@@ -171,6 +171,36 @@ bool parseMrl(const QByteArray &data, const QHash<QString, QImage> &textures,
     return true;
 }
 
+struct BindMatrix
+{
+    float values[16];
+
+    QVector3D position(const QVector3D &value) const
+    {
+        return QVector3D(
+            value.x() * values[0] + value.y() * values[4] + value.z() * values[8] + values[12],
+            value.x() * values[1] + value.y() * values[5] + value.z() * values[9] + values[13],
+            value.x() * values[2] + value.y() * values[6] + value.z() * values[10] + values[14]);
+    }
+
+    QVector3D direction(const QVector3D &value) const
+    {
+        return QVector3D(
+            value.x() * values[0] + value.y() * values[4] + value.z() * values[8],
+            value.x() * values[1] + value.y() * values[5] + value.z() * values[9],
+            value.x() * values[2] + value.y() * values[6] + value.z() * values[10]);
+    }
+};
+
+bool readMatrix(const QByteArray &data, int offset, BindMatrix *matrix)
+{
+    if (!matrix || !rangeOk(offset, 64, data.size())) return false;
+    bool ok = true;
+    for (int index = 0; index < 16; ++index)
+        matrix->values[index] = readFloat(data, offset + index * 4, &ok);
+    return ok;
+}
+
 void generateTangents(Mh3gCpuModel *model)
 {
     if (!model || model->vertices.isEmpty()) return;
@@ -292,21 +322,36 @@ bool Mh3gArchiveLoader::validateWeaponArchive(const QString &path, QString *erro
     return true;
 }
 
-bool Mh3gModelLoader::parseMod(const QByteArray &data, Mh3gCpuModel *model, QString *error)
+bool Mh3gModelLoader::parseMod(const QByteArray &data, Mh3gCpuModel *model, QString *error,
+                               Mh3gModelLoadMode mode)
 {
     if (!model) return false;
-    quint16 version = 0, primitiveCount = 0, materialCount = 0;
-    quint32 vertexCount = 0, primitiveOffset = 0, vertexOffset = 0, indexOffset = 0;
+    quint16 version = 0, boneCount = 0, primitiveCount = 0, materialCount = 0;
+    quint32 vertexCount = 0, boneOffset = 0, primitiveOffset = 0, vertexOffset = 0, indexOffset = 0;
     if (data.size() < 64 || std::memcmp(data.constData(), "MOD\0", 4) != 0
-        || !readLe(data, 4, &version) || version != 0xE6 || !readLe(data, 8, &primitiveCount)
+        || !readLe(data, 4, &version) || version != 0xE6 || !readLe(data, 6, &boneCount)
+        || !readLe(data, 8, &primitiveCount)
         || !readLe(data, 0x0a, &materialCount)
-        || !readLe(data, 12, &vertexCount) || !readLe(data, 0x34, &primitiveOffset)
+        || !readLe(data, 12, &vertexCount) || !readLe(data, 0x28, &boneOffset)
+        || !readLe(data, 0x34, &primitiveOffset)
         || !readLe(data, 0x38, &vertexOffset) || !readLe(data, 0x3c, &indexOffset))
     { if (error) *error = QString::fromUtf8("MOD 头部无效或版本不是 v0xE6"); return false; }
     if (primitiveCount == 0 || primitiveCount > 4096 || vertexCount == 0 || vertexCount > 4000000
         || !rangeOk(primitiveOffset, qint64(primitiveCount) * 48 + 4, data.size()) || vertexOffset >= quint32(data.size())
         || indexOffset >= quint32(data.size()))
     { if (error) *error = QString::fromUtf8("MOD 数量或数据偏移越界"); return false; }
+
+    QVector<BindMatrix> bindMatrices;
+    if (mode == Mh3gModelLoadMode::BindPose)
+    {
+        if (boneCount == 0 || boneCount > 256 || !rangeOk(boneOffset, qint64(boneCount) * (24 + 64 + 64) + 256, data.size()))
+        { if (error) *error = QString::fromUtf8("MOD 人物骨架缺失或越界"); return false; }
+        const int inverseBindOffset = int(boneOffset) + int(boneCount) * 24 + int(boneCount) * 64;
+        bindMatrices.resize(int(boneCount));
+        for (int bone = 0; bone < boneCount; ++bone)
+            if (!readMatrix(data, inverseBindOffset + bone * 64, &bindMatrices[bone]))
+            { if (error) *error = QString::fromUtf8("MOD 骨骼绑定矩阵无效"); return false; }
+    }
 
     model->vertices.clear(); model->indices.clear(); model->drawCalls.clear();
     model->vertices.reserve(int(vertexCount));
@@ -341,6 +386,34 @@ bool Mh3gModelLoader::parseMod(const QByteArray &data, Mh3gCpuModel *model, QStr
             vertex.normal = QVector3D(nx / 127.0f, ny / 127.0f, nz / 127.0f).normalized();
             vertex.uv = QVector2D(readFloat(data, address + 16, &ok), readFloat(data, address + 20, &ok));
             if (!ok) { if (error) *error = QString::fromUtf8("MOD 顶点包含无效浮点数"); return false; }
+            if (mode == Mh3gModelLoadMode::BindPose)
+            {
+                int boneIndexes[4] = {quint8(data.at(address + 24)), quint8(data.at(address + 25)), 0, 0};
+                int boneWeights[4] = {quint8(data.at(address + 26)), quint8(data.at(address + 27)), 0, 0};
+                int influences = 2;
+                if (stride >= 36)
+                {
+                    boneIndexes[2] = quint8(data.at(address + 32)); boneIndexes[3] = quint8(data.at(address + 33));
+                    boneWeights[2] = quint8(data.at(address + 34)); boneWeights[3] = quint8(data.at(address + 35));
+                    influences = 4;
+                }
+                int totalWeight = 0;
+                QVector3D position, normal;
+                for (int influence = 0; influence < influences; ++influence)
+                {
+                    const int weight = boneWeights[influence];
+                    if (!weight) continue;
+                    if (boneIndexes[influence] < 0 || boneIndexes[influence] >= bindMatrices.size())
+                    { if (error) *error = QString::fromUtf8("MOD 顶点骨骼索引越界"); return false; }
+                    totalWeight += weight;
+                    position += bindMatrices[boneIndexes[influence]].position(vertex.position) * float(weight);
+                    normal += bindMatrices[boneIndexes[influence]].direction(vertex.normal) * float(weight);
+                }
+                if (totalWeight <= 0)
+                { if (error) *error = QString::fromUtf8("MOD 顶点骨骼权重为空"); return false; }
+                vertex.position = position / float(totalWeight);
+                vertex.normal = normal.lengthSquared() > 1.0e-10f ? normal.normalized() : QVector3D(0, 1, 0);
+            }
             vertexByAddress[addressValue] = quint32(model->vertices.size());
             model->vertices.append(vertex);
             if (!hasBounds) { model->boundsMinimum = model->boundsMaximum = vertex.position; hasBounds = true; }
@@ -430,7 +503,8 @@ bool Mh3gModelLoader::decodeTex(const QByteArray &data, QImage *image, QString *
     return true;
 }
 
-QSharedPointer<Mh3gCpuModel> Mh3gModelLoader::load(const QString &modelKey, const QString &arcPath)
+QSharedPointer<Mh3gCpuModel> Mh3gModelLoader::load(const QString &modelKey, const QString &arcPath,
+                                                   Mh3gModelLoadMode mode)
 {
     QSharedPointer<Mh3gCpuModel> model(new Mh3gCpuModel);
     model->modelKey = modelKey;
@@ -471,7 +545,7 @@ QSharedPointer<Mh3gCpuModel> Mh3gModelLoader::load(const QString &modelKey, cons
     for (int index : modIndexes)
     {
         Mh3gCpuModel part;
-        if (!parseMod(entries[index].data, &part, &model->error))
+        if (!parseMod(entries[index].data, &part, &model->error, mode))
         { model->error = QString::fromUtf8("%1：%2").arg(entries[index].name, model->error); return model; }
         const quint32 baseVertex = quint32(model->vertices.size());
         const int baseIndex = model->indices.size();
@@ -508,4 +582,49 @@ QSharedPointer<Mh3gCpuModel> Mh3gModelLoader::load(const QString &modelKey, cons
     }
     generateTangents(model.data());
     return model;
+}
+
+QSharedPointer<Mh3gCpuModel> Mh3gModelLoader::combine(
+    const QString &modelKey, const QVector<QSharedPointer<Mh3gCpuModel> > &parts)
+{
+    QSharedPointer<Mh3gCpuModel> result(new Mh3gCpuModel);
+    result->modelKey = modelKey;
+    bool haveBounds = false;
+    for (const QSharedPointer<Mh3gCpuModel> &part : parts)
+    {
+        if (!part || !part->valid())
+        {
+            result->error = part ? part->error : QString::fromUtf8("人物组件加载失败");
+            return result;
+        }
+        const quint32 baseVertex = quint32(result->vertices.size());
+        const int baseIndex = result->indices.size();
+        const int baseMaterial = result->materials.size();
+        result->vertices += part->vertices;
+        result->materials += part->materials;
+        for (quint32 index : part->indices) result->indices.append(baseVertex + index);
+        for (Mh3gDrawCall draw : part->drawCalls)
+        {
+            draw.firstIndex += baseIndex;
+            draw.materialIndex += baseMaterial;
+            result->drawCalls.append(draw);
+        }
+        if (!haveBounds)
+        {
+            result->boundsMinimum = part->boundsMinimum; result->boundsMaximum = part->boundsMaximum;
+            haveBounds = true;
+        }
+        else
+        {
+            result->boundsMinimum.setX(qMin(result->boundsMinimum.x(), part->boundsMinimum.x()));
+            result->boundsMinimum.setY(qMin(result->boundsMinimum.y(), part->boundsMinimum.y()));
+            result->boundsMinimum.setZ(qMin(result->boundsMinimum.z(), part->boundsMinimum.z()));
+            result->boundsMaximum.setX(qMax(result->boundsMaximum.x(), part->boundsMaximum.x()));
+            result->boundsMaximum.setY(qMax(result->boundsMaximum.y(), part->boundsMaximum.y()));
+            result->boundsMaximum.setZ(qMax(result->boundsMaximum.z(), part->boundsMaximum.z()));
+        }
+    }
+    if (!haveBounds || result->vertices.isEmpty() || result->indices.isEmpty())
+        result->error = QString::fromUtf8("人物模型没有可显示的组件");
+    return result;
 }

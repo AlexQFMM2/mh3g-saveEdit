@@ -34,11 +34,19 @@ its global `Wpn_ID` and `Itm_ID` values are never written to a save. The build
 crosswalks every weapon and recipe material to the audited `ID_res.arc` arrays
 and stores the result separately as `save_type/save_id`.
 
-The committed v2 database contains 1,421 weapons, 1,651 armors, 331 explicit
+The committed v3 database contains 1,421 weapons, 1,651 armors, 331 explicit
 armor sets, 5,806 weapon recipe rows, 6,398 armor recipe rows, 6,814 armor
 skill-point rows and the 701 items referenced by those recipes. `encyclopedia-manifest.json` records every
 raw input hash and the database hash. Raw Dex CSV files stay outside the
 repository.
+
+Armor model IDs are stored per armor and per gender. The committed
+`tools/mh3g_armor_exefs_crosswalk.csv` is generated from the audited ExeFS
+`.code`: each save-local armor ID indexes a 24-byte part record, with male and
+female model IDs at bytes 2 and 3. It contains 1,600 direct ExeFS mappings, 31
+exact shared-appearance mappings, and 20 intentionally unmapped entries. The
+database also registers 2,004 armor/base-part resources and 50 face/hair
+resources; the editor never reads ExeFS at runtime.
 
 `model_resources` contains the 558 canonical ARC paths and format selectors;
 `weapon_models` maps all 1,421 weapon rows to those shared models. The audited
@@ -84,6 +92,17 @@ python3 tools/build_encyclopedia.py --dex-dump /tmp/mh3g-dex
 python3 tools/validate_encyclopedia.py data
 python3 tools/validate_model_crosswalk.py
 ```
+
+To regenerate the armor mapping from the exact audited executable before the
+database build:
+
+```bash
+python3 tools/export_armor_exefs_crosswalk.py \
+  --code /path/to/exefs-decompressed.code \
+  --dex-armor /tmp/mh3g-dex/Amr_ArmorData.csv
+```
+
+The exporter rejects any `.code` whose SHA-256 is not the fixed audited hash.
 
 The required dump files and their exact hashes are listed in
 `encyclopedia-manifest.json`. Any exact-name mismatch must be reviewed in
