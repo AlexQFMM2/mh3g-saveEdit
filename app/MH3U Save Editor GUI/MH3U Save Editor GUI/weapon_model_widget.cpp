@@ -2,7 +2,6 @@
 
 #include <QFutureWatcher>
 #include <QGridLayout>
-#include <QHBoxLayout>
 #include <QLabel>
 #include <QOpenGLContext>
 #include <QOpenGLShaderProgram>
@@ -11,7 +10,6 @@
 #include <QSurfaceFormat>
 #include <QStyle>
 #include <QTimer>
-#include <QVBoxLayout>
 #include <QtConcurrent>
 
 WeaponModelWidget::WeaponModelWidget(QWidget *parent)
@@ -29,19 +27,18 @@ WeaponModelWidget::WeaponModelWidget(QWidget *parent)
     format.setSamples(4);
     setFormat(format);
 
-    QVBoxLayout *overlay = new QVBoxLayout(this);
-    overlay->setContentsMargins(8, 8, 8, 8);
+    QGridLayout *overlay = new QGridLayout(this);
+    overlay->setContentsMargins(5, 5, 5, 5);
+    overlay->setHorizontalSpacing(0);
+    overlay->setVerticalSpacing(0);
+    overlay->setColumnStretch(1, 1);
+    overlay->setRowStretch(1, 1);
     m_status = new QLabel(this);
     m_status->setObjectName("modelViewerStatus");
     m_status->setAlignment(Qt::AlignCenter);
     m_status->setWordWrap(true);
     m_status->setAttribute(Qt::WA_TransparentForMouseEvents);
-    overlay->addWidget(m_status, 1);
-    QHBoxLayout *buttons = new QHBoxLayout;
-    QGridLayout *directions = new QGridLayout;
-    directions->setHorizontalSpacing(3);
-    directions->setVerticalSpacing(3);
-    directions->setContentsMargins(0, 0, 0, 0);
+    overlay->addWidget(m_status, 1, 1, Qt::AlignCenter);
     QPushButton *up = new QPushButton(QString::fromUtf8("↑"), this);
     QPushButton *down = new QPushButton(QString::fromUtf8("↓"), this);
     QPushButton *left = new QPushButton(QString::fromUtf8("←"), this);
@@ -50,20 +47,16 @@ WeaponModelWidget::WeaponModelWidget(QWidget *parent)
     for (QPushButton *button : directionButtons)
     {
         button->setObjectName("modelRotateButton");
-        button->setFixedSize(34, 28);
+        button->setFixedSize(28, 28);
         button->setAutoRepeat(true);
         button->setAutoRepeatDelay(350);
         button->setAutoRepeatInterval(90);
         button->setToolTip(QString::fromUtf8("点击或长按，按 15° 旋转模型"));
     }
-    directions->addWidget(up, 0, 1);
-    directions->addWidget(left, 1, 0);
-    directions->addWidget(down, 1, 1);
-    directions->addWidget(right, 1, 2);
-    buttons->addStretch();
-    buttons->addLayout(directions);
-    buttons->addStretch();
-    overlay->addLayout(buttons);
+    overlay->addWidget(up, 0, 1, Qt::AlignHCenter | Qt::AlignTop);
+    overlay->addWidget(left, 1, 0, Qt::AlignLeft | Qt::AlignVCenter);
+    overlay->addWidget(right, 1, 2, Qt::AlignRight | Qt::AlignVCenter);
+    overlay->addWidget(down, 2, 1, Qt::AlignHCenter | Qt::AlignBottom);
     connect(up, SIGNAL(clicked()), this, SLOT(rotateUp()));
     connect(down, SIGNAL(clicked()), this, SLOT(rotateDown()));
     connect(left, SIGNAL(clicked()), this, SLOT(rotateLeft()));
