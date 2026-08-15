@@ -12,6 +12,7 @@ class QLabel;
 class QPushButton;
 class QStackedWidget;
 class QCloseEvent;
+class EncyclopediaPage;
 
 class MH3U_SV : public QMainWindow
 {
@@ -28,12 +29,14 @@ private:
     QPushButton *characterButton;
     QPushButton *chestButton;
     QPushButton *boxButton;
+    QPushButton *encyclopediaButton;
     QPushButton *loadButton;
     QPushButton *saveButton;
     QLabel *statusLabel;
     QLabel *pageTitle;
     QStackedWidget *pageStack;
     QWidget *emptyPage;
+    EncyclopediaPage *encyclopediaPage;
     QCharacter *characterPage;
     QChest *chestPage;
     QBox *boxPage;
@@ -51,6 +54,7 @@ private slots:
     void showCharacter();
     void showChest();
     void showBox();
+    void showEncyclopedia();
     void markModified();
     void loadFile();
     bool saveFile();

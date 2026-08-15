@@ -96,6 +96,25 @@ static void applyApplicationStyle(QApplication &app)
             border: 1px solid #b9c5d3;
             border-radius: 12px;
         }
+        QWidget#encyclopediaPage { background: #f8fafc; }
+        QLabel#detailTitle { color: #15213a; font-size: 18px; font-weight: 700; }
+        QLabel#encyclopediaImage {
+            color: #657289;
+            background: #e9eef5;
+            border: 1px dashed #9eacbd;
+            border-radius: 9px;
+            padding: 10px;
+        }
+        QPushButton#linkButton {
+            color: #205fae;
+            background: transparent;
+            border: 0;
+            border-radius: 4px;
+            padding: 4px 2px;
+            text-align: left;
+            font-weight: 500;
+        }
+        QPushButton#linkButton:hover { color: #164b8d; background: #edf4fe; }
         QPushButton {
             color: #26344c;
             background: #f8fafc;
