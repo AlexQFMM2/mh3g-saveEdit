@@ -16,6 +16,8 @@ class QLabel;
 class QLineEdit;
 class QListWidget;
 class QPushButton;
+class QScrollArea;
+class QStackedWidget;
 class QVBoxLayout;
 class SaveActionBridge;
 class WeaponModelWidget;
@@ -54,6 +56,7 @@ signals:
     void modified();
     void itemAdded();
     void weaponAdded();
+    void armorAdded();
 
 private slots:
     void typeChanged(int row);
@@ -63,6 +66,10 @@ private slots:
     void goForward();
     void fitTree();
     void addCurrent();
+    void categoryChanged(int index);
+    void armorFiltersChanged();
+    void addCurrentArmor();
+    void addCurrentArmorSet();
 
 private:
     void rebuildTree();
@@ -79,13 +86,24 @@ private:
     QPushButton *makeLink(const QString &text, const QString &uri);
     QString weaponUri(const EncyclopediaWeapon &weapon) const;
     QString itemUri(const EncyclopediaItem &item) const;
+    QString armorUri(const EncyclopediaArmor &armor) const;
+    void rebuildArmorList();
+    void selectArmor(int dexId, bool pushHistory = true);
+    void showArmor(int dexId);
+    QVector<int> visibleArmorMembers(const EncyclopediaArmorSet &set) const;
+    QString selectedArmorGender() const;
 
     EncyclopediaRepository m_repository;
     SaveActionBridge *m_bridge;
     QListWidget *m_types;
+    QComboBox *m_category;
+    QLabel *m_filterTitle;
     QLineEdit *m_search;
     QComboBox *m_rarity;
     QComboBox *m_attribute;
+    QComboBox *m_armorCombat;
+    QComboBox *m_armorGender;
+    QStackedWidget *m_browserStack;
     WeaponTreeView *m_tree;
     QGraphicsScene *m_scene;
     QPushButton *m_back;
@@ -102,6 +120,10 @@ private:
     QVBoxLayout *m_materialLinks;
     QVBoxLayout *m_upgradeLinks;
     QPushButton *m_addButton;
+    QPushButton *m_addSetButton;
+    QScrollArea *m_armorScroll;
+    QVBoxLayout *m_armorListLayout;
+    QLabel *m_armorBreadcrumb;
     QMap<int, QGraphicsRectItem *> m_nodeItems;
     QMap<int, int> m_depths;
     QStringList m_history;
@@ -109,6 +131,9 @@ private:
     bool m_internalSelection;
     int m_currentWeapon;
     int m_currentItem;
+    int m_currentArmor;
+    QString m_currentArmorSet;
+    QString m_selectedArmorPart;
 };
 
 #endif

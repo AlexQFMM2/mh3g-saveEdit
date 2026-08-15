@@ -97,6 +97,23 @@ static void applyApplicationStyle(QApplication &app)
             border-radius: 12px;
         }
         QWidget#encyclopediaPage { background: #f8fafc; }
+        QFrame#armorSetRow {
+            background: #f7f9fc;
+            border: 1px solid #c4cfdd;
+            border-radius: 10px;
+        }
+        QLabel#armorSetTitle { color: #24344f; font-weight: 700; }
+        QPushButton#armorPieceCard {
+            color: #26364f;
+            background: #ffffff;
+            border: 1px solid #b8c5d6;
+            border-radius: 8px;
+            padding: 6px 4px;
+            font-weight: 500;
+        }
+        QPushButton#armorPieceCard:hover { background: #edf5ff; border-color: #75a3df; }
+        QPushButton#armorPieceCard:checked { color: #174f93; background: #e2efff; border: 2px solid #377ec4; }
+        QPushButton#armorPieceCard:disabled { color: #98a2b1; background: #eef1f5; border-style: dashed; }
         QLabel#detailTitle { color: #15213a; font-size: 18px; font-weight: 700; }
         QLabel#encyclopediaImage {
             color: #657289;
@@ -292,7 +309,14 @@ int main(int argc, char *argv[])
     MH3U_SV w;
     w.show();
     if (a.arguments().contains(QStringLiteral("--smoke-test")))
-        QTimer::singleShot(150, &a, &QCoreApplication::quit);
+    {
+        QTimer::singleShot(0, [&w]() {
+            QMetaObject::invokeMethod(&w, "showEncyclopedia", Qt::DirectConnection);
+            QComboBox *category = w.findChild<QComboBox *>(QStringLiteral("encyclopediaCategory"));
+            if (category != NULL) category->setCurrentIndex(1);
+        });
+        QTimer::singleShot(250, &a, &QCoreApplication::quit);
+    }
 
     return a.exec();
 }

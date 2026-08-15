@@ -20,6 +20,7 @@
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QSet>
+#include <QStackedWidget>
 #include <QUrl>
 #include <QVBoxLayout>
 #include <QWheelEvent>
@@ -130,7 +131,8 @@ void WeaponTreeView::wheelEvent(QWheelEvent *event)
 }
 
 EncyclopediaPage::EncyclopediaPage(SaveActionBridge *bridge, QWidget *parent)
-    : QWidget(parent), m_bridge(bridge), m_historyIndex(-1), m_internalSelection(false), m_currentWeapon(-1), m_currentItem(-1)
+    : QWidget(parent), m_bridge(bridge), m_historyIndex(-1), m_internalSelection(false),
+      m_currentWeapon(-1), m_currentItem(-1), m_currentArmor(-1)
 {
     setObjectName("encyclopediaPage");
     QHBoxLayout *root = new QHBoxLayout(this);
@@ -141,8 +143,12 @@ EncyclopediaPage::EncyclopediaPage(SaveActionBridge *bridge, QWidget *parent)
     filters->setObjectName("contentCard");
     filters->setFixedWidth(190);
     QVBoxLayout *filterLayout = new QVBoxLayout(filters);
-    QLabel *filterTitle = new QLabel(QString::fromUtf8("武器资料库"), filters);
-    filterTitle->setObjectName("sectionTitle");
+    m_filterTitle = new QLabel(QString::fromUtf8("武器资料库"), filters);
+    m_filterTitle->setObjectName("sectionTitle");
+    m_category = new QComboBox(filters);
+    m_category->setObjectName("encyclopediaCategory");
+    m_category->addItem(QString::fromUtf8("武器图鉴"), "weapon");
+    m_category->addItem(QString::fromUtf8("防具图鉴"), "armor");
     m_search = new QLineEdit(filters);
     m_search->setPlaceholderText(QString::fromUtf8("搜索中 / 英 / 日文名称"));
     m_rarity = new QComboBox(filters);
@@ -151,10 +157,22 @@ EncyclopediaPage::EncyclopediaPage(SaveActionBridge *bridge, QWidget *parent)
     m_attribute = new QComboBox(filters);
     m_attribute->addItem(QString::fromUtf8("全部属性"), -2);
     m_types = new QListWidget(filters);
-    filterLayout->addWidget(filterTitle);
+    m_armorCombat = new QComboBox(filters);
+    m_armorCombat->addItem(QString::fromUtf8("全部职业"), "all");
+    m_armorCombat->addItem(QString::fromUtf8("剑士"), "blade");
+    m_armorCombat->addItem(QString::fromUtf8("枪手"), "gunner");
+    m_armorGender = new QComboBox(filters);
+    m_armorGender->addItem(QString::fromUtf8("男性"), "male");
+    m_armorGender->addItem(QString::fromUtf8("女性"), "female");
+    m_armorCombat->hide();
+    m_armorGender->hide();
+    filterLayout->addWidget(m_filterTitle);
+    filterLayout->addWidget(m_category);
     filterLayout->addWidget(m_search);
     filterLayout->addWidget(m_rarity);
     filterLayout->addWidget(m_attribute);
+    filterLayout->addWidget(m_armorCombat);
+    filterLayout->addWidget(m_armorGender);
     filterLayout->addWidget(m_types, 1);
 
     QFrame *browser = new QFrame(this);
@@ -176,6 +194,27 @@ EncyclopediaPage::EncyclopediaPage(SaveActionBridge *bridge, QWidget *parent)
     m_tree->setScene(m_scene);
     browserLayout->addLayout(toolbar);
     browserLayout->addWidget(m_tree, 1);
+
+    QFrame *armorBrowser = new QFrame(this);
+    armorBrowser->setObjectName("contentCard");
+    QVBoxLayout *armorBrowserLayout = new QVBoxLayout(armorBrowser);
+    m_armorBreadcrumb = new QLabel(QString::fromUtf8("资料库 / 防具"), armorBrowser);
+    m_armorBreadcrumb->setObjectName("sectionTitle");
+    armorBrowserLayout->addWidget(m_armorBreadcrumb);
+    m_armorScroll = new QScrollArea(armorBrowser);
+    m_armorScroll->setWidgetResizable(true);
+    m_armorScroll->setFrameShape(QFrame::NoFrame);
+    QWidget *armorList = new QWidget(m_armorScroll);
+    m_armorListLayout = new QVBoxLayout(armorList);
+    m_armorListLayout->setContentsMargins(0, 0, 0, 0);
+    m_armorListLayout->setSpacing(8);
+    m_armorListLayout->addStretch();
+    m_armorScroll->setWidget(armorList);
+    armorBrowserLayout->addWidget(m_armorScroll, 1);
+
+    m_browserStack = new QStackedWidget(this);
+    m_browserStack->addWidget(browser);
+    m_browserStack->addWidget(armorBrowser);
 
     QFrame *details = new QFrame(this);
     details->setObjectName("contentCard");
@@ -211,6 +250,9 @@ EncyclopediaPage::EncyclopediaPage(SaveActionBridge *bridge, QWidget *parent)
     m_addButton->setObjectName("primaryButton");
     m_addButton->setEnabled(false);
     m_addButton->setToolTip(QString::fromUtf8("快速加入将在存档桥接阶段启用。"));
+    m_addSetButton = new QPushButton(QString::fromUtf8("加入整套"), detailBody);
+    m_addSetButton->setObjectName("primaryButton");
+    m_addSetButton->hide();
     detailLayout->addWidget(m_modelViewer);
     detailLayout->addWidget(m_detailTitle);
     detailLayout->addWidget(m_detailSubtitle);
@@ -222,11 +264,12 @@ EncyclopediaPage::EncyclopediaPage(SaveActionBridge *bridge, QWidget *parent)
     detailLayout->addWidget(m_upgradeBody);
     detailLayout->addStretch();
     detailLayout->addWidget(m_addButton);
+    detailLayout->addWidget(m_addSetButton);
     detailScroll->setWidget(detailBody);
     detailShell->addWidget(detailScroll);
 
     root->addWidget(filters);
-    root->addWidget(browser, 1);
+    root->addWidget(m_browserStack, 1);
     root->addWidget(details);
 
     connect(m_types, SIGNAL(currentRowChanged(int)), this, SLOT(typeChanged(int)));
@@ -238,6 +281,10 @@ EncyclopediaPage::EncyclopediaPage(SaveActionBridge *bridge, QWidget *parent)
     connect(m_forward, SIGNAL(clicked()), this, SLOT(goForward()));
     connect(fit, SIGNAL(clicked()), this, SLOT(fitTree()));
     connect(m_addButton, SIGNAL(clicked()), this, SLOT(addCurrent()));
+    connect(m_addSetButton, SIGNAL(clicked()), this, SLOT(addCurrentArmorSet()));
+    connect(m_category, SIGNAL(currentIndexChanged(int)), this, SLOT(categoryChanged(int)));
+    connect(m_armorCombat, SIGNAL(currentIndexChanged(int)), this, SLOT(armorFiltersChanged()));
+    connect(m_armorGender, SIGNAL(currentIndexChanged(int)), this, SLOT(armorFiltersChanged()));
 
     if (!m_repository.open())
     {
@@ -265,9 +312,59 @@ EncyclopediaPage::EncyclopediaPage(SaveActionBridge *bridge, QWidget *parent)
 
 bool EncyclopediaPage::available() const { return m_repository.available(); }
 QString EncyclopediaPage::error() const { return m_repository.error(); }
-void EncyclopediaPage::updateSaveState() { refreshAddButton(); }
+void EncyclopediaPage::updateSaveState()
+{
+    if (m_bridge && m_bridge->hasOpenSave() && m_currentArmor < 0)
+        m_armorGender->setCurrentIndex(m_bridge->characterGender() == 1 ? 1 : 0);
+    refreshAddButton();
+}
 
-void EncyclopediaPage::typeChanged(int) { rebuildTree(); }
+void EncyclopediaPage::typeChanged(int)
+{
+    if (m_category->currentData().toString() == "armor") rebuildArmorList();
+    else rebuildTree();
+}
+
+void EncyclopediaPage::categoryChanged(int)
+{
+    const bool armorMode = m_category->currentData().toString() == "armor";
+    m_filterTitle->setText(armorMode ? QString::fromUtf8("防具资料库") : QString::fromUtf8("武器资料库"));
+    m_browserStack->setCurrentIndex(armorMode ? 1 : 0);
+    m_rarity->setVisible(!armorMode);
+    m_attribute->setVisible(!armorMode);
+    m_armorCombat->setVisible(armorMode);
+    m_armorGender->setVisible(armorMode);
+    m_addSetButton->setVisible(armorMode);
+    m_types->blockSignals(true);
+    m_types->clear();
+    if (armorMode)
+    {
+        const struct { const char *name; const char *rank; } ranks[] = {
+            {"下位", "low"}, {"上位", "high"}, {"G 位", "g"}, {"特殊", "special"}
+        };
+        for (int index = 0; index < 4; ++index)
+        {
+            QListWidgetItem *item = new QListWidgetItem(typeIcon(QString::fromUtf8(ranks[index].name), index),
+                QString::fromUtf8(ranks[index].name), m_types);
+            item->setData(Qt::UserRole, ranks[index].rank);
+        }
+        m_addButton->setText(QString::fromUtf8("加入当前防具"));
+    }
+    else
+    {
+        const QVector<EncyclopediaWeaponType> types = m_repository.weaponTypes();
+        for (int index = 0; index < types.size(); ++index)
+        {
+            QListWidgetItem *item = new QListWidgetItem(typeIcon(types[index].name, index),
+                QString("%1  ·  %2").arg(types[index].name, types[index].english), m_types);
+            item->setData(Qt::UserRole, types[index].dexType);
+        }
+        m_addButton->setText(QString::fromUtf8("加入装备箱"));
+    }
+    m_types->blockSignals(false);
+    m_types->setCurrentRow(0);
+    refreshAddButton();
+}
 
 void EncyclopediaPage::addBranch(int dexId, int depth, QMap<int, int> &depths)
 {
@@ -370,7 +467,13 @@ void EncyclopediaPage::rebuildTree()
     if (!weapons.isEmpty()) selectWeaponNode(weapons.first());
 }
 
-void EncyclopediaPage::filtersChanged() { applyFilters(); }
+void EncyclopediaPage::filtersChanged()
+{
+    if (m_category->currentData().toString() == "armor") rebuildArmorList();
+    else applyFilters();
+}
+
+void EncyclopediaPage::armorFiltersChanged() { rebuildArmorList(); }
 
 void EncyclopediaPage::applyFilters()
 {
@@ -391,6 +494,194 @@ void EncyclopediaPage::applyFilters()
         if (match && firstMatch < 0) firstMatch = it.key();
     }
     if ((!query.isEmpty() || rarity != 0 || attribute != -2) && firstMatch >= 0) selectWeaponNode(firstMatch);
+}
+
+QString EncyclopediaPage::selectedArmorGender() const
+{
+    return m_armorGender->currentData().toString();
+}
+
+QVector<int> EncyclopediaPage::visibleArmorMembers(const EncyclopediaArmorSet &set) const
+{
+    QVector<int> result;
+    const QString gender = selectedArmorGender();
+    static const QStringList partOrder = QStringList() << "head" << "chest" << "arms" << "waist" << "legs";
+    for (const QString &part : partOrder)
+    {
+        for (int dexId : set.members)
+        {
+            const EncyclopediaArmor armor = m_repository.armor(dexId);
+            if (armor.part == part && (armor.gender == "both" || armor.gender == gender))
+            { result.append(dexId); break; }
+        }
+    }
+    return result;
+}
+
+void EncyclopediaPage::rebuildArmorList()
+{
+    if (!m_repository.available() || m_category->currentData().toString() != "armor") return;
+    clearLayout(m_armorListLayout);
+    const QString rank = m_types->currentItem() ? m_types->currentItem()->data(Qt::UserRole).toString() : "low";
+    const QString combat = m_armorCombat->currentData().toString();
+    const QString search = m_search->text().trimmed();
+    const QString retainedPart = m_selectedArmorPart;
+    int fallback = -1;
+    int retained = -1;
+    static const QStringList parts = QStringList() << "head" << "chest" << "arms" << "waist" << "legs";
+    static const QStringList partNames = QStringList() << QString::fromUtf8("头") << QString::fromUtf8("胸")
+        << QString::fromUtf8("腕") << QString::fromUtf8("腰") << QString::fromUtf8("腿");
+    for (const EncyclopediaArmorSet &set : m_repository.armorSets())
+    {
+        if (set.rank != rank || (combat != "all" && set.combat != "both" && set.combat != combat)) continue;
+        const QVector<int> members = visibleArmorMembers(set);
+        if (members.isEmpty()) continue;
+        bool searchMatch = search.isEmpty() || set.name.contains(search, Qt::CaseInsensitive)
+            || set.english.contains(search, Qt::CaseInsensitive);
+        for (int dexId : members)
+        {
+            const EncyclopediaArmor armor = m_repository.armor(dexId);
+            searchMatch = searchMatch || armor.name.contains(search, Qt::CaseInsensitive)
+                || armor.english.contains(search, Qt::CaseInsensitive) || armor.japanese.contains(search, Qt::CaseInsensitive)
+                || QString::number(armor.saveId) == search;
+        }
+        if (!searchMatch) continue;
+
+        QFrame *row = new QFrame(m_armorScroll->widget());
+        row->setObjectName("armorSetRow");
+        QVBoxLayout *rowLayout = new QVBoxLayout(row);
+        rowLayout->setContentsMargins(10, 8, 10, 9);
+        const QString rankName = set.rank == "low" ? QString::fromUtf8("下位")
+            : set.rank == "high" ? QString::fromUtf8("上位")
+            : set.rank == "g" ? QString::fromUtf8("G 位") : QString::fromUtf8("特殊");
+        bool hasMale = false, hasFemale = false, hasBoth = false;
+        for (int dexId : set.members)
+        {
+            const QString memberGender = m_repository.armor(dexId).gender;
+            hasMale = hasMale || memberGender == "male";
+            hasFemale = hasFemale || memberGender == "female";
+            hasBoth = hasBoth || memberGender == "both";
+        }
+        const QString genderName = hasMale && !hasFemale && !hasBoth ? QString::fromUtf8("男性限定")
+            : hasFemale && !hasMale && !hasBoth ? QString::fromUtf8("女性限定") : QString::fromUtf8("男女适用");
+        QLabel *title = new QLabel(QString::fromUtf8("%1  ·  %2  ·  %3  ·  %4  ·  %5")
+            .arg(set.name, rankName, set.combat == "blade" ? QString::fromUtf8("剑士")
+                : set.combat == "gunner" ? QString::fromUtf8("枪手") : QString::fromUtf8("通用"),
+                genderName, set.english), row);
+        title->setObjectName("armorSetTitle");
+        rowLayout->addWidget(title);
+        QHBoxLayout *cards = new QHBoxLayout;
+        cards->setSpacing(6);
+        for (int partIndex = 0; partIndex < parts.size(); ++partIndex)
+        {
+            int found = -1;
+            for (int dexId : members) if (m_repository.armor(dexId).part == parts[partIndex]) { found = dexId; break; }
+            QPushButton *card = new QPushButton(row);
+            card->setObjectName("armorPieceCard");
+            card->setCheckable(found >= 0);
+            card->setMinimumHeight(82);
+            card->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+            if (found < 0)
+            {
+                card->setText(QString::fromUtf8("%1\n— 缺件 —").arg(partNames[partIndex]));
+                card->setEnabled(false);
+            }
+            else
+            {
+                const EncyclopediaArmor armor = m_repository.armor(found);
+                card->setText(QString::fromUtf8("%1\n%2\nR%3 · %4孔")
+                    .arg(partNames[partIndex], armor.name).arg(armor.rarity).arg(armor.slotCount));
+                card->setToolTip(QString("%1\n%2\nDex %3 · Save %4:%5")
+                    .arg(armor.name, armor.english).arg(armor.dexId).arg(armor.saveType).arg(armor.saveId));
+                card->setProperty("armorDexId", found);
+                card->setChecked(found == m_currentArmor);
+                connect(card, &QPushButton::clicked, this, [this, found]() { selectArmor(found); });
+                if (fallback < 0) fallback = found;
+                if (set.setId == m_currentArmorSet && armor.part == retainedPart) retained = found;
+            }
+            cards->addWidget(card, 1);
+        }
+        rowLayout->addLayout(cards);
+        m_armorListLayout->addWidget(row);
+    }
+    m_armorListLayout->addStretch();
+    if (retained >= 0) selectArmor(retained, false);
+    else if (fallback >= 0) selectArmor(fallback, false);
+    else
+    {
+        m_currentArmor = -1; m_currentArmorSet.clear();
+        m_detailTitle->setText(QString::fromUtf8("没有符合筛选条件的防具"));
+        m_modelViewer->showItemPlaceholder();
+        refreshAddButton();
+    }
+}
+
+QString EncyclopediaPage::armorUri(const EncyclopediaArmor &armor) const
+{
+    return QString("mhdb://mh3g/armor/%1").arg(armor.dexId);
+}
+
+void EncyclopediaPage::selectArmor(int dexId, bool pushHistory)
+{
+    const EncyclopediaArmor armor = m_repository.armor(dexId);
+    if (armor.dexId <= 0) return;
+    if (pushHistory) navigate(armorUri(armor));
+    else showArmor(dexId);
+}
+
+void EncyclopediaPage::showArmor(int dexId)
+{
+    const EncyclopediaArmor armor = m_repository.armor(dexId);
+    if (armor.dexId <= 0) return;
+    const EncyclopediaArmorSet set = m_repository.armorSet(armor.setId);
+    m_currentArmor = dexId; m_currentArmorSet = armor.setId; m_selectedArmorPart = armor.part;
+    m_currentWeapon = -1; m_currentItem = -1;
+    m_addSetButton->show();
+    const QList<QPushButton *> cards = m_armorScroll->widget()->findChildren<QPushButton *>("armorPieceCard");
+    for (QPushButton *card : cards) card->setChecked(card->property("armorDexId").toInt() == dexId);
+    m_detailTitle->setText(armor.name);
+    m_detailSubtitle->setText(QString("%1\n%2\n%3").arg(armor.english, armor.japanese, armorUri(armor)));
+    const QString combat = armor.combat == "blade" ? QString::fromUtf8("剑士")
+        : armor.combat == "gunner" ? QString::fromUtf8("枪手") : QString::fromUtf8("通用");
+    const QString gender = armor.gender == "male" ? QString::fromUtf8("男性")
+        : armor.gender == "female" ? QString::fromUtf8("女性") : QString::fromUtf8("男女通用");
+    m_properties->setText(QString::fromUtf8(
+        "套装：%1\n稀有度：%2 · 孔位：%3\n职业：%4 · 性别：%5\n防御：%6 → %7\n"
+        "耐性：火 %8 / 水 %9 / 冰 %10 / 雷 %11 / 龙 %12\n生产价格：%13 z\n存档映射：类型 %14 / ID %15")
+        .arg(set.name).arg(armor.rarity).arg(armor.slotCount).arg(combat, gender)
+        .arg(armor.defense).arg(armor.maxDefense).arg(armor.resistances[0]).arg(armor.resistances[1])
+        .arg(armor.resistances[2]).arg(armor.resistances[3]).arg(armor.resistances[4]).arg(armor.price)
+        .arg(armor.saveType).arg(armor.saveId));
+    m_sharpness->hide();
+    const QString modelGender = armor.gender == "both" ? selectedArmorGender() : armor.gender;
+    const EncyclopediaArmorModel model = m_repository.armorModel(set.modelId, modelGender, armor.part);
+    m_modelViewer->setModel(model.modelKey, model.arcRelativePath, true);
+
+    clearLayout(m_materialLinks);
+    for (const EncyclopediaMaterial &material : m_repository.armorMaterials(dexId))
+        m_materialLinks->addWidget(makeLink(QString("%1 × %2").arg(material.item.name).arg(material.quantity), itemUri(material.item)));
+    if (m_repository.armorMaterials(dexId).isEmpty())
+        m_materialLinks->addWidget(new QLabel(QString::fromUtf8("无生产素材记录"), this));
+    m_materialTitle->setText(QString::fromUtf8("生产素材"));
+
+    clearLayout(m_upgradeLinks);
+    for (const EncyclopediaArmorSkill &skill : m_repository.armorSkills(dexId))
+    {
+        QString text = QString::fromUtf8("%1：%2").arg(skill.treeName).arg(skill.points > 0 ? "+" + QString::number(skill.points) : QString::number(skill.points));
+        QStringList thresholds;
+        for (const EncyclopediaActiveSkill &active : skill.thresholds)
+            thresholds << QString("%1 (%2%3)").arg(active.name).arg(active.points > 0 ? "+" : "").arg(active.points);
+        if (!thresholds.isEmpty()) text += QString::fromUtf8("\n发动：") + thresholds.join(QString::fromUtf8("、"));
+        QLabel *label = new QLabel(text, this); label->setWordWrap(true); m_upgradeLinks->addWidget(label);
+    }
+    if (m_repository.armorSkills(dexId).isEmpty())
+        m_upgradeLinks->addWidget(new QLabel(QString::fromUtf8("无技能点"), this));
+    m_upgradeTitle->setText(QString::fromUtf8("技能点与发动条件"));
+    m_upgradeTitle->show(); m_upgradeBody->show();
+    m_addButton->setText(QString::fromUtf8("加入当前防具"));
+    m_addSetButton->setText(QString::fromUtf8("加入整套（%1 件）").arg(visibleArmorMembers(set).size()));
+    m_armorBreadcrumb->setText(QString::fromUtf8("资料库 / 防具 / %1 / %2").arg(set.name, armor.name));
+    refreshAddButton();
 }
 
 void EncyclopediaPage::sceneSelectionChanged()
@@ -421,7 +712,8 @@ QString EncyclopediaPage::weaponUri(const EncyclopediaWeapon &weapon) const
 
 QString EncyclopediaPage::itemUri(const EncyclopediaItem &item) const
 {
-    return QString("mhdb://mh3g/item/%1").arg(item.saveId);
+    return item.saveId >= 0 ? QString("mhdb://mh3g/item/%1").arg(item.saveId)
+        : QString("mhdb://mh3g/item-dex/%1").arg(item.dexId);
 }
 
 void EncyclopediaPage::navigate(const QString &uri, bool pushHistory)
@@ -459,6 +751,25 @@ void EncyclopediaPage::navigate(const QString &uri, bool pushHistory)
         const EncyclopediaItem item = m_repository.itemBySaveId(parts[1].toInt());
         if (item.dexId >= 0) showItem(item.dexId);
     }
+    else if (parts[0] == "item-dex" && parts.size() == 2)
+    {
+        const EncyclopediaItem item = m_repository.item(parts[1].toInt());
+        if (item.dexId >= 0) showItem(item.dexId);
+    }
+    else if (parts[0] == "armor" && parts.size() == 2)
+    {
+        const EncyclopediaArmor armor = m_repository.armor(parts[1].toInt());
+        if (armor.dexId > 0)
+        {
+            if (m_category->currentData().toString() != "armor") m_category->setCurrentIndex(1);
+            const EncyclopediaArmorSet set = m_repository.armorSet(armor.setId);
+            for (int row = 0; row < m_types->count(); ++row)
+                if (m_types->item(row)->data(Qt::UserRole).toString() == set.rank) { m_types->setCurrentRow(row); break; }
+            if (armor.gender == "male") m_armorGender->setCurrentIndex(0);
+            else if (armor.gender == "female") m_armorGender->setCurrentIndex(1);
+            showArmor(armor.dexId);
+        }
+    }
     m_back->setEnabled(m_historyIndex > 0);
     m_forward->setEnabled(m_historyIndex >= 0 && m_historyIndex + 1 < m_history.size());
 }
@@ -487,6 +798,8 @@ void EncyclopediaPage::showWeapon(int dexId)
     if (weapon.dexId <= 0) return;
     m_currentWeapon = dexId;
     m_currentItem = -1;
+    m_currentArmor = -1;
+    m_addSetButton->hide();
     m_detailTitle->setText(weapon.name);
     m_detailSubtitle->setText(QString("%1\n%2\n%3")
         .arg(weapon.english, weapon.japanese, weaponUri(weapon)));
@@ -562,6 +875,8 @@ void EncyclopediaPage::showItem(int dexId)
     if (item.dexId < 0) return;
     m_currentItem = dexId;
     m_currentWeapon = -1;
+    m_currentArmor = -1;
+    m_addSetButton->hide();
     m_detailTitle->setText(item.name);
     m_detailSubtitle->setText(QString("%1\n%2\n%3").arg(item.english, item.japanese, itemUri(item)));
     m_properties->setText(QString::fromUtf8("稀有度：%1\n持有上限：%2\n买入：%3 z\n卖出：%4 z\n存档 ID：%5")
@@ -576,7 +891,13 @@ void EncyclopediaPage::showItem(int dexId)
         const EncyclopediaWeapon weapon = m_repository.weapon(uses[index]);
         m_materialLinks->addWidget(makeLink(weapon.name, weaponUri(weapon)));
     }
-    m_materialTitle->setText(QString::fromUtf8("用于以下武器"));
+    const QVector<int> armorUses = m_repository.armorUses(dexId);
+    for (int armorId : armorUses)
+    {
+        const EncyclopediaArmor armor = m_repository.armor(armorId);
+        m_materialLinks->addWidget(makeLink(QString::fromUtf8("防具 · %1").arg(armor.name), armorUri(armor)));
+    }
+    m_materialTitle->setText(QString::fromUtf8("用于以下武器 / 防具"));
     m_upgradeTitle->hide();
     m_upgradeBody->hide();
     m_addButton->setText(QString::fromUtf8("加入道具箱"));
@@ -589,6 +910,7 @@ void EncyclopediaPage::refreshAddButton()
     bool writable = false;
     if (m_currentWeapon >= 0) writable = m_repository.weapon(m_currentWeapon).writable;
     else if (m_currentItem >= 0) writable = m_repository.item(m_currentItem).writable;
+    else if (m_currentArmor >= 0) writable = m_repository.armor(m_currentArmor).writable;
     const bool loaded = m_bridge != 0 && m_bridge->hasOpenSave();
     m_addButton->setEnabled(writable && loaded);
     if (!writable)
@@ -597,6 +919,15 @@ void EncyclopediaPage::refreshAddButton()
         m_addButton->setToolTip(QString::fromUtf8("读取 3DS 或 Wii U 角色存档后即可加入。"));
     else
         m_addButton->setToolTip(QString::fromUtf8("写入第一个空箱格；不会自动保存或穿戴。"));
+
+    bool setWritable = m_currentArmor >= 0;
+    const QVector<int> members = setWritable ? visibleArmorMembers(m_repository.armorSet(m_currentArmorSet)) : QVector<int>();
+    if (members.isEmpty()) setWritable = false;
+    for (int dexId : members) if (!m_repository.armor(dexId).writable) setWritable = false;
+    m_addSetButton->setEnabled(setWritable && loaded);
+    if (!setWritable) m_addSetButton->setToolTip(QString::fromUtf8("套装中存在存档 ID 待验证的成员，不能部分加入。"));
+    else if (!loaded) m_addSetButton->setToolTip(QString::fromUtf8("读取存档后即可将整套加入装备箱。"));
+    else m_addSetButton->setToolTip(QString::fromUtf8("先预留全部空格，再一次性写入内存；不会自动保存。"));
 }
 
 void EncyclopediaPage::addCurrent()
@@ -622,6 +953,11 @@ void EncyclopediaPage::addCurrent()
                 QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes) return;
         result = m_bridge->addWeapon(quint8(weapon.saveType), quint16(weapon.saveId));
         if (result.success) emit weaponAdded();
+    }
+    else if (m_currentArmor >= 0)
+    {
+        addCurrentArmor();
+        return;
     }
     else if (m_currentItem >= 0)
     {
@@ -657,6 +993,63 @@ void EncyclopediaPage::addCurrent()
     QMessageBox::information(this, QString::fromUtf8("已加入（尚未保存）"),
         QString::fromUtf8("“%1”已加入%2。\n请点击主窗口的“保存修改”写入磁盘。")
             .arg(name, result.slotLabel()));
+}
+
+void EncyclopediaPage::addCurrentArmor()
+{
+    if (m_bridge == 0 || !m_bridge->hasOpenSave() || m_currentArmor < 0) return;
+    const EncyclopediaArmor armor = m_repository.armor(m_currentArmor);
+    if (!armor.writable) return;
+    const SaveActionResult preview = m_bridge->previewAddArmor(quint8(armor.saveType), quint16(armor.saveId));
+    if (!preview.success)
+    {
+        QMessageBox::warning(this, QString::fromUtf8("无法加入装备箱"), preview.error);
+        return;
+    }
+    const QString prompt = QString::fromUtf8("将“%1”加入装备箱的%2。\n\n只写入已验证的类型和 ID，其他字段清零；不会自动穿戴或保存磁盘。")
+        .arg(armor.name, preview.slotLabel());
+    if (QMessageBox::question(this, QString::fromUtf8("确认加入防具"), prompt,
+            QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes) return;
+    const SaveActionResult result = m_bridge->addArmor(quint8(armor.saveType), quint16(armor.saveId));
+    if (!result.success) { QMessageBox::warning(this, QString::fromUtf8("快速加入失败"), result.error); return; }
+    emit armorAdded(); emit modified();
+    QMessageBox::information(this, QString::fromUtf8("已加入（尚未保存）"),
+        QString::fromUtf8("“%1”已加入%2。\n请点击主窗口的“保存修改”写入磁盘。")
+            .arg(armor.name, result.slotLabel()));
+}
+
+void EncyclopediaPage::addCurrentArmorSet()
+{
+    if (m_bridge == 0 || !m_bridge->hasOpenSave() || m_currentArmor < 0) return;
+    const EncyclopediaArmorSet set = m_repository.armorSet(m_currentArmorSet);
+    const QVector<int> members = visibleArmorMembers(set);
+    QVector<ArmorSaveRef> refs;
+    QStringList names;
+    for (int dexId : members)
+    {
+        const EncyclopediaArmor armor = m_repository.armor(dexId);
+        if (!armor.writable)
+        {
+            QMessageBox::warning(this, QString::fromUtf8("无法加入整套"),
+                QString::fromUtf8("“%1”的存档 ID 尚未确认，未写入任何内容。").arg(armor.name));
+            return;
+        }
+        ArmorSaveRef ref; ref.saveType = quint8(armor.saveType); ref.saveId = quint16(armor.saveId);
+        refs.append(ref); names.append(armor.name);
+    }
+    const SaveActionBatchResult preview = m_bridge->previewAddArmorSet(refs);
+    if (!preview.success) { QMessageBox::warning(this, QString::fromUtf8("无法加入整套"), preview.error); return; }
+    const QString prompt = QString::fromUtf8("将“%1”当前性别下的 %2 件防具一次性加入装备箱？\n\n%3\n\n"
+        "全部空格预留成功后才写入内存；不会自动穿戴或保存磁盘。")
+        .arg(set.name).arg(refs.size()).arg(names.join(QString::fromUtf8("、")));
+    if (QMessageBox::question(this, QString::fromUtf8("确认加入整套"), prompt,
+            QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes) return;
+    const SaveActionBatchResult result = m_bridge->addArmorSet(refs);
+    if (!result.success) { QMessageBox::warning(this, QString::fromUtf8("加入整套失败"), result.error); return; }
+    emit armorAdded(); emit modified();
+    QMessageBox::information(this, QString::fromUtf8("整套已加入（尚未保存）"),
+        QString::fromUtf8("“%1”的 %2 件防具已加入装备箱。\n请点击主窗口的“保存修改”写入磁盘。")
+            .arg(set.name).arg(refs.size()));
 }
 
 void EncyclopediaPage::highlightRoute(int dexId)

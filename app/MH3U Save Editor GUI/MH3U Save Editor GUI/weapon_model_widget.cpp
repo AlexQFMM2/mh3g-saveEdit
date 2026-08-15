@@ -13,7 +13,7 @@
 #include <QtConcurrent>
 
 WeaponModelWidget::WeaponModelWidget(QWidget *parent)
-    : QOpenGLWidget(parent), m_request(0), m_glReady(false), m_gpuReady(false), m_cacheBytes(0),
+    : QOpenGLWidget(parent), m_upright(false), m_request(0), m_glReady(false), m_gpuReady(false), m_cacheBytes(0),
       m_program(0), m_vertexBuffer(QOpenGLBuffer::VertexBuffer), m_indexBuffer(QOpenGLBuffer::IndexBuffer),
       m_yaw(-32.0f), m_pitch(18.0f), m_distance(3.0f)
 {
@@ -84,11 +84,13 @@ void WeaponModelWidget::setStatus(const QString &text, bool error)
     m_status->show();
 }
 
-void WeaponModelWidget::setModel(const QString &modelKey, const QString &arcRelativePath)
+void WeaponModelWidget::setModel(const QString &modelKey, const QString &arcRelativePath, bool upright)
 {
-    if (m_modelKey == modelKey && m_arcRelativePath == arcRelativePath && (m_model || !m_resources.available())) return;
+    if (m_modelKey == modelKey && m_arcRelativePath == arcRelativePath && m_upright == upright
+        && (m_model || !m_resources.available())) return;
     m_modelKey = modelKey;
     m_arcRelativePath = arcRelativePath;
+    m_upright = upright;
     requestLoad();
 }
 
@@ -107,7 +109,9 @@ void WeaponModelWidget::requestLoad()
     m_model.clear();
     if (m_glReady) { makeCurrent(); releaseGpu(); doneCurrent(); }
     if (m_modelKey.isEmpty() || m_arcRelativePath.isEmpty())
-    { setStatus(QString::fromUtf8("该武器的模型映射待确认")); update(); return; }
+    { setStatus(QString::fromUtf8("该条目没有独立模型资源")); update(); return; }
+    if (m_arcRelativePath.startsWith("armor-mod/") && !m_resources.armorAvailable())
+    { setStatus(m_resources.statusText(m_arcRelativePath)); update(); return; }
     if (!m_resources.available())
     { setStatus(QString::fromUtf8("当前版本未包含 3D 模型资源\n请使用带 resources 目录的完整整合包")); update(); return; }
     const QSharedPointer<Mh3gCpuModel> cached = m_cache.value(m_modelKey);
@@ -274,8 +278,8 @@ void WeaponModelWidget::paintGL()
     QMatrix4x4 view;
     view.translate(m_pan.x() * radius, m_pan.y() * radius, -m_distance * radius);
     view.rotate(m_pitch, 1, 0, 0); view.rotate(m_yaw, 0, 1, 0);
-    if (extent.y() >= extent.x() && extent.y() >= extent.z()) view.rotate(-90.0f, 0, 0, 1);
-    else if (extent.z() >= extent.x()) view.rotate(90.0f, 0, 1, 0);
+    if (!m_upright && extent.y() >= extent.x() && extent.y() >= extent.z()) view.rotate(-90.0f, 0, 0, 1);
+    else if (!m_upright && extent.z() >= extent.x()) view.rotate(90.0f, 0, 1, 0);
     view.translate(-center);
     m_program->bind();
     m_program->setUniformValue("modelView", view);

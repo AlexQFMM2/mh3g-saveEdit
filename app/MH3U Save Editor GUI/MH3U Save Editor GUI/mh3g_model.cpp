@@ -309,8 +309,8 @@ bool Mh3gModelLoader::parseMod(const QByteArray &data, Mh3gCpuModel *model, QStr
     { if (error) *error = QString::fromUtf8("MOD 数量或数据偏移越界"); return false; }
 
     model->vertices.clear(); model->indices.clear(); model->drawCalls.clear();
-    model->vertices.resize(int(vertexCount));
-    QVector<bool> decoded(int(vertexCount), false);
+    model->vertices.reserve(int(vertexCount));
+    QHash<quint32, quint32> vertexByAddress;
     bool hasBounds = false;
     for (int primitive = 0; primitive < primitiveCount; ++primitive)
     {
@@ -323,7 +323,7 @@ bool Mh3gModelLoader::parseMod(const QByteArray &data, Mh3gCpuModel *model, QStr
         const int materialIndex = int((packedPrimitive >> 12) & 0xfffU);
         if (!readLe(data, base + 12, &vertexStart) || !readLe(data, base + 16, &relative)
             || !readLe(data, base + 24, &stripOffset) || !readLe(data, base + 28, &stripCount)) return false;
-        if ((stride != 28 && stride != 32 && stride != 36) || materialIndex >= qMax(1, int(materialCount))
+        if ((stride != 28 && stride != 32 && stride != 36 && stride != 44) || materialIndex >= qMax(1, int(materialCount))
             || vertexStart > vertexCount || count > vertexCount - vertexStart
             || !rangeOk(qint64(vertexOffset) + relative + qint64(vertexStart) * stride, qint64(count) * stride, data.size())
             || !rangeOk(qint64(indexOffset) + qint64(stripOffset) * 2, qint64(stripCount) * 2, data.size()))
@@ -331,7 +331,9 @@ bool Mh3gModelLoader::parseMod(const QByteArray &data, Mh3gCpuModel *model, QStr
         for (quint32 local = 0; local < count; ++local)
         {
             const quint32 global = vertexStart + local;
-            const int address = int(vertexOffset + relative + global * stride);
+            const quint32 addressValue = vertexOffset + relative + global * stride;
+            const int address = int(addressValue);
+            if (vertexByAddress.contains(addressValue)) continue;
             bool ok = true;
             Mh3gVertex vertex;
             vertex.position = QVector3D(readFloat(data, address, &ok), readFloat(data, address + 4, &ok), readFloat(data, address + 8, &ok));
@@ -339,7 +341,8 @@ bool Mh3gModelLoader::parseMod(const QByteArray &data, Mh3gCpuModel *model, QStr
             vertex.normal = QVector3D(nx / 127.0f, ny / 127.0f, nz / 127.0f).normalized();
             vertex.uv = QVector2D(readFloat(data, address + 16, &ok), readFloat(data, address + 20, &ok));
             if (!ok) { if (error) *error = QString::fromUtf8("MOD 顶点包含无效浮点数"); return false; }
-            model->vertices[int(global)] = vertex; decoded[int(global)] = true;
+            vertexByAddress[addressValue] = quint32(model->vertices.size());
+            model->vertices.append(vertex);
             if (!hasBounds) { model->boundsMinimum = model->boundsMaximum = vertex.position; hasBounds = true; }
             else
             {
@@ -356,9 +359,10 @@ bool Mh3gModelLoader::parseMod(const QByteArray &data, Mh3gCpuModel *model, QStr
         for (quint32 item = 0; item < stripCount; ++item)
         {
             quint16 value = 0; readLe(data, int(indexOffset + (stripOffset + item) * 2), &value);
-            if (value >= vertexCount || !decoded[int(value)])
+            const quint32 address = vertexOffset + relative + quint32(value) * stride;
+            if (value >= vertexCount || !vertexByAddress.contains(address))
             { if (error) *error = QString::fromUtf8("MOD Primitive %1 的索引越界").arg(primitive); return false; }
-            strip.append(value);
+            strip.append(quint16(vertexByAddress.value(address)));
         }
         Mh3gDrawCall draw;
         draw.firstIndex = model->indices.size();

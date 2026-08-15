@@ -108,6 +108,7 @@ MH3U_SV::MH3U_SV(QWidget *parent)
     connect(encyclopediaPage, SIGNAL(modified()), this, SLOT(markModified()));
     connect(encyclopediaPage, SIGNAL(itemAdded()), this, SLOT(refreshChestFromModel()));
     connect(encyclopediaPage, SIGNAL(weaponAdded()), this, SLOT(refreshBoxFromModel()));
+    connect(encyclopediaPage, SIGNAL(armorAdded()), this, SLOT(refreshBoxFromModel()));
 
     QScrollArea *content = new QScrollArea(workspace);
     content->setObjectName("contentArea");
@@ -192,7 +193,7 @@ void MH3U_SV::setCurrentPage(QWidget *page, QPushButton *button, const QString &
 void MH3U_SV::showCharacter() { setCurrentPage(characterPage, characterButton, QString::fromUtf8("角色")); }
 void MH3U_SV::showChest() { setCurrentPage(chestPage, chestButton, QString::fromUtf8("道具箱")); }
 void MH3U_SV::showBox() { setCurrentPage(boxPage, boxButton, QString::fromUtf8("装备箱")); }
-void MH3U_SV::showEncyclopedia() { setCurrentPage(encyclopediaPage, encyclopediaButton, QString::fromUtf8("资料库 · 武器图鉴")); }
+void MH3U_SV::showEncyclopedia() { setCurrentPage(encyclopediaPage, encyclopediaButton, QString::fromUtf8("资料库")); }
 
 void MH3U_SV::markModified()
 {

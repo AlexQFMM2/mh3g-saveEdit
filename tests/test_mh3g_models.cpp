@@ -93,8 +93,11 @@ int main(int argc, char **argv)
     {
         GameResourceManager resources;
         QString bundledError;
+        const bool v2 = resources.armorAvailable();
         if (!resources.available() || resources.archivePath("w00/w00_01.arc").isEmpty()
-            || !resources.statusText().contains(QString::fromUtf8("整合包")))
+            || (v2 && resources.archivePath("armor-mod/f/pl000/f_helm000.arc").isEmpty())
+            || (!v2 && !resources.statusText().contains(QString::fromUtf8("整合包")))
+            || (v2 && !resources.statusText().contains("Resources v2")))
         {
             bundledError = resources.statusText();
             std::cerr << "bundled resource lookup failed: " << bundledError.toStdString() << '\n';
@@ -102,6 +105,39 @@ int main(int argc, char **argv)
         }
         std::cout << "bundled resources loaded directly\n";
         return 0;
+    }
+    if (app.arguments().size() == 3 && app.arguments().at(1) == "--armor-root")
+    {
+        const QDir root(app.arguments().at(2));
+        int count = 0, failed = 0;
+        const QStringList genders = QStringList() << "f" << "m";
+        for (const QString &gender : genders)
+        {
+            QDir genderRoot(root.filePath(gender));
+            for (const QString &directoryName : genderRoot.entryList(QStringList() << "pl???", QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name))
+            {
+                QDir directory(genderRoot.filePath(directoryName));
+                for (const QString &file : directory.entryList(QStringList() << "*.arc", QDir::Files, QDir::Name))
+                {
+                    ++count;
+                    QSharedPointer<Mh3gCpuModel> loaded = Mh3gModelLoader::load(directoryName + "/" + file, directory.filePath(file));
+                    bool hasAlbedo = false, materialRangesValid = true;
+                    for (const Mh3gMaterial &material : loaded->materials) if (!material.albedo.isNull()) hasAlbedo = true;
+                    for (const Mh3gDrawCall &draw : loaded->drawCalls)
+                        if (draw.materialIndex < 0 || draw.materialIndex >= loaded->materials.size()
+                            || draw.firstIndex < 0 || draw.indexCount <= 0
+                            || draw.firstIndex + draw.indexCount > loaded->indices.size()) materialRangesValid = false;
+                    if (!loaded->valid() || !hasAlbedo || loaded->drawCalls.isEmpty() || !materialRangesValid)
+                    {
+                        ++failed;
+                        std::cerr << gender.toStdString() << "/" << directoryName.toStdString() << "/" << file.toStdString()
+                            << ": " << (loaded->error.isEmpty() ? "missing material/geometry" : loaded->error.toStdString()) << '\n';
+                    }
+                }
+            }
+        }
+        std::cout << "armor archives=" << count << " failed=" << failed << '\n';
+        return count == 2004 && failed == 0 ? 0 : 1;
     }
     QString error; Mh3gCpuModel model;
     if (!Mh3gModelLoader::parseMod(fixtureMod(), &model, &error) || model.vertices.size() != 3

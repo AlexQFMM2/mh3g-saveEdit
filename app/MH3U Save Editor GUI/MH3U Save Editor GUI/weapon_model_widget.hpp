@@ -25,7 +25,7 @@ public:
     explicit WeaponModelWidget(QWidget *parent = 0);
     ~WeaponModelWidget();
 
-    void setModel(const QString &modelKey, const QString &arcRelativePath);
+    void setModel(const QString &modelKey, const QString &arcRelativePath, bool upright = false);
     void showItemPlaceholder();
     QString resourceStatus() const;
 
@@ -63,6 +63,7 @@ private:
     GameResourceManager m_resources;
     QString m_modelKey;
     QString m_arcRelativePath;
+    bool m_upright;
     int m_request;
     bool m_glReady;
     bool m_gpuReady;

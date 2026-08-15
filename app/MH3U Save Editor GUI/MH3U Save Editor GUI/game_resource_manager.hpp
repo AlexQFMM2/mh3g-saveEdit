@@ -9,14 +9,20 @@ public:
     GameResourceManager();
 
     QString bundledRoot() const;
+    QString legacyWeaponRoot() const;
     QString activeRoot() const;
     bool available() const;
-    QString statusText() const;
+    bool armorAvailable() const;
+    QString statusText(const QString &relativePath = QString()) const;
     QString archivePath(const QString &relativePath) const;
 
 private:
-    bool validateRoot(const QString &root, QString *error) const;
+    bool validateRoot(const QString &root, const QString &format, int count, QString *error) const;
     bool validateInstalled(QString *error) const;
+    QString m_activeRoot;
+    QString m_status;
+    bool m_available = false;
+    bool m_v2 = false;
 };
 
 #endif
