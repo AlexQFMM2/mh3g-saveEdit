@@ -37,6 +37,11 @@ jobs:
         run: |
           python .\tools\validate_data.py .\data
           python .\tools\validate_encyclopedia.py .\data
+          python .\tools\validate_model_crosswalk.py
+
+      - name: Test model parser fixtures
+        shell: msys2 {0}
+        run: ./tests/run-model-tests.sh
 
       - name: Build portable package
         shell: pwsh
@@ -55,6 +60,8 @@ jobs:
       - name: Create zip
         shell: pwsh
         run: |
+          $forbidden = Get-ChildItem .\release\windows -Recurse -File | Where-Object { $_.Extension -in ".arc", ".mod", ".tex", ".mrl", ".cci" }
+          if ($forbidden) { throw "Portable package contains forbidden game resources: $($forbidden.FullName -join ', ')" }
           Compress-Archive `
             -Path .\release\windows\* `
             -DestinationPath .\MH3USaveEditorGUI-windows-portable.zip `

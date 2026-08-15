@@ -292,6 +292,13 @@ if (-not (Test-Path $PackagedDatabase)) {
     throw "Weapon encyclopedia database missing from portable package: $PackagedDatabase"
 }
 
+$ForbiddenResources = Get-ChildItem -Path $PackageDir -Recurse -File | Where-Object {
+    $_.Extension.ToLowerInvariant() -in @(".arc", ".mod", ".tex", ".mrl", ".cci")
+}
+if ($ForbiddenResources) {
+    throw "Portable package unexpectedly contains game resources: $($ForbiddenResources.FullName -join ', ')"
+}
+
 $RunBat = Join-Path $PackageDir "run-windows.bat"
 Set-Content -Path $RunBat -Encoding ASCII -Value @"
 @echo off

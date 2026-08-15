@@ -22,6 +22,28 @@ does not create a backup. A successful save is confirmed by a message box.
 内存中的箱子数据，不会直接穿戴，也不会自动保存；确认无误后仍需点击“保存修改”。武器写入
 使用经 `ID_res.arc` 校验的真实类型和 ID，不使用 Dex 的全局行号。
 
+### 实时 3D 武器模型
+
+武器详情右侧可以实时浏览游戏模型：左键旋转、右键平移、滚轮缩放，双击或“重置视角”
+恢复自动取景。首次点击“导入模型资源”时，可选择自己的 MH3G `romfs`、
+`arc/weapon/mod` 或其父目录。修改器会自动定位并逐个校验 558 个 ARC（ARC v0x10、
+MOD v0xE6、TEX v0xA5、MRL v0x20），然后把约 36 MiB 复制到本地应用数据目录：
+
+```text
+%LOCALAPPDATA%/MH3USaveEditor/resources/mh3g/weapon-mod/v1/
+```
+
+重新导入使用临时目录和目录替换，失败时保留上一版；“清除资源”只删除修改器的本地缓存，
+不会修改原始解包目录。模型浏览和资源管理不会把存档标记为已修改。没有资源、单件解析失败或
+OpenGL 3.3 不可用时，图鉴属性、路线、素材和快速加入仍可正常使用。
+
+模型映射来自游戏 ExeFS 武器参数记录中的真实 `model_id`，完整覆盖 1,421 个武器形态到
+558 个复用模型；不使用 Dex 行号、`WpnImg_*` 顺序或目录偏移猜测。首版显示绑定姿势和基础
+漫反射/透明/高光近似，不复刻游戏专用的粒子、发光及动态机关着色。
+
+仓库、GitHub Action 和 portable 包都不包含 CCI、ARC、MOD、TEX 或 MRL。请只导入自己
+合法持有并解包的游戏资源。
+
 ## Game-resource ID tables
 
 The item, five armor-part, and twelve weapon CSV tables are generated from the
@@ -79,3 +101,17 @@ Pass known-good 3DS and Wii U character files to the test runner:
 ```
 
 The test verifies byte-identical unchanged round trips, read/write byte-order conversion for money, Moga Points, items, equipment, and jewels, and item/equipment transfers in both directions. It also verifies encyclopedia previews and quick adds on both formats: only the chosen empty slot may change, full boxes and invalid IDs must remain byte-identical, and the source file cannot change before the normal save command. Test inputs are never overwritten.
+
+模型解析器的合成 fixture 测试不需要游戏资源：
+
+```bash
+./tests/run-model-tests.sh
+```
+
+本地拥有解包资源时，可额外对全部 558 个 ARC 执行解析、纹理和导入往返测试；测试缓存位于
+临时目录并会清除：
+
+```bash
+./tests/run-model-tests.sh /path/to/romfs/arc/weapon/mod
+python3 tools/validate_model_crosswalk.py --resources /path/to/romfs/arc/weapon/mod
+```
