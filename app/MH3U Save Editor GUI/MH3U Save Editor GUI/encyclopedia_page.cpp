@@ -667,8 +667,6 @@ void EncyclopediaPage::rebuildArmorList()
     int fallback = -1;
     int retained = -1;
     static const QStringList parts = QStringList() << "head" << "chest" << "arms" << "waist" << "legs";
-    static const QStringList partNames = QStringList() << QString::fromUtf8("头") << QString::fromUtf8("胸")
-        << QString::fromUtf8("腕") << QString::fromUtf8("腰") << QString::fromUtf8("腿");
     for (const EncyclopediaArmorSet &set : m_repository.armorSets())
     {
         if (set.rank != rank || (combat != "all" && set.combat != "both" && set.combat != combat)) continue;
@@ -717,18 +715,17 @@ void EncyclopediaPage::rebuildArmorList()
             QPushButton *card = new QPushButton(row);
             card->setObjectName("armorPieceCard");
             card->setCheckable(found >= 0);
-            card->setMinimumHeight(82);
+            card->setFixedHeight(42);
             card->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
             if (found < 0)
             {
-                card->setText(QString::fromUtf8("%1\n— 缺件 —").arg(partNames[partIndex]));
+                card->setText(QString::fromUtf8("—"));
                 card->setEnabled(false);
             }
             else
             {
                 const EncyclopediaArmor armor = m_repository.armor(found);
-                card->setText(QString::fromUtf8("%1\n%2\nR%3 · %4孔")
-                    .arg(partNames[partIndex], armor.name).arg(armor.rarity).arg(armor.slotCount));
+                card->setText(armor.name);
                 card->setToolTip(QString("%1\n%2\nDex %3 · Save %4:%5")
                     .arg(armor.name, armor.english).arg(armor.dexId).arg(armor.saveType).arg(armor.saveId));
                 card->setProperty("armorDexId", found);

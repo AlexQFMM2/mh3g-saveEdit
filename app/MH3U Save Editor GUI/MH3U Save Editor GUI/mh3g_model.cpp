@@ -6,6 +6,7 @@
 #include <QtMath>
 
 #include <cstring>
+#include <functional>
 #include <limits>
 
 namespace
@@ -175,6 +176,24 @@ struct BindMatrix
 {
     float values[16];
 
+    static BindMatrix identity()
+    {
+        BindMatrix result = {};
+        result.values[0] = result.values[5] = result.values[10] = result.values[15] = 1.0f;
+        return result;
+    }
+
+    static BindMatrix multiply(const BindMatrix &left, const BindMatrix &right)
+    {
+        BindMatrix result = {};
+        for (int column = 0; column < 4; ++column)
+            for (int row = 0; row < 4; ++row)
+                for (int inner = 0; inner < 4; ++inner)
+                    result.values[column * 4 + row] += left.values[inner * 4 + row]
+                        * right.values[column * 4 + inner];
+        return result;
+    }
+
     QVector3D position(const QVector3D &value) const
     {
         return QVector3D(
@@ -191,6 +210,176 @@ struct BindMatrix
             value.x() * values[2] + value.y() * values[6] + value.z() * values[10]);
     }
 };
+
+struct PoseRotation
+{
+    int boneId;
+    float x, y, z, w;
+};
+
+// mot_plcom_0000, motion 1, sampled at the middle of its 201-frame idle loop.
+// The common player motion uses global bone IDs, while MOD vertex indices remain
+// local to each component. Keeping this small fixed pose avoids shipping or
+// playing the complete LMT animation set in the fitting room.
+const PoseRotation FittingRotations[] = {
+    {1, -0.045747315f, -0.325327837f, -0.008270531f, 0.944457823f},
+    {2,  0.081412968f,  0.016342610f, -0.004038605f, 0.996538277f},
+    {3,  0.028916137f,  0.150653877f,  0.016933873f, 0.988018477f},
+    {4, -0.007232913f,  0.144047805f, -0.048394873f, 0.988360183f},
+    {5,  0.058701695f,  0.028961747f, -0.108843029f, 0.991901468f},
+    {6,  0.005600116f,  0.043687044f, -0.491238816f, 0.869910632f},
+    {7,  0.047852868f, -0.277992174f, -0.014236839f, 0.959285029f},
+    {8, -0.185661004f,  0.037339729f, -0.057787306f, 0.980202205f},
+    {9,  0.078020535f, -0.011169766f,  0.104098596f, 0.991439113f},
+    {10, 0.072924245f,  0.139027588f,  0.466034601f, 0.870726786f},
+    {11,-0.002243121f,  0.210593440f, -0.000442520f, 0.977571059f},
+    {12,-0.173207392f, -0.082964368f,  0.119952728f, 0.974026415f},
+    {13,-0.070939651f, -0.316886177f,  0.001220728f, 0.945806125f},
+    {14,-0.010895107f,  0.217978339f,  0.123859308f, 0.968000833f},
+    {15, 0.0f,          0.0f,          0.0f,         1.0f},
+    {16,-0.047425688f, -0.053132632f, -0.106219495f, 0.991788862f},
+    {17, 0.041429238f, -0.148489116f, -0.182410736f, 0.971061751f},
+    {18, 0.0f,          0.0f,          0.0f,         1.0f},
+    {19,-0.079738433f,  0.017484207f,  0.143573535f, 0.986267066f}
+};
+
+const QVector3D FittingRootTranslation(0.109665794f, 101.707554f, -0.309764757f);
+
+bool fittingRotation(int boneId, PoseRotation *rotation)
+{
+    for (const PoseRotation &candidate : FittingRotations)
+        if (candidate.boneId == boneId)
+        {
+            if (rotation) *rotation = candidate;
+            return true;
+        }
+    return false;
+}
+
+BindMatrix replaceRotation(const BindMatrix &source, const PoseRotation &input)
+{
+    BindMatrix result = source;
+    const float length = qSqrt(input.x * input.x + input.y * input.y + input.z * input.z + input.w * input.w);
+    if (length <= 1.0e-8f) return result;
+    const float x = input.x / length, y = input.y / length, z = input.z / length, w = input.w / length;
+    const float scaleX = qSqrt(source.values[0] * source.values[0]
+        + source.values[1] * source.values[1] + source.values[2] * source.values[2]);
+    const float scaleY = qSqrt(source.values[4] * source.values[4]
+        + source.values[5] * source.values[5] + source.values[6] * source.values[6]);
+    const float scaleZ = qSqrt(source.values[8] * source.values[8]
+        + source.values[9] * source.values[9] + source.values[10] * source.values[10]);
+    const float sx = scaleX > 1.0e-8f ? scaleX : 1.0f;
+    const float sy = scaleY > 1.0e-8f ? scaleY : 1.0f;
+    const float sz = scaleZ > 1.0e-8f ? scaleZ : 1.0f;
+    result.values[0] = (1.0f - 2.0f * (y * y + z * z)) * sx;
+    result.values[1] = (2.0f * (x * y + z * w)) * sx;
+    result.values[2] = (2.0f * (x * z - y * w)) * sx;
+    result.values[4] = (2.0f * (x * y - z * w)) * sy;
+    result.values[5] = (1.0f - 2.0f * (x * x + z * z)) * sy;
+    result.values[6] = (2.0f * (y * z + x * w)) * sy;
+    result.values[8] = (2.0f * (x * z + y * w)) * sz;
+    result.values[9] = (2.0f * (y * z - x * w)) * sz;
+    result.values[10] = (1.0f - 2.0f * (x * x + y * y)) * sz;
+    return result;
+}
+
+typedef QHash<int, BindMatrix> SkeletonPose;
+
+bool readMatrix(const QByteArray &data, int offset, BindMatrix *matrix);
+
+BindMatrix fromQtMatrix(const QMatrix4x4 &source)
+{
+    BindMatrix result;
+    std::memcpy(result.values, source.constData(), sizeof(result.values));
+    return result;
+}
+
+QMatrix4x4 toQtMatrix(const BindMatrix &source)
+{
+    QMatrix4x4 result;
+    std::memcpy(result.data(), source.values, sizeof(source.values));
+    return result;
+}
+
+Mh3gSkeletonPose toPublicPose(const SkeletonPose &source)
+{
+    Mh3gSkeletonPose result;
+    for (auto it = source.constBegin(); it != source.constEnd(); ++it)
+        result.globalByBoneId.insert(it.key(), toQtMatrix(it.value()));
+    return result;
+}
+
+bool buildSkeletonPose(const QByteArray &data, quint16 boneCount, quint32 boneOffset,
+                       bool fitting, SkeletonPose *pose, QVector<BindMatrix> *worldByLocal,
+                       QString *error)
+{
+    if (!pose || !worldByLocal || boneCount == 0 || boneCount > 256
+        || !rangeOk(boneOffset, qint64(boneCount) * (24 + 64 + 64) + 256, data.size()))
+    { if (error) *error = QString::fromUtf8("MOD 人物骨架缺失或越界"); return false; }
+    const int referenceOffset = int(boneOffset) + int(boneCount) * 24;
+    QVector<BindMatrix> local;
+    QVector<int> boneIds, parents;
+    local.resize(int(boneCount));
+    boneIds.resize(int(boneCount));
+    parents.resize(int(boneCount));
+    bool hasPlayerRoot = false;
+    for (int bone = 0; bone < boneCount; ++bone)
+    {
+        const int record = int(boneOffset) + bone * 24;
+        boneIds[bone] = quint8(data.at(record));
+        parents[bone] = quint8(data.at(record + 1));
+        hasPlayerRoot = hasPlayerRoot || boneIds[bone] == 0;
+        if (!readMatrix(data, referenceOffset + bone * 64, &local[bone]))
+        { if (error) *error = QString::fromUtf8("MOD 骨骼参考矩阵无效"); return false; }
+        if (fitting)
+        {
+            PoseRotation rotation;
+            if (fittingRotation(boneIds[bone], &rotation)) local[bone] = replaceRotation(local[bone], rotation);
+            if (boneIds[bone] == 0)
+            {
+                local[bone].values[12] = FittingRootTranslation.x();
+                local[bone].values[13] = FittingRootTranslation.y();
+                local[bone].values[14] = FittingRootTranslation.z();
+            }
+        }
+    }
+
+    BindMatrix externalRoot = BindMatrix::identity();
+    if (fitting && !hasPlayerRoot)
+    {
+        externalRoot.values[12] = FittingRootTranslation.x();
+        externalRoot.values[13] = FittingRootTranslation.y();
+        externalRoot.values[14] = FittingRootTranslation.z();
+    }
+    worldByLocal->resize(int(boneCount));
+    QVector<quint8> state(int(boneCount), 0);
+    std::function<bool(int)> resolve = [&](int bone) -> bool {
+        if (state[bone] == 2) return true;
+        if (state[bone] == 1)
+        { if (error) *error = QString::fromUtf8("MOD 骨骼父子关系存在循环"); return false; }
+        state[bone] = 1;
+        const int parent = parents[bone];
+        if (parent == 0xff) (*worldByLocal)[bone] = BindMatrix::multiply(externalRoot, local[bone]);
+        else
+        {
+            if (parent < 0 || parent >= boneCount || !resolve(parent))
+            { if (error && error->isEmpty()) *error = QString::fromUtf8("MOD 骨骼父索引越界"); return false; }
+            (*worldByLocal)[bone] = BindMatrix::multiply((*worldByLocal)[parent], local[bone]);
+        }
+        state[bone] = 2;
+        return true;
+    };
+    pose->clear();
+    for (int bone = 0; bone < boneCount; ++bone)
+    {
+        if (!resolve(bone)) return false;
+        // A small number of event/cloth models repeat a global animation ID
+        // for an auxiliary local bone. Both local bones remain skin-able; the
+        // first occurrence is the canonical player-skeleton transform.
+        if (!pose->contains(boneIds[bone])) pose->insert(boneIds[bone], (*worldByLocal)[bone]);
+    }
+    return true;
+}
 
 bool readMatrix(const QByteArray &data, int offset, BindMatrix *matrix)
 {
@@ -322,8 +511,8 @@ bool Mh3gArchiveLoader::validateWeaponArchive(const QString &path, QString *erro
     return true;
 }
 
-bool Mh3gModelLoader::parseMod(const QByteArray &data, Mh3gCpuModel *model, QString *error,
-                               Mh3gModelLoadMode mode)
+bool Mh3gModelLoader::parseModWithPose(const QByteArray &data, Mh3gCpuModel *model, QString *error,
+                                       Mh3gModelLoadMode mode, const Mh3gSkeletonPose *externalPose)
 {
     if (!model) return false;
     quint16 version = 0, boneCount = 0, primitiveCount = 0, materialCount = 0;
@@ -342,15 +531,25 @@ bool Mh3gModelLoader::parseMod(const QByteArray &data, Mh3gCpuModel *model, QStr
     { if (error) *error = QString::fromUtf8("MOD 数量或数据偏移越界"); return false; }
 
     QVector<BindMatrix> bindMatrices;
-    if (mode == Mh3gModelLoadMode::BindPose)
+    if (mode != Mh3gModelLoadMode::Raw)
     {
-        if (boneCount == 0 || boneCount > 256 || !rangeOk(boneOffset, qint64(boneCount) * (24 + 64 + 64) + 256, data.size()))
-        { if (error) *error = QString::fromUtf8("MOD 人物骨架缺失或越界"); return false; }
+        SkeletonPose localPose;
+        QVector<BindMatrix> worldByLocal;
+        const bool fitting = mode == Mh3gModelLoadMode::FittingPose;
+        if (!buildSkeletonPose(data, boneCount, boneOffset, fitting, &localPose, &worldByLocal, error)) return false;
         const int inverseBindOffset = int(boneOffset) + int(boneCount) * 24 + int(boneCount) * 64;
         bindMatrices.resize(int(boneCount));
         for (int bone = 0; bone < boneCount; ++bone)
-            if (!readMatrix(data, inverseBindOffset + bone * 64, &bindMatrices[bone]))
+        {
+            BindMatrix inverseBind;
+            if (!readMatrix(data, inverseBindOffset + bone * 64, &inverseBind))
             { if (error) *error = QString::fromUtf8("MOD 骨骼绑定矩阵无效"); return false; }
+            BindMatrix desiredPose = worldByLocal[bone];
+            const int globalId = quint8(data.at(int(boneOffset) + bone * 24));
+            if (fitting && externalPose && externalPose->globalByBoneId.contains(globalId))
+                desiredPose = fromQtMatrix(externalPose->globalByBoneId.value(globalId));
+            bindMatrices[bone] = BindMatrix::multiply(desiredPose, inverseBind);
+        }
     }
 
     model->vertices.clear(); model->indices.clear(); model->drawCalls.clear();
@@ -386,7 +585,7 @@ bool Mh3gModelLoader::parseMod(const QByteArray &data, Mh3gCpuModel *model, QStr
             vertex.normal = QVector3D(nx / 127.0f, ny / 127.0f, nz / 127.0f).normalized();
             vertex.uv = QVector2D(readFloat(data, address + 16, &ok), readFloat(data, address + 20, &ok));
             if (!ok) { if (error) *error = QString::fromUtf8("MOD 顶点包含无效浮点数"); return false; }
-            if (mode == Mh3gModelLoadMode::BindPose)
+            if (mode != Mh3gModelLoadMode::Raw)
             {
                 int boneIndexes[4] = {quint8(data.at(address + 24)), quint8(data.at(address + 25)), 0, 0};
                 int boneWeights[4] = {quint8(data.at(address + 26)), quint8(data.at(address + 27)), 0, 0};
@@ -455,6 +654,12 @@ bool Mh3gModelLoader::parseMod(const QByteArray &data, Mh3gCpuModel *model, QStr
     return true;
 }
 
+bool Mh3gModelLoader::parseMod(const QByteArray &data, Mh3gCpuModel *model, QString *error,
+                               Mh3gModelLoadMode mode)
+{
+    return parseModWithPose(data, model, error, mode, 0);
+}
+
 bool Mh3gModelLoader::decodeTex(const QByteArray &data, QImage *image, QString *error)
 {
     quint16 version = 0; quint32 packed = 0;
@@ -503,8 +708,8 @@ bool Mh3gModelLoader::decodeTex(const QByteArray &data, QImage *image, QString *
     return true;
 }
 
-QSharedPointer<Mh3gCpuModel> Mh3gModelLoader::load(const QString &modelKey, const QString &arcPath,
-                                                   Mh3gModelLoadMode mode)
+QSharedPointer<Mh3gCpuModel> Mh3gModelLoader::loadWithPose(const QString &modelKey,
+    const QString &arcPath, Mh3gModelLoadMode mode, const Mh3gSkeletonPose *pose)
 {
     QSharedPointer<Mh3gCpuModel> model(new Mh3gCpuModel);
     model->modelKey = modelKey;
@@ -545,7 +750,7 @@ QSharedPointer<Mh3gCpuModel> Mh3gModelLoader::load(const QString &modelKey, cons
     for (int index : modIndexes)
     {
         Mh3gCpuModel part;
-        if (!parseMod(entries[index].data, &part, &model->error, mode))
+        if (!parseModWithPose(entries[index].data, &part, &model->error, mode, pose))
         { model->error = QString::fromUtf8("%1：%2").arg(entries[index].name, model->error); return model; }
         const quint32 baseVertex = quint32(model->vertices.size());
         const int baseIndex = model->indices.size();
@@ -582,6 +787,60 @@ QSharedPointer<Mh3gCpuModel> Mh3gModelLoader::load(const QString &modelKey, cons
     }
     generateTangents(model.data());
     return model;
+}
+
+QSharedPointer<Mh3gCpuModel> Mh3gModelLoader::load(const QString &modelKey, const QString &arcPath,
+                                                   Mh3gModelLoadMode mode)
+{
+    return loadWithPose(modelKey, arcPath, mode, 0);
+}
+
+QSharedPointer<Mh3gCpuModel> Mh3gModelLoader::loadCharacter(
+    const QString &modelKey, const QVector<QPair<QString, QString> > &components,
+    int bodyComponentIndex)
+{
+    QSharedPointer<Mh3gCpuModel> result(new Mh3gCpuModel);
+    result->modelKey = modelKey;
+    if (bodyComponentIndex < 0 || bodyComponentIndex >= components.size())
+    { result->error = QString::fromUtf8("人物主体组件索引无效"); return result; }
+
+    QVector<Mh3gArchiveEntry> bodyEntries;
+    if (!Mh3gArchiveLoader::read(components[bodyComponentIndex].second, &bodyEntries, &result->error)) return result;
+    Mh3gSkeletonPose fittingPose;
+    QString poseError;
+    for (const Mh3gArchiveEntry &entry : bodyEntries)
+    {
+        if (entry.typeHash != HashMod || entry.data.size() < 64) continue;
+        quint16 boneCount = 0;
+        quint32 boneOffset = 0;
+        if (!readLe(entry.data, 6, &boneCount) || !readLe(entry.data, 0x28, &boneOffset)) continue;
+        SkeletonPose internalPose;
+        QVector<BindMatrix> worldByLocal;
+        if (!buildSkeletonPose(entry.data, boneCount, boneOffset, true,
+                &internalPose, &worldByLocal, &poseError)) continue;
+        if (internalPose.contains(0) && internalPose.size() >= 20)
+        {
+            fittingPose = toPublicPose(internalPose);
+            break;
+        }
+    }
+    if (fittingPose.globalByBoneId.isEmpty())
+    {
+        result->error = QString::fromUtf8("人物主体没有完整玩家骨架：%1")
+            .arg(poseError.isEmpty() ? QString::fromUtf8("未找到骨骼 0..19") : poseError);
+        return result;
+    }
+
+    QVector<QSharedPointer<Mh3gCpuModel> > parts;
+    parts.reserve(components.size());
+    for (const QPair<QString, QString> &component : components)
+    {
+        QSharedPointer<Mh3gCpuModel> part = loadWithPose(component.first, component.second,
+            Mh3gModelLoadMode::FittingPose, &fittingPose);
+        if (!part->valid()) return part;
+        parts.append(part);
+    }
+    return combine(modelKey, parts);
 }
 
 QSharedPointer<Mh3gCpuModel> Mh3gModelLoader::combine(

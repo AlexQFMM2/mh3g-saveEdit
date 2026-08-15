@@ -54,9 +54,15 @@ QByteArray bindPoseFixture(int stride, const QVector<int> &boneIndexes,
     put<quint16>(data, 8, 1); put<quint16>(data, 0x0a, 1); put<quint32>(data, 12, 3);
     put<quint32>(data, 0x28, boneOffset); put<quint32>(data, 0x34, primitiveOffset);
     put<quint32>(data, 0x38, vertexOffset); put<quint32>(data, 0x3c, indexOffset);
-    const int matrices = boneOffset + boneCount * 24 + boneCount * 64;
+    const int referenceMatrices = boneOffset + boneCount * 24;
+    const int matrices = referenceMatrices + boneCount * 64;
     for (int bone = 0; bone < boneCount; ++bone)
     {
+        data[boneOffset + bone * 24] = char(200 + bone);
+        data[boneOffset + bone * 24 + 1] = char(0xff);
+        const int reference = referenceMatrices + bone * 64;
+        putFloat(data, reference + 0, 1.0f); putFloat(data, reference + 20, 1.0f);
+        putFloat(data, reference + 40, 1.0f); putFloat(data, reference + 60, 1.0f);
         const int matrix = matrices + bone * 64;
         putFloat(data, matrix + 0, 1.0f); putFloat(data, matrix + 20, 1.0f);
         putFloat(data, matrix + 40, 1.0f); putFloat(data, matrix + 60, 1.0f);
@@ -84,6 +90,23 @@ QByteArray bindPoseFixture(int stride, const QVector<int> &boneIndexes,
         }
     }
     put<quint16>(data, indexOffset, 0); put<quint16>(data, indexOffset + 2, 1); put<quint16>(data, indexOffset + 4, 2);
+    return data;
+}
+
+QByteArray hierarchicalBindFixture()
+{
+    QByteArray data = bindPoseFixture(32, QVector<int>() << 0 << 1,
+        QVector<int>() << 128 << 127);
+    const int boneOffset = 64;
+    const int boneCount = 2;
+    const int reference = boneOffset + boneCount * 24;
+    const int inverse = reference + boneCount * 64;
+    data[boneOffset] = char(200); data[boneOffset + 1] = char(0xff);
+    data[boneOffset + 24] = char(201); data[boneOffset + 25] = char(0);
+    putFloat(data, reference + 48, 10.0f);
+    putFloat(data, reference + 64 + 48, 3.0f);
+    putFloat(data, inverse + 48, 0.0f);
+    putFloat(data, inverse + 64 + 48, 0.0f);
     return data;
 }
 
@@ -185,7 +208,6 @@ int main(int argc, char **argv)
                     }
                 }
             }
-            QVector<QSharedPointer<Mh3gCpuModel> > baseCharacter;
             const QStringList baseFiles = QStringList()
                 << QString("pl000/%1_helm000.arc").arg(gender)
                 << QString("pl000/%1_body000.arc").arg(gender)
@@ -195,6 +217,7 @@ int main(int argc, char **argv)
                 << QString("face000/%1_face000.arc").arg(gender)
                 << QString("hair000/%1_hair000.arc").arg(gender);
             int vertexSum = 0, indexSum = 0, drawSum = 0;
+            QVector<QPair<QString, QString> > componentPaths;
             for (const QString &relative : baseFiles)
             {
                 QSharedPointer<Mh3gCpuModel> component = Mh3gModelLoader::load(
@@ -206,14 +229,18 @@ int main(int argc, char **argv)
                     return 1;
                 }
                 vertexSum += component->vertices.size(); indexSum += component->indices.size();
-                drawSum += component->drawCalls.size(); baseCharacter.append(component);
+                drawSum += component->drawCalls.size();
+                componentPaths.append(qMakePair(gender + "/" + relative, genderRoot.filePath(relative)));
             }
-            const QSharedPointer<Mh3gCpuModel> combined = Mh3gModelLoader::combine(
-                "base-character-" + gender, baseCharacter);
+            const QSharedPointer<Mh3gCpuModel> combined = Mh3gModelLoader::loadCharacter(
+                "base-character-" + gender, componentPaths, 1);
             const QVector3D extent = combined->boundsMaximum - combined->boundsMinimum;
             if (!combined->valid() || combined->vertices.size() != vertexSum
                 || combined->indices.size() != indexSum || combined->drawCalls.size() != drawSum
-                || extent.x() < 10.0f || extent.y() < 20.0f || extent.z() < 5.0f)
+                || extent.x() < 50.0f || extent.x() > 150.0f
+                || extent.y() < 130.0f || extent.y() > 230.0f
+                || extent.z() < 50.0f || extent.z() > 130.0f
+                || combined->boundsMinimum.y() < -35.0f || combined->boundsMaximum.y() > 220.0f)
             {
                 std::cerr << "combined base character is incomplete or flattened: "
                     << combined->error.toStdString() << '\n';
@@ -243,6 +270,22 @@ int main(int argc, char **argv)
             return 1;
         }
     }
+    Mh3gCpuModel hierarchical;
+    const float expectedHierarchyX = (10.0f * 128.0f + 13.0f * 127.0f) / 255.0f;
+    if (!Mh3gModelLoader::parseMod(hierarchicalBindFixture(), &hierarchical, &error,
+            Mh3gModelLoadMode::BindPose)
+        || qAbs(hierarchical.vertices.first().position.x() - expectedHierarchyX) > 0.0002f)
+    { std::cerr << "hierarchical bind pose failed: " << error.toStdString() << '\n'; return 1; }
+
+    QByteArray fittingFixture = bindPoseFixture(28, QVector<int>() << 0,
+        QVector<int>() << 255);
+    fittingFixture[64] = char(0);
+    Mh3gCpuModel fitting;
+    if (!Mh3gModelLoader::parseMod(fittingFixture, &fitting, &error,
+            Mh3gModelLoadMode::FittingPose)
+        || qAbs(fitting.vertices.first().position.x() - 1.1096658f) > 0.0003f
+        || qAbs(fitting.vertices.first().position.y() - 101.707554f) > 0.0003f)
+    { std::cerr << "fixed fitting pose failed: " << error.toStdString() << '\n'; return 1; }
     Mh3gCpuModel invalidBound;
     if (Mh3gModelLoader::parseMod(bindPoseFixture(28, QVector<int>() << 0 << 0,
             QVector<int>() << 255 << 0, true), &invalidBound, &error, Mh3gModelLoadMode::BindPose))

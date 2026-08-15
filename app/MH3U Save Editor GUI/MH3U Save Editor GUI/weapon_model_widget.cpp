@@ -166,15 +166,9 @@ void WeaponModelWidget::requestLoad()
     }
     watcher->setFuture(QtConcurrent::run([key, path, characterMode, componentPaths]() {
         if (!characterMode) return Mh3gModelLoader::load(key, path, Mh3gModelLoadMode::Raw);
-        QVector<QSharedPointer<Mh3gCpuModel> > parts;
-        for (const QPair<QString, QString> &component : componentPaths)
-        {
-            QSharedPointer<Mh3gCpuModel> part = Mh3gModelLoader::load(
-                component.first, component.second, Mh3gModelLoadMode::BindPose);
-            if (!part->valid()) return part;
-            parts.append(part);
-        }
-        return Mh3gModelLoader::combine(key, parts);
+        // rebuildCharacterPreview() orders armor as head, chest, arms, waist,
+        // legs, face and hair. The chest MOD owns the complete player skeleton.
+        return Mh3gModelLoader::loadCharacter(key, componentPaths, 1);
     }));
 }
 

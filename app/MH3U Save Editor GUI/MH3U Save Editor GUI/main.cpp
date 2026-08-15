@@ -108,7 +108,9 @@ static void applyApplicationStyle(QApplication &app)
             background: #ffffff;
             border: 1px solid #b8c5d6;
             border-radius: 8px;
-            padding: 6px 4px;
+            padding: 3px 4px;
+            min-height: 34px;
+            max-height: 34px;
             font-weight: 500;
         }
         QPushButton#armorPieceCard:hover { background: #edf5ff; border-color: #75a3df; }

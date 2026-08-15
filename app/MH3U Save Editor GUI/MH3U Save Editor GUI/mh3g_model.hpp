@@ -2,7 +2,10 @@
 #define MH3G_MODEL_HPP
 
 #include <QByteArray>
+#include <QHash>
 #include <QImage>
+#include <QMatrix4x4>
+#include <QPair>
 #include <QSharedPointer>
 #include <QString>
 #include <QVector>
@@ -56,7 +59,8 @@ struct Mh3gDrawCall
 enum class Mh3gModelLoadMode
 {
     Raw,
-    BindPose
+    BindPose,
+    FittingPose
 };
 
 struct Mh3gCpuModel
@@ -74,16 +78,30 @@ struct Mh3gCpuModel
     qint64 memoryBytes() const;
 };
 
+struct Mh3gSkeletonPose
+{
+    QHash<int, QMatrix4x4> globalByBoneId;
+};
+
 class Mh3gModelLoader
 {
 public:
     static QSharedPointer<Mh3gCpuModel> load(const QString &modelKey, const QString &arcPath,
                                              Mh3gModelLoadMode mode = Mh3gModelLoadMode::Raw);
+    static QSharedPointer<Mh3gCpuModel> loadCharacter(
+        const QString &modelKey, const QVector<QPair<QString, QString> > &components,
+        int bodyComponentIndex);
     static QSharedPointer<Mh3gCpuModel> combine(const QString &modelKey,
                                                 const QVector<QSharedPointer<Mh3gCpuModel> > &parts);
     static bool parseMod(const QByteArray &data, Mh3gCpuModel *model, QString *error,
                          Mh3gModelLoadMode mode = Mh3gModelLoadMode::Raw);
     static bool decodeTex(const QByteArray &data, QImage *image, QString *error);
+
+private:
+    static QSharedPointer<Mh3gCpuModel> loadWithPose(const QString &modelKey,
+        const QString &arcPath, Mh3gModelLoadMode mode, const Mh3gSkeletonPose *pose);
+    static bool parseModWithPose(const QByteArray &data, Mh3gCpuModel *model, QString *error,
+        Mh3gModelLoadMode mode, const Mh3gSkeletonPose *pose);
 };
 
 #endif
