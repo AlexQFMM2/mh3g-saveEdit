@@ -1,6 +1,7 @@
 #include "mh3g_model.hpp"
 
 #include <QFile>
+#include <QHash>
 #include <QtEndian>
 #include <QtMath>
 
@@ -73,12 +74,141 @@ QRgb etcPixel(quint64 block, int x, int y, int alpha)
                  clampByte((second ? b2 : b1) + delta), alpha);
 }
 
+QString fixedString(const QByteArray &data, int offset, int maximum)
+{
+    if (!rangeOk(offset, maximum, data.size())) return QString();
+    int length = 0;
+    while (length < maximum && data.at(offset + length) != '\0') ++length;
+    return QString::fromLatin1(data.constData() + offset, length).replace('\\', '/');
+}
+
+bool parseMrl(const QByteArray &data, const QHash<QString, QImage> &textures,
+              QVector<Mh3gMaterial> *materials, QString *error)
+{
+    quint32 version = 0, materialCount = 0, textureCount = 0, textureOffset = 0, materialOffset = 0;
+    if (!materials || data.size() < 0x1c || std::memcmp(data.constData(), "MRL\0", 4) != 0
+        || !readLe(data, 4, &version) || version != 0x20 || !readLe(data, 8, &materialCount)
+        || !readLe(data, 0x0c, &textureCount) || !readLe(data, 0x14, &textureOffset)
+        || !readLe(data, 0x18, &materialOffset))
+    { if (error) *error = QString::fromUtf8("MRL v0x20 头部无效"); return false; }
+    if (materialCount == 0 || materialCount > 4096 || textureCount > 4096
+        || !rangeOk(textureOffset, qint64(textureCount) * 0x4c, data.size())
+        || !rangeOk(materialOffset, qint64(materialCount) * 0x3c, data.size()))
+    { if (error) *error = QString::fromUtf8("MRL 材质或贴图引用表越界"); return false; }
+
+    struct TextureReference { quint32 type = 0; QString name; };
+    QVector<TextureReference> references;
+    references.resize(int(textureCount));
+    for (quint32 index = 0; index < textureCount; ++index)
+    {
+        const int base = int(textureOffset + index * 0x4c);
+        readLe(data, base, &references[int(index)].type);
+        references[int(index)].name = fixedString(data, base + 12, 64);
+    }
+
+    materials->clear();
+    materials->reserve(int(materialCount));
+    for (quint32 materialIndex = 0; materialIndex < materialCount; ++materialIndex)
+    {
+        const int base = int(materialOffset + materialIndex * 0x3c);
+        quint32 nameHash = 0, commandInfo = 0, commandOffset = 0;
+        readLe(data, base + 4, &nameHash);
+        readLe(data, base + 0x18, &commandInfo);
+        readLe(data, base + 0x34, &commandOffset);
+        const int encodedCount = int(commandInfo & 0xfffU);
+        const int commandCount = encodedCount / 2; // 3DS encodes command count in eight-byte units.
+        if ((encodedCount & 1) || commandCount > 2048
+            || !rangeOk(commandOffset, qint64(commandCount) * 0x18, data.size()))
+        { if (error) *error = QString::fromUtf8("MRL 材质 %1 的命令表越界").arg(materialIndex); return false; }
+
+        Mh3gMaterial material;
+        material.name = QString("0x%1").arg(nameHash, 8, 16, QLatin1Char('0'));
+        for (int command = 0; command < commandCount; ++command)
+        {
+            const int commandBase = int(commandOffset) + command * 0x18;
+            quint32 info = 0, referenceIndex = 0;
+            readLe(data, commandBase, &info);
+            readLe(data, commandBase + 4, &referenceIndex);
+            if ((info & 0x1fU) != 3U || referenceIndex == 0 || referenceIndex > textureCount) continue;
+            const TextureReference &reference = references[int(referenceIndex - 1)];
+            if (reference.type != HashTex || reference.name.isEmpty()) continue;
+            const QImage image = textures.value(reference.name.toLower());
+            if (image.isNull()) continue;
+            const QString lower = reference.name.toLower();
+            if (lower.contains("env_") || lower.contains("environment")) material.environment = image;
+            else if (lower.contains("_nm") || lower.contains("normal")) material.normal = image;
+            else if (lower.contains("_mm") || lower.contains("_sm") || lower.contains("spec") || lower.contains("mask"))
+                material.specular = image;
+            else if (material.albedo.isNull()) material.albedo = image;
+        }
+        for (int command = 0; command < commandCount; ++command)
+        {
+            const int commandBase = int(commandOffset) + command * 0x18;
+            quint32 info = 0, relativeOffset = 0;
+            readLe(data, commandBase, &info);
+            readLe(data, commandBase + 4, &relativeOffset);
+            const int constants = int(commandOffset + relativeOffset);
+            if ((info & 0x1fU) != 1U || !rangeOk(constants, 8 * 16, data.size())) continue;
+            bool ok = true;
+            material.albedoFactor = QVector4D(readFloat(data, constants + 16, &ok),
+                readFloat(data, constants + 20, &ok), readFloat(data, constants + 24, &ok),
+                readFloat(data, constants + 28, &ok));
+            const float materialSpecular = readFloat(data, constants + 44, &ok);
+            const float materialRoughness = readFloat(data, constants + 96, &ok);
+            if (ok)
+            {
+                material.specularStrength = qBound(0.04f, materialSpecular, 1.0f);
+                material.roughness = qBound(0.08f, materialRoughness, 0.95f);
+                material.environmentStrength = qBound(0.02f, material.specularStrength * 0.24f, 0.22f);
+            }
+            break;
+        }
+        materials->append(material);
+    }
+    return true;
+}
+
+void generateTangents(Mh3gCpuModel *model)
+{
+    if (!model || model->vertices.isEmpty()) return;
+    QVector<QVector3D> tangents(model->vertices.size()), bitangents(model->vertices.size());
+    for (int index = 0; index + 2 < model->indices.size(); index += 3)
+    {
+        const int ia = int(model->indices[index]), ib = int(model->indices[index + 1]), ic = int(model->indices[index + 2]);
+        if (ia < 0 || ib < 0 || ic < 0 || ia >= model->vertices.size() || ib >= model->vertices.size() || ic >= model->vertices.size()) continue;
+        const Mh3gVertex &a = model->vertices[ia], &b = model->vertices[ib], &c = model->vertices[ic];
+        const QVector3D edge1 = b.position - a.position, edge2 = c.position - a.position;
+        const QVector2D uv1 = b.uv - a.uv, uv2 = c.uv - a.uv;
+        const float determinant = uv1.x() * uv2.y() - uv1.y() * uv2.x();
+        if (qAbs(determinant) < 1.0e-8f) continue;
+        const float reciprocal = 1.0f / determinant;
+        const QVector3D tangent = (edge1 * uv2.y() - edge2 * uv1.y()) * reciprocal;
+        const QVector3D bitangent = (edge2 * uv1.x() - edge1 * uv2.x()) * reciprocal;
+        tangents[ia] += tangent; tangents[ib] += tangent; tangents[ic] += tangent;
+        bitangents[ia] += bitangent; bitangents[ib] += bitangent; bitangents[ic] += bitangent;
+    }
+    for (int index = 0; index < model->vertices.size(); ++index)
+    {
+        const QVector3D normal = model->vertices[index].normal.normalized();
+        QVector3D tangent = tangents[index] - normal * QVector3D::dotProduct(normal, tangents[index]);
+        if (tangent.lengthSquared() < 1.0e-8f)
+            tangent = QVector3D::crossProduct(normal, qAbs(normal.y()) < 0.9f ? QVector3D(0, 1, 0) : QVector3D(1, 0, 0));
+        tangent.normalize();
+        const float handedness = QVector3D::dotProduct(QVector3D::crossProduct(normal, tangent), bitangents[index]) < 0.0f ? -1.0f : 1.0f;
+        model->vertices[index].tangent = QVector4D(tangent, handedness);
+    }
+}
+
 }
 
 qint64 Mh3gCpuModel::memoryBytes() const
 {
-    return qint64(vertices.size()) * qint64(sizeof(Mh3gVertex))
-        + qint64(indices.size()) * qint64(sizeof(quint32)) + diffuse.sizeInBytes() + environment.sizeInBytes();
+    qint64 total = qint64(vertices.size()) * qint64(sizeof(Mh3gVertex))
+        + qint64(indices.size()) * qint64(sizeof(quint32));
+    for (const Mh3gMaterial &material : materials)
+        total += material.albedo.sizeInBytes() + material.normal.sizeInBytes()
+            + material.specular.sizeInBytes() + material.environment.sizeInBytes();
+    return total;
 }
 
 bool Mh3gArchiveLoader::read(const QString &path, QVector<Mh3gArchiveEntry> *entries, QString *error)
@@ -162,10 +292,11 @@ bool Mh3gArchiveLoader::validateWeaponArchive(const QString &path, QString *erro
 bool Mh3gModelLoader::parseMod(const QByteArray &data, Mh3gCpuModel *model, QString *error)
 {
     if (!model) return false;
-    quint16 version = 0, primitiveCount = 0;
+    quint16 version = 0, primitiveCount = 0, materialCount = 0;
     quint32 vertexCount = 0, primitiveOffset = 0, vertexOffset = 0, indexOffset = 0;
     if (data.size() < 64 || std::memcmp(data.constData(), "MOD\0", 4) != 0
         || !readLe(data, 4, &version) || version != 0xE6 || !readLe(data, 8, &primitiveCount)
+        || !readLe(data, 0x0a, &materialCount)
         || !readLe(data, 12, &vertexCount) || !readLe(data, 0x34, &primitiveOffset)
         || !readLe(data, 0x38, &vertexOffset) || !readLe(data, 0x3c, &indexOffset))
     { if (error) *error = QString::fromUtf8("MOD 头部无效或版本不是 v0xE6"); return false; }
@@ -174,20 +305,23 @@ bool Mh3gModelLoader::parseMod(const QByteArray &data, Mh3gCpuModel *model, QStr
         || indexOffset >= quint32(data.size()))
     { if (error) *error = QString::fromUtf8("MOD 数量或数据偏移越界"); return false; }
 
-    model->vertices.clear(); model->indices.clear();
+    model->vertices.clear(); model->indices.clear(); model->drawCalls.clear();
     model->vertices.resize(int(vertexCount));
     QVector<bool> decoded(int(vertexCount), false);
     bool hasBounds = false;
     for (int primitive = 0; primitive < primitiveCount; ++primitive)
     {
         const int base = int(primitiveOffset) + primitive * 48;
-        quint16 count = 0; quint8 stride = 0; quint32 vertexStart = 0, relative = 0;
+        quint16 count = 0; quint8 stride = 0; quint32 packedPrimitive = 0, vertexStart = 0, relative = 0;
         quint32 stripOffset = 0, stripCount = 0;
-        if (!readLe(data, base + 2, &count) || !rangeOk(base + 10, 2, data.size())) return false;
+        if (!readLe(data, base + 2, &count) || !readLe(data, base + 4, &packedPrimitive)
+            || !rangeOk(base + 10, 2, data.size())) return false;
         stride = quint8(data.at(base + 10));
+        const int materialIndex = int((packedPrimitive >> 12) & 0xfffU);
         if (!readLe(data, base + 12, &vertexStart) || !readLe(data, base + 16, &relative)
             || !readLe(data, base + 24, &stripOffset) || !readLe(data, base + 28, &stripCount)) return false;
-        if ((stride != 28 && stride != 32 && stride != 36) || vertexStart > vertexCount || count > vertexCount - vertexStart
+        if ((stride != 28 && stride != 32 && stride != 36) || materialIndex >= qMax(1, int(materialCount))
+            || vertexStart > vertexCount || count > vertexCount - vertexStart
             || !rangeOk(qint64(vertexOffset) + relative + qint64(vertexStart) * stride, qint64(count) * stride, data.size())
             || !rangeOk(qint64(indexOffset) + qint64(stripOffset) * 2, qint64(stripCount) * 2, data.size()))
         { if (error) *error = QString::fromUtf8("MOD Primitive %1 越界或顶点步长未知").arg(primitive); return false; }
@@ -223,6 +357,9 @@ bool Mh3gModelLoader::parseMod(const QByteArray &data, Mh3gCpuModel *model, QStr
             { if (error) *error = QString::fromUtf8("MOD Primitive %1 的索引越界").arg(primitive); return false; }
             strip.append(value);
         }
+        Mh3gDrawCall draw;
+        draw.firstIndex = model->indices.size();
+        draw.materialIndex = materialIndex;
         for (int item = 2; item < strip.size(); ++item)
         {
             quint32 a = strip[item - 2], b = strip[item - 1], c = strip[item];
@@ -230,6 +367,8 @@ bool Mh3gModelLoader::parseMod(const QByteArray &data, Mh3gCpuModel *model, QStr
             if (a == b || b == c || a == c) continue;
             model->indices << a << b << c;
         }
+        draw.indexCount = model->indices.size() - draw.firstIndex;
+        if (draw.indexCount > 0) model->drawCalls.append(draw);
     }
     if (!hasBounds || model->indices.isEmpty())
     { if (error) *error = QString::fromUtf8("MOD 没有可显示的网格"); return false; }
@@ -291,19 +430,36 @@ QSharedPointer<Mh3gCpuModel> Mh3gModelLoader::load(const QString &modelKey, cons
     QVector<Mh3gArchiveEntry> entries;
     if (!Mh3gArchiveLoader::read(arcPath, &entries, &model->error)) return model;
     QVector<int> modIndexes;
-    int textureIndex = -1, environmentIndex = -1;
-    const QString prefix = modelKey.left(3);
+    QHash<QString, QImage> textures;
+    QImage fallbackAlbedo, fallbackEnvironment;
     for (int index = 0; index < entries.size(); ++index)
     {
         if (entries[index].typeHash == HashMod) modIndexes.append(index);
-        if (entries[index].typeHash == HashTex && textureIndex < 0
-            && entries[index].name.contains("_BM", Qt::CaseInsensitive)
-            && !entries[index].name.contains("common", Qt::CaseInsensitive)) textureIndex = index;
-        if (entries[index].typeHash == HashTex && environmentIndex < 0
-            && entries[index].name.contains("common", Qt::CaseInsensitive)
-            && entries[index].name.contains("env_", Qt::CaseInsensitive)) environmentIndex = index;
+        if (entries[index].typeHash != HashTex) continue;
+        QImage image; QString textureError;
+        if (!decodeTex(entries[index].data, &image, &textureError)) continue;
+        const QString name = entries[index].name.toLower();
+        textures.insert(name, image);
+        if (fallbackAlbedo.isNull() && name.contains("_bm") && !name.contains("common")) fallbackAlbedo = image;
+        if (fallbackEnvironment.isNull() && name.contains("env_")) fallbackEnvironment = image;
     }
     if (modIndexes.isEmpty()) { model->error = QString::fromUtf8("ARC 中没有 MOD 条目"); return model; }
+
+    QHash<QString, QVector<Mh3gMaterial> > materialSets;
+    for (int index = 0; index < entries.size(); ++index)
+    {
+        if (entries[index].typeHash != HashMrl) continue;
+        QVector<Mh3gMaterial> materials;
+        QString materialError;
+        if (!parseMrl(entries[index].data, textures, &materials, &materialError))
+        { model->error = QString::fromUtf8("%1：%2").arg(entries[index].name, materialError); return model; }
+        for (Mh3gMaterial &material : materials)
+        {
+            if (material.albedo.isNull()) material.albedo = fallbackAlbedo;
+        }
+        materialSets.insert(entries[index].name.toLower(), materials);
+    }
+
     bool haveBounds = false;
     for (int index : modIndexes)
     {
@@ -311,8 +467,26 @@ QSharedPointer<Mh3gCpuModel> Mh3gModelLoader::load(const QString &modelKey, cons
         if (!parseMod(entries[index].data, &part, &model->error))
         { model->error = QString::fromUtf8("%1：%2").arg(entries[index].name, model->error); return model; }
         const quint32 baseVertex = quint32(model->vertices.size());
+        const int baseIndex = model->indices.size();
+        const int baseMaterial = model->materials.size();
+        QVector<Mh3gMaterial> partMaterials = materialSets.value(entries[index].name.toLower());
+        if (partMaterials.isEmpty())
+        {
+            Mh3gMaterial fallback;
+            fallback.name = QString::fromUtf8("默认材质");
+            fallback.albedo = fallbackAlbedo;
+            fallback.environment = fallbackEnvironment;
+            partMaterials.append(fallback);
+        }
+        model->materials += partMaterials;
         model->vertices += part.vertices;
         for (quint32 value : part.indices) model->indices.append(baseVertex + value);
+        for (Mh3gDrawCall draw : part.drawCalls)
+        {
+            draw.firstIndex += baseIndex;
+            draw.materialIndex = baseMaterial + qBound(0, draw.materialIndex, partMaterials.size() - 1);
+            model->drawCalls.append(draw);
+        }
         if (!haveBounds)
         { model->boundsMinimum = part.boundsMinimum; model->boundsMaximum = part.boundsMaximum; haveBounds = true; }
         else
@@ -325,18 +499,6 @@ QSharedPointer<Mh3gCpuModel> Mh3gModelLoader::load(const QString &modelKey, cons
             model->boundsMaximum.setZ(qMax(model->boundsMaximum.z(), part.boundsMaximum.z()));
         }
     }
-    if (textureIndex >= 0)
-    {
-        QString textureError;
-        if (!decodeTex(entries[textureIndex].data, &model->diffuse, &textureError))
-            model->diffuse = QImage();
-    }
-    if (environmentIndex >= 0)
-    {
-        QString textureError;
-        if (!decodeTex(entries[environmentIndex].data, &model->environment, &textureError))
-            model->environment = QImage();
-    }
-    Q_UNUSED(prefix);
+    generateTangents(model.data());
     return model;
 }

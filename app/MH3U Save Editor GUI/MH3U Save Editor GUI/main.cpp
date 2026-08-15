@@ -150,6 +150,13 @@ static void applyApplicationStyle(QApplication &app)
             background: #e8f1ff;
             border-color: #4f88d3;
         }
+        QPushButton#modelRotateButton {
+            padding: 0;
+            min-height: 0;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 700;
+        }
         QPushButton:disabled {
             color: #9aa4b4;
             background: #f0f3f7;

@@ -32,6 +32,10 @@ public:
 
 public slots:
     void resetView();
+    void rotateUp();
+    void rotateDown();
+    void rotateLeft();
+    void rotateRight();
 
 protected:
     void initializeGL();
@@ -51,6 +55,15 @@ private:
     void setStatus(const QString &text, bool error = false);
     void touchCache(const QString &key, const QSharedPointer<Mh3gCpuModel> &model);
     void trimCache();
+    void rotateView(float yawDelta, float pitchDelta);
+
+    struct GpuMaterial
+    {
+        QOpenGLTexture *albedo = 0;
+        QOpenGLTexture *normal = 0;
+        QOpenGLTexture *specular = 0;
+        QOpenGLTexture *environment = 0;
+    };
 
     GameResourceManager m_resources;
     QString m_modelKey;
@@ -67,8 +80,7 @@ private:
     QOpenGLBuffer m_vertexBuffer;
     QOpenGLBuffer m_indexBuffer;
     QOpenGLVertexArrayObject m_vertexArray;
-    QOpenGLTexture *m_texture;
-    QOpenGLTexture *m_environmentTexture;
+    QVector<GpuMaterial> m_gpuMaterials;
 
     QLabel *m_status;
     QPushButton *m_reset;

@@ -1,6 +1,7 @@
 #include "weapon_model_widget.hpp"
 
 #include <QFutureWatcher>
+#include <QGridLayout>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QMouseEvent>
@@ -18,7 +19,7 @@
 WeaponModelWidget::WeaponModelWidget(QWidget *parent)
     : QOpenGLWidget(parent), m_request(0), m_glReady(false), m_gpuReady(false), m_cacheBytes(0),
       m_program(0), m_vertexBuffer(QOpenGLBuffer::VertexBuffer), m_indexBuffer(QOpenGLBuffer::IndexBuffer),
-      m_texture(0), m_environmentTexture(0), m_dragButton(Qt::NoButton), m_yaw(-32.0f), m_pitch(18.0f), m_distance(3.0f)
+      m_dragButton(Qt::NoButton), m_yaw(-32.0f), m_pitch(18.0f), m_distance(3.0f)
 {
     setObjectName("weaponModelWidget");
     setMinimumHeight(210);
@@ -41,10 +42,37 @@ WeaponModelWidget::WeaponModelWidget(QWidget *parent)
     m_status->setAttribute(Qt::WA_TransparentForMouseEvents);
     overlay->addWidget(m_status, 1);
     QHBoxLayout *buttons = new QHBoxLayout;
+    QGridLayout *directions = new QGridLayout;
+    directions->setHorizontalSpacing(3);
+    directions->setVerticalSpacing(3);
+    directions->setContentsMargins(0, 0, 0, 0);
+    QPushButton *up = new QPushButton(QString::fromUtf8("↑"), this);
+    QPushButton *down = new QPushButton(QString::fromUtf8("↓"), this);
+    QPushButton *left = new QPushButton(QString::fromUtf8("←"), this);
+    QPushButton *right = new QPushButton(QString::fromUtf8("→"), this);
+    const QList<QPushButton *> directionButtons = QList<QPushButton *>() << up << down << left << right;
+    for (QPushButton *button : directionButtons)
+    {
+        button->setObjectName("modelRotateButton");
+        button->setFixedSize(34, 28);
+        button->setAutoRepeat(true);
+        button->setAutoRepeatDelay(350);
+        button->setAutoRepeatInterval(90);
+        button->setToolTip(QString::fromUtf8("点击或长按，按 15° 旋转模型"));
+    }
+    directions->addWidget(up, 0, 1);
+    directions->addWidget(left, 1, 0);
+    directions->addWidget(down, 1, 1);
+    directions->addWidget(right, 1, 2);
+    buttons->addLayout(directions);
     m_reset = new QPushButton(QString::fromUtf8("重置视角"), this);
     buttons->addStretch();
     buttons->addWidget(m_reset);
     overlay->addLayout(buttons);
+    connect(up, SIGNAL(clicked()), this, SLOT(rotateUp()));
+    connect(down, SIGNAL(clicked()), this, SLOT(rotateDown()));
+    connect(left, SIGNAL(clicked()), this, SLOT(rotateLeft()));
+    connect(right, SIGNAL(clicked()), this, SLOT(rotateRight()));
     connect(m_reset, SIGNAL(clicked()), this, SLOT(resetView()));
     setStatus(m_resources.statusText());
 }
@@ -148,17 +176,25 @@ void WeaponModelWidget::initializeGL()
     m_program = new QOpenGLShaderProgram;
     const char *vertexShader =
         "#version 330 core\n"
-        "layout(location=0) in vec3 position; layout(location=1) in vec3 normal; layout(location=2) in vec2 uv;\n"
-        "uniform mat4 mvp; uniform mat4 modelView; out vec3 n; out vec2 t; out vec3 p;\n"
-        "void main(){ vec4 v=modelView*vec4(position,1.0); p=v.xyz; n=mat3(modelView)*normal; t=uv; gl_Position=mvp*vec4(position,1.0); }";
+        "layout(location=0) in vec3 position; layout(location=1) in vec3 normal; layout(location=2) in vec2 uv; layout(location=3) in vec4 tangent;\n"
+        "uniform mat4 mvp; uniform mat4 modelView; out vec3 n; out vec3 tan; out float hand; out vec2 t; out vec3 p;\n"
+        "void main(){ vec4 v=modelView*vec4(position,1.0); p=v.xyz; n=mat3(modelView)*normal; tan=mat3(modelView)*tangent.xyz; hand=tangent.w; t=uv; gl_Position=mvp*vec4(position,1.0); }";
     const char *fragmentShader =
         "#version 330 core\n"
-        "in vec3 n; in vec2 t; in vec3 p; uniform sampler2D diffuseMap; uniform sampler2D environmentMap; uniform bool hasTexture; uniform bool hasEnvironment; out vec4 color;\n"
-        "void main(){ vec4 base=hasTexture?texture(diffuseMap,t):vec4(0.62,0.68,0.76,1.0); if(base.a<0.08)discard;"
-        "vec3 N=normalize(n); vec3 L=normalize(vec3(-0.3,0.7,0.6)); vec3 V=normalize(-p);"
-        "float d=max(dot(N,L),0.0); float s=pow(max(dot(reflect(-L,N),V),0.0),28.0);"
-        "vec3 R=reflect(-V,N); vec2 euv=R.xy*0.35+vec2(0.5); vec3 env=hasEnvironment?texture(environmentMap,euv).rgb:vec3(0.35);"
-        "color=vec4(base.rgb*(0.28+0.72*d)+env*(0.08+0.20*s),base.a); }";
+        "in vec3 n; in vec3 tan; in float hand; in vec2 t; in vec3 p;\n"
+        "uniform sampler2D albedoMap; uniform sampler2D normalMap; uniform sampler2D specularMap; uniform sampler2D environmentMap;\n"
+        "uniform bool hasAlbedo; uniform bool hasNormal; uniform bool hasSpecular; uniform bool hasEnvironment;\n"
+        "uniform vec4 albedoFactor; uniform float specularStrength; uniform float roughness; uniform float environmentStrength; out vec4 color;\n"
+        "void main(){ vec4 base=(hasAlbedo?texture(albedoMap,t):vec4(0.48,0.54,0.62,1.0))*albedoFactor; if(base.a<0.08)discard;"
+        "vec3 N=normalize(n); vec3 T=normalize(tan-N*dot(N,tan)); vec3 B=normalize(cross(N,T))*hand;"
+        "if(hasNormal){ vec3 mapped=texture(normalMap,t).xyz*2.0-1.0; N=normalize(mat3(T,B,N)*mapped); }"
+        "vec3 L=normalize(vec3(-0.35,0.72,0.60)); vec3 L2=normalize(vec3(0.55,0.25,0.80)); vec3 V=normalize(-p);"
+        "float diffuse=0.22+0.62*max(dot(N,L),0.0)+0.16*max(dot(N,L2),0.0);"
+        "float mask=specularStrength*(hasSpecular?clamp(dot(texture(specularMap,t).rgb,vec3(0.3333)),0.0,1.0):1.0);"
+        "float shine=mix(88.0,12.0,roughness); float highlight=pow(max(dot(reflect(-L,N),V),0.0),shine)*mask*0.52;"
+        "vec3 R=reflect(-V,N); vec2 euv=R.xy*0.34+vec2(0.5); vec3 env=hasEnvironment?pow(texture(environmentMap,euv).rgb,vec3(2.2)):vec3(0.08);"
+        "vec3 baseLinear=pow(base.rgb,vec3(2.2)); vec3 linear=baseLinear*diffuse+env*environmentStrength+vec3(highlight);"
+        "vec3 mapped=vec3(1.0)-exp(-linear*0.92); color=vec4(pow(clamp(mapped,0.0,1.0),vec3(1.0/2.2)),base.a); }";
     if (!m_program->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShader)
         || !m_program->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShader) || !m_program->link())
     { setStatus(QString::fromUtf8("OpenGL 着色器初始化失败\n%1").arg(m_program->log()), true); return; }
@@ -171,8 +207,14 @@ void WeaponModelWidget::initializeGL()
 void WeaponModelWidget::releaseGpu()
 {
     m_gpuReady = false;
-    delete m_texture; m_texture = 0;
-    delete m_environmentTexture; m_environmentTexture = 0;
+    for (GpuMaterial &material : m_gpuMaterials)
+    {
+        delete material.albedo;
+        delete material.normal;
+        delete material.specular;
+        delete material.environment;
+    }
+    m_gpuMaterials.clear();
     if (m_vertexArray.isCreated()) m_vertexArray.destroy();
     if (m_vertexBuffer.isCreated()) m_vertexBuffer.destroy();
     if (m_indexBuffer.isCreated()) m_indexBuffer.destroy();
@@ -183,34 +225,40 @@ void WeaponModelWidget::uploadModel()
     if (!m_glReady || !m_model || !m_model->valid()) return;
     makeCurrent(); releaseGpu();
     QVector<float> packed;
-    packed.reserve(m_model->vertices.size() * 8);
+    packed.reserve(m_model->vertices.size() * 12);
     for (const Mh3gVertex &vertex : m_model->vertices)
         packed << vertex.position.x() << vertex.position.y() << vertex.position.z()
-               << vertex.normal.x() << vertex.normal.y() << vertex.normal.z() << vertex.uv.x() << vertex.uv.y();
+               << vertex.normal.x() << vertex.normal.y() << vertex.normal.z() << vertex.uv.x() << vertex.uv.y()
+               << vertex.tangent.x() << vertex.tangent.y() << vertex.tangent.z() << vertex.tangent.w();
     m_vertexArray.create(); m_vertexArray.bind();
     m_vertexBuffer.create(); m_vertexBuffer.bind();
     m_vertexBuffer.allocate(packed.constData(), packed.size() * int(sizeof(float)));
     m_indexBuffer.create(); m_indexBuffer.bind();
     m_indexBuffer.allocate(m_model->indices.constData(), m_model->indices.size() * int(sizeof(quint32)));
-    glEnableVertexAttribArray(0); glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), reinterpret_cast<void *>(0));
-    glEnableVertexAttribArray(1); glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), reinterpret_cast<void *>(3 * sizeof(float)));
-    glEnableVertexAttribArray(2); glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), reinterpret_cast<void *>(6 * sizeof(float)));
+    glEnableVertexAttribArray(0); glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 12 * sizeof(float), reinterpret_cast<void *>(0));
+    glEnableVertexAttribArray(1); glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 12 * sizeof(float), reinterpret_cast<void *>(3 * sizeof(float)));
+    glEnableVertexAttribArray(2); glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 12 * sizeof(float), reinterpret_cast<void *>(6 * sizeof(float)));
+    glEnableVertexAttribArray(3); glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 12 * sizeof(float), reinterpret_cast<void *>(8 * sizeof(float)));
     m_vertexArray.release();
-    if (!m_model->diffuse.isNull())
+    const auto createTexture = [](const QImage &image, QOpenGLTexture::WrapMode wrap) -> QOpenGLTexture *
     {
-        m_texture = new QOpenGLTexture(m_model->diffuse);
-        m_texture->setWrapMode(QOpenGLTexture::Repeat);
-        m_texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
-        m_texture->setMagnificationFilter(QOpenGLTexture::Linear);
-        m_texture->generateMipMaps();
-    }
-    if (!m_model->environment.isNull())
+        if (image.isNull()) return 0;
+        QOpenGLTexture *texture = new QOpenGLTexture(image);
+        texture->setWrapMode(wrap);
+        texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
+        texture->setMagnificationFilter(QOpenGLTexture::Linear);
+        texture->generateMipMaps();
+        return texture;
+    };
+    m_gpuMaterials.reserve(m_model->materials.size());
+    for (const Mh3gMaterial &source : m_model->materials)
     {
-        m_environmentTexture = new QOpenGLTexture(m_model->environment);
-        m_environmentTexture->setWrapMode(QOpenGLTexture::ClampToEdge);
-        m_environmentTexture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
-        m_environmentTexture->setMagnificationFilter(QOpenGLTexture::Linear);
-        m_environmentTexture->generateMipMaps();
+        GpuMaterial material;
+        material.albedo = createTexture(source.albedo, QOpenGLTexture::Repeat);
+        material.normal = createTexture(source.normal, QOpenGLTexture::Repeat);
+        material.specular = createTexture(source.specular, QOpenGLTexture::Repeat);
+        material.environment = createTexture(source.environment, QOpenGLTexture::ClampToEdge);
+        m_gpuMaterials.append(material);
     }
     m_gpuReady = true; m_status->hide(); doneCurrent();
 }
@@ -245,17 +293,41 @@ void WeaponModelWidget::paintGL()
     m_program->bind();
     m_program->setUniformValue("modelView", view);
     m_program->setUniformValue("mvp", projection * view);
-    m_program->setUniformValue("hasTexture", m_texture != 0);
-    m_program->setUniformValue("hasEnvironment", m_environmentTexture != 0);
-    m_program->setUniformValue("diffuseMap", 0);
-    m_program->setUniformValue("environmentMap", 1);
-    if (m_texture) m_texture->bind(0);
-    if (m_environmentTexture) m_environmentTexture->bind(1);
+    m_program->setUniformValue("albedoMap", 0);
+    m_program->setUniformValue("normalMap", 1);
+    m_program->setUniformValue("specularMap", 2);
+    m_program->setUniformValue("environmentMap", 3);
     m_vertexArray.bind();
-    glDrawElements(GL_TRIANGLES, m_model->indices.size(), GL_UNSIGNED_INT, 0);
+    const auto drawMaterial = [this](int materialIndex, int firstIndex, int indexCount) {
+        const GpuMaterial empty;
+        const GpuMaterial &material = materialIndex >= 0 && materialIndex < m_gpuMaterials.size()
+            ? m_gpuMaterials[materialIndex] : empty;
+        const Mh3gMaterial fallback;
+        const Mh3gMaterial &source = materialIndex >= 0 && materialIndex < m_model->materials.size()
+            ? m_model->materials[materialIndex] : fallback;
+        m_program->setUniformValue("hasAlbedo", material.albedo != 0);
+        m_program->setUniformValue("hasNormal", material.normal != 0);
+        m_program->setUniformValue("hasSpecular", material.specular != 0);
+        m_program->setUniformValue("hasEnvironment", material.environment != 0);
+        m_program->setUniformValue("albedoFactor", source.albedoFactor);
+        m_program->setUniformValue("specularStrength", source.specularStrength);
+        m_program->setUniformValue("roughness", source.roughness);
+        m_program->setUniformValue("environmentStrength", source.environmentStrength);
+        if (material.albedo) material.albedo->bind(0);
+        if (material.normal) material.normal->bind(1);
+        if (material.specular) material.specular->bind(2);
+        if (material.environment) material.environment->bind(3);
+        glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT,
+            reinterpret_cast<const void *>(quintptr(firstIndex) * sizeof(quint32)));
+        if (material.albedo) material.albedo->release(0);
+        if (material.normal) material.normal->release(1);
+        if (material.specular) material.specular->release(2);
+        if (material.environment) material.environment->release(3);
+    };
+    if (m_model->drawCalls.isEmpty()) drawMaterial(0, 0, m_model->indices.size());
+    else for (const Mh3gDrawCall &draw : m_model->drawCalls)
+        drawMaterial(draw.materialIndex, draw.firstIndex, draw.indexCount);
     m_vertexArray.release();
-    if (m_texture) m_texture->release(0);
-    if (m_environmentTexture) m_environmentTexture->release(1);
     m_program->release();
 }
 
@@ -263,6 +335,20 @@ void WeaponModelWidget::resetView()
 {
     m_yaw = -32.0f; m_pitch = 18.0f; m_distance = 3.0f; m_pan = QVector3D(); update();
 }
+
+void WeaponModelWidget::rotateView(float yawDelta, float pitchDelta)
+{
+    m_yaw += yawDelta;
+    while (m_yaw > 180.0f) m_yaw -= 360.0f;
+    while (m_yaw < -180.0f) m_yaw += 360.0f;
+    m_pitch = qBound(-89.0f, m_pitch + pitchDelta, 89.0f);
+    update();
+}
+
+void WeaponModelWidget::rotateUp() { rotateView(0.0f, -15.0f); }
+void WeaponModelWidget::rotateDown() { rotateView(0.0f, 15.0f); }
+void WeaponModelWidget::rotateLeft() { rotateView(-15.0f, 0.0f); }
+void WeaponModelWidget::rotateRight() { rotateView(15.0f, 0.0f); }
 
 void WeaponModelWidget::mousePressEvent(QMouseEvent *event)
 {

@@ -8,6 +8,7 @@
 #include <QVector>
 #include <QVector2D>
 #include <QVector3D>
+#include <QVector4D>
 
 struct Mh3gArchiveEntry
 {
@@ -27,7 +28,28 @@ struct Mh3gVertex
 {
     QVector3D position;
     QVector3D normal;
+    QVector4D tangent;
     QVector2D uv;
+};
+
+struct Mh3gMaterial
+{
+    QString name;
+    QImage albedo;
+    QImage normal;
+    QImage specular;
+    QImage environment;
+    QVector4D albedoFactor = QVector4D(1, 1, 1, 1);
+    float specularStrength = 0.28f;
+    float roughness = 0.55f;
+    float environmentStrength = 0.08f;
+};
+
+struct Mh3gDrawCall
+{
+    int firstIndex = 0;
+    int indexCount = 0;
+    int materialIndex = 0;
 };
 
 struct Mh3gCpuModel
@@ -35,8 +57,8 @@ struct Mh3gCpuModel
     QString modelKey;
     QVector<Mh3gVertex> vertices;
     QVector<quint32> indices;
-    QImage diffuse;
-    QImage environment;
+    QVector<Mh3gMaterial> materials;
+    QVector<Mh3gDrawCall> drawCalls;
     QVector3D boundsMinimum;
     QVector3D boundsMaximum;
     QString error;
