@@ -67,8 +67,17 @@ Alpha 对绝大多数不透明材质是高光/反射遮罩，只有 MRL 明确�
 使用。游戏专用粒子、发光和动态机关仍使用静态近似。
 
 防具与人物组件在 CPU 后台按 MOD v0xE6 的骨骼层级、参考矩阵、inverse-bind 和顶点权重转换
-到统一人物坐标系，再合并五个部位、脸型和发型。试衣间固定采用游戏 `mot_plcom_0000`
-通用待机动作的中间帧，使人物以双手自然下垂的站姿展示；不运行完整 LMT 动画，也不挂载武器。
+到统一人物坐标系，再合并五个部位、脸型和发型。顶点中的骨骼编号会先经过当前 Primitive
+选择的 skin remap 表，再映射到组件局部骨骼；解析器按 vertex format 明确区分 2、4、8 权重，
+不再把 44 字节的 `0xAE252019` 格式截断成 4 权重。重复全局 ID 的布料或辅助骨骼仍保留
+自身局部层级，不会被折叠到同一根公共骨骼。
+
+试衣间固定采用游戏 `mot_plcom_0000.lmt`（SHA-256
+`aa9a7255314d3f16741a6e7a8dc29389340b2be039d2aeae2164a63a6b4ee424`）中 `Motion[1]`
+在 `1.675s` 的中间帧，使人物以双手自然下垂的站姿展示；程序只保留经过校验的 20 根公共
+骨骼姿势常量。动画四元数按全局骨骼 ID 作为局部旋转使用，不取共轭、也不误作全局矩阵。
+程序不运行或携带完整 LMT，也不挂载武器。公共骨架、姿势或任一组件不能安全
+对齐时，七个组件会一起回退到 MOD 参考姿势，绝不会混合显示半套待机和半套参考姿势。
 角色页尚未保存的性别、脸型和发型也会同步到试衣间；切换性别时仅保留男女通用且有对应模型
 的混搭部位。
 
@@ -161,7 +170,9 @@ The test verifies byte-identical unchanged round trips, read/write byte-order co
 python3 tools/validate_model_crosswalk.py --resources /path/to/romfs/arc/weapon/mod
 ```
 
-全部 2,004 个男女防具 ARC 与 50 个人物组件 ARC 可使用绑定姿势模式批量验证：
+全部 2,004 个男女防具 ARC 与 50 个人物组件 ARC 可使用绑定姿势模式批量验证。测试会检查
+2,054 个 MOD、6,895 个 Primitive、约 201 万个顶点、skin remap 引用，以及
+`f_body125/f_body140` 的 8 权重格式，并组装男女基础装、轻皮、锁链和狗龙套：
 
 ```bash
 ./tests/run-model-tests.sh --armor-root /path/to/romfs/arc/player/mod

@@ -2,6 +2,7 @@
 
 #include <QFile>
 #include <QHash>
+#include <QSet>
 #include <QtEndian>
 #include <QtMath>
 
@@ -14,6 +15,11 @@ namespace
 const quint32 HashTex = 0x241f5debU;
 const quint32 HashMrl = 0x2749c8a8U;
 const quint32 HashMod = 0x58a15856U;
+const quint32 FormatSkin2 = 0xd6784014U;
+const quint32 FormatSkin2Tangent = 0x43fb3015U;
+const quint32 FormatSkin4 = 0x01b36016U;
+const quint32 FormatSkin4Tangent = 0xf606f017U;
+const quint32 FormatSkin8 = 0xae252019U;
 
 template<typename T> bool readLe(const QByteArray &data, int offset, T *value)
 {
@@ -217,30 +223,33 @@ struct PoseRotation
     float x, y, z, w;
 };
 
-// mot_plcom_0000, motion 1, sampled at the middle of its 201-frame idle loop.
+// mot_plcom_0000 (SHA-256 aa9a7255314d3f16741a6e7a8dc29389340b2be039d2aeae2164a63a6b4ee424),
+// Motion[1], sampled at 1.675 seconds: the middle of its 201-frame, 60 FPS idle loop.
 // The common player motion uses global bone IDs, while MOD vertex indices remain
 // local to each component. Keeping this small fixed pose avoids shipping or
-// playing the complete LMT animation set in the fitting room.
+// playing the complete LMT animation set in the fitting room. These are the
+// direct local animation-track quaternions exported by RevilLib: they are not
+// global transforms and must not be conjugated for the column-major matrices.
 const PoseRotation FittingRotations[] = {
-    {1, -0.045747315f, -0.325327837f, -0.008270531f, 0.944457823f},
-    {2,  0.081412968f,  0.016342610f, -0.004038605f, 0.996538277f},
-    {3,  0.028916137f,  0.150653877f,  0.016933873f, 0.988018477f},
-    {4, -0.007232913f,  0.144047805f, -0.048394873f, 0.988360183f},
-    {5,  0.058701695f,  0.028961747f, -0.108843029f, 0.991901468f},
-    {6,  0.005600116f,  0.043687044f, -0.491238816f, 0.869910632f},
-    {7,  0.047852868f, -0.277992174f, -0.014236839f, 0.959285029f},
-    {8, -0.185661004f,  0.037339729f, -0.057787306f, 0.980202205f},
-    {9,  0.078020535f, -0.011169766f,  0.104098596f, 0.991439113f},
-    {10, 0.072924245f,  0.139027588f,  0.466034601f, 0.870726786f},
-    {11,-0.002243121f,  0.210593440f, -0.000442520f, 0.977571059f},
-    {12,-0.173207392f, -0.082964368f,  0.119952728f, 0.974026415f},
-    {13,-0.070939651f, -0.316886177f,  0.001220728f, 0.945806125f},
-    {14,-0.010895107f,  0.217978339f,  0.123859308f, 0.968000833f},
+    {1, -0.045747315f,-0.325327837f,-0.008270531f, 0.944457823f},
+    {2,  0.081412968f, 0.016342610f,-0.004038605f, 0.996538277f},
+    {3,  0.028916162f, 0.150653861f, 0.016933875f, 0.988018478f},
+    {4, -0.007232913f, 0.144047805f,-0.048394873f, 0.988360183f},
+    {5,  0.058701695f, 0.028961747f,-0.108843029f, 0.991901468f},
+    {6,  0.005600116f, 0.043687044f,-0.491238816f, 0.869910632f},
+    {7,  0.047852868f,-0.277992174f,-0.014236839f, 0.959285029f},
+    {8, -0.185661004f, 0.037339729f,-0.057787306f, 0.980202205f},
+    {9,  0.078020535f,-0.011169766f, 0.104098596f, 0.991439113f},
+    {10, 0.072924247f, 0.139027558f, 0.466034620f, 0.870726780f},
+    {11,-0.002243121f, 0.210593440f,-0.000442520f, 0.977571059f},
+    {12,-0.173207392f,-0.082964368f, 0.119952728f, 0.974026415f},
+    {13,-0.070939651f,-0.316886177f, 0.001220728f, 0.945806125f},
+    {14,-0.010895107f, 0.217978339f, 0.123859308f, 0.968000833f},
     {15, 0.0f,          0.0f,          0.0f,         1.0f},
-    {16,-0.047425688f, -0.053132632f, -0.106219495f, 0.991788862f},
-    {17, 0.041429238f, -0.148489116f, -0.182410736f, 0.971061751f},
+    {16,-0.047425688f,-0.053132632f,-0.106219495f, 0.991788862f},
+    {17, 0.041429238f,-0.148489116f,-0.182410736f, 0.971061751f},
     {18, 0.0f,          0.0f,          0.0f,         1.0f},
-    {19,-0.079738433f,  0.017484207f,  0.143573535f, 0.986267066f}
+    {19,-0.079738433f, 0.017484207f, 0.143573535f, 0.986267066f}
 };
 
 const QVector3D FittingRootTranslation(0.109665794f, 101.707554f, -0.309764757f);
@@ -390,6 +399,48 @@ bool readMatrix(const QByteArray &data, int offset, BindMatrix *matrix)
     return ok;
 }
 
+struct VertexSkinLayout
+{
+    int pairCount = 0;
+    int indexOffsets[4] = {0, 0, 0, 0};
+    int weightOffsets[4] = {0, 0, 0, 0};
+};
+
+bool vertexSkinLayout(quint32 format, quint8 stride, VertexSkinLayout *layout)
+{
+    if (!layout) return false;
+    *layout = VertexSkinLayout();
+    if (format == FormatSkin2 && stride == 28)
+    {
+        layout->pairCount = 1;
+        layout->indexOffsets[0] = 24; layout->weightOffsets[0] = 26;
+        return true;
+    }
+    if (format == FormatSkin2Tangent && stride == 32)
+    {
+        layout->pairCount = 1;
+        layout->indexOffsets[0] = 24; layout->weightOffsets[0] = 26;
+        return true;
+    }
+    if ((format == FormatSkin4 || format == FormatSkin4Tangent) && stride == 36)
+    {
+        layout->pairCount = 2;
+        layout->indexOffsets[0] = 24; layout->weightOffsets[0] = 26;
+        layout->indexOffsets[1] = 32; layout->weightOffsets[1] = 34;
+        return true;
+    }
+    if (format == FormatSkin8 && stride == 44)
+    {
+        layout->pairCount = 4;
+        layout->indexOffsets[0] = 24; layout->weightOffsets[0] = 26;
+        layout->indexOffsets[1] = 32; layout->weightOffsets[1] = 34;
+        layout->indexOffsets[2] = 36; layout->weightOffsets[2] = 38;
+        layout->indexOffsets[3] = 40; layout->weightOffsets[3] = 42;
+        return true;
+    }
+    return false;
+}
+
 void generateTangents(Mh3gCpuModel *model)
 {
     if (!model || model->vertices.isEmpty()) return;
@@ -516,12 +567,13 @@ bool Mh3gModelLoader::parseModWithPose(const QByteArray &data, Mh3gCpuModel *mod
 {
     if (!model) return false;
     quint16 version = 0, boneCount = 0, primitiveCount = 0, materialCount = 0;
-    quint32 vertexCount = 0, boneOffset = 0, primitiveOffset = 0, vertexOffset = 0, indexOffset = 0;
+    quint32 vertexCount = 0, skinCount = 0, boneOffset = 0, primitiveOffset = 0, vertexOffset = 0, indexOffset = 0;
     if (data.size() < 64 || std::memcmp(data.constData(), "MOD\0", 4) != 0
         || !readLe(data, 4, &version) || version != 0xE6 || !readLe(data, 6, &boneCount)
         || !readLe(data, 8, &primitiveCount)
         || !readLe(data, 0x0a, &materialCount)
-        || !readLe(data, 12, &vertexCount) || !readLe(data, 0x28, &boneOffset)
+        || !readLe(data, 12, &vertexCount) || !readLe(data, 0x24, &skinCount)
+        || !readLe(data, 0x28, &boneOffset)
         || !readLe(data, 0x34, &primitiveOffset)
         || !readLe(data, 0x38, &vertexOffset) || !readLe(data, 0x3c, &indexOffset))
     { if (error) *error = QString::fromUtf8("MOD 头部无效或版本不是 v0xE6"); return false; }
@@ -531,6 +583,7 @@ bool Mh3gModelLoader::parseModWithPose(const QByteArray &data, Mh3gCpuModel *mod
     { if (error) *error = QString::fromUtf8("MOD 数量或数据偏移越界"); return false; }
 
     QVector<BindMatrix> bindMatrices;
+    QVector<QVector<int> > skinRemaps;
     if (mode != Mh3gModelLoadMode::Raw)
     {
         SkeletonPose localPose;
@@ -539,6 +592,7 @@ bool Mh3gModelLoader::parseModWithPose(const QByteArray &data, Mh3gCpuModel *mod
         if (!buildSkeletonPose(data, boneCount, boneOffset, fitting, &localPose, &worldByLocal, error)) return false;
         const int inverseBindOffset = int(boneOffset) + int(boneCount) * 24 + int(boneCount) * 64;
         bindMatrices.resize(int(boneCount));
+        QSet<int> externalPoseUsed;
         for (int bone = 0; bone < boneCount; ++bone)
         {
             BindMatrix inverseBind;
@@ -546,38 +600,90 @@ bool Mh3gModelLoader::parseModWithPose(const QByteArray &data, Mh3gCpuModel *mod
             { if (error) *error = QString::fromUtf8("MOD 骨骼绑定矩阵无效"); return false; }
             BindMatrix desiredPose = worldByLocal[bone];
             const int globalId = quint8(data.at(int(boneOffset) + bone * 24));
-            if (fitting && externalPose && externalPose->globalByBoneId.contains(globalId))
+            // Event and cloth components may repeat a global animation ID on
+            // auxiliary local bones. Only the first occurrence is the
+            // canonical player bone; collapsing every duplicate onto the same
+            // external matrix destroys the auxiliary hierarchy.
+            if (fitting && externalPose && externalPose->globalByBoneId.contains(globalId)
+                && !externalPoseUsed.contains(globalId))
+            {
                 desiredPose = fromQtMatrix(externalPose->globalByBoneId.value(globalId));
+                externalPoseUsed.insert(globalId);
+            }
             bindMatrices[bone] = BindMatrix::multiply(desiredPose, inverseBind);
+        }
+
+        if (skinCount == 0 || skinCount > 4096)
+        { if (error) *error = QString::fromUtf8("MOD 蒙皮 remap 表数量无效"); return false; }
+        const qint64 skinOffset = qint64(boneOffset) + qint64(boneCount) * (24 + 64 + 64) + 256;
+        if (!rangeOk(skinOffset, qint64(skinCount) * 28, data.size()))
+        { if (error) *error = QString::fromUtf8("MOD 蒙皮 remap 表越界"); return false; }
+        skinRemaps.reserve(int(skinCount));
+        for (quint32 table = 0; table < skinCount; ++table)
+        {
+            const int base = int(skinOffset + qint64(table) * 28);
+            quint32 count = 0;
+            if (!readLe(data, base, &count) || count == 0 || count > 24)
+            { if (error) *error = QString::fromUtf8("MOD 蒙皮 remap 表 %1 的长度无效").arg(table); return false; }
+            QVector<int> remap;
+            remap.reserve(int(count));
+            for (quint32 item = 0; item < count; ++item)
+            {
+                const int localBone = quint8(data.at(base + 4 + int(item)));
+                if (localBone >= boneCount)
+                { if (error) *error = QString::fromUtf8("MOD 蒙皮 remap 表 %1 引用了越界骨骼 %2").arg(table).arg(localBone); return false; }
+                remap.append(localBone);
+            }
+            skinRemaps.append(remap);
         }
     }
 
     model->vertices.clear(); model->indices.clear(); model->drawCalls.clear();
     model->vertices.reserve(int(vertexCount));
-    QHash<quint32, quint32> vertexByAddress;
+    QHash<quint64, quint32> vertexByAddress;
     bool hasBounds = false;
     for (int primitive = 0; primitive < primitiveCount; ++primitive)
     {
         const int base = int(primitiveOffset) + primitive * 48;
-        quint16 count = 0; quint8 stride = 0; quint32 packedPrimitive = 0, vertexStart = 0, relative = 0;
+        quint16 count = 0; quint8 stride = 0, skinTableIndex = 0;
+        quint32 packedPrimitive = 0, vertexStart = 0, relative = 0, vertexFormat = 0;
         quint32 stripOffset = 0, stripCount = 0;
         if (!readLe(data, base + 2, &count) || !readLe(data, base + 4, &packedPrimitive)
             || !rangeOk(base + 10, 2, data.size())) return false;
         stride = quint8(data.at(base + 10));
+        skinTableIndex = quint8(data.at(base + 37));
         const int materialIndex = int((packedPrimitive >> 12) & 0xfffU);
         if (!readLe(data, base + 12, &vertexStart) || !readLe(data, base + 16, &relative)
+            || !readLe(data, base + 20, &vertexFormat)
             || !readLe(data, base + 24, &stripOffset) || !readLe(data, base + 28, &stripCount)) return false;
         if ((stride != 28 && stride != 32 && stride != 36 && stride != 44) || materialIndex >= qMax(1, int(materialCount))
             || vertexStart > vertexCount || count > vertexCount - vertexStart
             || !rangeOk(qint64(vertexOffset) + relative + qint64(vertexStart) * stride, qint64(count) * stride, data.size())
             || !rangeOk(qint64(indexOffset) + qint64(stripOffset) * 2, qint64(stripCount) * 2, data.size()))
         { if (error) *error = QString::fromUtf8("MOD Primitive %1 越界或顶点步长未知").arg(primitive); return false; }
+
+        VertexSkinLayout skinLayout;
+        const QVector<int> *skinRemap = 0;
+        if (mode != Mh3gModelLoadMode::Raw)
+        {
+            if (!vertexSkinLayout(vertexFormat, stride, &skinLayout))
+            {
+                if (error) *error = QString::fromUtf8("MOD Primitive %1 的蒙皮格式 0x%2/%3 不受支持")
+                    .arg(primitive).arg(vertexFormat, 8, 16, QLatin1Char('0')).arg(stride);
+                return false;
+            }
+            if (skinTableIndex >= skinRemaps.size())
+            { if (error) *error = QString::fromUtf8("MOD Primitive %1 引用了不存在的 remap 表 %2").arg(primitive).arg(skinTableIndex); return false; }
+            skinRemap = &skinRemaps[skinTableIndex];
+        }
         for (quint32 local = 0; local < count; ++local)
         {
             const quint32 global = vertexStart + local;
             const quint32 addressValue = vertexOffset + relative + global * stride;
+            const quint64 vertexKey = quint64(addressValue)
+                | (mode == Mh3gModelLoadMode::Raw ? 0 : quint64(skinTableIndex + 1) << 32);
             const int address = int(addressValue);
-            if (vertexByAddress.contains(addressValue)) continue;
+            if (vertexByAddress.contains(vertexKey)) continue;
             bool ok = true;
             Mh3gVertex vertex;
             vertex.position = QVector3D(readFloat(data, address, &ok), readFloat(data, address + 4, &ok), readFloat(data, address + 8, &ok));
@@ -587,14 +693,15 @@ bool Mh3gModelLoader::parseModWithPose(const QByteArray &data, Mh3gCpuModel *mod
             if (!ok) { if (error) *error = QString::fromUtf8("MOD 顶点包含无效浮点数"); return false; }
             if (mode != Mh3gModelLoadMode::Raw)
             {
-                int boneIndexes[4] = {quint8(data.at(address + 24)), quint8(data.at(address + 25)), 0, 0};
-                int boneWeights[4] = {quint8(data.at(address + 26)), quint8(data.at(address + 27)), 0, 0};
-                int influences = 2;
-                if (stride >= 36)
+                int boneIndexes[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+                int boneWeights[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+                const int influences = skinLayout.pairCount * 2;
+                for (int pair = 0; pair < skinLayout.pairCount; ++pair)
                 {
-                    boneIndexes[2] = quint8(data.at(address + 32)); boneIndexes[3] = quint8(data.at(address + 33));
-                    boneWeights[2] = quint8(data.at(address + 34)); boneWeights[3] = quint8(data.at(address + 35));
-                    influences = 4;
+                    boneIndexes[pair * 2] = quint8(data.at(address + skinLayout.indexOffsets[pair]));
+                    boneIndexes[pair * 2 + 1] = quint8(data.at(address + skinLayout.indexOffsets[pair] + 1));
+                    boneWeights[pair * 2] = quint8(data.at(address + skinLayout.weightOffsets[pair]));
+                    boneWeights[pair * 2 + 1] = quint8(data.at(address + skinLayout.weightOffsets[pair] + 1));
                 }
                 int totalWeight = 0;
                 QVector3D position, normal;
@@ -602,18 +709,22 @@ bool Mh3gModelLoader::parseModWithPose(const QByteArray &data, Mh3gCpuModel *mod
                 {
                     const int weight = boneWeights[influence];
                     if (!weight) continue;
-                    if (boneIndexes[influence] < 0 || boneIndexes[influence] >= bindMatrices.size())
-                    { if (error) *error = QString::fromUtf8("MOD 顶点骨骼索引越界"); return false; }
+                    const int remapIndex = boneIndexes[influence];
+                    if (!skinRemap || remapIndex < 0 || remapIndex >= skinRemap->size())
+                    { if (error) *error = QString::fromUtf8("MOD Primitive %1 的顶点 remap 索引 %2 越界").arg(primitive).arg(remapIndex); return false; }
+                    const int localBone = skinRemap->at(remapIndex);
+                    if (localBone < 0 || localBone >= bindMatrices.size())
+                    { if (error) *error = QString::fromUtf8("MOD Primitive %1 的 remap 骨骼 %2 越界").arg(primitive).arg(localBone); return false; }
                     totalWeight += weight;
-                    position += bindMatrices[boneIndexes[influence]].position(vertex.position) * float(weight);
-                    normal += bindMatrices[boneIndexes[influence]].direction(vertex.normal) * float(weight);
+                    position += bindMatrices[localBone].position(vertex.position) * float(weight);
+                    normal += bindMatrices[localBone].direction(vertex.normal) * float(weight);
                 }
                 if (totalWeight <= 0)
                 { if (error) *error = QString::fromUtf8("MOD 顶点骨骼权重为空"); return false; }
                 vertex.position = position / float(totalWeight);
                 vertex.normal = normal.lengthSquared() > 1.0e-10f ? normal.normalized() : QVector3D(0, 1, 0);
             }
-            vertexByAddress[addressValue] = quint32(model->vertices.size());
+            vertexByAddress[vertexKey] = quint32(model->vertices.size());
             model->vertices.append(vertex);
             if (!hasBounds) { model->boundsMinimum = model->boundsMaximum = vertex.position; hasBounds = true; }
             else
@@ -632,9 +743,11 @@ bool Mh3gModelLoader::parseModWithPose(const QByteArray &data, Mh3gCpuModel *mod
         {
             quint16 value = 0; readLe(data, int(indexOffset + (stripOffset + item) * 2), &value);
             const quint32 address = vertexOffset + relative + quint32(value) * stride;
-            if (value >= vertexCount || !vertexByAddress.contains(address))
+            const quint64 vertexKey = quint64(address)
+                | (mode == Mh3gModelLoadMode::Raw ? 0 : quint64(skinTableIndex + 1) << 32);
+            if (value >= vertexCount || !vertexByAddress.contains(vertexKey))
             { if (error) *error = QString::fromUtf8("MOD Primitive %1 的索引越界").arg(primitive); return false; }
-            strip.append(quint16(vertexByAddress.value(address)));
+            strip.append(quint16(vertexByAddress.value(vertexKey)));
         }
         Mh3gDrawCall draw;
         draw.firstIndex = model->indices.size();
@@ -818,29 +931,75 @@ QSharedPointer<Mh3gCpuModel> Mh3gModelLoader::loadCharacter(
         QVector<BindMatrix> worldByLocal;
         if (!buildSkeletonPose(entry.data, boneCount, boneOffset, true,
                 &internalPose, &worldByLocal, &poseError)) continue;
-        if (internalPose.contains(0) && internalPose.size() >= 20)
+        bool complete = true;
+        for (int boneId = 0; boneId < 20; ++boneId)
+            complete = complete && internalPose.contains(boneId);
+        if (complete)
         {
             fittingPose = toPublicPose(internalPose);
             break;
         }
     }
-    if (fittingPose.globalByBoneId.isEmpty())
+
+    bool fittingConstantsValid = qIsFinite(FittingRootTranslation.x())
+        && qIsFinite(FittingRootTranslation.y()) && qIsFinite(FittingRootTranslation.z());
+    QSet<int> rotationIds;
+    for (const PoseRotation &rotation : FittingRotations)
     {
-        result->error = QString::fromUtf8("人物主体没有完整玩家骨架：%1")
-            .arg(poseError.isEmpty() ? QString::fromUtf8("未找到骨骼 0..19") : poseError);
-        return result;
+        const float lengthSquared = rotation.x * rotation.x + rotation.y * rotation.y
+            + rotation.z * rotation.z + rotation.w * rotation.w;
+        fittingConstantsValid = fittingConstantsValid && rotation.boneId >= 1 && rotation.boneId < 20
+            && !rotationIds.contains(rotation.boneId) && rotation.w >= 0.0f
+            && qIsFinite(lengthSquared) && lengthSquared > 0.999f && lengthSquared < 1.001f;
+        rotationIds.insert(rotation.boneId);
+    }
+    fittingConstantsValid = fittingConstantsValid && rotationIds.size() == 19;
+
+    QString fittingError;
+    if (!fittingPose.globalByBoneId.isEmpty() && fittingConstantsValid)
+    {
+        QVector<QSharedPointer<Mh3gCpuModel> > fittingParts;
+        fittingParts.reserve(components.size());
+        for (const QPair<QString, QString> &component : components)
+        {
+            QSharedPointer<Mh3gCpuModel> part = loadWithPose(component.first, component.second,
+                Mh3gModelLoadMode::FittingPose, &fittingPose);
+            if (!part->valid())
+            {
+                fittingError = QString::fromUtf8("%1：%2").arg(component.first, part->error);
+                fittingParts.clear();
+                break;
+            }
+            fittingParts.append(part);
+        }
+        if (fittingParts.size() == components.size()) return combine(modelKey, fittingParts);
+    }
+    else
+    {
+        fittingError = fittingConstantsValid
+            ? QString::fromUtf8("人物主体没有完整玩家骨架：%1")
+                .arg(poseError.isEmpty() ? QString::fromUtf8("未找到骨骼 0..19") : poseError)
+            : QString::fromUtf8("固定待机姿势常量无效");
     }
 
-    QVector<QSharedPointer<Mh3gCpuModel> > parts;
-    parts.reserve(components.size());
+    // Fitting is all-or-nothing. If the common skeleton or any component
+    // cannot safely use it, rebuild every part in the MOD reference pose so a
+    // half-idle/half-reference character can never reach the renderer.
+    QVector<QSharedPointer<Mh3gCpuModel> > referenceParts;
+    referenceParts.reserve(components.size());
     for (const QPair<QString, QString> &component : components)
     {
         QSharedPointer<Mh3gCpuModel> part = loadWithPose(component.first, component.second,
-            Mh3gModelLoadMode::FittingPose, &fittingPose);
-        if (!part->valid()) return part;
-        parts.append(part);
+            Mh3gModelLoadMode::BindPose, 0);
+        if (!part->valid())
+        {
+            result->error = QString::fromUtf8("待机姿势失败（%1）；参考姿势也失败（%2：%3）")
+                .arg(fittingError, component.first, part->error);
+            return result;
+        }
+        referenceParts.append(part);
     }
-    return combine(modelKey, parts);
+    return combine(modelKey, referenceParts);
 }
 
 QSharedPointer<Mh3gCpuModel> Mh3gModelLoader::combine(
