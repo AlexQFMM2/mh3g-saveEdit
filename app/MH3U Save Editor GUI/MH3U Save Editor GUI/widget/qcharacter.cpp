@@ -114,7 +114,6 @@ void QCharacter::loadFromModel()
     m_voices->setCurrentIndex(m_voices->findData(mh3u->savedata->voice +1));
     m_mogapoint->setValue(mh3u->savedata->mogapoint);
     m_loading = false;
-    emit appearanceChanged(mh3u->savedata->sex, mh3u->savedata->face, mh3u->savedata->hair);
 }
 
 bool QCharacter::commitToModel(QString *)
@@ -144,11 +143,5 @@ bool QCharacter::commitToModel(QString *)
 
 void QCharacter::notifyModified()
 {
-    if (!m_loading)
-    {
-        emit appearanceChanged(searchableComboBoxCurrentData(m_sexs).toInt() - 1,
-            searchableComboBoxCurrentData(m_faces).toInt() - 1,
-            searchableComboBoxCurrentData(m_hairs).toInt() - 1);
-        emit modified();
-    }
+    if (!m_loading) emit modified();
 }

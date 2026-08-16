@@ -1,4 +1,4 @@
-QT += widgets sql opengl concurrent
+QT += widgets
 
 TEMPLATE = app
 TARGET = MH3USaveEditorGUI
@@ -21,12 +21,6 @@ SOURCES += "$$CORE_DIR/mh3u_ds.cpp" \
            "$$CORE_DIR/mh3u_se.cpp" \
            "$$CORE_DIR/mh3u_transfer.cpp" \
            "$$GUI_DIR/main.cpp" \
-           "$$GUI_DIR/encyclopedia_data.cpp" \
-           "$$GUI_DIR/encyclopedia_page.cpp" \
-           "$$GUI_DIR/game_resource_manager.cpp" \
-           "$$GUI_DIR/mh3g_model.cpp" \
-           "$$GUI_DIR/save_action_bridge.cpp" \
-           "$$GUI_DIR/weapon_model_widget.cpp" \
            "$$GUI_DIR/mh3u_sv.cpp" \
            "$$GUI_DIR/widget.cpp" \
            "$$GUI_DIR/widget/qarmor.cpp" \
@@ -46,12 +40,6 @@ HEADERS += "$$CORE_DIR/main.hpp" \
            "$$CORE_DIR/mh3u_se.hpp" \
            "$$CORE_DIR/mh3u_transfer.hpp" \
            "$$GUI_DIR/main.hpp" \
-           "$$GUI_DIR/encyclopedia_data.hpp" \
-           "$$GUI_DIR/encyclopedia_page.hpp" \
-           "$$GUI_DIR/game_resource_manager.hpp" \
-           "$$GUI_DIR/mh3g_model.hpp" \
-           "$$GUI_DIR/save_action_bridge.hpp" \
-           "$$GUI_DIR/weapon_model_widget.hpp" \
            "$$GUI_DIR/mh3u_sv.hpp" \
            "$$GUI_DIR/widget.hpp" \
            "$$GUI_DIR/widget/qarmor.hpp" \

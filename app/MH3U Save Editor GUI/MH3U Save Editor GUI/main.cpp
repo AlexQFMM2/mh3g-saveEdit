@@ -96,61 +96,6 @@ static void applyApplicationStyle(QApplication &app)
             border: 1px solid #b9c5d3;
             border-radius: 12px;
         }
-        QWidget#encyclopediaPage { background: #f8fafc; }
-        QFrame#armorSetRow {
-            background: #f7f9fc;
-            border: 1px solid #c4cfdd;
-            border-radius: 10px;
-        }
-        QLabel#armorSetTitle { color: #24344f; font-weight: 700; }
-        QPushButton#armorPieceCard {
-            color: #26364f;
-            background: #ffffff;
-            border: 1px solid #b8c5d6;
-            border-radius: 8px;
-            padding: 3px 4px;
-            min-height: 34px;
-            max-height: 34px;
-            font-weight: 500;
-        }
-        QPushButton#armorPieceCard:hover { background: #edf5ff; border-color: #75a3df; }
-        QPushButton#armorPieceCard:checked { color: #174f93; background: #e2efff; border: 2px solid #377ec4; }
-        QPushButton#armorPieceCard:disabled { color: #98a2b1; background: #eef1f5; border-style: dashed; }
-        QLabel#detailTitle { color: #15213a; font-size: 18px; font-weight: 700; }
-        QLabel#encyclopediaImage {
-            color: #657289;
-            background: #e9eef5;
-            border: 1px dashed #9eacbd;
-            border-radius: 9px;
-            padding: 10px;
-        }
-        QOpenGLWidget#weaponModelWidget {
-            background: #e9eef5;
-            border: 1px solid #9eacbd;
-            border-radius: 9px;
-        }
-        QLabel#modelViewerStatus {
-            color: #526176;
-            background: rgba(244, 247, 251, 218);
-            border: 1px solid #aebaca;
-            border-radius: 8px;
-            padding: 9px;
-        }
-        QLabel#modelViewerStatus[error="true"] {
-            color: #8f2f2f;
-            background: rgba(255, 239, 239, 230);
-            border-color: #d9a4a4;
-        }
-        QPushButton#linkButton {
-            color: #205fae;
-            background: transparent;
-            border: 0;
-            border-radius: 4px;
-            padding: 4px 2px;
-            text-align: left;
-            font-weight: 500;
-        }
-        QPushButton#linkButton:hover { color: #164b8d; background: #edf4fe; }
         QPushButton {
             color: #26344c;
             background: #f8fafc;
@@ -168,13 +113,6 @@ static void applyApplicationStyle(QApplication &app)
         QPushButton:pressed {
             background: #e8f1ff;
             border-color: #4f88d3;
-        }
-        QPushButton#modelRotateButton {
-            padding: 0;
-            min-height: 0;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: 700;
         }
         QPushButton:disabled {
             color: #9aa4b4;
@@ -311,14 +249,7 @@ int main(int argc, char *argv[])
     MH3U_SV w;
     w.show();
     if (a.arguments().contains(QStringLiteral("--smoke-test")))
-    {
-        QTimer::singleShot(0, [&w]() {
-            QMetaObject::invokeMethod(&w, "showEncyclopedia", Qt::DirectConnection);
-            QComboBox *category = w.findChild<QComboBox *>(QStringLiteral("encyclopediaCategory"));
-            if (category != NULL) category->setCurrentIndex(1);
-        });
-        QTimer::singleShot(250, &a, &QCoreApplication::quit);
-    }
+        QTimer::singleShot(150, &a, &QCoreApplication::quit);
 
     return a.exec();
 }

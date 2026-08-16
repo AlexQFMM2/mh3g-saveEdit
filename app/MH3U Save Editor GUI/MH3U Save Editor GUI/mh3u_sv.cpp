@@ -1,6 +1,4 @@
 #include "mh3u_sv.hpp"
-#include "encyclopedia_page.hpp"
-#include "save_action_bridge.hpp"
 
 #include <QAbstractButton>
 #include <QCloseEvent>
@@ -17,8 +15,7 @@
 #include <QVBoxLayout>
 
 MH3U_SV::MH3U_SV(QWidget *parent)
-    : QMainWindow(parent), mh3u(new MH3U_SE()), saveBridge(new SaveActionBridge(mh3u)),
-      encyclopediaPage(0), characterPage(0), chestPage(0), boxPage(0), dirty(false)
+    : QMainWindow(parent), mh3u(new MH3U_SE()), characterPage(0), chestPage(0), boxPage(0), dirty(false)
 {
     setObjectName("mainSurface");
     setWindowTitle(QString::fromUtf8("MH3G / MH3U 存档修改器"));
@@ -55,12 +52,9 @@ MH3U_SV::MH3U_SV(QWidget *parent)
     characterButton = makeNavigation(QString::fromUtf8("角色"));
     chestButton = makeNavigation(QString::fromUtf8("道具箱"));
     boxButton = makeNavigation(QString::fromUtf8("装备箱"));
-    encyclopediaButton = makeNavigation(QString::fromUtf8("资料库"));
     navigation->addWidget(characterButton);
     navigation->addWidget(chestButton);
     navigation->addWidget(boxButton);
-    navigation->addSpacing(12);
-    navigation->addWidget(encyclopediaButton);
     navigation->addStretch();
 
     QWidget *workspace = new QWidget(surface);
@@ -103,13 +97,6 @@ MH3U_SV::MH3U_SV(QWidget *parent)
     emptyLayout->addWidget(emptyHint);
     pageStack->addWidget(emptyPage);
 
-    encyclopediaPage = new EncyclopediaPage(saveBridge, pageStack);
-    pageStack->addWidget(encyclopediaPage);
-    connect(encyclopediaPage, SIGNAL(modified()), this, SLOT(markModified()));
-    connect(encyclopediaPage, SIGNAL(itemAdded()), this, SLOT(refreshChestFromModel()));
-    connect(encyclopediaPage, SIGNAL(weaponAdded()), this, SLOT(refreshBoxFromModel()));
-    connect(encyclopediaPage, SIGNAL(armorAdded()), this, SLOT(refreshBoxFromModel()));
-
     QScrollArea *content = new QScrollArea(workspace);
     content->setObjectName("contentArea");
     content->setWidgetResizable(true);
@@ -135,7 +122,6 @@ MH3U_SV::MH3U_SV(QWidget *parent)
     connect(characterButton, SIGNAL(clicked(bool)), this, SLOT(showCharacter()));
     connect(chestButton, SIGNAL(clicked(bool)), this, SLOT(showChest()));
     connect(boxButton, SIGNAL(clicked(bool)), this, SLOT(showBox()));
-    connect(encyclopediaButton, SIGNAL(clicked(bool)), this, SLOT(showEncyclopedia()));
     connect(loadButton, SIGNAL(clicked(bool)), this, SLOT(loadFile()));
     connect(saveButton, SIGNAL(clicked(bool)), this, SLOT(saveFile()));
     resize(1100, 700);
@@ -146,7 +132,6 @@ MH3U_SV::MH3U_SV(QWidget *parent)
 MH3U_SV::~MH3U_SV()
 {
     MH3U_DS::deleteData();
-    delete saveBridge;
     cdelete(mh3u);
 }
 
@@ -160,8 +145,6 @@ void MH3U_SV::createPages()
     pageStack->addWidget(chestPage);
     pageStack->addWidget(boxPage);
     connect(characterPage, SIGNAL(modified()), this, SLOT(markModified()));
-    connect(characterPage, SIGNAL(appearanceChanged(int,int,int)),
-        encyclopediaPage, SLOT(setCharacterAppearance(int,int,int)));
     connect(chestPage, SIGNAL(modified()), this, SLOT(markModified()));
     connect(boxPage, SIGNAL(modified()), this, SLOT(markModified()));
 }
@@ -195,23 +178,12 @@ void MH3U_SV::setCurrentPage(QWidget *page, QPushButton *button, const QString &
 void MH3U_SV::showCharacter() { setCurrentPage(characterPage, characterButton, QString::fromUtf8("角色")); }
 void MH3U_SV::showChest() { setCurrentPage(chestPage, chestButton, QString::fromUtf8("道具箱")); }
 void MH3U_SV::showBox() { setCurrentPage(boxPage, boxButton, QString::fromUtf8("装备箱")); }
-void MH3U_SV::showEncyclopedia() { setCurrentPage(encyclopediaPage, encyclopediaButton, QString::fromUtf8("资料库")); }
 
 void MH3U_SV::markModified()
 {
     if (!mh3u->loaded()) return;
     dirty = true;
     updateState();
-}
-
-void MH3U_SV::refreshChestFromModel()
-{
-    if (chestPage) chestPage->loadFromModel();
-}
-
-void MH3U_SV::refreshBoxFromModel()
-{
-    if (boxPage) boxPage->loadFromModel();
 }
 
 bool MH3U_SV::discardChanges()
@@ -285,9 +257,7 @@ void MH3U_SV::updateState()
     characterButton->setEnabled(loaded);
     chestButton->setEnabled(loaded);
     boxButton->setEnabled(loaded);
-    encyclopediaButton->setEnabled(true);
     saveButton->setEnabled(loaded);
-    encyclopediaPage->updateSaveState();
     loadButton->setText(loaded ? QString::fromUtf8("读取其他存档") : QString::fromUtf8("读取存档"));
     if (loaded) {
         const QString name = QFileInfo(QString::fromStdString(mh3u->currentFilename())).fileName();
@@ -295,12 +265,8 @@ void MH3U_SV::updateState()
             .arg(name, QString::fromStdString(mh3u->formatName()), dirty ? QString::fromUtf8("未保存") : QString::fromUtf8("已保存")));
     } else {
         statusLabel->setText(QString::fromUtf8("尚未读取存档"));
-        if (pageStack->currentWidget() != encyclopediaPage)
-        {
-            pageStack->setCurrentWidget(emptyPage);
-            pageTitle->setText(QString::fromUtf8("存档管理"));
-            encyclopediaButton->setChecked(false);
-        }
+        pageStack->setCurrentWidget(emptyPage);
+        pageTitle->setText(QString::fromUtf8("存档管理"));
     }
     statusLabel->setProperty("loaded", loaded);
     statusLabel->setProperty("dirty", dirty);

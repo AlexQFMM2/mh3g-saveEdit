@@ -46,11 +46,3 @@ screen/*
 
 # Local reverse-engineering inputs can contain private console saves.
 wiiu-research/
-
-# User-owned game resources must remain local and outside release artifacts.
-*.cci
-*.arc
-*.mod
-*.tex
-*.mrl
-/resources/mh3g/weapon-mod/

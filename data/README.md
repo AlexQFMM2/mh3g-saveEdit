@@ -26,37 +26,6 @@ game resources and the save format.
 CSV row counts, and CSV hashes. Raw CCI, RomFS, ARC, GMD, and save samples are
 not part of this repository.
 
-## Weapon and armor encyclopedia
-
-`encyclopedia.sqlite` is a generated, read-only MH3G weapon database. The Dex
-supplies attributes, the preorder upgrade tree and recipe relationships, but
-its global `Wpn_ID` and `Itm_ID` values are never written to a save. The build
-crosswalks every weapon and recipe material to the audited `ID_res.arc` arrays
-and stores the result separately as `save_type/save_id`.
-
-The committed v3 database contains 1,421 weapons, 1,651 armors, 331 explicit
-armor sets, 5,806 weapon recipe rows, 6,398 armor recipe rows, 6,814 armor
-skill-point rows and the 701 items referenced by those recipes. `encyclopedia-manifest.json` records every
-raw input hash and the database hash. Raw Dex CSV files stay outside the
-repository.
-
-Armor model IDs are stored per armor and per gender. The committed
-`tools/mh3g_armor_exefs_crosswalk.csv` is generated from the audited ExeFS
-`.code`: each save-local armor ID indexes a 24-byte part record, with male and
-female model IDs at bytes 2 and 3. It contains 1,600 direct ExeFS mappings, 31
-exact shared-appearance mappings, and 20 intentionally unmapped entries. The
-database also registers 2,004 armor/base-part resources and 50 face/hair
-resources; the editor never reads ExeFS at runtime.
-
-`model_resources` contains the 558 canonical ARC paths and format selectors;
-`weapon_models` maps all 1,421 weapon rows to those shared models. The audited
-crosswalk is `tools/mh3g_weapon_model_crosswalk.json`. It was extracted from
-the decompressed ExeFS weapon parameter records (SHA-256
-`5374eaac8de5395f346933c4523019a6f643b72e3a73778ccf9a2ac4c32aaa1d`), where
-record offset zero is the model ID used by the game's resource-path builder.
-The compact run-length representation is keyed by real save ID and is checked
-against the SQLite rows on every Action build.
-
 ## Rebuild
 
 On Windows, export the audited resource arrays to a temporary JSON file:
@@ -84,36 +53,3 @@ python3 tools/validate_data.py data \
 
 For a determinism check, generate twice into two temporary directories and
 compare them with `diff -qr`.
-
-Generate the weapon encyclopedia from the external Dex dump:
-
-```bash
-python3 tools/build_encyclopedia.py --dex-dump /tmp/mh3g-dex
-python3 tools/validate_encyclopedia.py data
-python3 tools/validate_model_crosswalk.py
-```
-
-To regenerate the armor mapping from the exact audited executable before the
-database build:
-
-```bash
-python3 tools/export_armor_exefs_crosswalk.py \
-  --code /path/to/exefs-decompressed.code \
-  --dex-armor /tmp/mh3g-dex/Amr_ArmorData.csv
-```
-
-The exporter rejects any `.code` whose SHA-256 is not the fixed audited hash.
-
-The required dump files and their exact hashes are listed in
-`encyclopedia-manifest.json`. Any exact-name mismatch must be reviewed in
-`tools/mh3g_encyclopedia_crosswalk.json`; the generator does not use fuzzy
-matching or positional offsets.
-
-## Armor-set crosswalk
-
-The armor encyclopedia uses the committed `tools/mh3g_armor_sets.csv` and
-`tools/mh3g_armor_set_members.csv` as its authoritative grouping. Runtime code
-must not infer sets from a shared model number, rarity, or name prefix. Those
-signals are used only by `tools/suggest_armor_sets.py` to create a first-pass
-scaffold. See `tools/MH3G_ARMOR_SETS.md` for the editing workflow and run
-`python3 tools/validate_armor_sets.py` after every manual adjustment.

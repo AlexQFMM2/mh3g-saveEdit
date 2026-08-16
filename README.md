@@ -12,90 +12,16 @@ The Chinese management interface keeps Character, Item Chest, and Equipment Box 
 Saving atomically replaces the currently opened file; there is no Save As command and the editor
 does not create a backup. A successful save is confirmed by a message box.
 
-## 武器与防具资料库
+## 资料库功能已移除
 
-左侧“资料库”无需读取存档即可使用。首版收录 3G 的 12 类、1,421 件武器，支持中英日文搜索、
-属性与稀有度筛选、横向强化树、路线高亮、七色斩味、生产/强化素材，以及素材到相关武器的
-双向跳转。详情地址使用稳定形式，例如 `mhdb://mh3g/weapon/7/12`。
+项目曾实验性加入武器、防具资料库、实时模型预览和人物试衣间。该方向需要为每一代游戏
+持续维护装备数据、模型映射、骨骼、材质和主机专用渲染规则，工作量已经接近单独重做一套
+游戏资源查看器，而且 3G 的实现不能低成本、可靠地扩展到 4G 和 GU。为了让项目重新聚焦于
+存档修改的正确性和稳定性，正式版本已移除资料库与模型资源包。
 
-读取 3DS 或 Wii U 角色文件后，可从详情页把武器或素材加入第一个空箱格。快速加入只修改
-内存中的箱子数据，不会直接穿戴，也不会自动保存；确认无误后仍需点击“保存修改”。武器写入
-使用经 `ID_res.arc` 校验的真实类型和 ID，不使用 Dex 的全局行号。
-
-防具图鉴收录 1,651 件防具和 331 条人工维护的套装记录。左侧可切换下位、上位、G 位和
-特殊档位并筛选剑士/枪手与性别；中间每套固定显示头、胸、腕、腰、腿五张单行名称卡片，
-卡片只显示“合金头盔”这类装备名称，部位、稀有度和孔位集中放在右侧详情。右侧使用
-完整人物试衣间显示当前混搭，并列出当前单件的基础/最大防御、五耐性、孔位、技能点、发动
-条件和生产素材。点击卡片只替换对应部位，也可试穿整套或恢复基础装；这些预览操作不会修改
-存档。可以加入当前
-单件，也可以把当前性别下的整套一次性加入装备箱；整套操作会先预留全部空格，失败时不会
-部分写入。51 件尚无唯一存档映射的条目仍可浏览，但不能快速加入。
-
-第一版防具预览曾把 Dex 外观组顺序误当作 `plXXX`，导致锁链头盔显示为狗龙头。数据库 v3
-已经改为读取五张 ExeFS 防具参数表中每条 24 字节记录的 byte 2/3，分别作为男性/女性真实
-模型编号；轻皮、锁链和狗龙因此稳定对应 `pl001/pl002/pl003`。完整调查和踩坑记录见
-[`tools/MH3G_ARMOR_MODEL_RESEARCH.md`](tools/MH3G_ARMOR_MODEL_RESEARCH.md)。
-ExeFS 仅用于离线重建图鉴数据；正式程序仍只通过 `EncyclopediaData` 读取随包发布的
-`data/encyclopedia.sqlite`，不会在用户机器上解析游戏主程序。
-
-### 实时 3D 武器与防具模型
-
-武器详情右侧可以实时浏览游戏模型；模型框四边中点的上下左右箭头用于旋转，每次旋转 15°并支持长按。
-模型区域不响应鼠标拖动或滚轮，切换武器时会自动恢复初始视角。完整整合包已经把 558 个武器
-ARC 放在程序旁的固定目录，解压后即可使用，
-不需要选择 CCI、解包目录或执行资源导入：
-
-```text
-MH3USaveEditorGUI.exe
-resources/mh3g/v3/
-├─ manifest.json
-├─ weapon-mod/w00/*.arc
-├─ weapon-mod/.../w12/*.arc
-├─ armor-mod/{f,m}/plXXX/*.arc
-└─ character-mod/{f,m}/{faceXXX,hairXXX}/*.arc
-```
-
-程序只读取这一固定相对路径，不修改资源文件。模型浏览不会把存档标记为已修改。没有资源、
-单件解析失败或 OpenGL 3.3 不可用时，图鉴属性、路线、素材和快速加入仍可正常使用。
-
-模型映射来自游戏 ExeFS 武器参数记录中的真实 `model_id`，完整覆盖 1,421 个武器形态到
-558 个复用模型；不使用 Dex 行号、`WpnImg_*` 顺序或目录偏移猜测。渲染器按 MOD Primitive
-的真实材质索引读取 MRL，并依据 MRL 的 BlendState 决定材质是否透明。武器 `_BM` 主贴图的
-Alpha 对绝大多数不透明材质是高光/反射遮罩，只有 MRL 明确标记为透明的材质才会把它用于
-透明混合。渲染器同时使用 MRL 材质常量控制颜色、粗糙度与反射，并在线性空间完成照明、曝光
-和 Gamma 转换。当前武器 ARC 没有独立法线或高光 TEX，相关材质槽已保留供后续防具等资源
-使用。游戏专用粒子、发光和动态机关仍使用静态近似。
-
-防具与人物组件在 CPU 后台按 MOD v0xE6 的骨骼层级、参考矩阵、inverse-bind 和顶点权重转换
-到统一人物坐标系，再合并五个部位、脸型和发型。顶点中的骨骼编号会先经过当前 Primitive
-选择的 skin remap 表，再映射到组件局部骨骼；解析器按 vertex format 明确区分 2、4、8 权重，
-不再把 44 字节的 `0xAE252019` 格式截断成 4 权重。重复全局 ID 的布料或辅助骨骼仍保留
-自身局部层级，不会被折叠到同一根公共骨骼。
-
-试衣间固定采用游戏 `mot_plcom_0000.lmt`（SHA-256
-`aa9a7255314d3f16741a6e7a8dc29389340b2be039d2aeae2164a63a6b4ee424`）中 `Motion[1]`
-在 `1.675s` 的中间帧，使人物以双手自然下垂的站姿展示；程序只保留经过校验的 20 根公共
-骨骼姿势常量。动画四元数按全局骨骼 ID 作为局部旋转使用，不取共轭、也不误作全局矩阵。
-程序不运行或携带完整 LMT，也不挂载武器。公共骨架、姿势或任一组件不能安全
-对齐时，七个组件会一起回退到 MOD 参考姿势，绝不会混合显示半套待机和半套参考姿势。
-角色页尚未保存的性别、脸型和发型也会同步到试衣间；切换性别时仅保留男女通用且有对应模型
-的混搭部位。
-
-游戏资源不进入 Git 仓库，而是独立发布为 `MH3GResources-v3.zip` Release Asset。统一包包含
-558 个武器 ARC、1,009 个女性防具 ARC、995 个男性防具 ARC，以及男女各 11 个脸型和 14 个
-发型，共 2,612 个 ARC。本地可从已解包资源确定性生成：
-
-```bash
-python3 tools/build_resource_pack.py \
-  --weapon-source /path/to/romfs/arc/weapon/mod \
-  --armor-source /path/to/romfs/arc/player/mod \
-  --output MH3GResources-v3.zip
-```
-
-脚本会校验 ARC v0x10、MOD v0xE6、TEX v0xA5、MRL v0x20 并生成 manifest。Windows Action
-先构建不含资源的程序，再下载 `mh3g-resources-v3` Release 下的这个 Asset，校验每个文件的
-尺寸和 SHA-256，最后把程序和资源统一压缩为可直接使用的完整 portable 包。
-旧 Resources v2 仍可浏览资料和武器/单件防具模型，但完整人物试衣间会明确提示需要 v3。
+从下一次 Windows 构建开始，Action 不再下载或合并 `MH3GResources`，portable 包也不再
+包含图鉴数据库、OpenGL 模型查看器或试衣间。已经完成的调查仍保留在 Git 历史中，停止原因、
+技术结论和未来边界见 [资料库功能决策记录](docs/ENCYCLOPEDIA_DECISION.md)。
 
 ## Game-resource ID tables
 
@@ -143,7 +69,7 @@ If the script can find Qt under `C:\Qt`, `-QtBin` can be omitted:
 powershell -NoProfile -ExecutionPolicy Bypass -File .\build-windows.ps1
 ```
 
-The packaged Windows build is written to `release/windows/`. The script runs `windeployqt`, ensures the `platforms/qwindows.dll` and `sqldrivers/qsqlite.dll` plugins and `data/encyclopedia.sqlite` are present, and then copies additional MinGW/MSYS2 runtime DLLs detected by `objdump`.
+The packaged Windows build is written to `release/windows/`. The script runs `windeployqt`, ensures the `platforms/qwindows.dll` plugin is present, and then copies additional MinGW/MSYS2 runtime DLLs detected by `objdump`.
 
 ## Save-format regression test
 
@@ -153,27 +79,4 @@ Pass known-good 3DS and Wii U character files to the test runner:
 ./tests/run-save-format-tests.sh /path/to/3ds/user1 /path/to/wiiu/user1
 ```
 
-The test verifies byte-identical unchanged round trips, read/write byte-order conversion for money, Moga Points, items, equipment, and jewels, and item/equipment transfers in both directions. It also verifies encyclopedia previews and quick adds on both formats: only the chosen empty slot may change, full boxes and invalid IDs must remain byte-identical, and the source file cannot change before the normal save command. Test inputs are never overwritten.
-
-模型解析器的合成 fixture 测试不需要游戏资源：
-
-```bash
-./tests/run-model-tests.sh
-./tests/run-encyclopedia-tests.sh
-```
-
-本地拥有解包资源时，可额外对全部 558 个 ARC 执行解析、纹理和导入往返测试；测试缓存位于
-临时目录并会清除：
-
-```bash
-./tests/run-model-tests.sh /path/to/romfs/arc/weapon/mod
-python3 tools/validate_model_crosswalk.py --resources /path/to/romfs/arc/weapon/mod
-```
-
-全部 2,004 个男女防具 ARC 与 50 个人物组件 ARC 可使用绑定姿势模式批量验证。测试会检查
-2,054 个 MOD、6,895 个 Primitive、约 201 万个顶点、skin remap 引用，以及
-`f_body125/f_body140` 的 8 权重格式，并组装男女基础装、轻皮、锁链和狗龙套：
-
-```bash
-./tests/run-model-tests.sh --armor-root /path/to/romfs/arc/player/mod
-```
+The test verifies byte-identical unchanged round trips, read/write byte-order conversion for money, Moga Points, items, equipment, and jewels, and item/equipment transfers in both directions. Test inputs are never overwritten.

@@ -30,22 +30,11 @@ jobs:
             mingw-w64-x86_64-binutils
             mingw-w64-x86_64-gcc
             mingw-w64-x86_64-make
-            mingw-w64-x86_64-pkgconf
             mingw-w64-x86_64-qt5
 
       - name: Validate generated data
         shell: pwsh
-        run: |
-          python .\tools\validate_data.py .\data
-          python .\tools\validate_encyclopedia.py .\data
-          python .\tools\validate_model_crosswalk.py
-          python .\tools\validate_armor_sets.py
-
-      - name: Test model parser fixtures
-        shell: msys2 {0}
-        run: |
-          ./tests/run-model-tests.sh
-          ./tests/run-encyclopedia-tests.sh
+        run: python .\tools\validate_data.py .\data
 
       - name: Build portable package
         shell: pwsh
@@ -53,19 +42,6 @@ jobs:
           MSYS2_LOCATION: ${{ steps.msys2.outputs.msys2-location }}
         run: |
           .\build-windows.ps1 -QtBin "$env:MSYS2_LOCATION\mingw64\bin"
-
-      - name: Download unified MH3G resource pack v3
-        shell: pwsh
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh release download mh3g-resources-v3 `
-            --repo "${{ github.repository }}" `
-            --pattern "MH3GResources-v3.zip" `
-            --output .\MH3GResources-v3.zip `
-            --clobber
-          Expand-Archive -Path .\MH3GResources-v3.zip -DestinationPath .\release\windows -Force
-          python .\tools\validate_resource_pack.py .\release\windows
 
       - name: Smoke test management window
         shell: pwsh
