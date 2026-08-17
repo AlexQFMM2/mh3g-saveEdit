@@ -434,7 +434,18 @@ bool LoadoutSaveBridge::appendCompleteLoadout(const loadout_model_t &model, save
                                               QList<int> *writtenIndexes, QString *error)
 {
     if (!save) { setError(error, QString::fromUtf8("尚未读取存档。")); return false; }
-    if (!model.complete()) { setError(error, QString::fromUtf8("武器、五件防具和护石必须全部选择。")); return false; }
+    if (!model.complete())
+    {
+        QStringList missing;
+        for (int slot = LoadoutWeapon; slot <= LoadoutLegs; ++slot)
+        {
+            const loadout_piece_t *piece = model.piece((loadout_slot_e)slot);
+            if (!piece || !piece->selected) missing << slotName((loadout_slot_e)slot);
+        }
+        if (!model.charm.selected) missing << slotName(LoadoutCharm);
+        setError(error, QString::fromUtf8("请先选择：%1。").arg(missing.join(QString::fromUtf8("、"))));
+        return false;
+    }
     equipment_t records[LoadoutSlotCount];
     for (int slot = 0; slot < LoadoutSlotCount; ++slot)
         if (!LoadoutCalculator::buildEquipment(model, (loadout_slot_e)slot, records[slot], error)) return false;

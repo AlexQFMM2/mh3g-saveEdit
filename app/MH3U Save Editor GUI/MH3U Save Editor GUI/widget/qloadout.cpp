@@ -328,13 +328,145 @@ private:
     }
 };
 
+class CharmPickerDialog : public QDialog
+{
+public:
+    CharmPickerDialog(const loadout_charm_t &current, save_format_e platform, QWidget *parent = 0)
+        : QDialog(parent), m_platform(platform)
+    {
+        setWindowTitle(QString::fromUtf8("选择护石"));
+        resize(680, 330);
+        QVBoxLayout *root = new QVBoxLayout(this);
+        QLabel *hint = new QLabel(QString::fromUtf8("直接选择护石类型、孔位和两项技能。非自然组合会标红，但仍可使用。"), this);
+        hint->setWordWrap(true);
+        root->addWidget(hint);
+
+        QGridLayout *form = new QGridLayout;
+        m_class = new QComboBox(this);
+        const dataset_t *classes = MH3U_DS::charms();
+        if (classes)
+            for (uint32_t index = 0; index < classes->size(); ++index)
+                m_class->addItem(QString::fromStdString(classes->at(index).identifier), (int)classes->at(index).count);
+        m_slots = new QComboBox(this);
+        for (int slotCount = 0; slotCount <= 3; ++slotCount)
+            m_slots->addItem(QString::fromUtf8("%1 孔").arg(slotCount), slotCount);
+        m_skill1 = createSkillCombo();
+        m_skill2 = createSkillCombo();
+        m_points1 = new QSpinBox(this); m_points1->setRange(-128, 127);
+        m_points2 = new QSpinBox(this); m_points2->setRange(-128, 127);
+
+        form->addWidget(new QLabel(QString::fromUtf8("护石类型"), this), 0, 0);
+        form->addWidget(m_class, 0, 1, 1, 3);
+        form->addWidget(new QLabel(QString::fromUtf8("孔位数量"), this), 1, 0);
+        form->addWidget(m_slots, 1, 1, 1, 3);
+        form->addWidget(new QLabel(QString::fromUtf8("技能 1"), this), 2, 0);
+        form->addWidget(m_skill1, 2, 1);
+        form->addWidget(new QLabel(QString::fromUtf8("点数"), this), 2, 2);
+        form->addWidget(m_points1, 2, 3);
+        form->addWidget(new QLabel(QString::fromUtf8("技能 2"), this), 3, 0);
+        form->addWidget(m_skill2, 3, 1);
+        form->addWidget(new QLabel(QString::fromUtf8("点数"), this), 3, 2);
+        form->addWidget(m_points2, 3, 3);
+        form->setColumnStretch(1, 1);
+        root->addLayout(form);
+
+        m_status = new QLabel(this);
+        m_status->setWordWrap(true);
+        m_status->setMinimumHeight(62);
+        root->addWidget(m_status);
+        root->addStretch();
+        QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
+        buttons->button(QDialogButtonBox::Ok)->setText(QString::fromUtf8("使用此护石"));
+        buttons->button(QDialogButtonBox::Cancel)->setText(QString::fromUtf8("取消"));
+        root->addWidget(buttons);
+
+        if (current.selected)
+        {
+            m_class->setCurrentIndex(qMax(0, m_class->findData(current.classId)));
+            m_slots->setCurrentIndex(qMax(0, m_slots->findData(current.slotCount)));
+            m_skill1->setCurrentIndex(qMax(0, m_skill1->findData(current.skill1Id)));
+            m_points1->setValue(current.skill1Points);
+            m_skill2->setCurrentIndex(qMax(0, m_skill2->findData(current.skill2Id)));
+            m_points2->setValue(current.skill2Points);
+        }
+
+        connect(m_class, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this]() { refreshStatus(); });
+        connect(m_slots, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this]() { refreshStatus(); });
+        connect(m_skill1, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this]() { refreshStatus(); });
+        connect(m_skill2, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this]() { refreshStatus(); });
+        connect(m_points1, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this]() { refreshStatus(); });
+        connect(m_points2, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this]() { refreshStatus(); });
+        connect(buttons, &QDialogButtonBox::accepted, [this]() { m_selected = candidate(); accept(); });
+        connect(buttons, &QDialogButtonBox::rejected, this, &QDialog::reject);
+        refreshStatus();
+    }
+
+    loadout_candidate_t selectedCandidate() const { return m_selected; }
+
+private:
+    save_format_e m_platform;
+    QComboBox *m_class;
+    QComboBox *m_slots;
+    QComboBox *m_skill1;
+    QComboBox *m_skill2;
+    QSpinBox *m_points1;
+    QSpinBox *m_points2;
+    QLabel *m_status;
+    loadout_candidate_t m_selected;
+
+    QComboBox *createSkillCombo()
+    {
+        QComboBox *combo = new QComboBox(this);
+        combo->addItem(QString::fromUtf8("（无）"), 0);
+        const QList<skill_tree_data_t> skills = GameDataRepository::instance().skillTreesDetailed();
+        for (int index = 0; index < skills.size(); ++index)
+            combo->addItem(QString("%1 (%2)").arg(skills.at(index).name, skills.at(index).english), skills.at(index).id);
+        return combo;
+    }
+
+    loadout_candidate_t candidate() const
+    {
+        return GameDataRepository::instance().charmCandidate(
+            m_class->currentData().toInt(), m_slots->currentData().toInt(),
+            m_skill1->currentData().toInt(), m_points1->value(),
+            m_skill2->currentData().toInt(), m_points2->value());
+    }
+
+    void refreshStatus()
+    {
+        loadout_model_t model;
+        model.charm.selected = true;
+        model.charm.classId = m_class->currentData().toInt();
+        model.charm.slotCount = m_slots->currentData().toInt();
+        model.charm.skill1Id = m_skill1->currentData().toInt();
+        model.charm.skill1Points = m_points1->value();
+        model.charm.skill2Id = m_skill2->currentData().toInt();
+        model.charm.skill2Points = m_points2->value();
+        equipment_t raw;
+        QString error;
+        if (!LoadoutCalculator::buildEquipment(model, LoadoutCharm, raw, &error))
+        {
+            m_status->setText(error);
+            m_status->setStyleSheet("color:#7a271a;background:#fee4e2;border:1px solid #f0a09a;padding:8px;");
+            return;
+        }
+        const equipment_validation_t validation = EquipmentValidator::validate(raw, m_platform);
+        m_status->setText(QString::fromUtf8("合法性：%1\n%2").arg(validation.statusText(), validation.details()));
+        m_status->setStyleSheet(validation.status == EquipmentInvalid ?
+            "color:#7a271a;background:#fee4e2;border:1px solid #f0a09a;padding:8px;" :
+            validation.status == EquipmentUnknown ?
+            "color:#8a4b08;background:#fff3cd;border:1px solid #eccb78;padding:8px;" :
+            "color:#17643a;background:#eaf8f0;border:1px solid #bce6cd;padding:8px;");
+    }
+};
+
 class DecorationEditorDialog : public QDialog
 {
 public:
     DecorationEditorDialog(const QList<int> &current, int capacity, QWidget *parent = 0)
         : QDialog(parent), m_values(current), m_capacity(capacity)
     {
-        setWindowTitle(QString::fromUtf8("配置装饰珠")); resize(760, 500);
+        setWindowTitle(QString::fromUtf8("配置装饰珠")); resize(1120, 620);
         QVBoxLayout *root = new QVBoxLayout(this); m_usage = new QLabel(this); root->addWidget(m_usage);
         QHBoxLayout *filters = new QHBoxLayout; m_search = new QLineEdit(this); m_search->setPlaceholderText(QString::fromUtf8("搜索装饰珠"));
         m_skill = new QComboBox(this); m_skill->addItem(QString::fromUtf8("全部技能"), 0);
@@ -344,7 +476,9 @@ public:
         filters->addWidget(m_search, 1); filters->addWidget(m_skill); filters->addWidget(new QLabel(QString::fromUtf8("技能点 ≥"), this)); filters->addWidget(m_points);
         root->addLayout(filters);
         QSplitter *splitter = new QSplitter(this); m_candidates = new QTableWidget(splitter); m_installed = new QTableWidget(splitter);
+        m_candidates->setMinimumWidth(700); m_installed->setMinimumWidth(330);
         splitter->addWidget(m_candidates); splitter->addWidget(m_installed); root->addWidget(splitter, 1);
+        splitter->setSizes(QList<int>() << 750 << 350);
         QHBoxLayout *actions = new QHBoxLayout; QPushButton *add = new QPushButton(QString::fromUtf8("加入 →"), this);
         QPushButton *remove = new QPushButton(QString::fromUtf8("移除"), this); actions->addWidget(add); actions->addWidget(remove); actions->addStretch();
         QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
@@ -448,12 +582,14 @@ QLoadout::QLoadout(MH3U_SE *saveEditor, QWidget *parent)
         card->setContentsMargins(5, 6, 5, 6); card->setSpacing(3); QLabel *title = new QLabel(slotLabel(slot), widgets.frame); title->setStyleSheet("font-weight:700;");
         widgets.name = new ElidedLabel(QString::fromUtf8("（未选择）"), widgets.frame); widgets.name->setWordWrap(false); widgets.name->setFixedHeight(22);
         widgets.meta = new QLabel(QString::fromUtf8("孔 —"), widgets.frame); widgets.meta->setStyleSheet("color:#69758a;font-size:11px;");
-        QHBoxLayout *buttons = new QHBoxLayout; buttons->setSpacing(1); widgets.select = new QPushButton(QString::fromUtf8("选择"), widgets.frame);
-        widgets.decorations = new QPushButton(QString::fromUtf8("珠"), widgets.frame); widgets.clear = new QPushButton(QString::fromUtf8("×"), widgets.frame);
-        widgets.select->setFixedWidth(44); widgets.decorations->setFixedWidth(27); widgets.clear->setFixedWidth(24);
+        widgets.select = new QPushButton(QString::fromUtf8("选择"), widgets.frame);
+        widgets.decorations = new QPushButton(QString::fromUtf8("珠子"), widgets.frame); widgets.clear = new QPushButton(QString::fromUtf8("清空"), widgets.frame);
+        widgets.select->setMinimumHeight(28); widgets.decorations->setMinimumHeight(28); widgets.clear->setMinimumHeight(28);
         widgets.select->setToolTip(QString::fromUtf8("选择%1").arg(slotLabel(slot))); widgets.decorations->setToolTip(QString::fromUtf8("配置装饰珠")); widgets.clear->setToolTip(QString::fromUtf8("清空此格"));
-        buttons->addWidget(widgets.select, 1); buttons->addWidget(widgets.decorations); buttons->addWidget(widgets.clear);
-        card->addWidget(title); card->addWidget(widgets.name); card->addWidget(widgets.meta); card->addLayout(buttons); cards->addWidget(widgets.frame, 1);
+        QHBoxLayout *secondaryButtons = new QHBoxLayout; secondaryButtons->setSpacing(3);
+        secondaryButtons->addWidget(widgets.decorations, 1); secondaryButtons->addWidget(widgets.clear, 1);
+        card->addWidget(title); card->addWidget(widgets.name); card->addWidget(widgets.meta);
+        card->addWidget(widgets.select); card->addLayout(secondaryButtons); cards->addWidget(widgets.frame, 1);
         connect(widgets.select, &QPushButton::clicked, [this, slot]() { chooseEquipment(slot); });
         connect(widgets.decorations, &QPushButton::clicked, [this, slot]() { editDecorations(slot); });
         connect(widgets.clear, &QPushButton::clicked, [this, slot]() { clearSlot(slot); });
@@ -562,24 +698,27 @@ bool QLoadout::saveLoadout()
 
 void QLoadout::chooseEquipment(loadout_slot_e slot)
 {
+    const save_format_e platform = m_saveEditor && m_saveEditor->loaded() ? m_saveEditor->format() : SAVE_FORMAT_UNKNOWN;
+    if (slot == LoadoutCharm)
+    {
+        CharmPickerDialog dialog(m_model.charm, platform, this);
+        if (dialog.exec() != QDialog::Accepted) return;
+        const loadout_candidate_t candidate = dialog.selectedCandidate();
+        m_model.charm.selected = true; m_model.charm.classId = candidate.classId; m_model.charm.slotCount = candidate.slotCount;
+        m_model.charm.skill1Id = candidate.skill1Id; m_model.charm.skill1Points = candidate.skill1Points;
+        m_model.charm.skill2Id = candidate.skill2Id; m_model.charm.skill2Points = candidate.skill2Points;
+        m_model.charm.decorations.clear();
+        setDirty(); refresh();
+        return;
+    }
     if (slot >= LoadoutHead && slot <= LoadoutLegs && !m_model.weapon.selected)
     { QMessageBox::information(this, QString::fromUtf8("请先选择武器"), QString::fromUtf8("武器决定近战/远程防具筛选。")); return; }
     int expected = slot == LoadoutWeapon ? -1 : LoadoutCalculator::expectedSaveType(slot);
     int combat = m_model.weapon.selected ? (LoadoutCalculator::isRangedWeapon(m_model.weapon.saveType) ? 2 : 1) : -1;
-    const save_format_e platform = m_saveEditor && m_saveEditor->loaded() ? m_saveEditor->format() : SAVE_FORMAT_UNKNOWN;
     EquipmentPickerDialog dialog(expected, combat, m_model.gender, platform, this); if (dialog.exec() != QDialog::Accepted) return;
     loadout_candidate_t candidate = dialog.selectedCandidate();
-    if (slot == LoadoutCharm)
-    {
-        m_model.charm.selected = true; m_model.charm.classId = candidate.classId; m_model.charm.slotCount = candidate.slotCount;
-        m_model.charm.skill1Id = candidate.skill1Id; m_model.charm.skill1Points = candidate.skill1Points;
-        m_model.charm.skill2Id = candidate.skill2Id; m_model.charm.skill2Points = candidate.skill2Points; m_model.charm.decorations.clear();
-    }
-    else
-    {
-        loadout_piece_t *piece = m_model.piece(slot); piece->selected = true; piece->saveType = candidate.saveType;
-        piece->saveId = candidate.saveId; piece->decorations.clear();
-    }
+    loadout_piece_t *piece = m_model.piece(slot); piece->selected = true; piece->saveType = candidate.saveType;
+    piece->saveId = candidate.saveId; piece->decorations.clear();
     setDirty(); refresh();
 }
 
@@ -670,10 +809,10 @@ void QLoadout::refreshCards()
         else if (selected && (!candidate.confirmed || cardStatus == EquipmentUnknown)) style = "QFrame#loadoutSlotCard{background:#fff3cd;border:2px solid #d6a530;border-radius:8px;}";
         m_slots[index].frame->setStyleSheet(style);
     }
-    const bool canApply = m_saveEditor && m_saveEditor->loaded() && m_model.complete();
-    m_apply->setEnabled(canApply);
-    m_apply->setToolTip(canApply ? QString::fromUtf8("一次性写入内存中的七个空装备格。") :
-        QString::fromUtf8("需要读取存档，并填满武器、五件防具和护石。"));
+    const bool saveLoaded = m_saveEditor && m_saveEditor->loaded();
+    m_apply->setEnabled(saveLoaded);
+    m_apply->setToolTip(saveLoaded ? QString::fromUtf8("一次性写入内存中的七个空装备格；如有缺项，点击后会说明。") :
+        QString::fromUtf8("请先读取 3DS 或 Wii U 存档。"));
 }
 
 void QLoadout::refreshSummary()

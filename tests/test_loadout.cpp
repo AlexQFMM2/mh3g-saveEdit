@@ -303,6 +303,17 @@ int main(int argc, char **argv)
         require(save.box[0][1][1] == 0 && save.box[0][5][1] == 0,
                 "new armor did not use initial upgrade value");
 
+        loadout_model_t incomplete = model;
+        incomplete.charm = loadout_charm_t();
+        save_t incompleteTarget;
+        std::memset(&incompleteTarget, 0, sizeof(incompleteTarget));
+        save_t incompleteBefore = incompleteTarget;
+        require(!LoadoutSaveBridge::appendCompleteLoadout(incomplete, &incompleteTarget, NULL, &error) &&
+                error.contains(QString::fromUtf8("护石")),
+                "incomplete loadout did not report its exact missing slot");
+        require(std::memcmp(&incompleteBefore, &incompleteTarget, sizeof(incompleteTarget)) == 0,
+                "incomplete loadout changed save memory");
+
         save_t full;
         std::memset(&full, 0, sizeof(full));
         for (int panel = 0; panel < 10; ++panel)
