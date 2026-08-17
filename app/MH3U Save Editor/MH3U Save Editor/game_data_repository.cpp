@@ -9,6 +9,8 @@
 #include <QSqlQuery>
 #include <QVariant>
 
+#include <algorithm>
+
 namespace
 {
 QString displayIdentifier(const QString &name, const QString &english)
@@ -103,12 +105,22 @@ bool GameDataRepository::open(const QString &path)
         close();
         return false;
     }
+    if (!loadCharmRules())
+    {
+        close();
+        return false;
+    }
     m_path = info.absoluteFilePath();
     return true;
 }
 
 void GameDataRepository::close()
 {
+    m_charmClassNames.clear();
+    m_skillNames.clear();
+    m_charmSlotRules.clear();
+    m_charmSkillPointRules.clear();
+    m_charmSkillPairRules.clear();
     if (QSqlDatabase::contains(m_connectionName))
     {
         {
@@ -118,6 +130,52 @@ void GameDataRepository::close()
         QSqlDatabase::removeDatabase(m_connectionName);
     }
     m_path.clear();
+}
+
+QString GameDataRepository::charmSkillRuleKey(int classId, int position, int skillId)
+{
+    return QString("%1:%2:%3").arg(classId).arg(position).arg(skillId);
+}
+
+QString GameDataRepository::charmSkillPairKey(int classId, int skill1Id, int skill2Id)
+{
+    return QString("%1:%2:%3").arg(classId).arg(skill1Id).arg(skill2Id);
+}
+
+bool GameDataRepository::loadCharmRules()
+{
+    QSqlQuery query(QSqlDatabase::database(m_connectionName));
+    if (!query.exec("SELECT save_id,name_cn FROM charm_classes"))
+    {
+        m_error = QString::fromUtf8("读取护石品级规则失败：%1").arg(query.lastError().text());
+        return false;
+    }
+    while (query.next()) m_charmClassNames.insert(query.value(0).toInt(), query.value(1).toString());
+
+    if (!query.exec("SELECT id,name_cn FROM skill_trees"))
+    {
+        m_error = QString::fromUtf8("读取护石技能名称失败：%1").arg(query.lastError().text());
+        return false;
+    }
+    m_skillNames.insert(0, QString::fromUtf8("无"));
+    while (query.next()) m_skillNames.insert(query.value(0).toInt(), query.value(1).toString());
+
+    if (!query.exec("SELECT class_id,slots,skill1_id,skill1_points,skill2_id,skill2_points FROM charm_combinations"))
+    {
+        m_error = QString::fromUtf8("读取原生护石组合规则失败：%1").arg(query.lastError().text());
+        return false;
+    }
+    while (query.next())
+    {
+        const int classId = query.value(0).toInt();
+        const int skill1Id = query.value(2).toInt();
+        const int skill2Id = query.value(4).toInt();
+        m_charmSlotRules[classId].insert(query.value(1).toInt());
+        m_charmSkillPointRules[charmSkillRuleKey(classId, 1, skill1Id)].insert(query.value(3).toInt());
+        m_charmSkillPointRules[charmSkillRuleKey(classId, 2, skill2Id)].insert(query.value(5).toInt());
+        m_charmSkillPairRules.insert(charmSkillPairKey(classId, skill1Id, skill2Id));
+    }
+    return true;
 }
 
 bool GameDataRepository::isOpen() const
@@ -523,16 +581,11 @@ QString GameDataRepository::dataVersion() const
 
 bool GameDataRepository::skillExists(int skillId) const
 {
-    if (skillId == 0) return true;
-    QSqlQuery query(QSqlDatabase::database(m_connectionName));
-    query.prepare("SELECT 1 FROM skill_trees WHERE id=?"); query.addBindValue(skillId);
-    return query.exec() && query.next();
+    return m_skillNames.contains(skillId);
 }
 bool GameDataRepository::charmClassExists(int classId) const
 {
-    QSqlQuery query(QSqlDatabase::database(m_connectionName));
-    query.prepare("SELECT 1 FROM charm_classes WHERE save_id=?"); query.addBindValue(classId);
-    return query.exec() && query.next();
+    return m_charmClassNames.contains(classId);
 }
 bool GameDataRepository::charmCombinationExists(int classId, int slotCount, int skill1Id, int skill1Points,
                                                 int skill2Id, int skill2Points) const
@@ -543,4 +596,33 @@ bool GameDataRepository::charmCombinationExists(int classId, int slotCount, int 
     query.addBindValue(classId); query.addBindValue(slotCount); query.addBindValue(skill1Id);
     query.addBindValue(skill1Points); query.addBindValue(skill2Id); query.addBindValue(skill2Points);
     return query.exec() && query.next();
+}
+
+QString GameDataRepository::charmClassName(int classId) const
+{
+    return m_charmClassNames.value(classId);
+}
+
+QString GameDataRepository::skillName(int skillId) const
+{
+    return m_skillNames.value(skillId);
+}
+
+QList<int> GameDataRepository::charmSlots(int classId) const
+{
+    QList<int> result = m_charmSlotRules.value(classId).values();
+    std::sort(result.begin(), result.end());
+    return result;
+}
+
+QList<int> GameDataRepository::charmSkillPoints(int classId, int skillId, int position) const
+{
+    QList<int> result = m_charmSkillPointRules.value(charmSkillRuleKey(classId, position, skillId)).values();
+    std::sort(result.begin(), result.end());
+    return result;
+}
+
+bool GameDataRepository::charmSkillPairExists(int classId, int skill1Id, int skill2Id) const
+{
+    return m_charmSkillPairRules.contains(charmSkillPairKey(classId, skill1Id, skill2Id));
 }

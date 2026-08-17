@@ -273,6 +273,14 @@ int main(int argc, char **argv)
         require(LoadoutFile::load(unnaturalPath, &unnaturalRoundTrip, &versionWarning, &error) &&
                 unnaturalRoundTrip.charm.skill1Points == 127,
                 "non-natural but encodable charm JSON was rejected");
+        save_t unnaturalTarget;
+        std::memset(&unnaturalTarget, 0, sizeof(unnaturalTarget));
+        QList<int> unnaturalWritten;
+        require(LoadoutSaveBridge::appendCompleteLoadout(unnaturalCharm, &unnaturalTarget,
+                                                         &unnaturalWritten, &error) &&
+                    unnaturalWritten.size() == 7 &&
+                    (int)(int8_t)unnaturalTarget.box[0][6][5] == 127,
+                "non-natural but encodable charm was blocked from equipment-box insertion");
 
         QFile malformedFile(unnaturalPath);
         require(malformedFile.open(QIODevice::ReadOnly), "malformed JSON fixture reopen failed");

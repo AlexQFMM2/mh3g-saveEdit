@@ -23,6 +23,32 @@ int u16(const equipment_t &equipment, int offset)
     return equipment[offset] | (equipment[offset + 1] << 8);
 }
 
+QString compactIntegerSet(const QList<int> &values)
+{
+    QStringList ranges;
+    int index = 0;
+    while (index < values.size())
+    {
+        const int first = values.at(index);
+        int last = first;
+        while (index + 1 < values.size() && values.at(index + 1) == last + 1)
+        {
+            ++index;
+            last = values.at(index);
+        }
+        ranges << (first == last ? QString::number(first)
+                                 : QString::fromUtf8("%1～%2").arg(first).arg(last));
+        ++index;
+    }
+    return ranges.join(QString::fromUtf8("、"));
+}
+
+QString namedSkill(const GameDataRepository &repository, int skillId)
+{
+    const QString name = repository.skillName(skillId);
+    return name.isEmpty() ? QString::fromUtf8("技能 ID %1").arg(skillId) : name;
+}
+
 void validateDecorations(equipment_validation_t &result, const equipment_t &equipment, int naturalSlots)
 {
     GameDataRepository &repository = GameDataRepository::instance();
@@ -107,10 +133,59 @@ equipment_validation_t EquipmentValidator::validate(const equipment_t &equipment
             add(result, EquipmentInvalid, "skill", "CHARM_SKILL_ID_INVALID", QString::fromUtf8("护石包含不存在的技能系 ID。"));
         if (skill1 != 0 && skill1 == skill2)
             add(result, EquipmentInvalid, "skill", "CHARM_DUPLICATE_SKILL", QString::fromUtf8("护石的两项技能系相同。"));
-        if (repository.charmClassExists(id) && slotCount <= 3 && repository.skillExists(skill1) && repository.skillExists(skill2) &&
-            !repository.charmCombinationExists(id, slotCount, skill1, points1, skill2, points2))
-            add(result, EquipmentInvalid, "charm", "CHARM_COMBINATION_NOT_GENERATED",
-                QString::fromUtf8("该品级、孔数、技能与点数组合不在 261,448 条原生生成记录中。"));
+        if (skill1 == 0 && points1 != 0)
+            add(result, EquipmentInvalid, "skill1_points", "CHARM_SKILL_POINTS_WITHOUT_SKILL",
+                QString::fromUtf8("第1技能为“无”时点数必须为 0，当前为 %1。").arg(points1));
+        if (skill2 == 0 && points2 != 0)
+            add(result, EquipmentInvalid, "skill2_points", "CHARM_SKILL_POINTS_WITHOUT_SKILL",
+                QString::fromUtf8("第2技能为“无”时点数必须为 0，当前为 %1。").arg(points2));
+
+        const bool classKnown = repository.charmClassExists(id);
+        const bool skill1Known = repository.skillExists(skill1);
+        const bool skill2Known = repository.skillExists(skill2);
+        if (classKnown)
+        {
+            const QString className = repository.charmClassName(id);
+            const QList<int> allowedSlots = repository.charmSlots(id);
+            if (!allowedSlots.contains(slotCount))
+                add(result, EquipmentInvalid, "slots", "CHARM_SLOT_NOT_GENERATED",
+                    QString::fromUtf8("%1不支持 %2 孔；原生允许孔数：%3。")
+                        .arg(className).arg(slotCount).arg(compactIntegerSet(allowedSlots)));
+
+            const QList<int> allowedPoints1 = skill1Known ? repository.charmSkillPoints(id, skill1, 1) : QList<int>();
+            const QList<int> allowedPoints2 = skill2Known ? repository.charmSkillPoints(id, skill2, 2) : QList<int>();
+            const bool skill1PositionValid = !allowedPoints1.isEmpty();
+            const bool skill2PositionValid = !allowedPoints2.isEmpty();
+            if (skill1Known && !skill1PositionValid)
+                add(result, EquipmentInvalid, "skill1", "CHARM_SKILL_POSITION_INVALID",
+                    QString::fromUtf8("“%1”不能作为%2的第1技能。")
+                        .arg(namedSkill(repository, skill1), className));
+            else if (skill1Known && !(skill1 == 0 && points1 != 0) && !allowedPoints1.contains(points1))
+                add(result, EquipmentInvalid, "skill1_points", "CHARM_SKILL_POINTS_INVALID",
+                    QString::fromUtf8("%1的第1技能“%2”不支持 %3 点；原生允许：%4。")
+                        .arg(className, namedSkill(repository, skill1)).arg(points1)
+                        .arg(compactIntegerSet(allowedPoints1)));
+            if (skill2Known && !skill2PositionValid)
+                add(result, EquipmentInvalid, "skill2", "CHARM_SKILL_POSITION_INVALID",
+                    QString::fromUtf8("“%1”不能作为%2的第2技能。")
+                        .arg(namedSkill(repository, skill2), className));
+            else if (skill2Known && !(skill2 == 0 && points2 != 0) && !allowedPoints2.contains(points2))
+                add(result, EquipmentInvalid, "skill2_points", "CHARM_SKILL_POINTS_INVALID",
+                    QString::fromUtf8("%1的第2技能“%2”不支持 %3 点；原生允许：%4。")
+                        .arg(className, namedSkill(repository, skill2)).arg(points2)
+                        .arg(compactIntegerSet(allowedPoints2)));
+
+            if (skill1Known && skill2Known && skill1 != 0 && skill2 != 0 && skill1PositionValid && skill2PositionValid &&
+                !repository.charmSkillPairExists(id, skill1, skill2))
+                add(result, EquipmentInvalid, "skill", "CHARM_SKILL_PAIR_NOT_GENERATED",
+                    QString::fromUtf8("%1不会自然生成第1技能“%2”与第2技能“%3”的组合。")
+                        .arg(className, namedSkill(repository, skill1), namedSkill(repository, skill2)));
+
+            if (slotCount >= 0 && slotCount <= 3 && skill1Known && skill2Known &&
+                !repository.charmCombinationExists(id, slotCount, skill1, points1, skill2, points2))
+                add(result, EquipmentInvalid, "charm", "CHARM_COMBINATION_NOT_GENERATED",
+                    QString::fromUtf8("该品级、孔数、技能与点数组合不在 261,448 条原生生成记录中。"));
+        }
         validateDecorations(result, equipment, slotCount);
         return result;
     }

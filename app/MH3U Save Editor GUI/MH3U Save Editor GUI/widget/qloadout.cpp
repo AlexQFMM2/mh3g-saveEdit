@@ -355,7 +355,7 @@ public:
         : QDialog(parent), m_platform(platform)
     {
         setWindowTitle(QString::fromUtf8("选择护石"));
-        resize(680, 330);
+        resize(720, 480);
         QVBoxLayout *root = new QVBoxLayout(this);
         QLabel *hint = new QLabel(QString::fromUtf8("直接选择护石类型、孔位和两项技能。非自然组合会标红，但仍可使用。"), this);
         hint->setWordWrap(true);
@@ -393,7 +393,7 @@ public:
 
         m_status = new QLabel(this);
         m_status->setWordWrap(true);
-        m_status->setMinimumHeight(62);
+        m_status->setMinimumHeight(150);
         root->addWidget(m_status);
         root->addStretch();
         QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
@@ -896,9 +896,12 @@ void QLoadout::refreshSummary()
     QString resist = summary.resistanceUnknown ? QString::fromUtf8("部分未知") : QString("%1 / %2 / %3 / %4 / %5").arg(summary.fireRes).arg(summary.waterRes)
         .arg(summary.thunderRes).arg(summary.iceRes).arg(summary.dragonRes);
     QString slotSummary = summary.slotsUnknown ? QString::fromUtf8("部分未知") : QString("%1 / %2 / %3").arg(summary.totalSlots).arg(summary.usedSlots).arg(summary.totalSlots - summary.usedSlots);
+    QStringList diagnosticPreview = summary.diagnostics.mid(0, 5);
+    for (int index = 0; index < diagnosticPreview.size(); ++index)
+        diagnosticPreview[index] = diagnosticPreview.at(index).toHtmlEscaped().replace("\n", "<br>");
     m_summary->setText(QString::fromUtf8("<b>配装汇总</b><br><br>初始 / 最终防御：%1<br>武器防御加成：%2<br><br>火 / 水 / 雷 / 冰 / 龙：<br>%3<br><br>孔位 总 / 已用 / 剩余：<br>%4<br><br>发动技能：正面 %5　负面 %6<br>非法：%7　未确认：%8<br><br>%9")
         .arg(defense).arg(summary.weaponDefense).arg(resist).arg(slotSummary).arg(positiveSkills).arg(negativeSkills)
-        .arg(summary.invalidCount).arg(summary.unknownCount).arg(summary.diagnostics.mid(0, 5).join("<br>")));
+        .arg(summary.invalidCount).arg(summary.unknownCount).arg(diagnosticPreview.join("<br>")));
     m_summary->setStyleSheet(summary.invalidCount > 0 ? "color:#7a271a;background:#fee4e2;border:1px solid #f0a09a;padding:10px;" :
         summary.unknownCount > 0 ? "color:#8a4b08;background:#fff3cd;border:1px solid #eccb78;padding:10px;" :
         "color:#17643a;background:#eaf8f0;border:1px solid #bce6cd;padding:10px;");

@@ -18,6 +18,26 @@ static void setId(equipment_t &equipment, int id)
     equipment[3] = (uint8_t)((id >> 8) & 0xff);
 }
 
+static void setCharm(equipment_t &equipment, int classId, int slotCount,
+                     int skill1Id, int skill1Points, int skill2Id, int skill2Points)
+{
+    std::memset(equipment, 0, sizeof(equipment));
+    equipment[0] = MH3U_Type::CharmType;
+    equipment[1] = (uint8_t)slotCount;
+    setId(equipment, classId);
+    equipment[4] = (uint8_t)skill1Id;
+    equipment[5] = (uint8_t)(int8_t)skill1Points;
+    equipment[6] = (uint8_t)skill2Id;
+    equipment[7] = (uint8_t)(int8_t)skill2Points;
+}
+
+static bool hasDiagnostic(const equipment_validation_t &validation, const char *code)
+{
+    for (int index = 0; index < validation.diagnostics.size(); ++index)
+        if (validation.diagnostics.at(index).code == QString::fromLatin1(code)) return true;
+    return false;
+}
+
 int main(int argc, char **argv)
 {
     QCoreApplication application(argc, argv);
@@ -41,6 +61,15 @@ int main(int argc, char **argv)
                 "decoration effect lookup failed");
         require(!GameDataRepository::instance().activeSkills(1).isEmpty(),
                 "active skill threshold lookup failed");
+        require(GameDataRepository::instance().charmClassName(1) == QString::fromUtf8("士兵护石"),
+                "cached charm class name lookup failed");
+        require(GameDataRepository::instance().skillName(11) == QString::fromUtf8("攻击"),
+                "cached charm skill name lookup failed");
+        require(GameDataRepository::instance().charmSlots(1) == (QList<int>() << 0 << 1),
+                "cached charm slot rule lookup failed");
+        require(GameDataRepository::instance().charmSkillPoints(10, 11, 2) ==
+                    (QList<int>() << 4 << 6 << 7),
+                "cached exact charm point rule lookup failed");
         equipment_t equipment;
         std::memset(equipment, 0, sizeof(equipment));
         require(EquipmentValidator::validate(equipment).status == EquipmentValid, "empty slot is not valid");
@@ -75,15 +104,44 @@ int main(int argc, char **argv)
         require(EquipmentValidator::validate(equipment, SAVE_FORMAT_N3DS).status == EquipmentValid,
                 "armor upgrade byte must not affect validity");
 
-        std::memset(equipment, 0, sizeof(equipment));
-        equipment[0] = MH3U_Type::CharmType;
-        equipment[1] = 0;
-        setId(equipment, 1);
-        equipment[4] = 2;
-        equipment[5] = 1;
+        setCharm(equipment, 1, 0, 2, 1, 0, 0);
         require(EquipmentValidator::validate(equipment).status == EquipmentValid, "native charm combination is not valid");
         equipment[5] = (uint8_t)(int8_t)-128;
         require(EquipmentValidator::validate(equipment).status == EquipmentInvalid, "impossible signed charm value was accepted");
+
+        setCharm(equipment, 1, 0, 11, 3, 0, 0);
+        require(EquipmentValidator::validate(equipment).status == EquipmentValid,
+                "native pawn attack skill-1 points were rejected");
+
+        setCharm(equipment, 1, 0, 2, 1, 11, 1);
+        equipment_validation_t invalidPosition = EquipmentValidator::validate(equipment);
+        require(hasDiagnostic(invalidPosition, "CHARM_SKILL_POSITION_INVALID") &&
+                    invalidPosition.details().contains(QString::fromUtf8("攻击")) &&
+                    invalidPosition.details().contains(QString::fromUtf8("第2技能")),
+                "invalid pawn skill-2 position was not explained");
+
+        setCharm(equipment, 10, 0, 10, 3, 11, 8);
+        equipment_validation_t invalidPoints = EquipmentValidator::validate(equipment);
+        require(hasDiagnostic(invalidPoints, "CHARM_SKILL_POINTS_INVALID") &&
+                    invalidPoints.details().contains(QString::fromUtf8("4、6～7")),
+                "creator attack skill-2 exact allowed points were not explained");
+
+        setCharm(equipment, 1, 2, 2, 1, 0, 0);
+        equipment_validation_t invalidSlots = EquipmentValidator::validate(equipment);
+        require(hasDiagnostic(invalidSlots, "CHARM_SLOT_NOT_GENERATED") &&
+                    invalidSlots.details().contains(QString::fromUtf8("0～1")),
+                "invalid pawn slot count was not explained");
+
+        setCharm(equipment, 1, 0, 2, 1, 0, 1);
+        equipment_validation_t pointsWithoutSkill = EquipmentValidator::validate(equipment);
+        require(hasDiagnostic(pointsWithoutSkill, "CHARM_SKILL_POINTS_WITHOUT_SKILL"),
+                "points assigned to no skill were not explained");
+
+        setCharm(equipment, 3, 0, 2, 1, 3, 2);
+        equipment_validation_t invalidPair = EquipmentValidator::validate(equipment);
+        require(hasDiagnostic(invalidPair, "CHARM_SKILL_PAIR_NOT_GENERATED") &&
+                    hasDiagnostic(invalidPair, "CHARM_COMBINATION_NOT_GENERATED"),
+                "individually valid but impossible skill pair was not explained");
 
         std::memset(equipment, 0, sizeof(equipment));
         equipment[0] = MH3U_Type::ChestType;

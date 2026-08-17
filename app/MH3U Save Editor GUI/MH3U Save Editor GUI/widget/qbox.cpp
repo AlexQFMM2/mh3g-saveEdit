@@ -412,7 +412,8 @@ void QBox::importEquipmentForm()
         if (validation.status == EquipmentInvalid) ++invalidCount;
         else if (validation.status == EquipmentUnknown) ++unknownCount;
         if (validation.status != EquipmentValid && examples.size() < 5)
-            examples << QString("第 %1 页第 %2 格：%3").arg(entries[i].panel + 1).arg(entries[i].slot + 1).arg(validation.details().section('\n', 0, 0));
+            examples << QString("第 %1 页第 %2 格：\n    %3").arg(entries[i].panel + 1).arg(entries[i].slot + 1)
+                .arg(QString(validation.details()).replace("\n", "\n    "));
     }
     QString prompt = QString("表单包含 %1 个装备格。\n非法 %2 条，未确认 %3 条。\n\n导入会覆盖表单中列出的格子，未列出的格子保持不变。合法性只作提示，不会阻止导入。")
         .arg(entries.size()).arg(invalidCount).arg(unknownCount);

@@ -7,6 +7,7 @@
 #include <QStringList>
 #include <QList>
 #include <QMap>
+#include <QSet>
 #include <QVariant>
 
 struct equipment_data_t
@@ -171,6 +172,11 @@ public:
     bool charmClassExists(int classId) const;
     bool charmCombinationExists(int classId, int slotCount, int skill1Id, int skill1Points,
                                 int skill2Id, int skill2Points) const;
+    QString charmClassName(int classId) const;
+    QString skillName(int skillId) const;
+    QList<int> charmSlots(int classId) const;
+    QList<int> charmSkillPoints(int classId, int skillId, int position) const;
+    bool charmSkillPairExists(int classId, int skill1Id, int skill2Id) const;
 
 private:
     GameDataRepository();
@@ -178,9 +184,17 @@ private:
     GameDataRepository &operator=(const GameDataRepository &);
 
     dataset_t *loadDataset(const QString &sql, const QList<QVariant> &arguments = QList<QVariant>()) const;
+    bool loadCharmRules();
+    static QString charmSkillRuleKey(int classId, int position, int skillId);
+    static QString charmSkillPairKey(int classId, int skill1Id, int skill2Id);
     QString m_connectionName;
     QString m_path;
     QString m_error;
+    QMap<int, QString> m_charmClassNames;
+    QMap<int, QString> m_skillNames;
+    QMap<int, QSet<int> > m_charmSlotRules;
+    QMap<QString, QSet<int> > m_charmSkillPointRules;
+    QSet<QString> m_charmSkillPairRules;
 };
 
 #endif
