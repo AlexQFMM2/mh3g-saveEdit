@@ -23,6 +23,17 @@ does not create a backup. A successful save is confirmed by a message box.
 包含图鉴数据库、OpenGL 模型查看器或试衣间。已经完成的调查仍保留在 Git 历史中，停止原因、
 技术结论和未来边界见 [资料库功能决策记录](docs/ENCYCLOPEDIA_DECISION.md)。
 
+## 下一阶段：本地配装器
+
+下一步从数据量最小、验证路径最短的 MH3G 开始制作本地配装器。首版允许选择武器、五件
+防具、护石和装饰珠，实时汇总技能、防御与耐性，并把整套装备事务式加入当前 3DS 或 Wii U
+存档的装备箱。它不恢复图鉴、图片、模型或资源包。
+
+本地闭环实机验收后，再依次建设统一配装协议、用户注册登录与邮箱验证、管理后台和在线
+配装广场。广场中的配装可以导入修改器并一键加入装备箱，服务器不会接收完整存档或角色
+信息。完整阶段、接口边界和验收标准见
+[本地配装器与在线平台路线图](docs/LOADOUT_PLATFORM_ROADMAP.md)。
+
 ## Game-resource ID tables
 
 The item, five armor-part, and twelve weapon CSV tables are generated from the
