@@ -22,7 +22,7 @@ python3 tools/export_armor_native_parameters.py \
   --dex-dump /tmp/mh3g-dex-rebuild
 ```
 
-审核过的 24 字节记录没有已确认的“强化次数上限”字段，因此数据库保留最大防御，但 `max_upgrade_level` 维持 `NULL`；编辑器对此显示黄色未知，不能根据经验公式伪造红色非法结论。
+审核过的 24 字节记录没有已确认的“强化次数上限”字段，因此数据库保留最大防御，但 `max_upgrade_level` 维持 `NULL`。修改器不编辑或检测防具强化等级，已有强化值原样保留，交由游戏内系统处理。
 
 持有审核过的 MH3G Dex 运行时导出后执行：
 

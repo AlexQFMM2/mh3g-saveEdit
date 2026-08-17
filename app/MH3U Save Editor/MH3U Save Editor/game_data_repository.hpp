@@ -15,14 +15,13 @@ struct equipment_data_t
     bool confirmed;
     bool mh3gOnly;
     int slotCount;
-    int maxUpgradeLevel;
     int combat;
     int gender;
     QString name;
     QString mappingSource;
 
     equipment_data_t()
-        : found(false), placeholder(false), confirmed(false), mh3gOnly(false), slotCount(-1), maxUpgradeLevel(-1), combat(-1), gender(-1)
+        : found(false), placeholder(false), confirmed(false), mh3gOnly(false), slotCount(-1), combat(-1), gender(-1)
     {
     }
 };

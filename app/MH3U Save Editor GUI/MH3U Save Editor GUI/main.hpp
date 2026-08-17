@@ -340,7 +340,6 @@ static inline QString uiText(const char *text)
         {"Voice", "声音"},
         {"Moga Point", "莫加点数"},
         {"Equipment type", "装备类型"},
-        {"Upgrade level", "强化等级"},
         {"Slots count", "孔数"},
         {"Identifier", "编号"},
         {"First Skill's Identifier", "第一技能"},

@@ -69,6 +69,13 @@ int main(int argc, char **argv)
                 "empty native armor record is not unknown");
 
         std::memset(equipment, 0, sizeof(equipment));
+        equipment[0] = MH3U_Type::ChestType;
+        setId(equipment, 1);
+        equipment[1] = 0xff;
+        require(EquipmentValidator::validate(equipment, SAVE_FORMAT_N3DS).status == EquipmentValid,
+                "armor upgrade byte must not affect validity");
+
+        std::memset(equipment, 0, sizeof(equipment));
         equipment[0] = MH3U_Type::CharmType;
         equipment[1] = 0;
         setId(equipment, 1);

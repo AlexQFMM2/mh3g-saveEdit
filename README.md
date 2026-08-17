@@ -51,8 +51,8 @@ does not create a backup. A successful save is confirmed by a message box.
 重建命令见 [`data/README.md`](data/README.md)。
 
 固定哈希的 MH3G ExeFS 五张原生防具表已进入离线生成链路，用于校验并补齐
-存档本地参数；ExeFS 本身不会随修改器发布。原生记录中尚未确认防具强化次数
-上限，因此这项规则保持黄色未知，不用最大防御反推一个未经证实的等级上限。
+存档本地参数；ExeFS 本身不会随修改器发布。修改器不提供防具强化等级编辑或
+合法性判断，存档已有强化值原样保留，强化交由游戏内系统完成。
 
 ## 3DS / Wii U item and equipment transfer
 

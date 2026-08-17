@@ -128,12 +128,6 @@ equipment_validation_t EquipmentValidator::validate(const equipment_t &equipment
         add(result, EquipmentUnknown, "id", "EQUIPMENT_PARAMETERS_UNKNOWN",
             QString::fromUtf8("%1 有存档 ID，但缺少完整原生参数证据。").arg(data.name));
 
-    if (type >= 1 && type <= 5 && data.maxUpgradeLevel >= 0 && equipment[1] > data.maxUpgradeLevel)
-        add(result, EquipmentInvalid, "upgrade", "ARMOR_UPGRADE_EXCEEDED",
-            QString::fromUtf8("强化等级 %1 超过上限 %2。").arg(equipment[1]).arg(data.maxUpgradeLevel));
-    else if (type >= 1 && type <= 5 && data.maxUpgradeLevel < 0 && equipment[1] > 0)
-        add(result, EquipmentUnknown, "upgrade", "ARMOR_UPGRADE_LIMIT_UNKNOWN",
-            QString::fromUtf8("已记录强化等级 %1，但当前原生数据未能确认该防具的强化次数上限。").arg(equipment[1]));
     if (platform == SAVE_FORMAT_WIIU && data.mh3gOnly)
         add(result, EquipmentUnknown, "platform", "WIIU_RULE_UNCONFIRMED",
             QString::fromUtf8("该条目只有 MH3G 原生参数证据，Wii U / MH3U 平台规则尚未确认。"));

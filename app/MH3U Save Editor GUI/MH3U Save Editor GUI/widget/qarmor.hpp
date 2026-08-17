@@ -30,7 +30,6 @@ private:
     save_format_e m_platform;
     int m_characterSex;
     QComboBox *m_equipmentType;
-    QSpinBox *m_upgradeLevel;
     QComboBox *m_identifier;
     QSpinBox *m_blueComponent;
     QSpinBox *m_greenComponent;

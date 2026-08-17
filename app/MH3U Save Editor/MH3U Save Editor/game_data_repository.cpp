@@ -180,8 +180,8 @@ equipment_data_t GameDataRepository::equipment(int saveType, int saveId) const
     if (!isOpen()) return result;
     const bool armor = saveType >= 1 && saveType <= 5;
     const QString sql = armor
-        ? "SELECT name_cn,is_placeholder,mapping_status,mapping_source,slots,max_upgrade_level,combat,gender FROM armors WHERE save_type=? AND save_id=?"
-        : "SELECT name_cn,is_placeholder,mapping_status,mapping_source,slots,NULL,NULL,NULL FROM weapons WHERE save_type=? AND save_id=?";
+        ? "SELECT name_cn,is_placeholder,mapping_status,mapping_source,slots,combat,gender FROM armors WHERE save_type=? AND save_id=?"
+        : "SELECT name_cn,is_placeholder,mapping_status,mapping_source,slots,NULL,NULL FROM weapons WHERE save_type=? AND save_id=?";
     QSqlQuery query(QSqlDatabase::database(m_connectionName));
     query.prepare(sql); query.addBindValue(saveType); query.addBindValue(saveId);
     if (!query.exec() || !query.next()) return result;
@@ -193,9 +193,8 @@ equipment_data_t GameDataRepository::equipment(int saveType, int saveId) const
     result.mh3gOnly = mappingStatus == "confirmed_mh3g";
     result.mappingSource = query.value(3).toString();
     result.slotCount = query.value(4).isNull() ? -1 : query.value(4).toInt();
-    result.maxUpgradeLevel = query.value(5).isNull() ? -1 : query.value(5).toInt();
-    result.combat = query.value(6).isNull() ? -1 : query.value(6).toInt();
-    result.gender = query.value(7).isNull() ? -1 : query.value(7).toInt();
+    result.combat = query.value(5).isNull() ? -1 : query.value(5).toInt();
+    result.gender = query.value(6).isNull() ? -1 : query.value(6).toInt();
     return result;
 }
 
