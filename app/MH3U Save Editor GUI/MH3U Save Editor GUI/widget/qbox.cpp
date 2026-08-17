@@ -4,27 +4,157 @@
 #include "equipment_validator.hpp"
 
 #include <QAbstractItemView>
+#include <QAbstractTableModel>
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QFile>
 #include <QFileDialog>
 #include <QHeaderView>
 #include <QHBoxLayout>
+#include <QItemSelectionModel>
 #include <QMessageBox>
+#include <QModelIndex>
 #include <QScrollBar>
-#include <QTableWidgetItem>
+#include <QTableView>
 #include <QVBoxLayout>
 #include <QBrush>
 #include <QColor>
+
+class EquipmentBoxTableModel : public QAbstractTableModel
+{
+public:
+    explicit EquipmentBoxTableModel(QBox *box) : QAbstractTableModel(box), m_box(box) {}
+
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override
+    {
+        return parent.isValid() ? 0 : m_rows.size();
+    }
+
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override
+    {
+        return parent.isValid() ? 0 : 7;
+    }
+
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const override
+    {
+        if (orientation != Qt::Horizontal || role != Qt::DisplayRole) return QVariant();
+        static const char *headers[] = {"页", "格", "类型", "名称", "ID", "装饰品", "合法性"};
+        return section >= 0 && section < 7 ? QString::fromUtf8(headers[section]) : QVariant();
+    }
+
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override
+    {
+        if (!index.isValid() || index.row() < 0 || index.row() >= m_rows.size()) return QVariant();
+        const slot_ref_t &ref = m_rows.at(index.row());
+        row_cache_t &cache = m_cache[index.row()];
+        equipment_t &equipment = m_box->equipmentAt(ref.panel, ref.slot);
+        const int identifier = equipment[2] | (equipment[3] << 8);
+
+        if (role == Qt::DisplayRole)
+        {
+            if (index.column() == 0) return ref.panel + 1;
+            if (index.column() == 1) return ref.slot + 1;
+            if (index.column() == 4) return identifier;
+            ensureBasic(cache, equipment);
+            if (index.column() == 2) return cache.typeName;
+            if (index.column() == 3) return cache.name;
+            if (index.column() == 5) return cache.jewels;
+            if (index.column() == 6) { ensureValidation(cache, equipment); return cache.validation.statusText(); }
+        }
+        if (index.column() == 6)
+        {
+            ensureValidation(cache, equipment);
+            if (role == Qt::ToolTipRole) return cache.validation.details();
+            if (cache.validation.status == EquipmentInvalid)
+            {
+                if (role == Qt::ForegroundRole) return QBrush(QColor("#b42318"));
+                if (role == Qt::BackgroundRole) return QBrush(QColor("#fee4e2"));
+            }
+            else if (cache.validation.status == EquipmentUnknown)
+            {
+                if (role == Qt::ForegroundRole) return QBrush(QColor("#8a4b08"));
+                if (role == Qt::BackgroundRole) return QBrush(QColor("#fff3cd"));
+            }
+        }
+        return QVariant();
+    }
+
+    void rebuild()
+    {
+        beginResetModel();
+        m_rows.clear();
+        for (uint32_t panel = 0; panel < 10; ++panel)
+            for (uint32_t slot = 0; slot < 100; ++slot)
+            {
+                equipment_t &equipment = m_box->equipmentAt(panel, slot);
+                if (m_box->equipmentMatchesFilters(equipment, panel, slot))
+                {
+                    slot_ref_t ref = {(uint16_t)panel, (uint16_t)slot};
+                    m_rows.append(ref);
+                }
+            }
+        m_cache.clear();
+        m_cache.resize(m_rows.size());
+        endResetModel();
+    }
+
+    bool slotAt(int row, uint32_t *panel, uint32_t *slot) const
+    {
+        if (row < 0 || row >= m_rows.size()) return false;
+        if (panel) *panel = m_rows.at(row).panel;
+        if (slot) *slot = m_rows.at(row).slot;
+        return true;
+    }
+
+    int findSlot(uint32_t panel, uint32_t slot) const
+    {
+        for (int row = 0; row < m_rows.size(); ++row)
+            if (m_rows.at(row).panel == panel && m_rows.at(row).slot == slot) return row;
+        return -1;
+    }
+
+private:
+    struct slot_ref_t { uint16_t panel; uint16_t slot; };
+    struct row_cache_t
+    {
+        row_cache_t() : basicReady(false), validationReady(false) {}
+        bool basicReady;
+        bool validationReady;
+        QString typeName;
+        QString name;
+        QString jewels;
+        equipment_validation_t validation;
+    };
+
+    QBox *m_box;
+    QVector<slot_ref_t> m_rows;
+    mutable QVector<row_cache_t> m_cache;
+
+    void ensureBasic(row_cache_t &cache, equipment_t &equipment) const
+    {
+        if (cache.basicReady) return;
+        cache.typeName = m_box->equipmentTypeName(equipment[0]);
+        cache.name = m_box->equipmentDisplayName(equipment);
+        cache.jewels = m_box->jewelSummary(equipment);
+        cache.basicReady = true;
+    }
+
+    void ensureValidation(row_cache_t &cache, equipment_t &equipment) const
+    {
+        if (cache.validationReady) return;
+        cache.validation = EquipmentValidator::validate(equipment, m_box->mh3u->format(), m_box->mh3u->savedata->sex);
+        cache.validationReady = true;
+    }
+};
 
 QBox::QBox(MH3U_SE *mh3u, QWidget *parent) : QWidget(parent)
 {
     setObjectName("pageSurface");
     this->mh3u = mh3u;
 
-    m_table = new QTableWidget(this);
-    m_table->setColumnCount(7);
-    m_table->setHorizontalHeaderLabels(QStringList() << "页" << "格" << "类型" << "名称" << "ID" << "装饰品" << "合法性");
+    m_table = new QTableView(this);
+    m_tableModel = new EquipmentBoxTableModel(this);
+    m_table->setModel(m_tableModel);
     m_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_table->setSelectionBehavior(QAbstractItemView::SelectRows);
     m_table->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -43,8 +173,10 @@ QBox::QBox(MH3U_SE *mh3u, QWidget *parent) : QWidget(parent)
     m_table->setColumnWidth(4, 64);
     m_table->setColumnWidth(6, 72);
 
-    connect(m_table, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(tableCellDoubleClicked(int,int)));
-    connect(m_table, SIGNAL(itemSelectionChanged()), this, SLOT(updateSelectedInfo()));
+    connect(m_table, &QTableView::doubleClicked, [this](const QModelIndex &index) {
+        tableCellDoubleClicked(index.row(), index.column());
+    });
+    connect(m_table->selectionModel(), &QItemSelectionModel::selectionChanged, [this]() { updateSelectedInfo(); });
 
     m_search = new QLineEdit(this);
     m_search->setPlaceholderText("搜索装备 / 类型 / ID / 装饰品");
@@ -134,18 +266,19 @@ void QBox::buttonClicked(int id)
 
 void QBox::tableCellDoubleClicked(int row, int)
 {
-    QTableWidgetItem *pageItem = m_table->item(row, 0);
-    if (pageItem == NULL)
+    uint32_t panel = 0;
+    uint32_t slot = 0;
+    if (!m_tableModel->slotAt(row, &panel, &slot))
     {
         return;
     }
 
-    editSlot(pageItem->data(Qt::UserRole).toUInt(), pageItem->data(Qt::UserRole + 1).toUInt());
+    editSlot(panel, slot);
 }
 
 void QBox::editSelectedEquipment()
 {
-    int row = m_table->currentRow();
+    const int row = m_table->currentIndex().row();
     if (row < 0)
     {
         return;
@@ -187,21 +320,22 @@ void QBox::addEquipmentToFirstEmptySlot()
 
 void QBox::updateSelectedInfo()
 {
-    int row = m_table->currentRow();
+    const int row = m_table->currentIndex().row();
     if (row < 0)
     {
         m_selectedInfo->setText("(无)");
         return;
     }
 
-    QTableWidgetItem *pageItem = m_table->item(row, 0);
-    if (pageItem == NULL)
+    uint32_t panel = 0;
+    uint32_t slot = 0;
+    if (!m_tableModel->slotAt(row, &panel, &slot))
     {
         m_selectedInfo->setText("(无)");
         return;
     }
 
-    equipment_t &equipment = equipmentAt(pageItem->data(Qt::UserRole).toUInt(), pageItem->data(Qt::UserRole + 1).toUInt());
+    equipment_t &equipment = equipmentAt(panel, slot);
     m_selectedInfo->setText(equipmentTooltip(equipment));
 }
 
@@ -297,85 +431,32 @@ void QBox::importEquipmentForm()
 
 void QBox::populateTable()
 {
-    const int previousRow = m_table->currentRow();
+    const int previousRow = m_table->currentIndex().row();
     int selectedPanel = -1;
     int selectedSlot = -1;
     if (previousRow >= 0)
     {
-        QTableWidgetItem *selectedItem = m_table->item(previousRow, 0);
-        if (selectedItem != NULL)
+        uint32_t panel = 0;
+        uint32_t slot = 0;
+        if (m_tableModel->slotAt(previousRow, &panel, &slot))
         {
-            selectedPanel = selectedItem->data(Qt::UserRole).toInt();
-            selectedSlot = selectedItem->data(Qt::UserRole + 1).toInt();
+            selectedPanel = (int)panel;
+            selectedSlot = (int)slot;
         }
     }
     const int scrollPosition = m_table->verticalScrollBar()->value();
-    int restoredRow = -1;
+    m_tableModel->rebuild();
+    int restoredRow = selectedPanel >= 0 ? m_tableModel->findSlot(selectedPanel, selectedSlot) : -1;
 
-    m_table->setUpdatesEnabled(false);
-    m_table->setRowCount(1000);
-    int rowCount = 0;
-
-    for (uint32_t panel = 0; panel < 10; panel++)
-    {
-        for (uint32_t slot = 0; slot < 100; slot++)
-        {
-            equipment_t &equipment = equipmentAt(panel, slot);
-            if (!equipmentMatchesFilters(equipment, panel, slot))
-            {
-                continue;
-            }
-
-            uint8_t equipmentType = equipment[0];
-            uint16_t identifier = equipment[2] + equipment[3] * 0x100;
-            QString name = equipmentDisplayName(equipment);
-            QString typeName = equipmentTypeName(equipmentType);
-
-            const int row = rowCount++;
-
-            QTableWidgetItem *pageItem = new QTableWidgetItem(QString::number(panel + 1));
-            pageItem->setData(Qt::UserRole, panel);
-            pageItem->setData(Qt::UserRole + 1, slot);
-            m_table->setItem(row, 0, pageItem);
-            if ((int) panel == selectedPanel && (int) slot == selectedSlot)
-            {
-                restoredRow = row;
-            }
-            m_table->setItem(row, 1, new QTableWidgetItem(QString::number(slot + 1)));
-            m_table->setItem(row, 2, new QTableWidgetItem(typeName));
-            m_table->setItem(row, 3, new QTableWidgetItem(name));
-            m_table->setItem(row, 4, new QTableWidgetItem(QString::number(identifier)));
-            m_table->setItem(row, 5, new QTableWidgetItem(jewelSummary(equipment)));
-            equipment_validation_t validation = EquipmentValidator::validate(equipment, mh3u->format(), mh3u->savedata->sex);
-            QTableWidgetItem *validityItem = new QTableWidgetItem(validation.statusText());
-            validityItem->setToolTip(validation.details());
-            if (validation.status == EquipmentInvalid)
-            {
-                validityItem->setForeground(QBrush(QColor("#b42318")));
-                validityItem->setBackground(QBrush(QColor("#fee4e2")));
-            }
-            else if (validation.status == EquipmentUnknown)
-            {
-                validityItem->setForeground(QBrush(QColor("#8a4b08")));
-                validityItem->setBackground(QBrush(QColor("#fff3cd")));
-            }
-            m_table->setItem(row, 6, validityItem);
-        }
-    }
-
-    m_table->setRowCount(rowCount);
-
-    if (m_table->rowCount() > 0)
+    if (m_tableModel->rowCount() > 0)
     {
         if (restoredRow < 0)
         {
-            restoredRow = previousRow >= 0 ? qMin(previousRow, m_table->rowCount() - 1) : 0;
+            restoredRow = previousRow >= 0 ? qMin(previousRow, m_tableModel->rowCount() - 1) : 0;
         }
         m_table->selectRow(restoredRow);
         m_table->verticalScrollBar()->setValue(scrollPosition);
     }
-    m_table->setUpdatesEnabled(true);
-    m_table->viewport()->update();
 }
 
 bool QBox::editSlot(uint32_t panel, uint32_t slot)

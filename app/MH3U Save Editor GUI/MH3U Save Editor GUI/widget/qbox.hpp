@@ -13,8 +13,10 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
-#include <QTableWidget>
 #include <QWidget>
+
+class QTableView;
+class EquipmentBoxTableModel;
 
 class QBox : public QWidget
 {
@@ -29,8 +31,10 @@ signals:
     void modified();
 
 private:
+    friend class EquipmentBoxTableModel;
     MH3U_SE *mh3u;
-    QTableWidget *m_table;
+    QTableView *m_table;
+    EquipmentBoxTableModel *m_tableModel;
     QLineEdit *m_search;
     QCheckBox *m_nonEmptyOnly;
     QCheckBox *m_validOnly;

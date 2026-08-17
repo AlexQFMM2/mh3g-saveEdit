@@ -3,37 +3,128 @@
 #include "mh3u_transfer.hpp"
 
 #include <QAbstractItemView>
+#include <QAbstractTableModel>
 #include <QFile>
 #include <QFileDialog>
 #include <QGridLayout>
 #include <QHeaderView>
 #include <QHBoxLayout>
+#include <QItemSelectionModel>
 #include <QMessageBox>
+#include <QModelIndex>
 #include <QScrollBar>
-#include <QTableWidgetItem>
+#include <QTableView>
 #include <QVBoxLayout>
+
+class ItemChestTableModel : public QAbstractTableModel
+{
+public:
+    explicit ItemChestTableModel(QChest *chest) : QAbstractTableModel(chest), m_chest(chest) {}
+
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override
+    {
+        return parent.isValid() ? 0 : m_rows.size();
+    }
+
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override
+    {
+        return parent.isValid() ? 0 : 5;
+    }
+
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const override
+    {
+        if (orientation != Qt::Horizontal || role != Qt::DisplayRole) return QVariant();
+        static const char *headers[] = {"页", "格", "道具", "数量", "ID"};
+        return section >= 0 && section < 5 ? QString::fromUtf8(headers[section]) : QVariant();
+    }
+
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override
+    {
+        if (role != Qt::DisplayRole || !index.isValid() || index.row() < 0 || index.row() >= m_rows.size())
+            return QVariant();
+        const slot_ref_t &ref = m_rows.at(index.row());
+        item_t &item = m_chest->itemAt(ref.panel, ref.slot);
+        if (index.column() == 0) return ref.panel + 1;
+        if (index.column() == 1) return ref.slot + 1;
+        if (index.column() == 2)
+        {
+            QString &name = m_names[index.row()];
+            if (name.isNull()) name = localizedItemName(item.id);
+            return name;
+        }
+        if (index.column() == 3) return item.count;
+        if (index.column() == 4) return item.id;
+        return QVariant();
+    }
+
+    void rebuild()
+    {
+        beginResetModel();
+        m_rows.clear();
+        for (uint32_t panel = 0; panel < 10; ++panel)
+            for (uint32_t slot = 0; slot < 100; ++slot)
+            {
+                item_t &item = m_chest->itemAt(panel, slot);
+                if (m_chest->itemMatchesFilters(item))
+                {
+                    slot_ref_t ref = {(uint16_t)panel, (uint16_t)slot};
+                    m_rows.append(ref);
+                }
+            }
+        m_names.clear();
+        m_names.resize(m_rows.size());
+        endResetModel();
+    }
+
+    bool slotAt(int row, uint32_t *panel, uint32_t *slot) const
+    {
+        if (row < 0 || row >= m_rows.size()) return false;
+        if (panel) *panel = m_rows.at(row).panel;
+        if (slot) *slot = m_rows.at(row).slot;
+        return true;
+    }
+
+    int findSlot(uint32_t panel, uint32_t slot) const
+    {
+        for (int row = 0; row < m_rows.size(); ++row)
+            if (m_rows.at(row).panel == panel && m_rows.at(row).slot == slot) return row;
+        return -1;
+    }
+
+private:
+    struct slot_ref_t { uint16_t panel; uint16_t slot; };
+    QChest *m_chest;
+    QVector<slot_ref_t> m_rows;
+    mutable QVector<QString> m_names;
+};
 
 QChest::QChest(MH3U_SE *mh3u, QWidget *parent) : QWidget(parent)
 {
     setObjectName("pageSurface");
     this->mh3u = mh3u;
 
-    m_table = new QTableWidget(this);
-    m_table->setColumnCount(5);
-    m_table->setHorizontalHeaderLabels(QStringList() << "页" << "格" << "道具" << "数量" << "ID");
+    m_table = new QTableView(this);
+    m_tableModel = new ItemChestTableModel(this);
+    m_table->setModel(m_tableModel);
     m_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_table->setSelectionBehavior(QAbstractItemView::SelectRows);
     m_table->setSelectionMode(QAbstractItemView::SingleSelection);
     m_table->setAlternatingRowColors(true);
     m_table->verticalHeader()->setVisible(false);
-    m_table->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
-    m_table->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
+    m_table->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Fixed);
+    m_table->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Fixed);
     m_table->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
-    m_table->horizontalHeader()->setSectionResizeMode(3, QHeaderView::ResizeToContents);
-    m_table->horizontalHeader()->setSectionResizeMode(4, QHeaderView::ResizeToContents);
+    m_table->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Fixed);
+    m_table->horizontalHeader()->setSectionResizeMode(4, QHeaderView::Fixed);
+    m_table->setColumnWidth(0, 46);
+    m_table->setColumnWidth(1, 46);
+    m_table->setColumnWidth(3, 64);
+    m_table->setColumnWidth(4, 72);
 
-    connect(m_table, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(tableCellDoubleClicked(int,int)));
-    connect(m_table, SIGNAL(itemSelectionChanged()), this, SLOT(updateSelectedInfo()));
+    connect(m_table, &QTableView::doubleClicked, [this](const QModelIndex &index) {
+        tableCellDoubleClicked(index.row(), index.column());
+    });
+    connect(m_table->selectionModel(), &QItemSelectionModel::selectionChanged, [this]() { updateSelectedInfo(); });
 
     m_search = new QLineEdit(this);
     m_search->setPlaceholderText("搜索道具 / ID / 数量");
@@ -78,7 +169,6 @@ QChest::QChest(MH3U_SE *mh3u, QWidget *parent) : QWidget(parent)
     mainLayout->addWidget(m_table, 1);
     mainLayout->addLayout(sideLayout);
     this->setLayout(mainLayout);
-    populateTable();
     updateSelectedInfo();
 }
 
@@ -105,18 +195,19 @@ void QChest::buttonClicked(int id)
 
 void QChest::tableCellDoubleClicked(int row, int)
 {
-    QTableWidgetItem *pageItem = m_table->item(row, 0);
-    if (pageItem == NULL)
+    uint32_t panel = 0;
+    uint32_t slot = 0;
+    if (!m_tableModel->slotAt(row, &panel, &slot))
     {
         return;
     }
 
-    editSlot(pageItem->data(Qt::UserRole).toUInt(), pageItem->data(Qt::UserRole + 1).toUInt());
+    editSlot(panel, slot);
 }
 
 void QChest::editSelectedItem()
 {
-    int row = m_table->currentRow();
+    const int row = m_table->currentIndex().row();
     if (row < 0)
     {
         return;
@@ -146,21 +237,22 @@ void QChest::addItemToFirstEmptySlot()
 
 void QChest::updateSelectedInfo()
 {
-    int row = m_table->currentRow();
+    const int row = m_table->currentIndex().row();
     if (row < 0)
     {
         m_selectedInfo->setText("(无)");
         return;
     }
 
-    QTableWidgetItem *pageItem = m_table->item(row, 0);
-    if (pageItem == NULL)
+    uint32_t panel = 0;
+    uint32_t slot = 0;
+    if (!m_tableModel->slotAt(row, &panel, &slot))
     {
         m_selectedInfo->setText("(无)");
         return;
     }
 
-    item_t &item = itemAt(pageItem->data(Qt::UserRole).toUInt(), pageItem->data(Qt::UserRole + 1).toUInt());
+    item_t &item = itemAt(panel, slot);
     m_selectedInfo->setText(itemTooltipText(item));
 }
 
@@ -241,58 +333,28 @@ void QChest::importChestForm()
 
 void QChest::populateTable()
 {
-    const int previousRow = m_table->currentRow();
+    const int previousRow = m_table->currentIndex().row();
     int selectedPanel = -1;
     int selectedSlot = -1;
     if (previousRow >= 0)
     {
-        QTableWidgetItem *selectedItem = m_table->item(previousRow, 0);
-        if (selectedItem != NULL)
+        uint32_t panel = 0;
+        uint32_t slot = 0;
+        if (m_tableModel->slotAt(previousRow, &panel, &slot))
         {
-            selectedPanel = selectedItem->data(Qt::UserRole).toInt();
-            selectedSlot = selectedItem->data(Qt::UserRole + 1).toInt();
+            selectedPanel = (int)panel;
+            selectedSlot = (int)slot;
         }
     }
     const int scrollPosition = m_table->verticalScrollBar()->value();
-    int restoredRow = -1;
+    m_tableModel->rebuild();
+    int restoredRow = selectedPanel >= 0 ? m_tableModel->findSlot(selectedPanel, selectedSlot) : -1;
 
-    m_table->setRowCount(0);
-
-    for (uint32_t panel = 0; panel < 10; panel++)
-    {
-        for (uint32_t slot = 0; slot < 100; slot++)
-        {
-            item_t &item = itemAt(panel, slot);
-            if (!itemMatchesFilters(item))
-            {
-                continue;
-            }
-
-            QString name = localizedItemName(item.id);
-
-            int row = m_table->rowCount();
-            m_table->insertRow(row);
-
-            QTableWidgetItem *pageItem = new QTableWidgetItem(QString::number(panel + 1));
-            pageItem->setData(Qt::UserRole, panel);
-            pageItem->setData(Qt::UserRole + 1, slot);
-            m_table->setItem(row, 0, pageItem);
-            if ((int) panel == selectedPanel && (int) slot == selectedSlot)
-            {
-                restoredRow = row;
-            }
-            m_table->setItem(row, 1, new QTableWidgetItem(QString::number(slot + 1)));
-            m_table->setItem(row, 2, new QTableWidgetItem(name));
-            m_table->setItem(row, 3, new QTableWidgetItem(QString::number(item.count)));
-            m_table->setItem(row, 4, new QTableWidgetItem(QString::number(item.id)));
-        }
-    }
-
-    if (m_table->rowCount() > 0)
+    if (m_tableModel->rowCount() > 0)
     {
         if (restoredRow < 0)
         {
-            restoredRow = previousRow >= 0 ? qMin(previousRow, m_table->rowCount() - 1) : 0;
+            restoredRow = previousRow >= 0 ? qMin(previousRow, m_tableModel->rowCount() - 1) : 0;
         }
         m_table->selectRow(restoredRow);
         m_table->verticalScrollBar()->setValue(scrollPosition);

@@ -9,8 +9,10 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
-#include <QTableWidget>
 #include <QWidget>
+
+class QTableView;
+class ItemChestTableModel;
 
 class QChest : public QWidget
 {
@@ -25,8 +27,10 @@ signals:
     void modified();
 
 private:
+    friend class ItemChestTableModel;
     MH3U_SE *mh3u;
-    QTableWidget *m_table;
+    QTableView *m_table;
+    ItemChestTableModel *m_tableModel;
     QLineEdit *m_search;
     QCheckBox *m_nonEmptyOnly;
     QLabel *m_selectedInfo;
