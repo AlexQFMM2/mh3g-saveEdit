@@ -3,6 +3,7 @@
 
 #include "loadout.hpp"
 
+#include <QList>
 #include <QWidget>
 
 class QLabel;
@@ -22,9 +23,13 @@ public:
     bool maybeLeaveDirty();
     void updateSaveContext();
     bool smokeTestLayout(QString *error = 0) const;
+    QByteArray currentPayload(QString *error = 0) const;
+    bool importPayload(const QByteArray &bytes, QString *error = 0);
+    bool showPayloadDialog(const QByteArray &bytes, QString *error = 0);
 
 signals:
     void saveModified();
+    void publishRequested();
 
 private slots:
     void newLoadout();
@@ -53,10 +58,12 @@ private:
     QLineEdit *m_name;
     QComboBox *m_gender;
     QPushButton *m_apply;
+    QPushButton *m_publish;
     QLabel *m_localState;
     QTableWidget *m_skillTable;
     QCheckBox *m_showAllSkills;
     QLabel *m_summary;
+    QList<QWidget *> m_detailEditControls;
     slot_widgets_t m_slots[LoadoutSlotCount];
 
     void chooseEquipment(loadout_slot_e slot);
@@ -68,6 +75,7 @@ private:
     void refreshSummary();
     bool writeLoadout(const QString &path);
     bool hasSelections() const;
+    void setDetailReadOnlyMode();
 };
 
 #endif

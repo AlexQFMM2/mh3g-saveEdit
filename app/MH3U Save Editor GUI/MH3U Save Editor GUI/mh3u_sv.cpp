@@ -15,7 +15,7 @@
 #include <QVBoxLayout>
 
 MH3U_SV::MH3U_SV(QWidget *parent)
-    : QMainWindow(parent), mh3u(new MH3U_SE()), characterPage(0), chestPage(0), boxPage(0), loadoutPage(0), dirty(false), dataReady(false)
+    : QMainWindow(parent), mh3u(new MH3U_SE()), characterPage(0), chestPage(0), boxPage(0), loadoutPage(0), communityPage(0), accountPage(0), aboutPage(0), dirty(false), dataReady(false)
 {
     setObjectName("mainSurface");
     setWindowTitle(QString::fromUtf8("MH3G / MH3U 存档修改器"));
@@ -56,11 +56,17 @@ MH3U_SV::MH3U_SV(QWidget *parent)
     chestButton = makeNavigation(QString::fromUtf8("道具箱"));
     boxButton = makeNavigation(QString::fromUtf8("装备箱"));
     loadoutButton = makeNavigation(QString::fromUtf8("配装器"));
+    communityButton = makeNavigation(QString::fromUtf8("配装广场"));
+    accountButton = makeNavigation(QString::fromUtf8("个人信息"));
+    aboutButton = makeNavigation(QString::fromUtf8("关于"));
     navigation->addWidget(characterButton);
     navigation->addWidget(chestButton);
     navigation->addWidget(boxButton);
     navigation->addWidget(loadoutButton);
+    navigation->addWidget(communityButton);
+    navigation->addWidget(accountButton);
     navigation->addStretch();
+    navigation->addWidget(aboutButton);
 
     QWidget *workspace = new QWidget(surface);
     QVBoxLayout *workspaceLayout = new QVBoxLayout(workspace);
@@ -78,15 +84,6 @@ MH3U_SV::MH3U_SV(QWidget *parent)
     header->addStretch();
     workspaceLayout->addLayout(header);
 
-    QLabel *riskWarning = new QLabel(QString::fromUtf8("⚠ 修改有风险，请自主备份存档后再修改。"), workspace);
-    riskWarning->setObjectName("riskWarning");
-    workspaceLayout->addWidget(riskWarning);
-
-    statusLabel = new QLabel(workspace);
-    statusLabel->setObjectName("statusLabel");
-    statusLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
-    workspaceLayout->addWidget(statusLabel);
-
     pageStack = new QStackedWidget(workspace);
     emptyPage = new QWidget(pageStack);
     emptyPage->setObjectName("pageSurface");
@@ -103,6 +100,34 @@ MH3U_SV::MH3U_SV(QWidget *parent)
     pageStack->addWidget(emptyPage);
     loadoutPage = new QLoadout(mh3u, pageStack);
     pageStack->addWidget(loadoutPage);
+    communityPage = new QCommunity(loadoutPage, pageStack);
+    pageStack->addWidget(communityPage);
+    accountPage = communityPage->accountPage();
+    pageStack->addWidget(accountPage);
+
+    aboutPage = new QWidget(pageStack);
+    aboutPage->setObjectName("pageSurface");
+    QVBoxLayout *aboutLayout = new QVBoxLayout(aboutPage);
+    aboutLayout->setContentsMargins(18, 18, 18, 18);
+    aboutLayout->setSpacing(14);
+    QLabel *riskWarning = new QLabel(QString::fromUtf8("⚠ 修改有风险，请自主备份存档后再修改。"), aboutPage);
+    riskWarning->setObjectName("riskWarning");
+    riskWarning->setWordWrap(true);
+    aboutLayout->addWidget(riskWarning);
+    QLabel *statusTitle = new QLabel(QString::fromUtf8("当前存档状态"), aboutPage);
+    statusTitle->setObjectName("emptyTitle");
+    aboutLayout->addWidget(statusTitle);
+    statusLabel = new QLabel(aboutPage);
+    statusLabel->setObjectName("statusLabel");
+    statusLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    statusLabel->setWordWrap(true);
+    aboutLayout->addWidget(statusLabel);
+    QLabel *aboutText = new QLabel(QString::fromUtf8("MH3G / MH3U 存档修改器\n配装广场中的合法性与风险均为提示，不会限制导入或保存。"), aboutPage);
+    aboutText->setObjectName("appSubtitle");
+    aboutText->setWordWrap(true);
+    aboutLayout->addWidget(aboutText);
+    aboutLayout->addStretch();
+    pageStack->addWidget(aboutPage);
 
     QScrollArea *content = new QScrollArea(workspace);
     content->setObjectName("contentArea");
@@ -130,6 +155,11 @@ MH3U_SV::MH3U_SV(QWidget *parent)
     connect(chestButton, SIGNAL(clicked(bool)), this, SLOT(showChest()));
     connect(boxButton, SIGNAL(clicked(bool)), this, SLOT(showBox()));
     connect(loadoutButton, SIGNAL(clicked(bool)), this, SLOT(showLoadout()));
+    connect(communityButton, SIGNAL(clicked(bool)), this, SLOT(showCommunity()));
+    connect(accountButton, SIGNAL(clicked(bool)), this, SLOT(showAccount()));
+    connect(aboutButton, SIGNAL(clicked(bool)), this, SLOT(showAbout()));
+    connect(communityPage, SIGNAL(equipmentBoxModified()), this, SLOT(loadoutApplied()));
+    connect(loadoutPage, SIGNAL(publishRequested()), communityPage, SLOT(uploadCurrent()));
     connect(loadoutPage, SIGNAL(saveModified()), this, SLOT(loadoutApplied()));
     connect(loadButton, SIGNAL(clicked(bool)), this, SLOT(loadFile()));
     connect(saveButton, SIGNAL(clicked(bool)), this, SLOT(saveFile()));
@@ -195,6 +225,9 @@ void MH3U_SV::showCharacter() { setCurrentPage(characterPage, characterButton, Q
 void MH3U_SV::showChest() { setCurrentPage(chestPage, chestButton, QString::fromUtf8("道具箱")); }
 void MH3U_SV::showBox() { setCurrentPage(boxPage, boxButton, QString::fromUtf8("装备箱")); }
 void MH3U_SV::showLoadout() { setCurrentPage(loadoutPage, loadoutButton, QString::fromUtf8("配装器")); }
+void MH3U_SV::showCommunity() { setCurrentPage(communityPage, communityButton, QString::fromUtf8("配装广场")); }
+void MH3U_SV::showAccount() { setCurrentPage(accountPage, accountButton, QString::fromUtf8("个人信息")); }
+void MH3U_SV::showAbout() { setCurrentPage(aboutPage, aboutButton, QString::fromUtf8("关于")); }
 
 void MH3U_SV::loadoutApplied()
 {
@@ -289,6 +322,9 @@ void MH3U_SV::updateState()
     chestButton->setEnabled(loaded);
     boxButton->setEnabled(loaded);
     loadoutButton->setEnabled(dataReady);
+    communityButton->setEnabled(true);
+    accountButton->setEnabled(true);
+    aboutButton->setEnabled(true);
     saveButton->setEnabled(loaded);
     loadButton->setEnabled(dataReady);
     loadButton->setText(loaded ? QString::fromUtf8("读取其他存档") : QString::fromUtf8("读取存档"));

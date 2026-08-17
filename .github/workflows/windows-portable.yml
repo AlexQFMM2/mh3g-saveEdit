@@ -30,6 +30,7 @@ jobs:
             mingw-w64-x86_64-binutils
             mingw-w64-x86_64-gcc
             mingw-w64-x86_64-make
+            mingw-w64-x86_64-openssl
             mingw-w64-x86_64-pkgconf
             mingw-w64-x86_64-qt5
 
@@ -60,6 +61,7 @@ jobs:
           Push-Location .\release\windows
           .\MH3USaveEditorGUI.exe --smoke-test
           .\MH3USaveEditorGUI.exe --smoke-test-loadout
+          .\MH3USaveEditorGUI.exe --smoke-test-ssl
           Pop-Location
 
       - name: Test searchable combo interaction

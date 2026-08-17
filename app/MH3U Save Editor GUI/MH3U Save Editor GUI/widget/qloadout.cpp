@@ -16,6 +16,8 @@
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QHeaderView>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QLabel>
 #include <QLineEdit>
 #include <QMessageBox>
@@ -592,9 +594,12 @@ QLoadout::QLoadout(MH3U_SE *saveEditor, QWidget *parent)
     QHBoxLayout *toolbar = new QHBoxLayout; m_name = new QLineEdit(this); m_name->setPlaceholderText(QString::fromUtf8("配装名称"));
     m_gender = new QComboBox(this); m_gender->addItem(QString::fromUtf8("男性"), 0); m_gender->addItem(QString::fromUtf8("女性"), 1);
     QPushButton *newButton = new QPushButton(QString::fromUtf8("新建配装"), this); QPushButton *openButton = new QPushButton(QString::fromUtf8("打开配装"), this);
-    QPushButton *saveButton = new QPushButton(QString::fromUtf8("导出配装"), this); m_apply = new QPushButton(QString::fromUtf8("一键加入装备箱"), this);
+    QPushButton *saveButton = new QPushButton(QString::fromUtf8("导出配装"), this);
+    m_publish = new QPushButton(QString::fromUtf8("发布到广场"), this);
+    m_apply = new QPushButton(QString::fromUtf8("一键加入装备箱"), this);
     m_apply->setObjectName("saveButton"); m_localState = new QLabel(this);
-    toolbar->addWidget(m_name, 1); toolbar->addWidget(m_gender); toolbar->addWidget(newButton); toolbar->addWidget(openButton); toolbar->addWidget(saveButton); toolbar->addWidget(m_apply);
+    m_detailEditControls << m_name << m_gender << newButton << openButton << saveButton << m_publish;
+    toolbar->addWidget(m_name, 1); toolbar->addWidget(m_gender); toolbar->addWidget(newButton); toolbar->addWidget(openButton); toolbar->addWidget(saveButton); toolbar->addWidget(m_publish); toolbar->addWidget(m_apply);
     root->addLayout(toolbar); root->addWidget(m_localState);
     QHBoxLayout *cards = new QHBoxLayout; cards->setSpacing(4);
     for (int index = 0; index < LoadoutSlotCount; ++index)
@@ -607,6 +612,7 @@ QLoadout::QLoadout(MH3U_SE *saveEditor, QWidget *parent)
         widgets.meta = new QLabel(QString::fromUtf8("孔 —"), widgets.frame); widgets.meta->setStyleSheet("color:#69758a;font-size:11px;");
         widgets.select = new QPushButton(QString::fromUtf8("选择"), widgets.frame);
         widgets.decorations = new QPushButton(QString::fromUtf8("珠子"), widgets.frame); widgets.clear = new QPushButton(QString::fromUtf8("清空"), widgets.frame);
+        m_detailEditControls << widgets.select << widgets.decorations << widgets.clear;
         widgets.select->setMinimumHeight(28); widgets.decorations->setMinimumHeight(28); widgets.clear->setMinimumHeight(28);
         widgets.select->setToolTip(QString::fromUtf8("选择%1").arg(slotLabel(slot))); widgets.decorations->setToolTip(QString::fromUtf8("配置装饰珠")); widgets.clear->setToolTip(QString::fromUtf8("清空此格"));
         QHBoxLayout *secondaryButtons = new QHBoxLayout; secondaryButtons->setSpacing(3);
@@ -619,6 +625,7 @@ QLoadout::QLoadout(MH3U_SE *saveEditor, QWidget *parent)
     }
     root->addLayout(cards);
     m_showAllSkills = new QCheckBox(QString::fromUtf8("显示全部技能系"), this);
+    m_detailEditControls << m_showAllSkills;
     root->addWidget(m_showAllSkills);
     QSplitter *bottom = new QSplitter(this); m_skillTable = new QTableWidget(bottom); m_skillTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_skillTable->setAlternatingRowColors(true); m_skillTable->verticalHeader()->setVisible(false); m_summary = new QLabel(bottom); m_summary->setWordWrap(true);
@@ -626,6 +633,7 @@ QLoadout::QLoadout(MH3U_SE *saveEditor, QWidget *parent)
     bottom->setStretchFactor(0, 3); bottom->setStretchFactor(1, 1); root->addWidget(bottom, 1);
     connect(newButton, &QPushButton::clicked, this, &QLoadout::newLoadout); connect(openButton, &QPushButton::clicked, this, &QLoadout::openLoadout);
     connect(saveButton, &QPushButton::clicked, this, &QLoadout::saveLoadout); connect(m_apply, &QPushButton::clicked, this, &QLoadout::applyToEquipmentBox);
+    connect(m_publish, &QPushButton::clicked, this, &QLoadout::publishRequested);
     connect(m_name, &QLineEdit::textChanged, this, &QLoadout::nameChanged);
     connect(m_gender, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &QLoadout::genderChanged);
     connect(m_showAllSkills, &QCheckBox::toggled, [this]() { refreshSummary(); });
@@ -775,9 +783,93 @@ void QLoadout::updateSaveContext()
     refresh();
 }
 
+QByteArray QLoadout::currentPayload(QString *error) const
+{
+    loadout_model_t value = m_model;
+    value.name = m_name->text().trimmed();
+    if (!value.complete())
+    {
+        if (error) *error = QString::fromUtf8("请先在配装器中选齐武器、五件防具和护石。");
+        return QByteArray();
+    }
+    if (value.name.isEmpty())
+    {
+        if (error) *error = QString::fromUtf8("请先填写配装名称。");
+        return QByteArray();
+    }
+    return LoadoutFile::serialize(value);
+}
+
+bool QLoadout::importPayload(const QByteArray &bytes, QString *error)
+{
+    if (!maybeLeaveDirty())
+    {
+        if (error) *error = QString::fromUtf8("已取消覆盖当前配装。");
+        return false;
+    }
+    loadout_model_t loaded;
+    bool versionWarning = false;
+    if (!LoadoutFile::deserialize(bytes, &loaded, &versionWarning, error)) return false;
+    m_model = loaded;
+    m_currentPath.clear();
+    m_loading = true;
+    m_name->setText(m_model.name);
+    m_gender->setCurrentIndex(m_gender->findData(m_model.gender));
+    m_loading = false;
+    setDirty(true);
+    refresh();
+    if (versionWarning)
+        QMessageBox::warning(this, QString::fromUtf8("数据版本不同"),
+            QString::fromUtf8("已使用当前数据库重新计算，请检查全部风险提示。"));
+    return true;
+}
+
+bool QLoadout::showPayloadDialog(const QByteArray &bytes, QString *error)
+{
+    QDialog dialog(this);
+    const QString loadoutName = QJsonDocument::fromJson(bytes).object().value("name").toString();
+    dialog.setWindowTitle(loadoutName.isEmpty() ? QString::fromUtf8("配装详情") : QString::fromUtf8("配装详情 · %1").arg(loadoutName));
+    QVBoxLayout *layout = new QVBoxLayout(&dialog);
+    QLoadout *editor = new QLoadout(m_saveEditor, &dialog);
+    editor->m_publish->hide();
+    if (!editor->importPayload(bytes, error)) return false;
+    editor->setDirty(false);
+    editor->setDetailReadOnlyMode();
+    bool equipmentBoxModified = false;
+    connect(editor, &QLoadout::saveModified, &dialog, [&equipmentBoxModified]() {
+        equipmentBoxModified = true;
+    });
+    layout->addWidget(editor, 1);
+    QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Close, &dialog);
+    connect(buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::accept);
+    layout->addWidget(buttons);
+    dialog.resize(1400, 820);
+    dialog.setMinimumSize(1000, 680);
+    dialog.exec();
+    return equipmentBoxModified;
+}
+
+void QLoadout::setDetailReadOnlyMode()
+{
+    for (int index = 0; index < m_detailEditControls.size(); ++index)
+        m_detailEditControls.at(index)->hide();
+    m_localState->hide();
+    m_apply->show();
+    m_apply->setEnabled(true);
+    const bool saveLoaded = m_saveEditor && m_saveEditor->loaded();
+    m_apply->setToolTip(saveLoaded
+        ? QString::fromUtf8("将这套配装一次性写入当前存档的七个空装备格。")
+        : QString::fromUtf8("尚未读取存档；点击后会提示先读取存档。"));
+}
+
 void QLoadout::applyToEquipmentBox()
 {
-    if (!m_saveEditor || !m_saveEditor->loaded()) return;
+    if (!m_saveEditor || !m_saveEditor->loaded())
+    {
+        QMessageBox::information(this, QString::fromUtf8("尚未读取存档"),
+            QString::fromUtf8("请先关闭配装详情，在主窗口点击“读取存档”；读取成功后再打开此配装并加入装备箱。"));
+        return;
+    }
     QList<int> indexes;
     QString error;
     if (!LoadoutSaveBridge::appendCompleteLoadout(m_model, m_saveEditor->savedata, &indexes, &error))

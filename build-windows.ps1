@@ -222,6 +222,23 @@ function Copy-QtSqlitePlugin {
     throw "qsqlite.dll not found. Checked: $($candidates -join ', ')"
 }
 
+function Copy-OpenSslRuntime {
+    param(
+        [string]$PackageDir,
+        [string]$DependencyDir
+    )
+
+    $sslFiles = @(Get-ChildItem -Path $DependencyDir -Filter "libssl-*.dll" -File)
+    $cryptoFiles = @(Get-ChildItem -Path $DependencyDir -Filter "libcrypto-*.dll" -File)
+    if ($sslFiles.Count -eq 0 -or $cryptoFiles.Count -eq 0) {
+        throw "OpenSSL runtime DLLs were not found in $DependencyDir"
+    }
+    foreach ($file in @($sslFiles + $cryptoFiles)) {
+        Copy-Item $file.FullName (Join-Path $PackageDir $file.Name) -Force
+        Write-Host "copied HTTPS runtime: $($file.Name)"
+    }
+}
+
 $ResolvedQtBin = Find-QtRoot $QtBin
 $QtRoot = Split-Path -Parent $ResolvedQtBin
 $QtToolDirs = @(
@@ -284,6 +301,7 @@ Copy-Item (Join-Path $Root "data") (Join-Path $PackageDir "data") -Recurse
 Copy-QtPlatformPlugin $PackageDir $QtRoot
 Copy-QtSqlitePlugin $PackageDir $QtRoot
 Copy-ImportedDlls $PackageDir $ResolvedQtBin $Objdump
+Copy-OpenSslRuntime $PackageDir $ResolvedQtBin
 
 $PackagedDatabase = Join-Path $PackageDir "data\mh3g.sqlite"
 if (-not (Test-Path $PackagedDatabase)) {
@@ -291,6 +309,10 @@ if (-not (Test-Path $PackagedDatabase)) {
 }
 if (-not (Test-Path (Join-Path $PackageDir "sqldrivers\qsqlite.dll"))) {
     throw "qsqlite.dll missing from portable package"
+}
+if (-not (Get-ChildItem -Path $PackageDir -Filter "libssl-*.dll" -File) -or
+    -not (Get-ChildItem -Path $PackageDir -Filter "libcrypto-*.dll" -File)) {
+    throw "OpenSSL runtime DLLs are missing from portable package"
 }
 if (Get-ChildItem -Path (Join-Path $PackageDir "data") -Filter "*.csv" -File -Recurse) {
     throw "Static game-data CSV files must not be packaged"

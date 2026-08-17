@@ -1,4 +1,4 @@
-QT += widgets sql
+QT += widgets sql network
 
 TEMPLATE = app
 TARGET = MH3USaveEditorGUI
@@ -31,6 +31,7 @@ SOURCES += "$$CORE_DIR/mh3u_ds.cpp" \
            "$$GUI_DIR/widget/qcharacter.cpp" \
            "$$GUI_DIR/widget/qcharm.cpp" \
            "$$GUI_DIR/widget/qchest.cpp" \
+           "$$GUI_DIR/widget/qcommunity.cpp" \
            "$$GUI_DIR/widget/qequipment.cpp" \
            "$$GUI_DIR/widget/qinventory.cpp" \
            "$$GUI_DIR/widget/qitem.cpp" \
@@ -55,6 +56,7 @@ HEADERS += "$$CORE_DIR/main.hpp" \
            "$$GUI_DIR/widget/qcharacter.hpp" \
            "$$GUI_DIR/widget/qcharm.hpp" \
            "$$GUI_DIR/widget/qchest.hpp" \
+           "$$GUI_DIR/widget/qcommunity.hpp" \
            "$$GUI_DIR/widget/qequipment.hpp" \
            "$$GUI_DIR/widget/qinventory.hpp" \
            "$$GUI_DIR/widget/qitem.hpp" \

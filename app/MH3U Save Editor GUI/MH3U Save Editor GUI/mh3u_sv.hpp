@@ -6,6 +6,7 @@
 #include "widget/qchest.hpp"
 #include "widget/qbox.hpp"
 #include "widget/qloadout.hpp"
+#include "widget/qcommunity.hpp"
 
 #include <QMainWindow>
 
@@ -31,6 +32,9 @@ private:
     QPushButton *chestButton;
     QPushButton *boxButton;
     QPushButton *loadoutButton;
+    QPushButton *communityButton;
+    QPushButton *accountButton;
+    QPushButton *aboutButton;
     QPushButton *loadButton;
     QPushButton *saveButton;
     QLabel *statusLabel;
@@ -41,6 +45,9 @@ private:
     QChest *chestPage;
     QBox *boxPage;
     QLoadout *loadoutPage;
+    QCommunity *communityPage;
+    QWidget *accountPage;
+    QWidget *aboutPage;
     bool dirty;
     bool dataReady;
 
@@ -57,6 +64,9 @@ private slots:
     void showChest();
     void showBox();
     void showLoadout();
+    void showCommunity();
+    void showAccount();
+    void showAbout();
     void loadoutApplied();
     void markModified();
     void loadFile();

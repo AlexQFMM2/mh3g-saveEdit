@@ -360,7 +360,7 @@ loadout_summary_t LoadoutCalculator::calculate(const loadout_model_t &model, sav
     return summary;
 }
 
-bool LoadoutFile::save(const QString &path, const loadout_model_t &model, QString *error)
+QByteArray LoadoutFile::serialize(const loadout_model_t &model)
 {
     QJsonObject root;
     root.insert("schema", "MH_LOADOUT"); root.insert("schema_version", 1); root.insert("game", "mh3g");
@@ -377,20 +377,30 @@ bool LoadoutFile::save(const QString &path, const loadout_model_t &model, QStrin
         charm.insert("decorations", decorationsJson(model.charm.decorations)); root.insert("charm", charm);
     }
     else root.insert("charm", QJsonValue(QJsonValue::Null));
+    return QJsonDocument(root).toJson(QJsonDocument::Indented);
+}
+
+bool LoadoutFile::save(const QString &path, const loadout_model_t &model, QString *error)
+{
     QSaveFile file(path);
     if (!file.open(QIODevice::WriteOnly)) { setError(error, file.errorString()); return false; }
-    QByteArray bytes = QJsonDocument(root).toJson(QJsonDocument::Indented);
+    QByteArray bytes = serialize(model);
     if (file.write(bytes) != bytes.size() || !file.commit()) { setError(error, file.errorString()); return false; }
     return true;
 }
 
 bool LoadoutFile::load(const QString &path, loadout_model_t *model, bool *versionWarning, QString *error)
 {
-    if (!model) { setError(error, QString::fromUtf8("配装输出为空。")); return false; }
     QFile file(path);
     if (!file.open(QIODevice::ReadOnly)) { setError(error, file.errorString()); return false; }
+    return deserialize(file.readAll(), model, versionWarning, error);
+}
+
+bool LoadoutFile::deserialize(const QByteArray &bytes, loadout_model_t *model, bool *versionWarning, QString *error)
+{
+    if (!model) { setError(error, QString::fromUtf8("配装输出为空。")); return false; }
     QJsonParseError parseError;
-    QJsonDocument document = QJsonDocument::fromJson(file.readAll(), &parseError);
+    QJsonDocument document = QJsonDocument::fromJson(bytes, &parseError);
     if (document.isNull() || !document.isObject()) { setError(error, parseError.errorString()); return false; }
     QJsonObject root = document.object();
     if (root.value("schema").toString() != "MH_LOADOUT" || root.value("schema_version").toInt() != 1 ||

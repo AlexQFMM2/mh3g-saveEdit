@@ -10,6 +10,7 @@
 #include <QColor>
 #include <QFont>
 #include <QPalette>
+#include <QSslSocket>
 #include <QStyleFactory>
 #include <QTimer>
 
@@ -244,11 +245,22 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication a(argc, argv);
+    QCoreApplication::setOrganizationName(QStringLiteral("MHED"));
+    QCoreApplication::setApplicationName(QStringLiteral("MH3GSaveEditor"));
     applyApplicationStyle(a);
 
     MH3U_SV w;
     w.show();
-    if (a.arguments().contains(QStringLiteral("--smoke-test-loadout")))
+    if (a.arguments().contains(QStringLiteral("--smoke-test-ssl")))
+    {
+        if (!QSslSocket::supportsSsl())
+        {
+            qCritical("Qt HTTPS runtime is unavailable: %s", qPrintable(QSslSocket::sslLibraryBuildVersionString()));
+            return 2;
+        }
+        QTimer::singleShot(50, &a, &QCoreApplication::quit);
+    }
+    else if (a.arguments().contains(QStringLiteral("--smoke-test-loadout")))
     {
         QMetaObject::invokeMethod(&w, "showLoadout", Qt::QueuedConnection);
         QTimer::singleShot(200, [&w, &a]() {

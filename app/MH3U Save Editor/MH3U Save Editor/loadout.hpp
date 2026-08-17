@@ -5,6 +5,7 @@
 #include "mh3u_se.hpp"
 
 #include <QList>
+#include <QByteArray>
 #include <QMap>
 #include <QString>
 #include <QStringList>
@@ -117,6 +118,9 @@ public:
 class LoadoutFile
 {
 public:
+    static QByteArray serialize(const loadout_model_t &model);
+    static bool deserialize(const QByteArray &bytes, loadout_model_t *model,
+                            bool *versionWarning = NULL, QString *error = NULL);
     static bool save(const QString &path, const loadout_model_t &model, QString *error = NULL);
     static bool load(const QString &path, loadout_model_t *model, bool *versionWarning = NULL,
                      QString *error = NULL);
