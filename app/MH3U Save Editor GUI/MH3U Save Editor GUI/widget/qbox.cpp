@@ -30,13 +30,18 @@ QBox::QBox(MH3U_SE *mh3u, QWidget *parent) : QWidget(parent)
     m_table->setSelectionMode(QAbstractItemView::SingleSelection);
     m_table->setAlternatingRowColors(true);
     m_table->verticalHeader()->setVisible(false);
-    m_table->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
-    m_table->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
-    m_table->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
+    m_table->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Fixed);
+    m_table->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Fixed);
+    m_table->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Fixed);
     m_table->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
-    m_table->horizontalHeader()->setSectionResizeMode(4, QHeaderView::ResizeToContents);
+    m_table->horizontalHeader()->setSectionResizeMode(4, QHeaderView::Fixed);
     m_table->horizontalHeader()->setSectionResizeMode(5, QHeaderView::Stretch);
-    m_table->horizontalHeader()->setSectionResizeMode(6, QHeaderView::ResizeToContents);
+    m_table->horizontalHeader()->setSectionResizeMode(6, QHeaderView::Fixed);
+    m_table->setColumnWidth(0, 46);
+    m_table->setColumnWidth(1, 46);
+    m_table->setColumnWidth(2, 96);
+    m_table->setColumnWidth(4, 64);
+    m_table->setColumnWidth(6, 72);
 
     connect(m_table, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(tableCellDoubleClicked(int,int)));
     connect(m_table, SIGNAL(itemSelectionChanged()), this, SLOT(updateSelectedInfo()));
@@ -103,7 +108,6 @@ QBox::QBox(MH3U_SE *mh3u, QWidget *parent) : QWidget(parent)
     mainLayout->addWidget(m_table, 1);
     mainLayout->addLayout(sideLayout);
     this->setLayout(mainLayout);
-    populateTable();
     updateSelectedInfo();
 }
 
@@ -308,7 +312,9 @@ void QBox::populateTable()
     const int scrollPosition = m_table->verticalScrollBar()->value();
     int restoredRow = -1;
 
-    m_table->setRowCount(0);
+    m_table->setUpdatesEnabled(false);
+    m_table->setRowCount(1000);
+    int rowCount = 0;
 
     for (uint32_t panel = 0; panel < 10; panel++)
     {
@@ -325,8 +331,7 @@ void QBox::populateTable()
             QString name = equipmentDisplayName(equipment);
             QString typeName = equipmentTypeName(equipmentType);
 
-            int row = m_table->rowCount();
-            m_table->insertRow(row);
+            const int row = rowCount++;
 
             QTableWidgetItem *pageItem = new QTableWidgetItem(QString::number(panel + 1));
             pageItem->setData(Qt::UserRole, panel);
@@ -358,6 +363,8 @@ void QBox::populateTable()
         }
     }
 
+    m_table->setRowCount(rowCount);
+
     if (m_table->rowCount() > 0)
     {
         if (restoredRow < 0)
@@ -367,6 +374,8 @@ void QBox::populateTable()
         m_table->selectRow(restoredRow);
         m_table->verticalScrollBar()->setValue(scrollPosition);
     }
+    m_table->setUpdatesEnabled(true);
+    m_table->viewport()->update();
 }
 
 bool QBox::editSlot(uint32_t panel, uint32_t slot)

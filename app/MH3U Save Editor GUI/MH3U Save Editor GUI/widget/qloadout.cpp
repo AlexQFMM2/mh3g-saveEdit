@@ -3,6 +3,7 @@
 #include "equipment_validator.hpp"
 #include "game_data_repository.hpp"
 #include "mh3u_se.hpp"
+#include "../main.hpp"
 
 #include <QAbstractButton>
 #include <QCheckBox>
@@ -156,9 +157,12 @@ public:
         skillScroll->setMinimumHeight(42);
         skillScroll->setMaximumHeight(150);
         QWidget *skillRows = new QWidget(skillScroll);
-        m_skillLayout = new QVBoxLayout(skillRows);
+        m_skillLayout = new QGridLayout(skillRows);
         m_skillLayout->setContentsMargins(0, 0, 0, 0);
-        m_skillLayout->addStretch();
+        m_skillLayout->setHorizontalSpacing(10);
+        m_skillLayout->setVerticalSpacing(6);
+        m_skillLayout->setColumnStretch(0, 1);
+        m_skillLayout->setColumnStretch(1, 1);
         skillScroll->setWidget(skillRows);
         QPushButton *addCondition = new QPushButton(QString::fromUtf8("＋ 添加技能条件"), m_skillBox);
         skillBoxLayout->addWidget(skillScroll);
@@ -203,7 +207,7 @@ private:
     int m_page, m_total, m_selectedRow;
     QLineEdit *m_search; QComboBox *m_weaponType; QSpinBox *m_rarityMin; QSpinBox *m_slotsMin;
     QCheckBox *m_confirmedOnly; QCheckBox *m_showIncompatible; QGroupBox *m_skillBox;
-    QVBoxLayout *m_skillLayout; QList<skill_row_t *> m_skillRows; QTableWidget *m_table;
+    QGridLayout *m_skillLayout; QList<skill_row_t *> m_skillRows; QTableWidget *m_table;
     QLabel *m_detail; QLabel *m_pageLabel; QPushButton *m_previous; QPushButton *m_next; QTimer *m_timer;
     QList<loadout_candidate_t> m_candidates; loadout_candidate_t m_selected;
 
@@ -221,11 +225,22 @@ private:
         QList<skill_filter_t> result;
         for (int i = 0; i < m_skillRows.size(); ++i)
         {
-            skill_filter_t filter = {m_skillRows.at(i)->skill->currentData().toInt(),
+            QComboBox *skill = m_skillRows.at(i)->skill;
+            const int selectedIndex = skill->findText(skill->currentText(), Qt::MatchFixedString);
+            if (selectedIndex < 0)
+                continue;
+            skill_filter_t filter = {skill->itemData(selectedIndex).toInt(),
                 (skill_comparison_e)m_skillRows.at(i)->comparison->currentData().toInt(), m_skillRows.at(i)->points->value()};
             result.append(filter);
         }
         return result;
+    }
+    void reflowSkillConditions()
+    {
+        while (QLayoutItem *item = m_skillLayout->takeAt(0))
+            delete item;
+        for (int i = 0; i < m_skillRows.size(); ++i)
+            m_skillLayout->addWidget(m_skillRows.at(i)->widget, i / 2, i % 2);
     }
     void addSkillCondition()
     {
@@ -235,18 +250,23 @@ private:
         const QList<skill_tree_data_t> skills = GameDataRepository::instance().skillTreesDetailed();
         for (int i = 0; i < skills.size(); ++i)
             row->skill->addItem(QString("%1 (%2)").arg(skills.at(i).name, skills.at(i).english), skills.at(i).id);
+        configureSearchableComboBox(row->skill);
+        row->skill->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
+        row->skill->setMinimumContentsLength(14);
+        row->skill->setMinimumWidth(180);
         row->comparison = new QComboBox(row->widget);
         const skill_comparison_e comparisons[] = {SkillGreater, SkillGreaterEqual, SkillEqual, SkillLessEqual, SkillLess};
         for (int i = 0; i < 5; ++i) row->comparison->addItem(comparisonText(comparisons[i]), comparisons[i]);
         row->points = new QSpinBox(row->widget); row->points->setRange(-128, 127); row->points->setValue(1);
         QPushButton *remove = new QPushButton(QString::fromUtf8("删除"), row->widget);
         layout->addWidget(row->skill, 1); layout->addWidget(row->comparison); layout->addWidget(row->points); layout->addWidget(remove);
-        m_skillLayout->insertWidget(m_skillLayout->count() - 1, row->widget); m_skillRows.append(row);
+        m_skillRows.append(row); reflowSkillConditions();
         connect(row->skill, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this]() { scheduleRefresh(); });
+        connect(row->skill, &QComboBox::editTextChanged, [this]() { scheduleRefresh(); });
         connect(row->comparison, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this]() { scheduleRefresh(); });
         connect(row->points, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this]() { scheduleRefresh(); });
         connect(remove, &QPushButton::clicked, [this, row]() {
-            m_skillRows.removeOne(row); row->widget->deleteLater(); delete row; scheduleRefresh();
+            m_skillRows.removeOne(row); row->widget->deleteLater(); delete row; reflowSkillConditions(); scheduleRefresh();
         });
     }
     void refresh()
