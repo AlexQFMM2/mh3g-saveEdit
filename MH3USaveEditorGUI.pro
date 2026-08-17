@@ -20,6 +20,7 @@ INCLUDEPATH += $$GUI_DIR \
 SOURCES += "$$CORE_DIR/mh3u_ds.cpp" \
            "$$CORE_DIR/game_data_repository.cpp" \
            "$$CORE_DIR/equipment_validator.cpp" \
+           "$$CORE_DIR/loadout.cpp" \
            "$$CORE_DIR/mh3u_se.cpp" \
            "$$CORE_DIR/mh3u_transfer.cpp" \
            "$$GUI_DIR/main.cpp" \
@@ -33,6 +34,7 @@ SOURCES += "$$CORE_DIR/mh3u_ds.cpp" \
            "$$GUI_DIR/widget/qequipment.cpp" \
            "$$GUI_DIR/widget/qinventory.cpp" \
            "$$GUI_DIR/widget/qitem.cpp" \
+           "$$GUI_DIR/widget/qloadout.cpp" \
            "$$GUI_DIR/widget/qoption.cpp" \
            "$$GUI_DIR/widget/qpouch.cpp" \
            "$$GUI_DIR/widget/qweapon.cpp"
@@ -40,6 +42,7 @@ SOURCES += "$$CORE_DIR/mh3u_ds.cpp" \
 HEADERS += "$$CORE_DIR/main.hpp" \
            "$$CORE_DIR/game_data_repository.hpp" \
            "$$CORE_DIR/equipment_validator.hpp" \
+           "$$CORE_DIR/loadout.hpp" \
            "$$CORE_DIR/mh3u_ds.hpp" \
            "$$CORE_DIR/mh3u_se.hpp" \
            "$$CORE_DIR/mh3u_transfer.hpp" \
@@ -54,6 +57,7 @@ HEADERS += "$$CORE_DIR/main.hpp" \
            "$$GUI_DIR/widget/qequipment.hpp" \
            "$$GUI_DIR/widget/qinventory.hpp" \
            "$$GUI_DIR/widget/qitem.hpp" \
+           "$$GUI_DIR/widget/qloadout.hpp" \
            "$$GUI_DIR/widget/qoption.hpp" \
            "$$GUI_DIR/widget/qpouch.hpp" \
            "$$GUI_DIR/widget/qweapon.hpp"

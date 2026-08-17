@@ -58,6 +58,7 @@ jobs:
         run: |
           Push-Location .\release\windows
           .\MH3USaveEditorGUI.exe --smoke-test
+          .\MH3USaveEditorGUI.exe --smoke-test-loadout
           Pop-Location
 
       - name: Create zip

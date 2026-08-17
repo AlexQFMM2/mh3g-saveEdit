@@ -5,6 +5,7 @@
 #include "widget/qcharacter.hpp"
 #include "widget/qchest.hpp"
 #include "widget/qbox.hpp"
+#include "widget/qloadout.hpp"
 
 #include <QMainWindow>
 
@@ -19,6 +20,7 @@ class MH3U_SV : public QMainWindow
 public:
     explicit MH3U_SV(QWidget *parent = 0);
     ~MH3U_SV();
+    bool smokeTestLoadout(QString *error = 0);
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -28,6 +30,7 @@ private:
     QPushButton *characterButton;
     QPushButton *chestButton;
     QPushButton *boxButton;
+    QPushButton *loadoutButton;
     QPushButton *loadButton;
     QPushButton *saveButton;
     QLabel *statusLabel;
@@ -37,6 +40,7 @@ private:
     QCharacter *characterPage;
     QChest *chestPage;
     QBox *boxPage;
+    QLoadout *loadoutPage;
     bool dirty;
     bool dataReady;
 
@@ -52,6 +56,8 @@ private slots:
     void showCharacter();
     void showChest();
     void showBox();
+    void showLoadout();
+    void loadoutApplied();
     void markModified();
     void loadFile();
     bool saveFile();

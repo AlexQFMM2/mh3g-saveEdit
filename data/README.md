@@ -12,6 +12,10 @@
 
 `manifest.json` 记录数据库哈希、原始 Dex 导出哈希、crosswalk 哈希、行数和每张表的稳定逻辑哈希。数据库以 `PRAGMA user_version=1` 发布，运行时只读打开，并执行格式和完整性检查。
 
+配装器通过 Repository 使用分页候选接口，不在 UI 中直接执行 SQL。`idx_armor_skill_filter`、
+`idx_charm_skill1_filter` 和 `idx_charm_skill2_filter` 分别服务防具以及护石两个技能位置的多条件
+AND 查询；护石查询不要求技能处在第一或第二字段。
+
 ## 离线生成与验证
 
 原始 Dex 导出、CCI、ExeFS 和存档样本不提交仓库。防具原生参数的离线导出器固定校验 `.code` SHA-256、五张表地址、24 字节记录长度，并用 1,600 件已映射防具逐字段核对基础防御、职业、性别、稀有度、孔位、耐性和技能点：

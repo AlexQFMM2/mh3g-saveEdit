@@ -15,7 +15,7 @@
 #include <QVBoxLayout>
 
 MH3U_SV::MH3U_SV(QWidget *parent)
-    : QMainWindow(parent), mh3u(new MH3U_SE()), characterPage(0), chestPage(0), boxPage(0), dirty(false), dataReady(false)
+    : QMainWindow(parent), mh3u(new MH3U_SE()), characterPage(0), chestPage(0), boxPage(0), loadoutPage(0), dirty(false), dataReady(false)
 {
     setObjectName("mainSurface");
     setWindowTitle(QString::fromUtf8("MH3G / MH3U 存档修改器"));
@@ -55,9 +55,11 @@ MH3U_SV::MH3U_SV(QWidget *parent)
     characterButton = makeNavigation(QString::fromUtf8("角色"));
     chestButton = makeNavigation(QString::fromUtf8("道具箱"));
     boxButton = makeNavigation(QString::fromUtf8("装备箱"));
+    loadoutButton = makeNavigation(QString::fromUtf8("配装器"));
     navigation->addWidget(characterButton);
     navigation->addWidget(chestButton);
     navigation->addWidget(boxButton);
+    navigation->addWidget(loadoutButton);
     navigation->addStretch();
 
     QWidget *workspace = new QWidget(surface);
@@ -99,6 +101,8 @@ MH3U_SV::MH3U_SV(QWidget *parent)
     emptyLayout->addWidget(emptyTitle);
     emptyLayout->addWidget(emptyHint);
     pageStack->addWidget(emptyPage);
+    loadoutPage = new QLoadout(mh3u, pageStack);
+    pageStack->addWidget(loadoutPage);
 
     QScrollArea *content = new QScrollArea(workspace);
     content->setObjectName("contentArea");
@@ -125,6 +129,8 @@ MH3U_SV::MH3U_SV(QWidget *parent)
     connect(characterButton, SIGNAL(clicked(bool)), this, SLOT(showCharacter()));
     connect(chestButton, SIGNAL(clicked(bool)), this, SLOT(showChest()));
     connect(boxButton, SIGNAL(clicked(bool)), this, SLOT(showBox()));
+    connect(loadoutButton, SIGNAL(clicked(bool)), this, SLOT(showLoadout()));
+    connect(loadoutPage, SIGNAL(saveModified()), this, SLOT(loadoutApplied()));
     connect(loadButton, SIGNAL(clicked(bool)), this, SLOT(loadFile()));
     connect(saveButton, SIGNAL(clicked(bool)), this, SLOT(saveFile()));
     resize(1100, 700);
@@ -136,6 +142,13 @@ MH3U_SV::~MH3U_SV()
 {
     MH3U_DS::deleteData();
     cdelete(mh3u);
+}
+
+bool MH3U_SV::smokeTestLoadout(QString *error)
+{
+    resize(1100, 700);
+    showLoadout();
+    return saveButton->isVisible() && loadButton->isVisible() && loadoutPage->smokeTestLayout(error);
 }
 
 void MH3U_SV::createPages()
@@ -181,6 +194,13 @@ void MH3U_SV::setCurrentPage(QWidget *page, QPushButton *button, const QString &
 void MH3U_SV::showCharacter() { setCurrentPage(characterPage, characterButton, QString::fromUtf8("角色")); }
 void MH3U_SV::showChest() { setCurrentPage(chestPage, chestButton, QString::fromUtf8("道具箱")); }
 void MH3U_SV::showBox() { setCurrentPage(boxPage, boxButton, QString::fromUtf8("装备箱")); }
+void MH3U_SV::showLoadout() { setCurrentPage(loadoutPage, loadoutButton, QString::fromUtf8("配装器")); }
+
+void MH3U_SV::loadoutApplied()
+{
+    if (boxPage) boxPage->loadFromModel();
+    markModified();
+}
 
 void MH3U_SV::markModified()
 {
@@ -198,6 +218,7 @@ bool MH3U_SV::discardChanges()
     }
     dirty = false;
     loadPages();
+    loadoutPage->updateSaveContext();
     updateState();
     return true;
 }
@@ -235,6 +256,7 @@ void MH3U_SV::loadFile()
     }
     dirty = false;
     loadPages();
+    loadoutPage->updateSaveContext();
     showCharacter();
     updateState();
 }
@@ -266,6 +288,7 @@ void MH3U_SV::updateState()
     characterButton->setEnabled(loaded);
     chestButton->setEnabled(loaded);
     boxButton->setEnabled(loaded);
+    loadoutButton->setEnabled(dataReady);
     saveButton->setEnabled(loaded);
     loadButton->setEnabled(dataReady);
     loadButton->setText(loaded ? QString::fromUtf8("读取其他存档") : QString::fromUtf8("读取存档"));
@@ -286,6 +309,6 @@ void MH3U_SV::updateState()
 
 void MH3U_SV::closeEvent(QCloseEvent *event)
 {
-    if (maybeLeaveDirty()) event->accept();
+    if (loadoutPage->maybeLeaveDirty() && maybeLeaveDirty()) event->accept();
     else event->ignore();
 }

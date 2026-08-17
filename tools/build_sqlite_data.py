@@ -20,7 +20,7 @@ from collections import defaultdict
 from pathlib import Path
 
 
-VERSION = "1.1.0"
+VERSION = "1.2.0"
 FORMAT = "mh3g-save-editor-data-v1"
 DB_VERSION = 1
 EXEFS_SHA256 = "5374eaac8de5395f346933c4523019a6f643b72e3a73778ccf9a2ac4c32aaa1d"
@@ -205,6 +205,9 @@ CREATE INDEX idx_weapon_save ON weapons(save_type,save_id);
 CREATE INDEX idx_armor_save ON armors(save_type,save_id);
 CREATE INDEX idx_decoration_save ON decorations(save_id);
 CREATE INDEX idx_charm_lookup ON charm_combinations(class_id,slots,skill1_id,skill1_points,skill2_id,skill2_points);
+CREATE INDEX idx_armor_skill_filter ON armor_skill_points(skill_tree_id,points,armor_dex_id);
+CREATE INDEX idx_charm_skill1_filter ON charm_combinations(skill1_id,skill1_points);
+CREATE INDEX idx_charm_skill2_filter ON charm_combinations(skill2_id,skill2_points);
 """
 
 

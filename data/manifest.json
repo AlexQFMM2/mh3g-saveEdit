@@ -25,13 +25,13 @@
     }
   },
   "database": {
-    "bytes": 7958528,
+    "bytes": 10915840,
     "file": "mh3g.sqlite",
-    "sha256": "d38234539144f9d06e80ef1a19b4f8155ccbe842c78b1183e87973d9553cdf41",
+    "sha256": "a761b5809f9186a635bf0afcf0f46c1db38b9b4f07bc6ff811f357a359e5f528",
     "user_version": 1
   },
   "format": "mh3g-save-editor-data-manifest-v1",
-  "generator_version": "1.1.0",
+  "generator_version": "1.2.0",
   "logical_hashes": {
     "active_skills": "f9eff865611bdb96092fb5fa71421a01d55d5dfdc1356b3f876e4966416be980",
     "armor_skill_points": "ae9d8e3f08b5407ea52fcbedab95d4f5b9547586d592b21e201eb58367c8d91d",

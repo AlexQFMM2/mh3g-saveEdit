@@ -248,7 +248,21 @@ int main(int argc, char *argv[])
 
     MH3U_SV w;
     w.show();
-    if (a.arguments().contains(QStringLiteral("--smoke-test")))
+    if (a.arguments().contains(QStringLiteral("--smoke-test-loadout")))
+    {
+        QMetaObject::invokeMethod(&w, "showLoadout", Qt::QueuedConnection);
+        QTimer::singleShot(200, [&w, &a]() {
+            QString error;
+            if (!w.smokeTestLoadout(&error))
+            {
+                qCritical("Loadout layout smoke test failed: %s", qPrintable(error));
+                a.exit(2);
+                return;
+            }
+            a.quit();
+        });
+    }
+    else if (a.arguments().contains(QStringLiteral("--smoke-test")))
         QTimer::singleShot(150, &a, &QCoreApplication::quit);
 
     return a.exec();

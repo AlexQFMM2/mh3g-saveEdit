@@ -23,16 +23,25 @@ does not create a backup. A successful save is confirmed by a message box.
 包含图鉴数据库、OpenGL 模型查看器或试衣间。已经完成的调查仍保留在 Git 历史中，停止原因、
 技术结论和未来边界见 [资料库功能决策记录](docs/ENCYCLOPEDIA_DECISION.md)。
 
-## 下一阶段：本地配装器
+## MH3G 手动配装器
 
-下一步从数据量最小、验证路径最短的 MH3G 开始制作本地配装器。首版允许选择武器、五件
-防具、护石和装饰珠，实时汇总技能、防御与耐性，并把整套装备事务式加入当前 3DS 或 Wii U
-存档的装备箱。它不恢复图鉴、图片、模型或资源包。
+左侧“配装器”在没有读取存档时也可使用。页面固定包含武器、头、胸、腕、腰、腿和护石七格：
+
+- 选择武器后，五个防具弹窗默认只显示同职业或通用防具；头、胸、腕、腰、腿的部位由点击的格子锁定。
+- 防具和护石支持任意多个技能点条件，比较符为 `>`、`≥`、`=`、`≤`、`<`，所有条件按 AND 查询。
+- 每格可配置最多三个装饰珠；技能矩阵、胴系统倍加、发动阈值、初始/最终防御、五耐性和孔位会实时重算。
+- 配装可以保存为 `.mhloadout.json`；本地配装的 dirty 状态与存档修改状态彼此独立。
+- 七格填满后可“一键加入装备箱”。程序先预留七个空格再一次性写入内存；不自动穿戴或保存磁盘。
+
+孔位超限、职业/性别冲突及未确认数据只作颜色和原因提示，不代替用户修正。只有 ID 无法解析、部位错误、
+装备箱空间不足或数组边界错误才会阻止一键写入。首版不做自动推荐，也不恢复图鉴、图片、模型或资源包。
 
 本地闭环实机验收后，再依次建设统一配装协议、用户注册登录与邮箱验证、管理后台和在线
 配装广场。广场中的配装可以导入修改器并一键加入装备箱，服务器不会接收完整存档或角色
 信息。完整阶段、接口边界和验收标准见
 [本地配装器与在线平台路线图](docs/LOADOUT_PLATFORM_ROADMAP.md)。
+页面、查询、计算和写入设计见
+[手动配装器详细设计](docs/MH3G_LOADOUT_BUILDER_PLAN.md)。
 
 ## SQLite 数据与装备合法性
 
@@ -95,3 +104,17 @@ Pass known-good 3DS and Wii U character files to the test runner:
 ```
 
 The test verifies byte-identical unchanged round trips, read/write byte-order conversion for money, Moga Points, items, equipment, and jewels, and item/equipment transfers in both directions. Test inputs are never overwritten.
+
+## Loadout regression test
+
+The repository, multi-skill filters, calculator, local JSON and transactional write tests do not require a save sample:
+
+```bash
+./tests/run-loadout-tests.sh
+```
+
+To additionally verify that only seven equipment records change on both real formats, pass private samples. The inputs are read-only and the test writes to a temporary directory:
+
+```bash
+./tests/run-loadout-tests.sh /path/to/3ds/user1 /path/to/wiiu/user1
+```
