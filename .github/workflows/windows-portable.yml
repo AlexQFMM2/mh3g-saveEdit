@@ -61,6 +61,10 @@ jobs:
           .\MH3USaveEditorGUI.exe --smoke-test-loadout
           Pop-Location
 
+      - name: Test searchable combo interaction
+        shell: msys2 {0}
+        run: ./tests/run-searchable-combo-tests.sh
+
       - name: Create zip
         shell: pwsh
         run: |

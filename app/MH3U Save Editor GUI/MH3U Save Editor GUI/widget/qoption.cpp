@@ -9,8 +9,6 @@ QOption::QOption(QWidget *parent) : QDialog(parent)
     m_languageButton = new QComboBox();
     m_languageButton->addItem(uiText("English"), LANG_EN);
     m_languageButton->addItem(uiText("Chinese"), LANG_CN);
-    configureSearchableComboBox(m_languageButton);
-
     QGridLayout *layout = new QGridLayout(this);
     layout->addWidget(new QLabel(uiText("Language"), this), 0, 0);
     layout->addWidget(m_languageButton, 1, 0);

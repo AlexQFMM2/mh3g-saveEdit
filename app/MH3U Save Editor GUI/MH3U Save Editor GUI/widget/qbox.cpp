@@ -202,6 +202,7 @@ QBox::QBox(MH3U_SE *mh3u, QWidget *parent) : QWidget(parent)
             }
         }
     }
+    configureSearchableComboBox(m_typeFilter);
     connect(m_typeFilter, SIGNAL(currentIndexChanged(int)), this, SLOT(refreshFilters()));
 
     m_selectedInfo = new QLabel("(无)", this);
@@ -575,7 +576,7 @@ bool QBox::chooseNewEquipmentType(uint8_t *equipmentType)
         return false;
     }
 
-    int filterType = m_typeFilter->currentData().toInt();
+    int filterType = searchableComboBoxCurrentData(m_typeFilter).toInt();
     if (filterType > 0)
     {
         *equipmentType = (uint8_t) filterType;
@@ -750,7 +751,7 @@ bool QBox::equipmentMatchesFilters(equipment_t &equipment, uint32_t panel, uint3
         return false;
     }
 
-    int filterType = m_typeFilter->currentData().toInt();
+    int filterType = searchableComboBoxCurrentData(m_typeFilter).toInt();
     if (filterType >= 0 && equipmentType != filterType)
     {
         return false;

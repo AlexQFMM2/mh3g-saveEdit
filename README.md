@@ -122,3 +122,11 @@ To additionally verify that only seven equipment records change on both real for
 ```bash
 ./tests/run-loadout-tests.sh /path/to/3ds/user1 /path/to/wiiu/user1
 ```
+
+## Searchable combo interaction test
+
+The searchable item, equipment, decoration, and skill selectors have an offscreen Qt interaction regression test:
+
+```bash
+./tests/run-searchable-combo-tests.sh
+```

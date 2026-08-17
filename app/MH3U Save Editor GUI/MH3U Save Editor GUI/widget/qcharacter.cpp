@@ -16,8 +16,6 @@ QCharacter::QCharacter(MH3U_SE *mh3u, QWidget *parent) : QWidget(parent), m_load
     {
         m_sexs->addItem(QString(MH3U_DS::sexs()->at(i).identifier.c_str()), MH3U_DS::sexs()->at(i).count);
     }
-    configureSearchableComboBox(m_sexs);
-
     m_faces = new QComboBox(this);
     for (uint32_t i = 0; i < MH3U_DS::faces()->size(); i++)
     {

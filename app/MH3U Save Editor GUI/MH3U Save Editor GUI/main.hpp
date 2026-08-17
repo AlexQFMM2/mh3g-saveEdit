@@ -4,90 +4,14 @@
 #include <iostream>
 #include "../../MH3U Save Editor/MH3U Save Editor/mh3u_se.hpp"
 #include "../../MH3U Save Editor/MH3U Save Editor/mh3u_ds.hpp"
+#include "searchable_combobox.hpp"
 
-#include <QComboBox>
-#include <QCompleter>
-#include <QEvent>
-#include <QLineEdit>
-#include <QObject>
 #include <QRegExp>
 #include <QString>
-#include <QVariant>
-#include <QtGlobal>
 
 #include <cstring>
 
 static inline QString uiText(const char *text);
-
-class SearchableComboBoxPopupFilter : public QObject
-{
-    public:
-        explicit SearchableComboBoxPopupFilter(QComboBox *comboBox) : QObject(comboBox), m_comboBox(comboBox)
-        {
-        }
-
-    protected:
-        bool eventFilter(QObject *, QEvent *event)
-        {
-            if (event->type() == QEvent::MouseButtonPress && m_comboBox != NULL && m_comboBox->isEnabled())
-            {
-                m_comboBox->setFocus();
-                m_comboBox->showPopup();
-                return true;
-            }
-
-            return false;
-        }
-
-    private:
-        QComboBox *m_comboBox;
-};
-
-static inline void configureSearchableComboBox(QComboBox *comboBox)
-{
-    if (comboBox == NULL)
-    {
-        return;
-    }
-
-    comboBox->setEditable(true);
-    comboBox->setInsertPolicy(QComboBox::NoInsert);
-    comboBox->setMaxVisibleItems(20);
-    comboBox->setMinimumContentsLength(20);
-    comboBox->setSizeAdjustPolicy(QComboBox::AdjustToContentsOnFirstShow);
-    if (comboBox->lineEdit() != NULL)
-    {
-        comboBox->lineEdit()->installEventFilter(new SearchableComboBoxPopupFilter(comboBox));
-    }
-
-    QCompleter *completer = new QCompleter(comboBox->model(), comboBox);
-    completer->setCaseSensitivity(Qt::CaseInsensitive);
-    completer->setCompletionMode(QCompleter::PopupCompletion);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 2, 0)
-    completer->setFilterMode(Qt::MatchContains);
-#endif
-    comboBox->setCompleter(completer);
-}
-
-static inline QVariant searchableComboBoxCurrentData(QComboBox *comboBox)
-{
-    if (comboBox == NULL)
-    {
-        return QVariant();
-    }
-
-    int index = comboBox->currentIndex();
-    if (comboBox->isEditable())
-    {
-        int textIndex = comboBox->findText(comboBox->currentText(), Qt::MatchFixedString);
-        if (textIndex >= 0)
-        {
-            index = textIndex;
-        }
-    }
-
-    return comboBox->itemData(index);
-}
 
 static inline QString displayNameWithoutSearchSuffix(const QString &name)
 {

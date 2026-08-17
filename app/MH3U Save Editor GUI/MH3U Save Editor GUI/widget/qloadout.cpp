@@ -138,6 +138,7 @@ public:
             for (uint32_t i = 0; i < types->size(); ++i)
                 if (types->at(i).count >= 7 && types->at(i).count <= 19 && types->at(i).count != 12)
                     m_weaponType->addItem(QString::fromStdString(types->at(i).identifier), types->at(i).count);
+        configureSearchableComboBox(m_weaponType);
         m_weaponType->setVisible(!armor && !charm); baseFilters->addWidget(m_weaponType);
         m_rarityMin = new QSpinBox(this); m_rarityMin->setRange(-1, 10); m_rarityMin->setSpecialValueText(QString::fromUtf8("稀有度不限"));
         m_rarityMin->setValue(-1); m_rarityMin->setVisible(!charm); baseFilters->addWidget(m_rarityMin);
@@ -226,10 +227,10 @@ private:
         for (int i = 0; i < m_skillRows.size(); ++i)
         {
             QComboBox *skill = m_skillRows.at(i)->skill;
-            const int selectedIndex = skill->findText(skill->currentText(), Qt::MatchFixedString);
-            if (selectedIndex < 0)
+            const QVariant selectedData = searchableComboBoxCurrentData(skill);
+            if (!selectedData.isValid())
                 continue;
-            skill_filter_t filter = {skill->itemData(selectedIndex).toInt(),
+            skill_filter_t filter = {selectedData.toInt(),
                 (skill_comparison_e)m_skillRows.at(i)->comparison->currentData().toInt(), m_skillRows.at(i)->points->value()};
             result.append(filter);
         }
@@ -262,7 +263,6 @@ private:
         layout->addWidget(row->skill, 1); layout->addWidget(row->comparison); layout->addWidget(row->points); layout->addWidget(remove);
         m_skillRows.append(row); reflowSkillConditions();
         connect(row->skill, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this]() { scheduleRefresh(); });
-        connect(row->skill, &QComboBox::editTextChanged, [this]() { scheduleRefresh(); });
         connect(row->comparison, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this]() { scheduleRefresh(); });
         connect(row->points, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this]() { scheduleRefresh(); });
         connect(remove, &QPushButton::clicked, [this, row]() {
@@ -271,7 +271,7 @@ private:
     }
     void refresh()
     {
-        equipment_query_t query; query.text = m_search->text(); query.weaponType = m_weaponType->currentData().toInt();
+        equipment_query_t query; query.text = m_search->text(); query.weaponType = searchableComboBoxCurrentData(m_weaponType).toInt();
         query.rarityMin = m_rarityMin->value(); query.slotsMin = m_slotsMin->value();
         query.confirmedOnly = m_confirmedOnly->isChecked(); query.skills = skillFilters();
         query.offset = m_page * 200; query.limit = 200; query.gender = m_showIncompatible->isChecked() ? -1 : m_genderValue;
@@ -367,6 +367,7 @@ public:
         if (classes)
             for (uint32_t index = 0; index < classes->size(); ++index)
                 m_class->addItem(QString::fromStdString(classes->at(index).identifier), (int)classes->at(index).count);
+        configureSearchableComboBox(m_class);
         m_slots = new QComboBox(this);
         for (int slotCount = 0; slotCount <= 3; ++slotCount)
             m_slots->addItem(QString::fromUtf8("%1 孔").arg(slotCount), slotCount);
@@ -441,26 +442,27 @@ private:
         const QList<skill_tree_data_t> skills = GameDataRepository::instance().skillTreesDetailed();
         for (int index = 0; index < skills.size(); ++index)
             combo->addItem(QString("%1 (%2)").arg(skills.at(index).name, skills.at(index).english), skills.at(index).id);
+        configureSearchableComboBox(combo);
         return combo;
     }
 
     loadout_candidate_t candidate() const
     {
         return GameDataRepository::instance().charmCandidate(
-            m_class->currentData().toInt(), m_slots->currentData().toInt(),
-            m_skill1->currentData().toInt(), m_points1->value(),
-            m_skill2->currentData().toInt(), m_points2->value());
+            searchableComboBoxCurrentData(m_class).toInt(), m_slots->currentData().toInt(),
+            searchableComboBoxCurrentData(m_skill1).toInt(), m_points1->value(),
+            searchableComboBoxCurrentData(m_skill2).toInt(), m_points2->value());
     }
 
     void refreshStatus()
     {
         loadout_model_t model;
         model.charm.selected = true;
-        model.charm.classId = m_class->currentData().toInt();
+        model.charm.classId = searchableComboBoxCurrentData(m_class).toInt();
         model.charm.slotCount = m_slots->currentData().toInt();
-        model.charm.skill1Id = m_skill1->currentData().toInt();
+        model.charm.skill1Id = searchableComboBoxCurrentData(m_skill1).toInt();
         model.charm.skill1Points = m_points1->value();
-        model.charm.skill2Id = m_skill2->currentData().toInt();
+        model.charm.skill2Id = searchableComboBoxCurrentData(m_skill2).toInt();
         model.charm.skill2Points = m_points2->value();
         equipment_t raw;
         QString error;
@@ -492,6 +494,7 @@ public:
         m_skill = new QComboBox(this); m_skill->addItem(QString::fromUtf8("全部技能"), 0);
         const QList<skill_tree_data_t> skills = GameDataRepository::instance().skillTreesDetailed();
         for (int i = 0; i < skills.size(); ++i) m_skill->addItem(skills.at(i).name, skills.at(i).id);
+        configureSearchableComboBox(m_skill);
         m_points = new QSpinBox(this); m_points->setRange(-128, 127); m_points->setValue(1);
         filters->addWidget(m_search, 1); filters->addWidget(m_skill); filters->addWidget(new QLabel(QString::fromUtf8("技能点 ≥"), this)); filters->addWidget(m_points);
         root->addLayout(filters);
@@ -519,7 +522,7 @@ private:
     QSpinBox *m_points; QTableWidget *m_candidates; QTableWidget *m_installed; QList<loadout_candidate_t> m_rows;
     void refreshCandidates()
     {
-        const QString search = m_search->text().trimmed(); const int skill = m_skill->currentData().toInt();
+        const QString search = m_search->text().trimmed(); const int skill = searchableComboBoxCurrentData(m_skill).toInt();
         const QList<loadout_candidate_t> all = GameDataRepository::instance().decorationCandidates(); m_rows.clear();
         for (int i = 0; i < all.size(); ++i)
         {

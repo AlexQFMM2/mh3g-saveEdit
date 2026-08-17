@@ -47,6 +47,7 @@ HEADERS += "$$CORE_DIR/main.hpp" \
            "$$CORE_DIR/mh3u_se.hpp" \
            "$$CORE_DIR/mh3u_transfer.hpp" \
            "$$GUI_DIR/main.hpp" \
+           "$$GUI_DIR/searchable_combobox.hpp" \
            "$$GUI_DIR/mh3u_sv.hpp" \
            "$$GUI_DIR/widget.hpp" \
            "$$GUI_DIR/widget/qarmor.hpp" \
