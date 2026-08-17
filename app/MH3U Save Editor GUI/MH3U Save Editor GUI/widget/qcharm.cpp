@@ -1,4 +1,5 @@
 #include "qcharm.hpp"
+#include "equipment_validator.hpp"
 
 #include <QDialogButtonBox>
 #include <QGridLayout>
@@ -6,7 +7,8 @@
 #include <QMessageBox>
 #include <QPushButton>
 
-QCharm::QCharm(charm_t *charm, QWidget *parent) : QEquipment(NULL, parent)
+QCharm::QCharm(charm_t *charm, QWidget *parent, save_format_e platform, int characterSex)
+    : QEquipment(NULL, parent), m_platform(platform), m_characterSex(characterSex)
 {
     this->charm = charm;
 
@@ -43,11 +45,11 @@ QCharm::QCharm(charm_t *charm, QWidget *parent) : QEquipment(NULL, parent)
     configureSearchableComboBox(m_firstSkillIdentifier);
     configureSearchableComboBox(m_secondSkillIdentifier);
     m_firstSkillValue = new QSpinBox(this);
-    m_firstSkillValue->setMinimum(0x00);
-    m_firstSkillValue->setMaximum(0xff);
+    m_firstSkillValue->setMinimum(-128);
+    m_firstSkillValue->setMaximum(127);
     m_secondSkillValue = new QSpinBox(this);
-    m_secondSkillValue->setMinimum(0x00);
-    m_secondSkillValue->setMaximum(0xff);
+    m_secondSkillValue->setMinimum(-128);
+    m_secondSkillValue->setMaximum(127);
 
     m_firstJewelIdentifier = new QComboBox(this);
     m_secondJewelIdentifier = new QComboBox(this);
@@ -64,6 +66,18 @@ QCharm::QCharm(charm_t *charm, QWidget *parent) : QEquipment(NULL, parent)
     configureSearchableComboBox(m_firstJewelIdentifier);
     configureSearchableComboBox(m_secondJewelIdentifier);
     configureSearchableComboBox(m_thirdJewelIdentifier);
+
+    m_validityLabel = new QLabel(this);
+    m_validityLabel->setWordWrap(true);
+    connect(m_slotsCount, SIGNAL(valueChanged(int)), this, SLOT(refreshValidity()));
+    connect(m_identifier, SIGNAL(currentIndexChanged(int)), this, SLOT(refreshValidity()));
+    connect(m_firstSkillIdentifier, SIGNAL(currentIndexChanged(int)), this, SLOT(refreshValidity()));
+    connect(m_firstSkillValue, SIGNAL(valueChanged(int)), this, SLOT(refreshValidity()));
+    connect(m_secondSkillIdentifier, SIGNAL(currentIndexChanged(int)), this, SLOT(refreshValidity()));
+    connect(m_secondSkillValue, SIGNAL(valueChanged(int)), this, SLOT(refreshValidity()));
+    connect(m_firstJewelIdentifier, SIGNAL(currentIndexChanged(int)), this, SLOT(refreshValidity()));
+    connect(m_secondJewelIdentifier, SIGNAL(currentIndexChanged(int)), this, SLOT(refreshValidity()));
+    connect(m_thirdJewelIdentifier, SIGNAL(currentIndexChanged(int)), this, SLOT(refreshValidity()));
 
 
     QGridLayout *layout = new QGridLayout(this);
@@ -92,11 +106,13 @@ QCharm::QCharm(charm_t *charm, QWidget *parent) : QEquipment(NULL, parent)
     buttons->button(QDialogButtonBox::Close)->setText("关闭");
     connect(buttons, SIGNAL(accepted()), this, SLOT(saveAndAccept()));
     connect(buttons, SIGNAL(rejected()), this, SLOT(reject()));
-    layout->addWidget(buttons, 2, 0, 1, 10);
+    layout->addWidget(m_validityLabel, 2, 0, 1, 10);
+    layout->addWidget(buttons, 3, 0, 1, 10);
     this->setLayout(layout);
     this->setWindowTitle(uiText("Single charm editor"));
 
     this->load();
+    refreshValidity();
 }
 
 
@@ -106,9 +122,9 @@ void QCharm::load()
     m_slotsCount->setValue(charm->slotsCount);
     m_identifier->setCurrentIndex(m_identifier->findData(charm->identifier));
     m_firstSkillIdentifier->setCurrentIndex(m_firstSkillIdentifier->findData(charm->firstSkillIdentifier));
-    m_firstSkillValue->setValue(charm->firstSkillValue);
+    m_firstSkillValue->setValue((int)(int8_t)charm->firstSkillValue);
     m_secondSkillIdentifier->setCurrentIndex(m_secondSkillIdentifier->findData(charm->secondSkillIdentifier));
-    m_secondSkillValue->setValue(charm->secondSkillValue);
+    m_secondSkillValue->setValue((int)(int8_t)charm->secondSkillValue);
     m_firstJewelIdentifier->setCurrentIndex(m_firstJewelIdentifier->findData(charm->firstJewelIdentifier));
     m_secondJewelIdentifier->setCurrentIndex(m_secondJewelIdentifier->findData(charm->secondJewelIdentifier));
     m_thirdJewelIdentifier->setCurrentIndex(m_thirdJewelIdentifier->findData(charm->thirdJewelIdentifier));
@@ -120,9 +136,9 @@ void QCharm::save()
     charm->slotsCount = m_slotsCount->value();
     charm->identifier = (uint16_t) searchableComboBoxCurrentData(m_identifier).toInt();
     charm->firstSkillIdentifier = (uint8_t) searchableComboBoxCurrentData(m_firstSkillIdentifier).toInt();
-    charm->firstSkillValue = m_firstSkillValue->value();
+    charm->firstSkillValue = (uint8_t)(int8_t)m_firstSkillValue->value();
     charm->secondSkillIdentifier = (uint8_t) searchableComboBoxCurrentData(m_secondSkillIdentifier).toInt();
-    charm->secondSkillValue = m_secondSkillValue->value();
+    charm->secondSkillValue = (uint8_t)(int8_t)m_secondSkillValue->value();
     charm->firstJewelIdentifier = (uint16_t) searchableComboBoxCurrentData(m_firstJewelIdentifier).toInt();
     charm->secondJewelIdentifier = (uint16_t) searchableComboBoxCurrentData(m_secondJewelIdentifier).toInt();
     charm->thirdJewelIdentifier = (uint16_t) searchableComboBoxCurrentData(m_thirdJewelIdentifier).toInt();
@@ -135,28 +151,32 @@ void QCharm::closeEvent(QCloseEvent *)
 
 bool QCharm::validate()
 {
-    uint8_t equipmentType = (uint8_t) searchableComboBoxCurrentData(m_equipmentType).toInt();
-    uint16_t identifier = (uint16_t) searchableComboBoxCurrentData(m_identifier).toInt();
-
-    if (equipmentType == MH3U_Type::NoneType)
-    {
-        QMessageBox::warning(this, windowTitle(), "装备类型不能为“无”。");
-        return false;
-    }
-
-    if (MH3U_Armory::convertSubtype((equipment_type_e) equipmentType) != MH3U_Type::CharmSubtype)
-    {
-        QMessageBox::warning(this, windowTitle(), "当前窗口只能保存护石类型。");
-        return false;
-    }
-
-    if (identifier == 0)
-    {
-        QMessageBox::warning(this, windowTitle(), "编号不能为“无”。请先选择具体护石。");
-        return false;
-    }
-
     return true;
+}
+
+void QCharm::refreshValidity()
+{
+    charm_t value = *charm;
+    value.equipmentType = (uint8_t)searchableComboBoxCurrentData(m_equipmentType).toInt();
+    value.slotsCount = (uint8_t)m_slotsCount->value();
+    value.identifier = (uint16_t)searchableComboBoxCurrentData(m_identifier).toInt();
+    value.firstSkillIdentifier = (uint8_t)searchableComboBoxCurrentData(m_firstSkillIdentifier).toInt();
+    value.firstSkillValue = (uint8_t)(int8_t)m_firstSkillValue->value();
+    value.secondSkillIdentifier = (uint8_t)searchableComboBoxCurrentData(m_secondSkillIdentifier).toInt();
+    value.secondSkillValue = (uint8_t)(int8_t)m_secondSkillValue->value();
+    value.firstJewelIdentifier = (uint16_t)searchableComboBoxCurrentData(m_firstJewelIdentifier).toInt();
+    value.secondJewelIdentifier = (uint16_t)searchableComboBoxCurrentData(m_secondJewelIdentifier).toInt();
+    value.thirdJewelIdentifier = (uint16_t)searchableComboBoxCurrentData(m_thirdJewelIdentifier).toInt();
+    equipment_t raw = {0};
+    MH3U_Armory::convertCharmToEquipment(value, raw);
+    equipment_validation_t validation = EquipmentValidator::validate(raw, m_platform, m_characterSex);
+    m_validityLabel->setText(QString("%1：%2").arg(validation.statusText(), validation.details()));
+    if (validation.status == EquipmentInvalid)
+        m_validityLabel->setStyleSheet("color:#b42318;background:#fee4e2;border:1px solid #f0a09a;padding:6px;");
+    else if (validation.status == EquipmentUnknown)
+        m_validityLabel->setStyleSheet("color:#8a4b08;background:#fff3cd;border:1px solid #eccb78;padding:6px;");
+    else
+        m_validityLabel->setStyleSheet("color:#17643a;background:#eaf8f0;border:1px solid #bce6cd;padding:6px;");
 }
 
 void QCharm::saveAndAccept()

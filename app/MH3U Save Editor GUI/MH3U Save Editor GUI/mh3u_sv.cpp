@@ -15,12 +15,15 @@
 #include <QVBoxLayout>
 
 MH3U_SV::MH3U_SV(QWidget *parent)
-    : QMainWindow(parent), mh3u(new MH3U_SE()), characterPage(0), chestPage(0), boxPage(0), dirty(false)
+    : QMainWindow(parent), mh3u(new MH3U_SE()), characterPage(0), chestPage(0), boxPage(0), dirty(false), dataReady(false)
 {
     setObjectName("mainSurface");
     setWindowTitle(QString::fromUtf8("MH3G / MH3U 存档修改器"));
-    if (!MH3U_DS::readData(LANG_CN))
-        QMessageBox::critical(this, QString::fromUtf8("数据加载失败"), QString::fromUtf8("无法读取中文 data 数据。"));
+    dataReady = MH3U_DS::readData(LANG_CN);
+    if (!dataReady)
+        QMessageBox::critical(this, QString::fromUtf8("数据加载失败"),
+            QString::fromUtf8("静态游戏数据库不可用，编辑功能已禁用。\n\n%1")
+                .arg(QString::fromStdString(MH3U_DS::lastError())));
 
     QWidget *surface = new QWidget(this);
     setCentralWidget(surface);
@@ -215,6 +218,12 @@ bool MH3U_SV::maybeLeaveDirty()
 
 void MH3U_SV::loadFile()
 {
+    if (!dataReady)
+    {
+        QMessageBox::critical(this, QString::fromUtf8("无法读取存档"),
+            QString::fromUtf8("请先修复 data/mh3g.sqlite 或 QSQLITE 驱动。"));
+        return;
+    }
     if (!maybeLeaveDirty()) return;
     const QString path = QFileDialog::getOpenFileName(this, QString::fromUtf8("读取存档"), QString(),
         QString::fromUtf8("存档文件 (user1 user2 user3);;所有文件 (*)"));
@@ -253,11 +262,12 @@ bool MH3U_SV::saveFile()
 
 void MH3U_SV::updateState()
 {
-    const bool loaded = mh3u->loaded();
+    const bool loaded = dataReady && mh3u->loaded();
     characterButton->setEnabled(loaded);
     chestButton->setEnabled(loaded);
     boxButton->setEnabled(loaded);
     saveButton->setEnabled(loaded);
+    loadButton->setEnabled(dataReady);
     loadButton->setText(loaded ? QString::fromUtf8("读取其他存档") : QString::fromUtf8("读取存档"));
     if (loaded) {
         const QString name = QFileInfo(QString::fromStdString(mh3u->currentFilename())).fileName();

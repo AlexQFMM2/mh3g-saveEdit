@@ -1,4 +1,5 @@
 #include "qarmor.hpp"
+#include "equipment_validator.hpp"
 
 #include <QDialogButtonBox>
 #include <QGridLayout>
@@ -6,7 +7,8 @@
 #include <QMessageBox>
 #include <QPushButton>
 
-QArmor::QArmor(armor_t *armor, QWidget *parent) : QEquipment(NULL, parent)
+QArmor::QArmor(armor_t *armor, QWidget *parent, save_format_e platform, int characterSex)
+    : QEquipment(NULL, parent), m_platform(platform), m_characterSex(characterSex)
 {
     this->armor = armor;
 
@@ -93,6 +95,14 @@ QArmor::QArmor(armor_t *armor, QWidget *parent) : QEquipment(NULL, parent)
     configureSearchableComboBox(m_secondJewelIdentifier);
     configureSearchableComboBox(m_thirdJewelIdentifier);
 
+    m_validityLabel = new QLabel(this);
+    m_validityLabel->setWordWrap(true);
+    connect(m_upgradeLevel, SIGNAL(valueChanged(int)), this, SLOT(refreshValidity()));
+    connect(m_identifier, SIGNAL(currentIndexChanged(int)), this, SLOT(refreshValidity()));
+    connect(m_firstJewelIdentifier, SIGNAL(currentIndexChanged(int)), this, SLOT(refreshValidity()));
+    connect(m_secondJewelIdentifier, SIGNAL(currentIndexChanged(int)), this, SLOT(refreshValidity()));
+    connect(m_thirdJewelIdentifier, SIGNAL(currentIndexChanged(int)), this, SLOT(refreshValidity()));
+
 
     QGridLayout *layout = new QGridLayout(this);
     layout->addWidget(new QLabel(uiText("Equipment type"), this), 0, 0);
@@ -118,11 +128,13 @@ QArmor::QArmor(armor_t *armor, QWidget *parent) : QEquipment(NULL, parent)
     buttons->button(QDialogButtonBox::Close)->setText("关闭");
     connect(buttons, SIGNAL(accepted()), this, SLOT(saveAndAccept()));
     connect(buttons, SIGNAL(rejected()), this, SLOT(reject()));
-    layout->addWidget(buttons, 2, 0, 1, 9);
+    layout->addWidget(m_validityLabel, 2, 0, 1, 9);
+    layout->addWidget(buttons, 3, 0, 1, 9);
     this->setLayout(layout);
     this->setWindowTitle(uiText("Single armor editor"));
 
     this->load();
+    refreshValidity();
 }
 
 
@@ -160,28 +172,28 @@ void QArmor::save()
 
 bool QArmor::validate()
 {
-    uint8_t equipmentType = (uint8_t) searchableComboBoxCurrentData(m_equipmentType).toInt();
-    uint16_t identifier = (uint16_t) searchableComboBoxCurrentData(m_identifier).toInt();
-
-    if (equipmentType == MH3U_Type::NoneType)
-    {
-        QMessageBox::warning(this, windowTitle(), "装备类型不能为“无”。");
-        return false;
-    }
-
-    if (MH3U_Armory::convertSubtype((equipment_type_e) equipmentType) != MH3U_Type::ArmorSubtype)
-    {
-        QMessageBox::warning(this, windowTitle(), "当前窗口只能保存防具类型。");
-        return false;
-    }
-
-    if (identifier == 0)
-    {
-        QMessageBox::warning(this, windowTitle(), "编号不能为“无”。请先选择具体防具。");
-        return false;
-    }
-
     return true;
+}
+
+void QArmor::refreshValidity()
+{
+    armor_t value = *armor;
+    value.equipmentType = (uint8_t)searchableComboBoxCurrentData(m_equipmentType).toInt();
+    value.upgradeLevel = (uint8_t)m_upgradeLevel->value();
+    value.identifier = (uint16_t)searchableComboBoxCurrentData(m_identifier).toInt();
+    value.firstJewelIdentifier = (uint16_t)searchableComboBoxCurrentData(m_firstJewelIdentifier).toInt();
+    value.secondJewelIdentifier = (uint16_t)searchableComboBoxCurrentData(m_secondJewelIdentifier).toInt();
+    value.thirdJewelIdentifier = (uint16_t)searchableComboBoxCurrentData(m_thirdJewelIdentifier).toInt();
+    equipment_t raw = {0};
+    MH3U_Armory::convertArmorToEquipment(value, raw);
+    equipment_validation_t validation = EquipmentValidator::validate(raw, m_platform, m_characterSex);
+    m_validityLabel->setText(QString("%1：%2").arg(validation.statusText(), validation.details()));
+    if (validation.status == EquipmentInvalid)
+        m_validityLabel->setStyleSheet("color:#b42318;background:#fee4e2;border:1px solid #f0a09a;padding:6px;");
+    else if (validation.status == EquipmentUnknown)
+        m_validityLabel->setStyleSheet("color:#8a4b08;background:#fff3cd;border:1px solid #eccb78;padding:6px;");
+    else
+        m_validityLabel->setStyleSheet("color:#17643a;background:#eaf8f0;border:1px solid #bce6cd;padding:6px;");
 }
 
 void QArmor::saveAndAccept()

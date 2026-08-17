@@ -34,21 +34,25 @@ does not create a backup. A successful save is confirmed by a message box.
 信息。完整阶段、接口边界和验收标准见
 [本地配装器与在线平台路线图](docs/LOADOUT_PLATFORM_ROADMAP.md)。
 
-## Game-resource ID tables
+## SQLite 数据与装备合法性
 
-The item, five armor-part, and twelve weapon CSV tables are generated from the
-zero-based GMD arrays in the audited MH3G `ID_res.arc`; Dex database keys and
-filtered third-party row numbers are not treated as save IDs. The full arrays
-include all `DUMMY` and unused slots so later names can never shift when a
-placeholder is hidden in the UI.
+运行时静态数据已统一迁移到 `data/mh3g.sqlite`，不再解析 `data/cn`、
+`data/en` CSV。数据库同时保存中英文名称、武器/防具参数、技能、装饰珠和
+全游戏护石生成组合；程序通过只读数据仓库访问，不在页面中散落 SQL。
 
-The authoritative counts are 1,533 item slots; 380 head, 382 chest, 363 arms,
-371 waist, and 377 legs slots; plus the complete 12 weapon arrays. The rebuild
-restores 7 valid collaboration weapons, 9 valid collaboration items, and the
-late collaboration armor entries omitted by the old lists.
+装备箱新增合法性列和“只显示合法”筛选：明确非法显示红色，缺少平台或
+字段证据显示黄色，已确认自然合法正常显示。武器、防具和护石弹窗会实时
+说明原因，装备表单导入也会汇总风险。所有结果都只作提示，不自动修正，
+也不阻止应用、导入或保存。
 
-See [`data/README.md`](data/README.md) for source hashes, the replacement-font
-limitation, deterministic rebuild commands, and validation details.
+存档 ID 权威仍是审核过的 `ID_res.arc` 完整数列；Dex 主键只提供属性和关联，
+绝不会直接写入存档。DUMMY 和未使用槽继续保留，避免后续 ID 错位。护石
+技能点按有符号 8 位显示，写回保持原始补码。完整来源、覆盖范围和确定性
+重建命令见 [`data/README.md`](data/README.md)。
+
+固定哈希的 MH3G ExeFS 五张原生防具表已进入离线生成链路，用于校验并补齐
+存档本地参数；ExeFS 本身不会随修改器发布。原生记录中尚未确认防具强化次数
+上限，因此这项规则保持黄色未知，不用最大防御反推一个未经证实的等级上限。
 
 ## 3DS / Wii U item and equipment transfer
 

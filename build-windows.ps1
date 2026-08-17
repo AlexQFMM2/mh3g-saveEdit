@@ -195,6 +195,33 @@ function Copy-QtPlatformPlugin {
     Write-Warning "qwindows.dll platform plugin not found. Checked: $($candidates -join ', ')"
 }
 
+function Copy-QtSqlitePlugin {
+    param(
+        [string]$PackageDir,
+        [string]$QtRoot
+    )
+
+    $driversDir = Join-Path $PackageDir "sqldrivers"
+    $target = Join-Path $driversDir "qsqlite.dll"
+    if (Test-Path $target) {
+        Write-Host "Qt SQLite plugin present: qsqlite.dll"
+        return
+    }
+    New-Item -ItemType Directory -Force -Path $driversDir | Out-Null
+    $candidates = @(
+        (Join-Path $QtRoot "share\qt5\plugins\sqldrivers\qsqlite.dll"),
+        (Join-Path $QtRoot "plugins\sqldrivers\qsqlite.dll")
+    )
+    foreach ($candidate in $candidates) {
+        if (Test-Path $candidate) {
+            Copy-Item $candidate $target -Force
+            Write-Host "copied Qt SQLite plugin: qsqlite.dll"
+            return
+        }
+    }
+    throw "qsqlite.dll not found. Checked: $($candidates -join ', ')"
+}
+
 $ResolvedQtBin = Find-QtRoot $QtBin
 $QtRoot = Split-Path -Parent $ResolvedQtBin
 $QtToolDirs = @(
@@ -255,7 +282,19 @@ Copy-Item (Join-Path $Root "data") (Join-Path $PackageDir "data") -Recurse
 
 & $WinDeployQt (Join-Path $PackageDir "$TargetName.exe") "--$Configuration"
 Copy-QtPlatformPlugin $PackageDir $QtRoot
+Copy-QtSqlitePlugin $PackageDir $QtRoot
 Copy-ImportedDlls $PackageDir $ResolvedQtBin $Objdump
+
+$PackagedDatabase = Join-Path $PackageDir "data\mh3g.sqlite"
+if (-not (Test-Path $PackagedDatabase)) {
+    throw "MH3G SQLite database missing from portable package: $PackagedDatabase"
+}
+if (-not (Test-Path (Join-Path $PackageDir "sqldrivers\qsqlite.dll"))) {
+    throw "qsqlite.dll missing from portable package"
+}
+if (Get-ChildItem -Path (Join-Path $PackageDir "data") -Filter "*.csv" -File -Recurse) {
+    throw "Static game-data CSV files must not be packaged"
+}
 
 $RunBat = Join-Path $PackageDir "run-windows.bat"
 Set-Content -Path $RunBat -Encoding ASCII -Value @"

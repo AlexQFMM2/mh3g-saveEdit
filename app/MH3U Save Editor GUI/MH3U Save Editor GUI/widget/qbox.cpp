@@ -1,6 +1,7 @@
 #include "qbox.hpp"
 
 #include "mh3u_transfer.hpp"
+#include "equipment_validator.hpp"
 
 #include <QAbstractItemView>
 #include <QDialog>
@@ -13,6 +14,8 @@
 #include <QScrollBar>
 #include <QTableWidgetItem>
 #include <QVBoxLayout>
+#include <QBrush>
+#include <QColor>
 
 QBox::QBox(MH3U_SE *mh3u, QWidget *parent) : QWidget(parent)
 {
@@ -20,8 +23,8 @@ QBox::QBox(MH3U_SE *mh3u, QWidget *parent) : QWidget(parent)
     this->mh3u = mh3u;
 
     m_table = new QTableWidget(this);
-    m_table->setColumnCount(6);
-    m_table->setHorizontalHeaderLabels(QStringList() << "页" << "格" << "类型" << "名称" << "ID" << "装饰品");
+    m_table->setColumnCount(7);
+    m_table->setHorizontalHeaderLabels(QStringList() << "页" << "格" << "类型" << "名称" << "ID" << "装饰品" << "合法性");
     m_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_table->setSelectionBehavior(QAbstractItemView::SelectRows);
     m_table->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -33,6 +36,7 @@ QBox::QBox(MH3U_SE *mh3u, QWidget *parent) : QWidget(parent)
     m_table->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
     m_table->horizontalHeader()->setSectionResizeMode(4, QHeaderView::ResizeToContents);
     m_table->horizontalHeader()->setSectionResizeMode(5, QHeaderView::Stretch);
+    m_table->horizontalHeader()->setSectionResizeMode(6, QHeaderView::ResizeToContents);
 
     connect(m_table, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(tableCellDoubleClicked(int,int)));
     connect(m_table, SIGNAL(itemSelectionChanged()), this, SLOT(updateSelectedInfo()));
@@ -43,6 +47,9 @@ QBox::QBox(MH3U_SE *mh3u, QWidget *parent) : QWidget(parent)
 
     m_nonEmptyOnly = new QCheckBox("只显示非空", this);
     connect(m_nonEmptyOnly, SIGNAL(toggled(bool)), this, SLOT(refreshFilters()));
+    m_validOnly = new QCheckBox("只显示合法", this);
+    m_validOnly->setChecked(false);
+    connect(m_validOnly, SIGNAL(toggled(bool)), this, SLOT(refreshFilters()));
 
     m_typeFilter = new QComboBox(this);
     m_typeFilter->addItem("全部类型", -1);
@@ -80,6 +87,7 @@ QBox::QBox(MH3U_SE *mh3u, QWidget *parent) : QWidget(parent)
     sideLayout->addWidget(m_search);
     sideLayout->addWidget(m_typeFilter);
     sideLayout->addWidget(m_nonEmptyOnly);
+    sideLayout->addWidget(m_validOnly);
     sideLayout->addSpacing(12);
     sideLayout->addWidget(new QLabel("选中", this));
     sideLayout->addWidget(m_selectedInfo);
@@ -254,8 +262,23 @@ void QBox::importEquipmentForm()
         return;
     }
 
-    QString prompt = QString("表单包含 %1 个装备格。\n\n导入会覆盖表单中列出的格子，未列出的格子保持不变。是否继续？")
-        .arg(entries.size());
+    int invalidCount = 0;
+    int unknownCount = 0;
+    QStringList examples;
+    for (size_t i = 0; i < entries.size(); ++i)
+    {
+        equipment_t raw;
+        for (int byte = 0; byte < EQUIPMENT_SIZE; ++byte) raw[byte] = entries[i].bytes[(size_t)byte];
+        equipment_validation_t validation = EquipmentValidator::validate(raw, mh3u->format(), mh3u->savedata->sex);
+        if (validation.status == EquipmentInvalid) ++invalidCount;
+        else if (validation.status == EquipmentUnknown) ++unknownCount;
+        if (validation.status != EquipmentValid && examples.size() < 5)
+            examples << QString("第 %1 页第 %2 格：%3").arg(entries[i].panel + 1).arg(entries[i].slot + 1).arg(validation.details().section('\n', 0, 0));
+    }
+    QString prompt = QString("表单包含 %1 个装备格。\n非法 %2 条，未确认 %3 条。\n\n导入会覆盖表单中列出的格子，未列出的格子保持不变。合法性只作提示，不会阻止导入。")
+        .arg(entries.size()).arg(invalidCount).arg(unknownCount);
+    if (!examples.isEmpty()) prompt += "\n\n部分原因：\n" + examples.join("\n");
+    prompt += "\n\n是否继续？";
     if (QMessageBox::question(this, "确认导入装备箱", prompt, QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes)
     {
         return;
@@ -318,6 +341,20 @@ void QBox::populateTable()
             m_table->setItem(row, 3, new QTableWidgetItem(name));
             m_table->setItem(row, 4, new QTableWidgetItem(QString::number(identifier)));
             m_table->setItem(row, 5, new QTableWidgetItem(jewelSummary(equipment)));
+            equipment_validation_t validation = EquipmentValidator::validate(equipment, mh3u->format(), mh3u->savedata->sex);
+            QTableWidgetItem *validityItem = new QTableWidgetItem(validation.statusText());
+            validityItem->setToolTip(validation.details());
+            if (validation.status == EquipmentInvalid)
+            {
+                validityItem->setForeground(QBrush(QColor("#b42318")));
+                validityItem->setBackground(QBrush(QColor("#fee4e2")));
+            }
+            else if (validation.status == EquipmentUnknown)
+            {
+                validityItem->setForeground(QBrush(QColor("#8a4b08")));
+                validityItem->setBackground(QBrush(QColor("#fff3cd")));
+            }
+            m_table->setItem(row, 6, validityItem);
         }
     }
 
@@ -337,26 +374,9 @@ bool QBox::editSlot(uint32_t panel, uint32_t slot)
     equipment_type_e newType(MH3U_Type::NoneType), oldType(MH3U_Type::NoneType);
     equipment_subtype_e subtype;
     bool saved = false;
-    uint8_t original[EQUIPMENT_SIZE];
-
-    for (uint8_t i = 0; i < EQUIPMENT_SIZE; i++)
-    {
-        original[i] = equipmentAt(panel, slot)[i];
-    }
 
     auto finishWithoutSaving = [&]() -> bool
     {
-        equipment_t &equipment = equipmentAt(panel, slot);
-        uint16_t identifier = equipment[2] + equipment[3] * 0x100;
-        if (saved && identifier == 0)
-        {
-            for (uint8_t i = 0; i < EQUIPMENT_SIZE; i++)
-            {
-                equipment[i] = original[i];
-            }
-            saved = false;
-        }
-
         populateTable();
         updateSelectedInfo();
         if (saved) emit modified();
@@ -376,7 +396,7 @@ bool QBox::editSlot(uint32_t panel, uint32_t slot)
             {
                 armor_t armor = MH3U_Armory::convertEquipmentToArmor(equipment);
 
-                QArmor qarmor(&armor, this);
+                QArmor qarmor(&armor, this, mh3u->format(), mh3u->savedata->sex);
                 qarmor.setModal(true);
                 qarmor.setWindowTitle(title);
                 if (qarmor.exec() == QDialog::Accepted)
@@ -394,7 +414,7 @@ bool QBox::editSlot(uint32_t panel, uint32_t slot)
             {
                 charm_t charm = MH3U_Armory::convertEquipmentToCharm(equipment);
 
-                QCharm qcharm(&charm, this);
+                QCharm qcharm(&charm, this, mh3u->format(), mh3u->savedata->sex);
                 qcharm.setModal(true);
                 qcharm.setWindowTitle(title);
                 if (qcharm.exec() == QDialog::Accepted)
@@ -412,7 +432,7 @@ bool QBox::editSlot(uint32_t panel, uint32_t slot)
             {
                 weapon_t weapon = MH3U_Armory::convertEquipmentToWeapon(equipment);
 
-                QWeapon qweapon(&weapon, this);
+                QWeapon qweapon(&weapon, this, mh3u->format(), mh3u->savedata->sex);
                 qweapon.setModal(true);
                 qweapon.setWindowTitle(title);
                 if (qweapon.exec() == QDialog::Accepted)
@@ -526,9 +546,12 @@ QString QBox::equipmentTooltip(equipment_t &equipment) const
     QString typeName = equipmentTypeName(equipmentType);
     QString name = equipmentDisplayName(equipment);
 
-    return QString("%1\n%2\n装饰品: %3\nType: %4  ID: %5\nRaw: %6 %7 %8 %9 %10 %11 %12 %13 %14 %15 %16 %17 %18 %19 %20 %21")
+    equipment_validation_t validation = EquipmentValidator::validate(equipment, mh3u->format(), mh3u->savedata->sex);
+    return QString("%1\n%2\n合法性: %3\n%4\n装饰品: %5\nType: %6  ID: %7\nRaw: %8 %9 %10 %11 %12 %13 %14 %15 %16 %17 %18 %19 %20 %21 %22 %23")
         .arg(name)
         .arg(typeName)
+        .arg(validation.statusText())
+        .arg(validation.details())
         .arg(jewelSummary(equipment))
         .arg(equipmentType)
         .arg(identifier)
@@ -639,6 +662,11 @@ bool QBox::equipmentMatchesFilters(equipment_t &equipment, uint32_t panel, uint3
 
     int filterType = m_typeFilter->currentData().toInt();
     if (filterType >= 0 && equipmentType != filterType)
+    {
+        return false;
+    }
+
+    if (m_validOnly->isChecked() && EquipmentValidator::validate(equipment, mh3u->format(), mh3u->savedata->sex).status != EquipmentValid)
     {
         return false;
     }

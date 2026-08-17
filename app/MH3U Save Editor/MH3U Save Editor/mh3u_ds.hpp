@@ -36,6 +36,7 @@ class MH3U_DS
 		static bool deleteData(void);
 
 		static lang_t lang(void);
+		static std::string lastError(void);
 
 		static const dataset_t* faces(void);
 		static const dataset_t* hairs(void);
@@ -70,43 +71,7 @@ class MH3U_DS
 
 		static lang_t _lang;
 
-		static dataset_t* readFile(std::string filename);
-		static bool readFile(dataset_t* &dataset, std::string filename, const lang_t &lang);
-
-		static std::string folderLang(const lang_t &lang);
-
-
-		// Character
-		static bool readFaces(const lang_t &lang = LANG_NONE);
-		static bool readHairs(const lang_t &lang = LANG_NONE);
-		static bool readSexs(const lang_t &lang = LANG_NONE);
-		static bool readVoices(const lang_t &lang = LANG_NONE);
-
-		// In-data
-		static bool readItems(const lang_t &lang = LANG_NONE);
-		static bool readSkills(const lang_t &lang = LANG_NONE);
-		static bool readJewels(const lang_t &lang = LANG_NONE);
-
-		// Equipment types
-		static bool readEquipmentTypes(const lang_t &lang = LANG_NONE);
-		static bool readChestArmors(const lang_t &lang = LANG_NONE);
-		static bool readArmsArmors(const lang_t &lang = LANG_NONE);
-		static bool readWaistArmors(const lang_t &lang = LANG_NONE);
-		static bool readLegsArmors(const lang_t &lang = LANG_NONE);
-		static bool readHeadArmors(const lang_t &lang = LANG_NONE);
-		static bool readCharms(const lang_t &lang = LANG_NONE);
-		static bool readGSWeapons(const lang_t &lang = LANG_NONE);
-		static bool readSNSWeapons(const lang_t &lang = LANG_NONE);
-		static bool readHWeapons(const lang_t &lang = LANG_NONE);
-		static bool readLWeapons(const lang_t &lang = LANG_NONE);
-		static bool readHBGWeapons(const lang_t &lang = LANG_NONE);
-		static bool readLBGWeapons(const lang_t &lang = LANG_NONE);
-		static bool readLSWeapons(const lang_t &lang = LANG_NONE);
-		static bool readSAWeapons(const lang_t &lang = LANG_NONE);
-		static bool readGLWeapons(const lang_t &lang = LANG_NONE);
-		static bool readBOWWeapons(const lang_t &lang = LANG_NONE);
-		static bool readDBWeapons(const lang_t &lang = LANG_NONE);
-		static bool readHHWeapons(const lang_t &lang = LANG_NONE);
+		static std::string _lastError;
 
 
 		// Character

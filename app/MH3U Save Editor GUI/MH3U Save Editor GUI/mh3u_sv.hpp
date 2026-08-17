@@ -38,6 +38,7 @@ private:
     QChest *chestPage;
     QBox *boxPage;
     bool dirty;
+    bool dataReady;
 
     void createPages();
     void loadPages();

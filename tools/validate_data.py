@@ -1,236 +1,141 @@
 #!/usr/bin/env python3
-"""Validate generated MH3G/MH3U data and its game-resource provenance."""
+"""Validate the generated MH3G SQLite data layer and release boundaries."""
 
 from __future__ import annotations
 
 import argparse
-import csv
 import hashlib
-import io
 import json
-import struct
+import sqlite3
 from pathlib import Path
 
 
-BASE_COLUMNS = ["id", "name", "english", "source"]
 ROOT = Path(__file__).resolve().parents[1]
-MAPPING_PATH = Path(__file__).with_name("data_mapping.json")
-CROSSWALK_PATH = Path(__file__).with_name("mh3g_display_crosswalk.json")
-GENERATOR_VERSION = "2.0.0"
-SAVE_SIZE = 0x8A00
-WIIU_HEADER_SIZE = 0x24
-ITEM_SECTIONS = ((0x00AC, 24), (0x010C, 32), (0x018C, 1000))
-BOX_OFFSET = 0x112C
-BOX_SLOTS = 1000
-BOX_RECORD_SIZE = 16
-EQUIPMENT_TABLES = {
-    1: "chest_armors", 2: "arms_armors", 3: "waist_armors",
-    4: "legs_armors", 5: "head_armors",
-    7: "gs_weapons", 8: "sns_weapons", 9: "h_weapons",
-    10: "l_weapons", 11: "hbg_weapons", 13: "lbg_weapons",
-    14: "ls_weapons", 15: "sa_weapons", 16: "gl_weapons",
-    17: "bow_weapons", 18: "db_weapons", 19: "hh_weapons",
+EXPECTED_COUNTS = {
+    "character_options": 47,
+    "items": 1533,
+    "equipment_types": 18,
+    "weapons": 1437,
+    "armors": 1924,
+    "skill_trees": 126,
+    "active_skills": 238,
+    "armor_skill_points": 6814,
+    "decorations": 230,
+    "save_decorations": 196,
+    "decoration_skill_points": 405,
+    "charm_classes": 10,
+    "charm_combinations": 121952,
 }
 
 
-class Errors:
-    def __init__(self) -> None:
-        self.messages: list[str] = []
-
-    def require(self, condition: bool, message: str) -> None:
-        if not condition:
-            self.messages.append(message)
-
-
-def read_json(path: Path) -> dict:
-    with path.open("r", encoding="utf-8") as handle:
-        return json.load(handle)
-
-
 def sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
 
 
-def load_csv(path: Path, errors: Errors) -> tuple[list[str], list[dict[str, str]]]:
-    raw = path.read_bytes()
-    errors.require(not raw.startswith(b"\xef\xbb\xbf"), f"{path}: UTF-8 BOM is not allowed")
-    errors.require(b"\r" not in raw, f"{path}: only LF line endings are allowed")
-    try:
-        text = raw.decode("utf-8", errors="strict")
-    except UnicodeDecodeError as exc:
-        errors.messages.append(f"{path}: invalid UTF-8: {exc}")
-        return [], []
-    reader = csv.DictReader(io.StringIO(text, newline=""))
-    try:
-        rows = list(reader)
-    except csv.Error as exc:
-        errors.messages.append(f"{path}: invalid CSV: {exc}")
-        return list(reader.fieldnames or []), []
-    return list(reader.fieldnames or []), rows
+def require(condition: bool, message: str, errors: list[str]) -> None:
+    if not condition:
+        errors.append(message)
 
 
-def parse_ids(relative: str, rows: list[dict[str, str]], errors: Errors) -> list[int]:
-    identifiers: list[int] = []
-    for line, row in enumerate(rows, 2):
-        raw_id = row.get("id", "")
-        if not raw_id.isdecimal():
-            errors.messages.append(f"{relative}:{line}: ID must be unsigned decimal, got {raw_id!r}")
-            continue
-        identifier = int(raw_id, 10)
-        identifiers.append(identifier)
-        for column in ("name", "english", "source"):
-            errors.require(bool(row.get(column, "").strip()), f"{relative}:{line}: {column} must not be empty")
-    errors.require(len(identifiers) == len(set(identifiers)), f"{relative}: duplicate IDs")
-    errors.require(identifiers == sorted(identifiers), f"{relative}: IDs are not sorted")
-    return identifiers
-
-
-def validate_sample(path: Path, table_counts: dict[str, int], errors: Errors) -> None:
-    raw = path.read_bytes()
-    if len(raw) == SAVE_SIZE:
-        base = 0
-        endian = "<"
-    elif len(raw) == SAVE_SIZE + WIIU_HEADER_SIZE:
-        base = WIIU_HEADER_SIZE
-        endian = ">"
-        errors.require(raw[0x1C:0x20] == b"\x00\x00\x8a\x00", f"{path}: invalid Wii U header")
-    else:
-        errors.messages.append(
-            f"{path}: expected {SAVE_SIZE} byte 3DS or {SAVE_SIZE + WIIU_HEADER_SIZE} byte Wii U save"
-        )
-        return
-
-    item_count = table_counts["items"]
-    for section_offset, slots in ITEM_SECTIONS:
-        for slot in range(slots):
-            item_id, quantity = struct.unpack_from(endian + "HH", raw, base + section_offset + slot * 4)
-            if quantity == 0 and item_id == 0:
-                continue
-            errors.require(item_id < item_count, f"{path}: item ID {item_id} outside game array")
-
-    for slot in range(BOX_SLOTS):
-        offset = base + BOX_OFFSET + slot * BOX_RECORD_SIZE
-        equipment_type = raw[offset]
-        if equipment_type == 0:
-            continue
-        equipment_id = struct.unpack_from(endian + "H", raw, offset + 2)[0]
-        if equipment_type == 6:
-            continue
-        table = EQUIPMENT_TABLES.get(equipment_type)
-        errors.require(table is not None, f"{path}: equipment slot {slot} has unknown type {equipment_type}")
-        if table is not None:
-            errors.require(
-                equipment_id < table_counts[table],
-                f"{path}: equipment slot {slot} type {equipment_type} ID {equipment_id} outside {table}",
-            )
-
-
-def validate(data_dir: Path, game_names_path: Path | None, samples: list[Path]) -> None:
-    errors = Errors()
-    mapping = read_json(MAPPING_PATH)
-    crosswalk = read_json(CROSSWALK_PATH)
+def validate(data_dir: Path) -> None:
+    errors: list[str] = []
+    database = data_dir / "mh3g.sqlite"
     manifest_path = data_dir / "manifest.json"
-    manifest = read_json(manifest_path)
-    errors.require(manifest.get("format") == "mh3g-save-editor-data-v1", "manifest: invalid format")
-    errors.require(manifest.get("generator_version") == GENERATOR_VERSION, "manifest: generator version mismatch")
-    errors.require(manifest.get("font_remap_warning") is True, "manifest: font-remap warning must be preserved")
+    readme = data_dir / "README.md"
+    require(database.is_file(), "missing data/mh3g.sqlite", errors)
+    require(manifest_path.is_file(), "missing data/manifest.json", errors)
+    require(readme.is_file(), "missing data/README.md", errors)
+    static_csv = sorted(path.relative_to(data_dir).as_posix() for path in data_dir.rglob("*.csv"))
+    require(not static_csv, f"runtime static CSV files remain: {static_csv}", errors)
+    if errors:
+        raise SystemExit("data validation failed:\n- " + "\n- ".join(errors))
 
-    resource = mapping["game_resource"]
-    for key, expected in resource.items():
-        errors.require(manifest.get("game_resource", {}).get(key) == expected, f"manifest: game resource {key} mismatch")
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    require(manifest.get("format") == "mh3g-save-editor-data-manifest-v1", "manifest format mismatch", errors)
+    require(manifest.get("database", {}).get("sha256") == sha256(database), "database SHA-256 mismatch", errors)
+    require(manifest.get("database", {}).get("bytes") == database.stat().st_size, "database byte count mismatch", errors)
+    for key, expected_name in (("save_ids", "mh3g_static_crosswalk.json"),
+                               ("armor_native", "mh3g_armor_native_parameters.json")):
+        entry = manifest.get("crosswalks", {}).get(key, {})
+        path = ROOT / "tools" / expected_name
+        require(entry.get("file") == expected_name, f"manifest crosswalk name mismatch for {key}", errors)
+        require(path.is_file() and entry.get("sha256") == sha256(path), f"manifest crosswalk hash mismatch for {key}", errors)
 
-    csv_paths = sorted(path for path in data_dir.rglob("*.csv") if path.is_file())
-    actual_files = {path.relative_to(data_dir).as_posix() for path in csv_paths}
-    manifest_files = set(manifest.get("files", {}))
-    errors.require(actual_files == manifest_files, "manifest: CSV file set mismatch")
+    uri = f"file:{database.as_posix()}?mode=ro"
+    connection = sqlite3.connect(uri, uri=True)
+    try:
+        require(connection.execute("PRAGMA user_version").fetchone()[0] == 1, "user_version must be 1", errors)
+        require(connection.execute("PRAGMA integrity_check").fetchone()[0] == "ok", "integrity_check failed", errors)
+        require(connection.execute("PRAGMA foreign_key_check").fetchone() is None, "foreign_key_check failed", errors)
+        require(connection.execute("SELECT value FROM meta WHERE key='format'").fetchone()[0] == "mh3g-save-editor-data-v1", "database format mismatch", errors)
+        for table, expected in EXPECTED_COUNTS.items():
+            actual = connection.execute(f"SELECT count(*) FROM {table}").fetchone()[0]
+            require(actual == expected, f"{table}: expected {expected}, got {actual}", errors)
+            require(manifest.get("counts", {}).get(table) == actual, f"manifest count mismatch for {table}", errors)
+            rows = connection.execute(f"SELECT * FROM {table} ORDER BY rowid").fetchall()
+            payload = json.dumps(rows, ensure_ascii=False, separators=(",", ":"), default=str).encode()
+            logical_hash = hashlib.sha256(payload).hexdigest()
+            require(manifest.get("logical_hashes", {}).get(table) == logical_hash,
+                    f"manifest logical hash mismatch for {table}", errors)
 
-    loaded: dict[str, tuple[list[int], list[dict[str, str]]]] = {}
-    for path in csv_paths:
-        relative = path.relative_to(data_dir).as_posix()
-        columns, rows = load_csv(path, errors)
-        errors.require(columns == BASE_COLUMNS, f"{relative}: columns must be {BASE_COLUMNS}, got {columns}")
-        identifiers = parse_ids(relative, rows, errors)
-        loaded[relative] = (identifiers, rows)
-        entry = manifest.get("files", {}).get(relative, {})
-        errors.require(entry.get("rows") == len(rows), f"manifest: {relative} row count mismatch")
-        errors.require(entry.get("sha256") == sha256(path), f"manifest: {relative} SHA-256 mismatch")
+        require(connection.execute("SELECT count(*) FROM weapons WHERE mapping_status='confirmed'").fetchone()[0] == 1421,
+                "all 1421 natural weapons must be mapped", errors)
+        require(connection.execute("SELECT count(*) FROM armors WHERE mapping_status='confirmed'").fetchone()[0] == 1600,
+                "exactly 1600 Dex armors must have confirmed save mappings", errors)
+        require(connection.execute("SELECT count(*) FROM armors WHERE mapping_status='confirmed_mh3g'").fetchone()[0] == 52,
+                "exactly 52 additional save-local armors must have MH3G native parameters", errors)
+        require(connection.execute("SELECT count(*) FROM armors WHERE mapping_status='confirmed_mh3g' AND "
+                                   "base_defense IS NOT NULL AND slots IS NOT NULL AND combat IS NOT NULL AND gender IS NOT NULL").fetchone()[0] == 52,
+                "MH3G-native armor parameter coverage is incomplete", errors)
+        require(connection.execute("SELECT count(*) FROM armors WHERE dex_id IS NOT NULL").fetchone()[0] == 1651,
+                "all 1651 Dex armors must be present", errors)
+        require(connection.execute("SELECT count(DISTINCT save_type || ':' || save_id) FROM weapons WHERE save_id IS NOT NULL").fetchone()[0] == EXPECTED_COUNTS["weapons"],
+                "weapon save keys are not unique", errors)
+        require(connection.execute("SELECT count(DISTINCT save_type || ':' || save_id) FROM armors WHERE save_id IS NOT NULL").fetchone()[0] == 1873,
+                "armor save arrays are not dense and unique", errors)
+        require(connection.execute("SELECT count(*) FROM charm_combinations WHERE skill1_points < 0 OR skill2_points < 0").fetchone()[0] > 0,
+                "negative charm skills were lost", errors)
+        require(connection.execute("SELECT count(*) FROM charm_combinations WHERE slots=3").fetchone()[0] > 0,
+                "three-slot charms were lost", errors)
+        require(connection.execute("SELECT count(*) FROM decorations WHERE mapping_status='unknown'").fetchone()[0] > 0,
+                "ambiguous decoration variants must remain unknown", errors)
+        require(connection.execute("SELECT count(*) FROM sources WHERE name='ID_res.arc' AND sha256='81e316bdfb0e65c1b05f1b375265aaff2cc3a1dc4c8cb5b8be23f0abd9b73087'").fetchone()[0] == 1,
+                "ID_res authority hash mismatch", errors)
+        require(connection.execute("SELECT count(*) FROM sources WHERE name='MH3G ExeFS .code' AND sha256='5374eaac8de5395f346933c4523019a6f643b72e3a73778ccf9a2ac4c32aaa1d'").fetchone()[0] == 1,
+                "ExeFS native-table source hash mismatch", errors)
+        require(connection.execute("SELECT count(*) FROM sources WHERE name='mh3g_armor_native_parameters.json'").fetchone()[0] == 1,
+                "native armor crosswalk source is missing", errors)
+        require(connection.execute("SELECT min(save_id),max(save_id),count(*) FROM items").fetchone() == (0, 1532, 1533),
+                "item save-ID array is not dense 0..1532", errors)
+        armor_ranges = {1: 382, 2: 363, 3: 371, 4: 377, 5: 380}
+        weapon_ranges = {7: 136, 8: 141, 9: 135, 10: 146, 11: 93, 13: 97,
+                         14: 115, 15: 114, 16: 115, 17: 117, 18: 126, 19: 102}
+        for save_type, count in armor_ranges.items():
+            actual = connection.execute("SELECT min(save_id),max(save_id),count(*) FROM armors WHERE save_type=?", (save_type,)).fetchone()
+            require(actual == (0, count - 1, count), f"armor type {save_type} is not dense 0..{count - 1}", errors)
+        for save_type, count in weapon_ranges.items():
+            actual = connection.execute("SELECT min(save_id),max(save_id),count(*) FROM weapons WHERE save_type=?", (save_type,)).fetchone()
+            require(actual == (0, count - 1, count), f"weapon type {save_type} is not dense 0..{count - 1}", errors)
+    finally:
+        connection.close()
 
-    for table, count in mapping["tables"].items():
-        cn_relative = f"cn/{table}.csv"
-        en_relative = f"en/{table}.csv"
-        errors.require(cn_relative in loaded and en_relative in loaded, f"{table}: missing localized CSV")
-        if cn_relative not in loaded or en_relative not in loaded:
-            continue
-        cn_ids, cn_rows = loaded[cn_relative]
-        en_ids, en_rows = loaded[en_relative]
-        expected_ids = list(range(count))
-        errors.require(cn_ids == expected_ids, f"{cn_relative}: must cover every game ID 0..{count - 1}")
-        errors.require(en_ids == expected_ids, f"{en_relative}: must cover every game ID 0..{count - 1}")
-        errors.require(cn_ids == en_ids, f"{table}: Chinese and English ID sets differ")
-        for index, (cn_row, en_row) in enumerate(zip(cn_rows, en_rows)):
-            errors.require(cn_row["english"] == en_row["english"], f"{table} ID {index}: English columns differ")
-            errors.require(en_row["name"] == en_row["english"], f"{en_relative} ID {index}: name must equal english")
-            errors.require(cn_row["source"] == en_row["source"], f"{table} ID {index}: source differs by language")
-        table_manifest = manifest.get("authoritative_tables", {}).get(table, {})
-        errors.require(table_manifest.get("rows") == count, f"manifest: {table} authoritative count mismatch")
-
-    for table, entries in crosswalk.get("tables", {}).items():
-        count = mapping["tables"].get(table)
-        errors.require(count is not None, f"crosswalk: unknown table {table}")
-        if count is None:
-            continue
-        for raw_id, names in entries.items():
-            identifier = int(raw_id, 10)
-            errors.require(0 <= identifier < count, f"crosswalk: {table} ID {identifier} is outside game array")
-            errors.require(isinstance(names, list) and len(names) == 2, f"crosswalk: {table} ID {identifier} names invalid")
-            if f"cn/{table}.csv" in loaded and 0 <= identifier < len(loaded[f"cn/{table}.csv"][1]):
-                row = loaded[f"cn/{table}.csv"][1][identifier]
-                errors.require(row["name"] == names[0], f"crosswalk: {table} ID {identifier} Chinese name mismatch")
-                errors.require(row["english"] == names[1], f"crosswalk: {table} ID {identifier} English name mismatch")
-
-    if game_names_path is not None:
-        game = read_json(game_names_path)
-        errors.require(game.get("format") == mapping["game_export_format"], "game export: format mismatch")
-        errors.require(game.get("font_remap_warning") is True, "game export: expected cn-font-remap warning")
-        for key, expected in resource.items():
-            errors.require(game.get("source", {}).get(key) == expected, f"game export: source {key} mismatch")
-        errors.require(set(game.get("tables", {})) == set(mapping["tables"]), "game export: table set mismatch")
-        for table, count in mapping["tables"].items():
-            strings = game.get("tables", {}).get(table, [])
-            errors.require(len(strings) == count, f"game export: {table} expected {count} strings, got {len(strings)}")
-            name_resource = game.get("resources", {}).get(table)
-            description_resource = game.get("paired_resources", {}).get(table)
-            errors.require(
-                manifest.get("authoritative_tables", {}).get(table, {}).get("name_resource") == name_resource,
-                f"manifest: {table} name-resource metadata mismatch",
-            )
-            errors.require(
-                manifest.get("authoritative_tables", {}).get(table, {}).get("description_resource") == description_resource,
-                f"manifest: {table} description-resource metadata mismatch",
-            )
-
-    for sample in samples:
-        validate_sample(sample, mapping["tables"], errors)
-
-    if errors.messages:
-        raise SystemExit("data validation failed:\n- " + "\n- ".join(errors.messages))
-    print(
-        f"validated {len(csv_paths)} CSV files; 18 game-array tables cover all authoritative IDs; "
-        f"{len(samples)} save sample(s) checked"
-    )
+    forbidden = {".arc", ".mod", ".tex", ".mrl", ".cci"}
+    bundled = sorted(path.relative_to(ROOT).as_posix() for path in ROOT.rglob("*") if path.is_file() and path.suffix.lower() in forbidden)
+    require(not bundled, f"game/model resources are bundled: {bundled}", errors)
+    if errors:
+        raise SystemExit("data validation failed:\n- " + "\n- ".join(errors))
+    print("validated mh3g.sqlite: integrity, foreign keys, mappings, signed charms and release boundaries passed")
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("data", nargs="?", type=Path, default=ROOT / "data")
-    parser.add_argument("--game-names", type=Path, help="optional JSON from export_game_names.py")
-    parser.add_argument("--sample", action="append", default=[], type=Path, help="3DS or Wii U character file; repeatable")
     args = parser.parse_args()
-    validate(
-        args.data.resolve(),
-        args.game_names.resolve() if args.game_names else None,
-        [path.resolve() for path in args.sample],
-    )
+    validate(args.data.resolve())
     return 0
 
 

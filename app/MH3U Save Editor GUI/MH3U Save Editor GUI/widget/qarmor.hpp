@@ -9,21 +9,26 @@
 #include <QDialog>
 #include <QSpinBox>
 #include <QComboBox>
+class QLabel;
 
 class QArmor : public QEquipment
 {
     Q_OBJECT
 public:
-    explicit QArmor(armor_t *armor, QWidget *parent = 0);
+    explicit QArmor(armor_t *armor, QWidget *parent = 0,
+                    save_format_e platform = SAVE_FORMAT_UNKNOWN, int characterSex = -1);
 
 protected:
     void closeEvent(QCloseEvent *);
 
 private slots:
     void saveAndAccept();
+    void refreshValidity();
 
 private:
     armor_t *armor;
+    save_format_e m_platform;
+    int m_characterSex;
     QComboBox *m_equipmentType;
     QSpinBox *m_upgradeLevel;
     QComboBox *m_identifier;
@@ -33,6 +38,7 @@ private:
     QComboBox *m_firstJewelIdentifier;
     QComboBox *m_secondJewelIdentifier;
     QComboBox *m_thirdJewelIdentifier;
+    QLabel *m_validityLabel;
 
     void load();
     void save();

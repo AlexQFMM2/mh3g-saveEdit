@@ -9,21 +9,26 @@
 #include <QDialog>
 #include <QSpinBox>
 #include <QComboBox>
+class QLabel;
 
 class QCharm : public QEquipment
 {
     Q_OBJECT
 public:
-    explicit QCharm(charm_t *charm, QWidget *parent = 0);
+    explicit QCharm(charm_t *charm, QWidget *parent = 0,
+                    save_format_e platform = SAVE_FORMAT_UNKNOWN, int characterSex = -1);
 
 protected:
     void closeEvent(QCloseEvent *);
 
 private slots:
     void saveAndAccept();
+    void refreshValidity();
 
 private:
     charm_t *charm;
+    save_format_e m_platform;
+    int m_characterSex;
     QComboBox *m_equipmentType;
     QSpinBox *m_slotsCount;
     QComboBox *m_identifier;
@@ -34,6 +39,7 @@ private:
     QComboBox *m_firstJewelIdentifier;
     QComboBox *m_secondJewelIdentifier;
     QComboBox *m_thirdJewelIdentifier;
+    QLabel *m_validityLabel;
 
     void load();
     void save();
