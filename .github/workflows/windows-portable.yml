@@ -60,14 +60,16 @@ jobs:
         shell: pwsh
         run: |
           Push-Location .\release\windows
-          .\MH3USaveEditorGUI.exe --smoke-test
-          if ($LASTEXITCODE -ne 0) { throw "Management-window smoke test failed: $LASTEXITCODE" }
-          .\MH3USaveEditorGUI.exe --smoke-test-loadout
-          if ($LASTEXITCODE -ne 0) { throw "Loadout smoke test failed: $LASTEXITCODE" }
-          .\MH3USaveEditorGUI.exe --smoke-test-account
-          if ($LASTEXITCODE -ne 0) { throw "Account/HTTPS smoke test failed: $LASTEXITCODE" }
-          .\MH3USaveEditorGUI.exe --smoke-test-ssl
-          if ($LASTEXITCODE -ne 0) { throw "Qt SSL smoke test failed: $LASTEXITCODE" }
+          $tests = @(
+            @{ Argument = "--smoke-test"; Name = "Management-window" },
+            @{ Argument = "--smoke-test-loadout"; Name = "Loadout" },
+            @{ Argument = "--smoke-test-account"; Name = "Account/HTTPS" },
+            @{ Argument = "--smoke-test-ssl"; Name = "Qt SSL" }
+          )
+          foreach ($test in $tests) {
+            $process = Start-Process -FilePath .\MH3USaveEditorGUI.exe -ArgumentList $test.Argument -Wait -PassThru
+            if ($process.ExitCode -ne 0) { throw "$($test.Name) smoke test failed: $($process.ExitCode)" }
+          }
           Pop-Location
 
       - name: Test searchable combo interaction
