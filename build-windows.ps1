@@ -310,6 +310,10 @@ if (-not (Test-Path $PackagedDatabase)) {
 if (-not (Test-Path (Join-Path $PackageDir "sqldrivers\qsqlite.dll"))) {
     throw "qsqlite.dll missing from portable package"
 }
+if (-not (Test-Path (Join-Path $PackageDir "libEGL.dll")) -or
+    -not (Test-Path (Join-Path $PackageDir "libGLESv2.dll"))) {
+    throw "Qt ANGLE runtime DLLs are missing from portable package"
+}
 if (-not (Get-ChildItem -Path $PackageDir -Filter "libssl-*.dll" -File) -or
     -not (Get-ChildItem -Path $PackageDir -Filter "libcrypto-*.dll" -File)) {
     throw "OpenSSL runtime DLLs are missing from portable package"

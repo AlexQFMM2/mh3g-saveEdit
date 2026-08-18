@@ -31,6 +31,7 @@ jobs:
             mingw-w64-x86_64-gcc
             mingw-w64-x86_64-make
             mingw-w64-x86_64-openssl
+            mingw-w64-x86_64-angleproject
             mingw-w64-x86_64-pkgconf
             mingw-w64-x86_64-qt5
 
@@ -60,9 +61,13 @@ jobs:
         run: |
           Push-Location .\release\windows
           .\MH3USaveEditorGUI.exe --smoke-test
+          if ($LASTEXITCODE -ne 0) { throw "Management-window smoke test failed: $LASTEXITCODE" }
           .\MH3USaveEditorGUI.exe --smoke-test-loadout
+          if ($LASTEXITCODE -ne 0) { throw "Loadout smoke test failed: $LASTEXITCODE" }
           .\MH3USaveEditorGUI.exe --smoke-test-account
+          if ($LASTEXITCODE -ne 0) { throw "Account/HTTPS smoke test failed: $LASTEXITCODE" }
           .\MH3USaveEditorGUI.exe --smoke-test-ssl
+          if ($LASTEXITCODE -ne 0) { throw "Qt SSL smoke test failed: $LASTEXITCODE" }
           Pop-Location
 
       - name: Test searchable combo interaction
