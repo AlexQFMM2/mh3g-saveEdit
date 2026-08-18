@@ -12,6 +12,13 @@ The Chinese management interface keeps Character, Item Chest, and Equipment Box 
 Saving atomically replaces the currently opened file; there is no Save As command and the editor
 does not create a backup. A successful save is confirmed by a message box.
 
+## 项目状态
+
+截至 2026-08-18，MH3G 修改器的计划内功能阶段性完成，当前版本为 `v1.3.0-beta.2`，项目进入
+缺陷修复、数据确证和兼容性维护阶段。桌面存档编辑、本地配装器、配装广场、一键加入装备箱、
+账号与举报治理的完成范围、验证门禁、明确不做项及 MH4G 交接顺序见
+[MH3G 修改器阶段完成记录](docs/MH3G_COMPLETION_RECORD.md)。
+
 ## 资料库功能已移除
 
 项目曾实验性加入武器、防具资料库、实时模型预览和人物试衣间。该方向需要为每一代游戏
@@ -31,6 +38,8 @@ does not create a backup. A successful save is confirmed by a message box.
 - 防具支持任意多个技能点条件，比较符为 `>`、`≥`、`=`、`≤`、`<`，所有条件按 AND 查询。
 - 护石使用紧凑表单，直接选择护石类型、孔数、两项技能及点数；是否属于自然组合只作红色提示。
 - 每格可配置最多三个装饰珠；技能矩阵、胴系统倍加、发动阈值、初始/最终防御、五耐性和孔位会实时重算。
+- 读取存档后，武器、防具和护石选择窗口可打开独立的“从装备箱选择”弹窗；弹窗按原始页/格顺序
+  显示具体实例及已安装装饰珠，选择后自动带回装备 ID、护石技能、孔位和珠子。
 - 配装可以保存为 `.mhloadout.json`；本地配装的 dirty 状态与存档修改状态彼此独立。
 - 读取存档后“一键加入装备箱”始终可点击；若七格未填满，会明确列出缺少的部位。完整时先预留七个空格再一次性写入内存；不自动穿戴或保存磁盘。
 
@@ -39,7 +48,13 @@ does not create a backup. A successful save is confirmed by a message box.
 
 公开配装大厅、筛选、只读详情、一键加入装备箱、个人信息、发布查重、点赞和举报已经上线；
 大厅只显示公开昵称与数字 ID，服务器不会接收完整存档或角色信息。邮箱注册、邮箱登录、绑定
-邮箱、忘记密码和新版蓝白账号中心随 `v1.3.0-beta.2` 发布。
+邮箱、忘记密码和新版蓝白账号中心随 `v1.3.0-beta.2` 发布。该版本已作为 GitHub prerelease
+发布，Windows 便携包通过 SQLite、SSL、主窗口、配装器、账号中心和长列表交互构建门禁：
+<https://github.com/AlexQFMM2/mh3g-saveEdit/releases/tag/v1.3.0-beta.2>。
+
+修改器默认连接 `https://mhed.desk.65h26i.top`，仍可用 `MHED_DESK_API_URL` 覆盖。生产邮件
+功能当前等待管理员配置 AOKSend 后启用，因此注册、验证码和找回密码暂不可用；已有账号登录、
+昵称、获赞统计和全部配装大厅功能不受影响。
 完整阶段、接口边界和验收标准见
 [本地配装器与在线平台路线图](docs/LOADOUT_PLATFORM_ROADMAP.md)。
 页面、查询、计算和写入设计见
@@ -55,6 +70,19 @@ does not create a backup. A successful save is confirmed by a message box.
 男/女、比较符、孔数、语言等短固定枚举仍使用普通不可输入下拉框。完整的适用范围、焦点、
 键盘、提交、状态分离和接入要求见
 [长列表输入选择组件规范](docs/SEARCHABLE_COMBOBOX_RULES.md)。
+
+复选框由应用统一绘制为白底边框、蓝色选中态和白色勾号，不依赖 Windows 或 Linux 原生主题，
+避免只显示勾号却看不到可点击边界。
+
+## 奇面族修改研究
+
+已从汉化版 CCI 的原生 XFS 参数和菜单 GMD 中确认茶茶、卡扬巴使用的 23 个面具逻辑 ID、
+5 个舞蹈 ID 和 30 个正常可装备特技 ID。舞蹈与特技名称不再依赖 Wiki 行号猜测；Wiki 只作
+参数和译名交叉核对。3DS 茶茶当前面具字段及共享面具仓库中的火龙面具获得位已经由单变量
+存档差分确认。由于公共解锁与剧情、任务、交易和成长进度关联，贸然写入可能造成流程状态
+不一致；该方向已经归档为只读研究，不加入编辑入口。
+证据路径、完整编号、资源编号陷阱及待验证边界见
+[MH3G 奇面族修改研究记录](docs/SHAKALAKA_RESEARCH.md)。
 
 ## SQLite 数据与装备合法性
 

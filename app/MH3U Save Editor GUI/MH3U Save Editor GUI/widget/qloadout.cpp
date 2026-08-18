@@ -96,6 +96,22 @@ QString skillName(int id)
     return id == 0 ? QString::fromUtf8("（无）") : QString::fromUtf8("技能 %1").arg(id);
 }
 
+QString equipmentDecorationSummary(const uint8_t *record, QList<int> *identifiers = 0)
+{
+    if (identifiers) identifiers->clear();
+    if (!record) return QString::fromUtf8("无");
+    QStringList values;
+    for (int offset = 8; offset <= 12; offset += 2)
+    {
+        const int identifier = record[offset] | (record[offset + 1] << 8);
+        if (!identifier) continue;
+        if (identifiers) identifiers->append(identifier);
+        const decoration_data_t decoration = GameDataRepository::instance().decoration(identifier);
+        values << (decoration.found ? decoration.name : QString::fromUtf8("未知珠 #%1").arg(identifier));
+    }
+    return values.isEmpty() ? QString::fromUtf8("无") : values.join(QString::fromUtf8(" | "));
+}
+
 QString statusText(const loadout_candidate_t &candidate, save_format_e platform = SAVE_FORMAT_UNKNOWN)
 {
     if (candidate.placeholder) return QString::fromUtf8("非法");
@@ -120,14 +136,15 @@ class EquipmentPickerDialog : public QDialog
 {
 public:
     EquipmentPickerDialog(int expectedSaveType, int combat, int gender, save_format_e platform,
-                          QWidget *parent = 0)
+                          MH3U_SE *saveEditor, QWidget *parent = 0, bool boxMode = false)
         : QDialog(parent), m_expectedSaveType(expectedSaveType), m_combat(combat), m_genderValue(gender),
-          m_platform(platform), m_page(0), m_total(0), m_selectedRow(-1)
+          m_platform(platform), m_saveEditor(saveEditor), m_boxMode(boxMode), m_page(0), m_total(0), m_selectedRow(-1)
     {
         const bool armor = expectedSaveType >= 1 && expectedSaveType <= 5;
         const bool charm = expectedSaveType == MH3U_Type::CharmType;
-        setWindowTitle(armor ? QString::fromUtf8("选择%1部防具").arg(slotLabel(slotForType(expectedSaveType))) :
-                       charm ? QString::fromUtf8("选择护石") : QString::fromUtf8("选择武器"));
+        const QString pickerTitle = armor ? QString::fromUtf8("选择%1部防具").arg(slotLabel(slotForType(expectedSaveType))) :
+            charm ? QString::fromUtf8("选择护石") : QString::fromUtf8("选择武器");
+        setWindowTitle(m_boxMode ? QString::fromUtf8("从装备箱%1").arg(pickerTitle) : pickerTitle);
         resize(920, 620);
         QVBoxLayout *root = new QVBoxLayout(this);
         QHBoxLayout *baseFilters = new QHBoxLayout;
@@ -181,13 +198,28 @@ public:
         QHBoxLayout *pager = new QHBoxLayout;
         m_previous = new QPushButton(QString::fromUtf8("上一页"), this); m_next = new QPushButton(QString::fromUtf8("下一页"), this);
         m_pageLabel = new QLabel(this); pager->addWidget(m_previous); pager->addWidget(m_next); pager->addWidget(m_pageLabel); pager->addStretch();
+        m_boxButton = new QPushButton(QString::fromUtf8("从装备箱选择…"), this);
+        const bool saveLoaded = m_saveEditor && m_saveEditor->loaded() && m_saveEditor->savedata;
+        m_boxButton->setVisible(!m_boxMode);
+        m_boxButton->setEnabled(saveLoaded);
+        m_boxButton->setToolTip(saveLoaded ? QString::fromUtf8("打开当前存档装备箱，按原页/格选择并复制已安装装饰珠。")
+            : QString::fromUtf8("请先读取存档，才能从装备箱选择。"));
+        pager->addWidget(m_boxButton);
         QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
-        buttons->button(QDialogButtonBox::Ok)->setText(QString::fromUtf8("选择此装备"));
+        buttons->button(QDialogButtonBox::Ok)->setText(m_boxMode
+            ? QString::fromUtf8("选择此装备箱实例") : QString::fromUtf8("选择此装备"));
         buttons->button(QDialogButtonBox::Cancel)->setText(QString::fromUtf8("取消")); pager->addWidget(buttons); root->addLayout(pager);
         m_timer = new QTimer(this); m_timer->setSingleShot(true); m_timer->setInterval(200);
         connect(m_timer, &QTimer::timeout, [this]() { m_page = 0; refresh(); });
         connect(m_search, &QLineEdit::textChanged, [this]() { scheduleRefresh(); });
         connect(m_weaponType, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this]() { scheduleRefresh(); });
+        connect(m_boxButton, &QPushButton::clicked, [this]() {
+            EquipmentPickerDialog boxDialog(m_expectedSaveType, m_combat, m_genderValue, m_platform,
+                m_saveEditor, this, true);
+            if (boxDialog.exec() != QDialog::Accepted) return;
+            m_selected = boxDialog.selectedCandidate();
+            accept();
+        });
         connect(m_rarityMin, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this]() { scheduleRefresh(); });
         connect(m_slotsMin, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this]() { scheduleRefresh(); });
         connect(m_confirmedOnly, &QCheckBox::toggled, [this]() { scheduleRefresh(); });
@@ -207,11 +239,13 @@ private:
     struct skill_row_t { QWidget *widget; QComboBox *skill; QComboBox *comparison; QSpinBox *points; };
     int m_expectedSaveType, m_combat, m_genderValue;
     save_format_e m_platform;
+    MH3U_SE *m_saveEditor;
+    bool m_boxMode;
     int m_page, m_total, m_selectedRow;
     QLineEdit *m_search; QComboBox *m_weaponType; QSpinBox *m_rarityMin; QSpinBox *m_slotsMin;
     QCheckBox *m_confirmedOnly; QCheckBox *m_showIncompatible; QGroupBox *m_skillBox;
     QGridLayout *m_skillLayout; QList<skill_row_t *> m_skillRows; QTableWidget *m_table;
-    QLabel *m_detail; QLabel *m_pageLabel; QPushButton *m_previous; QPushButton *m_next; QTimer *m_timer;
+    QLabel *m_detail; QLabel *m_pageLabel; QPushButton *m_previous; QPushButton *m_next; QPushButton *m_boxButton; QTimer *m_timer;
     QList<loadout_candidate_t> m_candidates; loadout_candidate_t m_selected;
 
     static loadout_slot_e slotForType(int type)
@@ -278,15 +312,69 @@ private:
         query.confirmedOnly = m_confirmedOnly->isChecked(); query.skills = skillFilters();
         query.offset = m_page * 200; query.limit = 200; query.gender = m_showIncompatible->isChecked() ? -1 : m_genderValue;
         query.combat = m_showIncompatible->isChecked() ? -1 : m_combat;
-        m_candidates = GameDataRepository::instance().queryCandidates(m_expectedSaveType, query, &m_total);
+        if (m_boxMode)
+        {
+            m_candidates.clear();
+            m_total = 0;
+        }
+        else
+            m_candidates = GameDataRepository::instance().queryCandidates(m_expectedSaveType, query, &m_total);
+        if (m_boxMode && m_saveEditor && m_saveEditor->loaded() && m_saveEditor->savedata)
+        {
+            for (int boxIndex = 0; boxIndex < 1000; ++boxIndex)
+            {
+                equipment_t &raw = m_saveEditor->savedata->box[boxIndex / 100][boxIndex % 100];
+                const int type = raw[0];
+                const int id = raw[2] | (raw[3] << 8);
+                if (!type || !id) continue;
+                if (m_expectedSaveType >= 0 && type != m_expectedSaveType) continue;
+                if (m_expectedSaveType < 0 && (type < 7 || type > 19 || type == 12)) continue;
+                if (query.weaponType >= 0 && type != query.weaponType) continue;
+
+                loadout_candidate_t value;
+                if (type == MH3U_Type::CharmType)
+                {
+                    const charm_t charm = MH3U_Armory::convertEquipmentToCharm(raw);
+                    value = GameDataRepository::instance().charmCandidate(charm.identifier, charm.slotsCount,
+                        charm.firstSkillIdentifier, charm.firstSkillValue,
+                        charm.secondSkillIdentifier, charm.secondSkillValue);
+                }
+                else
+                    value = GameDataRepository::instance().candidate(type, id);
+                if (!value.found) continue;
+                if (query.rarityMin >= 0 && value.rarity < query.rarityMin) continue;
+                if (query.slotsMin >= 0 && value.slotCount < query.slotsMin) continue;
+                if (type >= 1 && type <= 5)
+                {
+                    if (query.combat >= 0 && value.combat > 0 && value.combat != query.combat) continue;
+                    if (query.gender >= 0 && value.gender > 0 && value.gender != query.gender + 1) continue;
+                }
+                const QString decorations = equipmentDecorationSummary(raw, &value.decorations);
+                const QString position = QString::fromUtf8("第%1页 第%2格 #%3")
+                    .arg(boxIndex / 100 + 1).arg(boxIndex % 100 + 1).arg(boxIndex + 1);
+                if (!query.text.trimmed().isEmpty() &&
+                    !value.name.contains(query.text.trimmed(), Qt::CaseInsensitive) &&
+                    !value.english.contains(query.text.trimmed(), Qt::CaseInsensitive) &&
+                    !decorations.contains(query.text.trimmed(), Qt::CaseInsensitive) &&
+                    !position.contains(query.text.trimmed(), Qt::CaseInsensitive)) continue;
+                value.boxIndex = boxIndex;
+                m_candidates.append(value);
+            }
+            m_total = m_candidates.size();
+        }
         QStringList headers;
         const bool armor = m_expectedSaveType >= 1 && m_expectedSaveType <= 5;
         const bool charm = m_expectedSaveType == MH3U_Type::CharmType;
-        if (armor) headers << QString::fromUtf8("名称") << QString::fromUtf8("稀有度") << QString::fromUtf8("孔")
+        if (m_boxMode) headers << QString::fromUtf8("页") << QString::fromUtf8("格");
+        if (armor) headers << QString::fromUtf8("名称") << (m_boxMode ? QString::fromUtf8("装饰珠") : QString())
+                           << QString::fromUtf8("稀有度") << QString::fromUtf8("孔")
                            << QString::fromUtf8("初始/最终防御") << QString::fromUtf8("五耐性");
-        else if (charm) headers << QString::fromUtf8("护石") << QString::fromUtf8("孔") << QString::fromUtf8("技能1") << QString::fromUtf8("技能2");
-        else headers << QString::fromUtf8("名称") << QString::fromUtf8("类型") << QString::fromUtf8("稀有度")
+        else if (charm) headers << QString::fromUtf8("护石") << (m_boxMode ? QString::fromUtf8("装饰珠") : QString())
+                                << QString::fromUtf8("孔") << QString::fromUtf8("技能1") << QString::fromUtf8("技能2");
+        else headers << QString::fromUtf8("名称") << (m_boxMode ? QString::fromUtf8("装饰珠") : QString())
+                     << QString::fromUtf8("类型") << QString::fromUtf8("稀有度")
                      << QString::fromUtf8("攻击") << QString::fromUtf8("孔") << QString::fromUtf8("防御");
+        headers.removeAll(QString());
         const QList<skill_filter_t> filters = query.skills;
         for (int i = 0; i < filters.size(); ++i) headers << skillName(filters.at(i).skillTreeId);
         headers << QString::fromUtf8("合法性");
@@ -295,7 +383,23 @@ private:
         for (int row = 0; row < m_candidates.size(); ++row)
         {
             const loadout_candidate_t &candidate = m_candidates.at(row); int column = 0;
+            if (m_boxMode)
+            {
+                m_table->setItem(row, column++, new QTableWidgetItem(QString::number(candidate.boxIndex / 100 + 1)));
+                m_table->setItem(row, column++, new QTableWidgetItem(QString::number(candidate.boxIndex % 100 + 1)));
+            }
             m_table->setItem(row, column++, new QTableWidgetItem(candidate.name));
+            if (m_boxMode)
+            {
+                QStringList jewelNames;
+                for (int i = 0; i < candidate.decorations.size(); ++i)
+                {
+                    const decoration_data_t detail = GameDataRepository::instance().decoration(candidate.decorations.at(i));
+                    jewelNames << (detail.found ? detail.name : QString::fromUtf8("未知珠 #%1").arg(candidate.decorations.at(i)));
+                }
+                m_table->setItem(row, column++, new QTableWidgetItem(jewelNames.isEmpty()
+                    ? QString::fromUtf8("无") : jewelNames.join(QString::fromUtf8(" | "))));
+            }
             if (armor)
             {
                 m_table->setItem(row, column++, new QTableWidgetItem(candidate.rarity < 0 ? "—" : QString::number(candidate.rarity)));
@@ -323,10 +427,13 @@ private:
             QTableWidgetItem *status = new QTableWidgetItem(statusText(candidate, m_platform)); colorStatusItem(status, candidate, m_platform);
             m_table->setItem(row, column, status);
         }
-        m_table->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
-        for (int c = 1; c < m_table->columnCount(); ++c) m_table->horizontalHeader()->setSectionResizeMode(c, QHeaderView::ResizeToContents);
-        m_previous->setEnabled(m_page > 0); m_next->setEnabled((m_page + 1) * 200 < m_total);
-        m_pageLabel->setText(QString::fromUtf8("第 %1 页，共 %2 条").arg(m_page + 1).arg(m_total));
+        for (int c = 0; c < m_table->columnCount(); ++c) m_table->horizontalHeader()->setSectionResizeMode(c, QHeaderView::ResizeToContents);
+        const int nameColumn = m_boxMode ? 2 : 0;
+        m_table->horizontalHeader()->setSectionResizeMode(nameColumn, QHeaderView::Stretch);
+        if (m_boxMode) m_table->horizontalHeader()->setSectionResizeMode(nameColumn + 1, QHeaderView::Stretch);
+        m_previous->setEnabled(!m_boxMode && m_page > 0); m_next->setEnabled(!m_boxMode && (m_page + 1) * 200 < m_total);
+        m_pageLabel->setText(m_boxMode ? QString::fromUtf8("装备箱中共 %1 件匹配实例").arg(m_total)
+            : QString::fromUtf8("第 %1 页，共 %2 条").arg(m_page + 1).arg(m_total));
         m_selectedRow = -1; updateDetail();
     }
     void updateDetail()
@@ -337,8 +444,19 @@ private:
         QStringList skills;
         QMap<int, int>::const_iterator it = candidate.skillPoints.constBegin();
         for (; it != candidate.skillPoints.constEnd(); ++it) skills << QString("%1 %2").arg(skillName(it.key()), signedText(it.value()));
-        m_detail->setText(QString("%1 (%2) · Type %3 / ID %4 · %5\n%6").arg(candidate.name, candidate.english)
-            .arg(candidate.saveType).arg(candidate.saveId).arg(statusText(candidate, m_platform), skills.join("  ")));
+        QStringList jewelNames;
+        for (int i = 0; i < candidate.decorations.size(); ++i)
+        {
+            const decoration_data_t detail = GameDataRepository::instance().decoration(candidate.decorations.at(i));
+            jewelNames << (detail.found ? detail.name : QString::fromUtf8("未知珠 #%1").arg(candidate.decorations.at(i)));
+        }
+        const QString boxDetail = candidate.boxIndex >= 0
+            ? QString::fromUtf8(" · 装备箱第%1页第%2格 · 装饰珠：%3")
+                .arg(candidate.boxIndex / 100 + 1).arg(candidate.boxIndex % 100 + 1)
+                .arg(jewelNames.isEmpty() ? QString::fromUtf8("无") : jewelNames.join(QString::fromUtf8(" | ")))
+            : QString();
+        m_detail->setText(QString("%1 (%2) · Type %3 / ID %4 · %5%6\n%7").arg(candidate.name, candidate.english)
+            .arg(candidate.saveType).arg(candidate.saveId).arg(statusText(candidate, m_platform), boxDetail, skills.join("  ")));
     }
     void acceptSelection()
     {
@@ -353,7 +471,7 @@ private:
 class CharmPickerDialog : public QDialog
 {
 public:
-    CharmPickerDialog(const loadout_charm_t &current, save_format_e platform, QWidget *parent = 0)
+    CharmPickerDialog(const loadout_charm_t &current, save_format_e platform, MH3U_SE *saveEditor, QWidget *parent = 0)
         : QDialog(parent), m_platform(platform)
     {
         setWindowTitle(QString::fromUtf8("选择护石"));
@@ -399,6 +517,11 @@ public:
         root->addWidget(m_status);
         root->addStretch();
         QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
+        QPushButton *fromBox = buttons->addButton(QString::fromUtf8("从装备箱选择…"), QDialogButtonBox::ActionRole);
+        const bool saveLoaded = saveEditor && saveEditor->loaded() && saveEditor->savedata;
+        fromBox->setEnabled(saveLoaded);
+        fromBox->setToolTip(saveLoaded ? QString::fromUtf8("按原页/格选择护石，并复制技能、孔位和装饰珠。")
+            : QString::fromUtf8("请先读取存档，才能从装备箱选择护石。"));
         buttons->button(QDialogButtonBox::Ok)->setText(QString::fromUtf8("使用此护石"));
         buttons->button(QDialogButtonBox::Cancel)->setText(QString::fromUtf8("取消"));
         root->addWidget(buttons);
@@ -419,6 +542,12 @@ public:
         connect(m_skill2, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this]() { refreshStatus(); });
         connect(m_points1, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this]() { refreshStatus(); });
         connect(m_points2, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this]() { refreshStatus(); });
+        connect(fromBox, &QPushButton::clicked, [this, saveEditor]() {
+            EquipmentPickerDialog boxDialog(MH3U_Type::CharmType, -1, -1, m_platform, saveEditor, this, true);
+            if (boxDialog.exec() != QDialog::Accepted) return;
+            m_selected = boxDialog.selectedCandidate();
+            accept();
+        });
         connect(buttons, &QDialogButtonBox::accepted, [this]() { m_selected = candidate(); accept(); });
         connect(buttons, &QDialogButtonBox::rejected, this, &QDialog::reject);
         refreshStatus();
@@ -732,13 +861,13 @@ void QLoadout::chooseEquipment(loadout_slot_e slot)
     const save_format_e platform = m_saveEditor && m_saveEditor->loaded() ? m_saveEditor->format() : SAVE_FORMAT_UNKNOWN;
     if (slot == LoadoutCharm)
     {
-        CharmPickerDialog dialog(m_model.charm, platform, this);
+        CharmPickerDialog dialog(m_model.charm, platform, m_saveEditor, this);
         if (dialog.exec() != QDialog::Accepted) return;
         const loadout_candidate_t candidate = dialog.selectedCandidate();
         m_model.charm.selected = true; m_model.charm.classId = candidate.classId; m_model.charm.slotCount = candidate.slotCount;
         m_model.charm.skill1Id = candidate.skill1Id; m_model.charm.skill1Points = candidate.skill1Points;
         m_model.charm.skill2Id = candidate.skill2Id; m_model.charm.skill2Points = candidate.skill2Points;
-        m_model.charm.decorations.clear();
+        m_model.charm.decorations = candidate.decorations;
         setDirty(); refresh();
         return;
     }
@@ -746,10 +875,10 @@ void QLoadout::chooseEquipment(loadout_slot_e slot)
     { QMessageBox::information(this, QString::fromUtf8("请先选择武器"), QString::fromUtf8("武器决定近战/远程防具筛选。")); return; }
     int expected = slot == LoadoutWeapon ? -1 : LoadoutCalculator::expectedSaveType(slot);
     int combat = m_model.weapon.selected ? (LoadoutCalculator::isRangedWeapon(m_model.weapon.saveType) ? 2 : 1) : -1;
-    EquipmentPickerDialog dialog(expected, combat, m_model.gender, platform, this); if (dialog.exec() != QDialog::Accepted) return;
+    EquipmentPickerDialog dialog(expected, combat, m_model.gender, platform, m_saveEditor, this); if (dialog.exec() != QDialog::Accepted) return;
     loadout_candidate_t candidate = dialog.selectedCandidate();
     loadout_piece_t *piece = m_model.piece(slot); piece->selected = true; piece->saveType = candidate.saveType;
-    piece->saveId = candidate.saveId; piece->decorations.clear();
+    piece->saveId = candidate.saveId; piece->decorations = candidate.decorations;
     setDirty(); refresh();
 }
 

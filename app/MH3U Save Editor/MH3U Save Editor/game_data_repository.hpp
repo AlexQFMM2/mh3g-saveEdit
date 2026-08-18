@@ -94,6 +94,7 @@ struct loadout_candidate_t
     bool placeholder;
     bool confirmed;
     bool mh3gOnly;
+    int boxIndex;
     int saveType;
     int saveId;
     int rarity;
@@ -118,10 +119,11 @@ struct loadout_candidate_t
     QString name;
     QString english;
     QString mappingStatus;
+    QList<int> decorations;
     QMap<int, int> skillPoints;
 
     loadout_candidate_t()
-        : found(false), placeholder(false), confirmed(false), mh3gOnly(false), saveType(0), saveId(0),
+        : found(false), placeholder(false), confirmed(false), mh3gOnly(false), boxIndex(-1), saveType(0), saveId(0),
           rarity(-1), slotCount(-1), combat(-1), gender(-1), attack(-1), affinity(0), defense(0),
           baseDefense(-1), maxDefense(-1), fireRes(0), waterRes(0), iceRes(0), thunderRes(0),
           dragonRes(0), classId(0), skill1Id(0), skill1Points(0), skill2Id(0), skill2Points(0) {}

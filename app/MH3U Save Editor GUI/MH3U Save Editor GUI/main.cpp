@@ -59,9 +59,29 @@ static void applyApplicationStyle(QApplication &app)
             background: transparent;
             spacing: 7px;
         }
-        QCheckBox::indicator, QRadioButton::indicator {
+        QCheckBox::indicator {
             width: 16px;
             height: 16px;
+            border: 1px solid #8b9bb0;
+            border-radius: 4px;
+            background: #ffffff;
+        }
+        QCheckBox::indicator:hover {
+            border-color: #3678c9;
+            background: #f4f8fd;
+        }
+        QCheckBox::indicator:checked {
+            border-color: #2869b7;
+            background: #3678c9;
+            image: url(:/ui/checkmark.xpm);
+        }
+        QCheckBox::indicator:disabled {
+            border-color: #b9c4d1;
+            background: #dfe5ec;
+        }
+        QCheckBox::indicator:checked:disabled {
+            border-color: #91a8c4;
+            background: #91a8c4;
         }
         QLabel#appTitle {
             color: #15213a;
