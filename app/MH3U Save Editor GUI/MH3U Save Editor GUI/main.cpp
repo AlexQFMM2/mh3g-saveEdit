@@ -274,6 +274,20 @@ int main(int argc, char *argv[])
             a.quit();
         });
     }
+    else if (a.arguments().contains(QStringLiteral("--smoke-test-account")))
+    {
+        QMetaObject::invokeMethod(&w, "showAccount", Qt::QueuedConnection);
+        QTimer::singleShot(200, [&w, &a]() {
+            QString error;
+            if (!w.smokeTestAccount(&error))
+            {
+                qCritical("Account layout smoke test failed: %s", qPrintable(error));
+                a.exit(2);
+                return;
+            }
+            a.quit();
+        });
+    }
     else if (a.arguments().contains(QStringLiteral("--smoke-test")))
         QTimer::singleShot(150, &a, &QCoreApplication::quit);
 

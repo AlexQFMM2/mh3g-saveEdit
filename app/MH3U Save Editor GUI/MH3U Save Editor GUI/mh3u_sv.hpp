@@ -22,6 +22,7 @@ public:
     explicit MH3U_SV(QWidget *parent = 0);
     ~MH3U_SV();
     bool smokeTestLoadout(QString *error = 0);
+    bool smokeTestAccount(QString *error = 0);
 
 protected:
     void closeEvent(QCloseEvent *event);

@@ -61,6 +61,7 @@ jobs:
           Push-Location .\release\windows
           .\MH3USaveEditorGUI.exe --smoke-test
           .\MH3USaveEditorGUI.exe --smoke-test-loadout
+          .\MH3USaveEditorGUI.exe --smoke-test-account
           .\MH3USaveEditorGUI.exe --smoke-test-ssl
           Pop-Location
 
@@ -86,4 +87,5 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
+          prerelease: ${{ contains(github.ref_name, '-beta.') }}
           files: MH3USaveEditorGUI-windows-portable.zip

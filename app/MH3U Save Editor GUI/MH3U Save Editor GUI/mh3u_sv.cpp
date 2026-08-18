@@ -181,6 +181,13 @@ bool MH3U_SV::smokeTestLoadout(QString *error)
     return saveButton->isVisible() && loadButton->isVisible() && loadoutPage->smokeTestLayout(error);
 }
 
+bool MH3U_SV::smokeTestAccount(QString *error)
+{
+    resize(1100, 700);
+    showAccount();
+    return accountPage->isVisible() && communityPage->smokeTestAccount(error);
+}
+
 void MH3U_SV::createPages()
 {
     if (characterPage) return;
@@ -226,7 +233,7 @@ void MH3U_SV::showChest() { setCurrentPage(chestPage, chestButton, QString::from
 void MH3U_SV::showBox() { setCurrentPage(boxPage, boxButton, QString::fromUtf8("装备箱")); }
 void MH3U_SV::showLoadout() { setCurrentPage(loadoutPage, loadoutButton, QString::fromUtf8("配装器")); }
 void MH3U_SV::showCommunity() { setCurrentPage(communityPage, communityButton, QString::fromUtf8("配装广场")); }
-void MH3U_SV::showAccount() { setCurrentPage(accountPage, accountButton, QString::fromUtf8("个人信息")); }
+void MH3U_SV::showAccount() { setCurrentPage(accountPage, accountButton, QString::fromUtf8("个人信息")); communityPage->refreshProfile(); }
 void MH3U_SV::showAbout() { setCurrentPage(aboutPage, aboutButton, QString::fromUtf8("关于")); }
 
 void MH3U_SV::loadoutApplied()
