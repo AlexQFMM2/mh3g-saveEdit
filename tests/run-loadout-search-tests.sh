@@ -17,9 +17,12 @@ if ! command -v "$make_bin" >/dev/null 2>&1; then
     exit 127
 fi
 "$make_bin" -C "$build_dir" -j2
-test_bin="$build_dir/test_loadout_search"
-if [ ! -x "$test_bin" ] && [ -x "$test_bin.exe" ]; then test_bin="$test_bin.exe"; fi
-if [ ! -x "$test_bin" ]; then
+test_bin=""
+for candidate in "$build_dir/test_loadout_search" "$build_dir/test_loadout_search.exe" \
+    "$build_dir/release/test_loadout_search.exe"; do
+    if [ -f "$candidate" ]; then test_bin="$candidate"; break; fi
+done
+if [ -z "$test_bin" ]; then
     echo "loadout search test binary not found" >&2
     exit 127
 fi
