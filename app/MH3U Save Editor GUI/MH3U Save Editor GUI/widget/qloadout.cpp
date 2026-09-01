@@ -97,6 +97,37 @@ QString signedText(int points)
     return points > 0 ? QString("+%1").arg(points) : QString::number(points);
 }
 
+int decorationSlotUsage(const QList<int> &ids)
+{
+    int used = 0;
+    for (int i = 0; i < ids.size(); ++i)
+        used += qMax(0, GameDataRepository::instance().decoration(ids.at(i)).slotCount);
+    return used;
+}
+
+QString slotIndicatorText(int capacity, int used)
+{
+    if (capacity < 0) return QString::fromUtf8("<span style='color:#98a2b3'>？ ？ ？</span>");
+    QStringList glyphs;
+    for (int i = 0; i < 3; ++i)
+    {
+        const QChar glyph = i < used ? QChar(0x25CF) : i < capacity ? QChar(0x25CB) : QChar(0x2298);
+        const char *color = i < used ? "#17643a" : i < capacity ? "#1d66c2" : "#98a2b3";
+        glyphs << QString("<span style='color:%1;font-size:15px'>%2</span>").arg(color).arg(glyph);
+    }
+    return glyphs.join(QString::fromUtf8("&nbsp;"));
+}
+
+QString slotMetaText(int capacity, int used, int rarity, int jewelCount)
+{
+    QString value;
+    if (rarity >= 0) value = QString::fromUtf8("R%1 · ").arg(rarity);
+    value += slotIndicatorText(capacity, used);
+    value += QString::fromUtf8(" · 珠%1").arg(jewelCount);
+    if (capacity >= 0 && used > capacity) value += QString::fromUtf8(" · 超孔");
+    return value;
+}
+
 QString skillName(int id)
 {
     const QList<skill_tree_data_t> skills = GameDataRepository::instance().skillTreesDetailed();
@@ -645,11 +676,23 @@ public:
         filters->addWidget(m_search, 1); filters->addWidget(m_skill); filters->addWidget(new QLabel(QString::fromUtf8("技能点 ≥"), this)); filters->addWidget(m_points);
         root->addLayout(filters);
         QSplitter *splitter = new QSplitter(this); m_candidates = new QTableWidget(splitter); m_installed = new QTableWidget(splitter);
-        m_candidates->setMinimumWidth(700); m_installed->setMinimumWidth(330);
-        splitter->addWidget(m_candidates); splitter->addWidget(m_installed); root->addWidget(splitter, 1);
-        splitter->setSizes(QList<int>() << 750 << 350);
-        QHBoxLayout *actions = new QHBoxLayout; QPushButton *add = new QPushButton(QString::fromUtf8("加入 →"), this);
-        QPushButton *remove = new QPushButton(QString::fromUtf8("移除"), this); actions->addWidget(add); actions->addWidget(remove); actions->addStretch();
+        m_candidates->setMinimumWidth(560); m_installed->setMinimumWidth(330);
+        QWidget *transferPanel = new QWidget(splitter); QVBoxLayout *transferLayout = new QVBoxLayout(transferPanel);
+        transferLayout->setContentsMargins(5, 5, 5, 5); transferLayout->addStretch();
+        m_slotIndicator = new QLabel(transferPanel); m_slotIndicator->setAlignment(Qt::AlignCenter);
+        m_slotIndicator->setObjectName("decorationSlotIndicator");
+        m_slotIndicator->setTextFormat(Qt::RichText); m_slotIndicator->setToolTip(QString::fromUtf8("○ 可装孔　● 已占孔　⊘ 不可装孔"));
+        transferLayout->addWidget(m_slotIndicator);
+        QPushButton *add = new QPushButton(QString::fromUtf8("→ 加入"), transferPanel);
+        QPushButton *remove = new QPushButton(QString::fromUtf8("← 移除"), transferPanel);
+        add->setObjectName("decorationAddButton"); remove->setObjectName("decorationRemoveButton");
+        add->setToolTip(QString::fromUtf8("将左侧选中的装饰珠加入当前装备"));
+        remove->setToolTip(QString::fromUtf8("移除右侧选中的装饰珠"));
+        add->setMinimumWidth(92); remove->setMinimumWidth(92);
+        transferLayout->addWidget(add); transferLayout->addWidget(remove); transferLayout->addStretch();
+        splitter->addWidget(m_candidates); splitter->addWidget(transferPanel); splitter->addWidget(m_installed); root->addWidget(splitter, 1);
+        splitter->setSizes(QList<int>() << 650 << 120 << 330);
+        QHBoxLayout *actions = new QHBoxLayout; actions->addStretch();
         QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
         buttons->button(QDialogButtonBox::Ok)->setText(QString::fromUtf8("应用")); buttons->button(QDialogButtonBox::Cancel)->setText(QString::fromUtf8("放弃"));
         actions->addWidget(buttons); root->addLayout(actions);
@@ -664,7 +707,7 @@ public:
     }
     QList<int> values() const { return m_values; }
 private:
-    QList<int> m_values; int m_capacity; bool m_confirmedOnly; QLabel *m_usage; QLineEdit *m_search; QComboBox *m_skill;
+    QList<int> m_values; int m_capacity; bool m_confirmedOnly; QLabel *m_usage; QLabel *m_slotIndicator; QLineEdit *m_search; QComboBox *m_skill;
     QSpinBox *m_points; QTableWidget *m_candidates; QTableWidget *m_installed; QList<loadout_candidate_t> m_rows;
     void refreshCandidates()
     {
@@ -678,8 +721,8 @@ private:
             if (skill > 0 && row.skillPoints.value(skill, 0) < m_points->value()) continue;
             m_rows.append(row);
         }
-        m_candidates->clear(); m_candidates->setColumnCount(5); m_candidates->setHorizontalHeaderLabels(QStringList()
-            << QString::fromUtf8("名称") << QString::fromUtf8("ID") << QString::fromUtf8("占孔") << QString::fromUtf8("技能") << QString::fromUtf8("状态"));
+        m_candidates->clear(); m_candidates->setColumnCount(2); m_candidates->setHorizontalHeaderLabels(QStringList()
+            << QString::fromUtf8("名称") << QString::fromUtf8("技能"));
         m_candidates->setRowCount(m_rows.size()); m_candidates->setSelectionBehavior(QAbstractItemView::SelectRows);
         m_candidates->setEditTriggers(QAbstractItemView::NoEditTriggers); m_candidates->verticalHeader()->setVisible(false);
         for (int r = 0; r < m_rows.size(); ++r)
@@ -687,13 +730,11 @@ private:
             const loadout_candidate_t &row = m_rows.at(r); QStringList effects;
             QMap<int, int>::const_iterator it = row.skillPoints.constBegin();
             for (; it != row.skillPoints.constEnd(); ++it) effects << QString("%1 %2").arg(skillName(it.key()), signedText(it.value()));
-            m_candidates->setItem(r, 0, new QTableWidgetItem(row.name)); m_candidates->setItem(r, 1, new QTableWidgetItem(QString::number(row.saveId)));
-            m_candidates->setItem(r, 2, new QTableWidgetItem(row.slotCount < 0 ? "—" : QString::number(row.slotCount)));
-            m_candidates->setItem(r, 3, new QTableWidgetItem(effects.join("  "))); QTableWidgetItem *status = new QTableWidgetItem(statusText(row));
-            colorStatusItem(status, row); m_candidates->setItem(r, 4, status);
+            m_candidates->setItem(r, 0, new QTableWidgetItem(row.name));
+            m_candidates->setItem(r, 1, new QTableWidgetItem(effects.join("  ")));
         }
         m_candidates->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
-        m_candidates->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
+        m_candidates->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
     }
     void refreshInstalled()
     {
@@ -710,6 +751,7 @@ private:
         m_installed->setSelectionBehavior(QAbstractItemView::SelectRows); m_installed->setEditTriggers(QAbstractItemView::NoEditTriggers);
         m_installed->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
         const bool over = !unknown && used > m_capacity;
+        m_slotIndicator->setText(slotIndicatorText(m_capacity, used));
         m_usage->setText(QString::fromUtf8("天然孔位：%1　已占用：%2　剩余：%3%4").arg(m_capacity).arg(unknown ? QString::fromUtf8("未知") : QString::number(used))
             .arg(unknown ? QString::fromUtf8("未知") : QString::number(m_capacity - used)).arg(over ? QString::fromUtf8("　⚠ 孔位超限（仍可应用）") : QString()));
         m_usage->setStyleSheet(over || unknown ? "color:#8a4b08;background:#fff3cd;padding:6px;" : "color:#17643a;background:#eaf8f0;padding:6px;");
@@ -736,7 +778,7 @@ public:
         qRegisterMetaType<loadout_search_progress_t>("loadout_search_progress_t");
         setObjectName("autoLoadoutDialog");
         setWindowTitle(QString::fromUtf8("自动配装 · MH3G"));
-        setWindowFlags(windowFlags() | Qt::WindowMaximizeButtonHint);
+        setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint | Qt::WindowMaximizeButtonHint);
         resize(1180, 720); setMinimumSize(980, 620);
         QHBoxLayout *root = new QHBoxLayout(this);
         QSplitter *splitter = new QSplitter(this); splitter->setObjectName("autoLoadoutSplitter"); root->addWidget(splitter);
@@ -1345,7 +1387,9 @@ QLoadout::QLoadout(MH3U_SE *saveEditor, QWidget *parent)
         widgets.frame->setMinimumWidth(104);
         card->setContentsMargins(5, 6, 5, 6); card->setSpacing(3); QLabel *title = new QLabel(slotLabel(slot), widgets.frame); title->setStyleSheet("font-weight:700;");
         widgets.name = new ElidedLabel(QString::fromUtf8("（未选择）"), widgets.frame); widgets.name->setWordWrap(false); widgets.name->setFixedHeight(22);
-        widgets.meta = new QLabel(QString::fromUtf8("孔 —"), widgets.frame); widgets.meta->setStyleSheet("color:#69758a;font-size:11px;");
+        widgets.meta = new QLabel(QString::fromUtf8("⊘ ⊘ ⊘"), widgets.frame);
+        widgets.meta->setObjectName(QString("loadoutSlotIndicator%1").arg(index));
+        widgets.meta->setTextFormat(Qt::RichText); widgets.meta->setStyleSheet("color:#69758a;font-size:11px;");
         widgets.select = new QPushButton(QString::fromUtf8("选择"), widgets.frame);
         widgets.decorations = new QPushButton(QString::fromUtf8("珠子"), widgets.frame); widgets.clear = new QPushButton(QString::fromUtf8("清空"), widgets.frame);
         m_detailEditControls << widgets.select << widgets.decorations << widgets.clear;
@@ -1385,9 +1429,20 @@ bool QLoadout::hasSelections() const
 
 void QLoadout::automaticLoadout()
 {
-    AutoLoadoutDialog dialog(m_model, m_saveEditor,
+    if (m_autoLoadoutDialog)
+    {
+        m_autoLoadoutDialog->showNormal();
+        m_autoLoadoutDialog->raise();
+        m_autoLoadoutDialog->activateWindow();
+        return;
+    }
+    AutoLoadoutDialog *dialog = new AutoLoadoutDialog(m_model, m_saveEditor,
         [this](const loadout_model_t &model) { applyAutomaticResult(model); }, this);
-    dialog.exec();
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->setModal(false);
+    m_autoLoadoutDialog = dialog;
+    connect(dialog, &QObject::destroyed, this, [this]() { m_autoLoadoutDialog = 0; });
+    dialog->show();
 }
 
 void QLoadout::applyAutomaticResult(const loadout_model_t &model)
@@ -1426,6 +1481,11 @@ bool QLoadout::smokeTestLayout(QString *error) const
             if (error) *error = QString::fromUtf8("第 %1 个配装格在默认窗口中不完整可见。").arg(index + 1);
             return false;
         }
+        if (!findChild<QLabel *>(QString("loadoutSlotIndicator%1").arg(index)))
+        {
+            if (error) *error = QString::fromUtf8("第 %1 个配装格缺少孔位状态指示。").arg(index + 1);
+            return false;
+        }
     }
     if (m_skillTable->height() < 100 || m_summary->height() < 100)
     {
@@ -1435,7 +1495,11 @@ bool QLoadout::smokeTestLayout(QString *error) const
     bool dynamicFormChecked = false;
     QString dynamicFormError;
     QTimer::singleShot(0, [&dynamicFormChecked, &dynamicFormError]() {
-        QDialog *dialog = qobject_cast<QDialog *>(QApplication::activeModalWidget());
+        QDialog *dialog = 0;
+        const QList<QWidget *> topLevels = QApplication::topLevelWidgets();
+        for (int i = 0; i < topLevels.size(); ++i)
+            if (topLevels.at(i)->objectName() == "autoLoadoutDialog")
+            { dialog = qobject_cast<QDialog *>(topLevels.at(i)); break; }
         if (!dialog || dialog->objectName() != "autoLoadoutDialog")
         { dynamicFormError = QString::fromUtf8("自动配装弹窗未打开。"); dynamicFormChecked = true; return; }
         QPushButton *addSkill = dialog->findChild<QPushButton *>("autoLoadoutAddSkill");
@@ -1444,7 +1508,11 @@ bool QLoadout::smokeTestLayout(QString *error) const
         QTableWidget *results = dialog->findChild<QTableWidget *>("autoLoadoutResults");
         QPushButton *clearFixed = dialog->findChild<QPushButton *>("autoLoadoutClearFixed");
         QPushButton *weaponJewels = dialog->findChild<QPushButton *>("autoLoadoutWeaponDecorations");
-        if (!(dialog->windowFlags() & Qt::WindowMaximizeButtonHint))
+        if (dialog->isModal() || dialog->windowModality() != Qt::NonModal)
+            dynamicFormError = QString::fromUtf8("自动配装弹窗不应阻塞主界面。");
+        else if (!(dialog->windowFlags() & Qt::WindowMinimizeButtonHint))
+            dynamicFormError = QString::fromUtf8("自动配装弹窗缺少最小化按钮。");
+        else if (!(dialog->windowFlags() & Qt::WindowMaximizeButtonHint))
             dynamicFormError = QString::fromUtf8("自动配装弹窗缺少最大化按钮。");
         else if (!splitter || splitter->sizes().size() != 2)
             dynamicFormError = QString::fromUtf8("自动配装左右分栏未建立。");
@@ -1484,6 +1552,8 @@ bool QLoadout::smokeTestLayout(QString *error) const
         dynamicFormChecked = true; dialog->reject();
     });
     automaticButton->click();
+    QCoreApplication::processEvents();
+    QCoreApplication::sendPostedEvents(0, QEvent::DeferredDelete);
     if (!dynamicFormChecked || !dynamicFormError.isEmpty())
     {
         if (error) *error = dynamicFormError.isEmpty()
@@ -1709,21 +1779,28 @@ void QLoadout::refreshCards()
 {
     for (int index = 0; index < LoadoutSlotCount; ++index)
     {
-        loadout_slot_e slot = (loadout_slot_e)index; bool selected = false; QString name = QString::fromUtf8("（未选择）"); int capacity = -1; int jewelCount = 0;
+        loadout_slot_e slot = (loadout_slot_e)index; bool selected = false; QString name = QString::fromUtf8("（未选择）");
+        int capacity = -1; int jewelCount = 0; QList<int> decorations;
         equipment_validity_e cardStatus = EquipmentValid;
         loadout_candidate_t candidate;
         if (slot == LoadoutCharm)
         { selected = m_model.charm.selected; if (selected) { candidate = GameDataRepository::instance().charmCandidate(m_model.charm.classId, m_model.charm.slotCount,
               m_model.charm.skill1Id, m_model.charm.skill1Points, m_model.charm.skill2Id, m_model.charm.skill2Points);
               name = QString("%1 · %2 %3 / %4 %5").arg(candidate.name, skillName(m_model.charm.skill1Id), signedText(m_model.charm.skill1Points),
-                  skillName(m_model.charm.skill2Id), signedText(m_model.charm.skill2Points)); capacity = m_model.charm.slotCount; jewelCount = m_model.charm.decorations.size(); } }
+                  skillName(m_model.charm.skill2Id), signedText(m_model.charm.skill2Points)); capacity = m_model.charm.slotCount;
+              decorations = m_model.charm.decorations; jewelCount = decorations.size(); } }
         else
         { const loadout_piece_t *piece = m_model.piece(slot); selected = piece && piece->selected; if (selected) { candidate = GameDataRepository::instance().candidate(piece->saveType, piece->saveId);
-              name = candidate.name; capacity = candidate.slotCount; jewelCount = piece->decorations.size(); } }
+              name = candidate.name; capacity = candidate.slotCount; decorations = piece->decorations; jewelCount = decorations.size(); } }
         static_cast<ElidedLabel *>(m_slots[index].name)->setFullText(name); m_slots[index].name->setToolTip(selected ? QString("%1 (%2)\nType %3 / ID %4").arg(candidate.name, candidate.english).arg(candidate.saveType).arg(candidate.saveId) : QString());
-        QString meta = selected ? QString::fromUtf8("孔 %1 · 珠 %2").arg(capacity < 0 ? QString::fromUtf8("未知") : QString::number(capacity)).arg(jewelCount) : QString::fromUtf8("孔 —");
-        if (selected && candidate.rarity >= 0) meta = QString::fromUtf8("R%1 · %2").arg(candidate.rarity).arg(meta);
+        const int usedSlots = decorationSlotUsage(decorations);
+        QString meta = selected ? slotMetaText(capacity, usedSlots, candidate.rarity, jewelCount)
+            : slotIndicatorText(0, 0);
         m_slots[index].meta->setText(meta);
+        m_slots[index].meta->setToolTip(selected ? QString::fromUtf8("○ 可装孔　● 已占孔　⊘ 不可装孔\n天然孔：%1　已占孔：%2　装饰珠：%3%4")
+            .arg(capacity < 0 ? QString::fromUtf8("未知") : QString::number(capacity)).arg(usedSlots).arg(jewelCount)
+            .arg(capacity >= 0 && usedSlots > capacity ? QString::fromUtf8("　⚠ 超孔") : QString()) :
+            QString::fromUtf8("○ 可装孔　● 已占孔　⊘ 不可装孔"));
         m_slots[index].decorations->setEnabled(selected); m_slots[index].clear->setEnabled(selected);
         if (slot >= LoadoutHead && slot <= LoadoutLegs) m_slots[index].select->setEnabled(m_model.weapon.selected);
         if (selected)

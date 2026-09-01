@@ -5,6 +5,7 @@
 #include "loadout_search.hpp"
 
 #include <QList>
+#include <QPointer>
 #include <QWidget>
 
 class QLabel;
@@ -14,6 +15,7 @@ class QPushButton;
 class QTableWidget;
 class QFrame;
 class QCheckBox;
+class QDialog;
 class MH3U_SE;
 
 class QLoadout : public QWidget
@@ -66,6 +68,7 @@ private:
     QCheckBox *m_showAllSkills;
     QLabel *m_summary;
     QList<QWidget *> m_detailEditControls;
+    QPointer<QDialog> m_autoLoadoutDialog;
     slot_widgets_t m_slots[LoadoutSlotCount];
 
     void chooseEquipment(loadout_slot_e slot);

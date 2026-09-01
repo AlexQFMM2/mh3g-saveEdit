@@ -14,7 +14,7 @@ does not create a backup. A successful save is confirmed by a message box.
 
 ## 项目状态
 
-截至 2026-09-01，MH3G 修改器的计划内功能阶段性完成，当前版本为 `v1.3.0-beta.5`，项目进入
+截至 2026-09-01，MH3G 修改器的计划内功能阶段性完成，当前版本为 `v1.3.0-beta.6`，项目进入
 缺陷修复、数据确证和兼容性维护阶段。桌面存档编辑、本地配装器、配装广场、一键加入装备箱、
 账号与举报治理的完成范围、验证门禁、明确不做项及 MH4G 交接顺序见
 [MH3G 修改器阶段完成记录](docs/MH3G_COMPLETION_RECORD.md)。
@@ -53,6 +53,7 @@ does not create a backup. A successful save is confirmed by a message box.
 邮箱、忘记密码和新版蓝白账号中心随 `v1.3.0-beta.2` 发布；`v1.3.0-beta.3` 增加本地自动配装搜索、
 独立倒计时和结果多维排序，`v1.3.0-beta.4` 补齐 Windows 最大化按钮并精简重复的目标技能列；
 `v1.3.0-beta.5` 增加固定装备/护石、手动超孔珠子与重复装珠解剪枝。
+`v1.3.0-beta.6` 优化非模态自动配装窗口、孔位圆点状态显示，以及装饰珠选择器的左右加入/移除交互。
 该版本作为 GitHub prerelease 发布，Windows 便携包
 通过 SQLite、SSL、主窗口、配装器、账号中心和长列表交互构建门禁。
 
