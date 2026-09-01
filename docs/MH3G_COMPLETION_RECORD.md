@@ -3,9 +3,9 @@
 ## 阶段结论
 
 截至 2026-09-01，MH3G / MH3U 修改器的计划内功能阶段性完成，项目由功能开发转入维护状态。
-当前桌面版本为 `v1.3.0-beta.3`；在线平台版本保持不变。Windows 便携包已作为 GitHub prerelease 发布：
+当前桌面版本为 `v1.3.0-beta.4`；在线平台版本保持不变。Windows 便携包已作为 GitHub prerelease 发布：
 
-<https://github.com/AlexQFMM2/mh3g-saveEdit/releases/tag/v1.3.0-beta.3>
+<https://github.com/AlexQFMM2/mh3g-saveEdit/releases/tag/v1.3.0-beta.4>
 
 “阶段完成”表示现有闭环已经可用，后续仍会处理明确缺陷、安全问题和经过验证的数据修正；
 不再为 MH3G 主动扩展高风险或低收益的新存档字段。后续跨作工作已转向 MH4G，其配装器、

@@ -721,12 +721,13 @@ public:
                       const std::function<void(const loadout_model_t &)> &applyResult,
                       QWidget *parent = 0)
         : QDialog(parent), m_saveEditor(saveEditor), m_applyResult(applyResult), m_thread(0), m_worker(0),
-          m_running(false), m_paused(false), m_closeWhenFinished(false), m_sortColumn(3), m_sortOrder(Qt::DescendingOrder)
+          m_running(false), m_paused(false), m_closeWhenFinished(false), m_sortColumn(2), m_sortOrder(Qt::DescendingOrder)
     {
         qRegisterMetaType<loadout_search_result_t>("loadout_search_result_t");
         qRegisterMetaType<loadout_search_progress_t>("loadout_search_progress_t");
         setObjectName("autoLoadoutDialog");
         setWindowTitle(QString::fromUtf8("自动配装 · MH3G"));
+        setWindowFlags(windowFlags() | Qt::WindowMaximizeButtonHint);
         resize(1180, 720); setMinimumSize(980, 620);
         QHBoxLayout *root = new QHBoxLayout(this);
         QSplitter *splitter = new QSplitter(this); splitter->setObjectName("autoLoadoutSplitter"); root->addWidget(splitter);
@@ -790,8 +791,8 @@ public:
         m_empty->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         resultsRoot->addWidget(m_empty, 1);
         m_resultsTable = new QTableWidget(resultPanel); m_resultsTable->setObjectName("autoLoadoutResults");
-        m_resultsTable->setColumnCount(10);
-        m_resultsTable->setHorizontalHeaderLabels(QStringList() << QString::fromUtf8("装备组合") << QString::fromUtf8("目标技能")
+        m_resultsTable->setColumnCount(9);
+        m_resultsTable->setHorizontalHeaderLabels(QStringList() << QString::fromUtf8("装备组合")
             << QString::fromUtf8("空余孔数") << QString::fromUtf8("防御力") << QString::fromUtf8("火抗")
             << QString::fromUtf8("水抗") << QString::fromUtf8("雷抗") << QString::fromUtf8("冰抗")
             << QString::fromUtf8("龙抗") << QString::fromUtf8("操作"));
@@ -801,14 +802,13 @@ public:
         m_resultsTable->horizontalHeader()->setSectionsClickable(true); m_resultsTable->horizontalHeader()->setSortIndicatorShown(true);
         m_resultsTable->horizontalHeader()->setSortIndicator(m_sortColumn, m_sortOrder); m_resultsTable->hide();
         m_resultsTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
-        m_resultsTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
-        for (int c = 2; c < 9; ++c)
+        for (int c = 1; c < 8; ++c)
         {
             m_resultsTable->horizontalHeader()->setSectionResizeMode(c, QHeaderView::ResizeToContents);
             m_resultsTable->horizontalHeaderItem(c)->setToolTip(QString::fromUtf8("点击按此数值排序"));
         }
-        m_resultsTable->horizontalHeader()->setSectionResizeMode(9, QHeaderView::Fixed);
-        m_resultsTable->setColumnWidth(9, 116);
+        m_resultsTable->horizontalHeader()->setSectionResizeMode(8, QHeaderView::Fixed);
+        m_resultsTable->setColumnWidth(8, 116);
         resultsRoot->addWidget(m_resultsTable, 1);
         // Equal stretch factors preserve the explicit 2:8 initial sizes when the
         // window grows (Qt multiplies each factor by that pane's initial size).
@@ -1089,13 +1089,13 @@ private:
     {
         switch (column)
         {
-        case 2: return remainingSlots(result);
-        case 3: return result.summary.maxDefense;
-        case 4: return result.summary.fireRes;
-        case 5: return result.summary.waterRes;
-        case 6: return result.summary.thunderRes;
-        case 7: return result.summary.iceRes;
-        case 8: return result.summary.dragonRes;
+        case 1: return remainingSlots(result);
+        case 2: return result.summary.maxDefense;
+        case 3: return result.summary.fireRes;
+        case 4: return result.summary.waterRes;
+        case 5: return result.summary.thunderRes;
+        case 6: return result.summary.iceRes;
+        case 7: return result.summary.dragonRes;
         default: return 0;
         }
     }
@@ -1118,7 +1118,7 @@ private:
     }
     void sortResultsBy(int column)
     {
-        if (column < 2 || column > 8) return;
+        if (column < 1 || column > 7) return;
         if (m_sortColumn == column)
             m_sortOrder = m_sortOrder == Qt::DescendingOrder ? Qt::AscendingOrder : Qt::DescendingOrder;
         else
@@ -1144,25 +1144,20 @@ private:
             const loadout_search_result_t value = m_results.at(row);
             QTableWidgetItem *equipment = new QTableWidgetItem(equipmentNames(value)); equipment->setToolTip(equipment->text());
             m_resultsTable->setItem(row, 0, equipment);
-            QStringList skills;
-            for (int s = 0; s < value.summary.skills.size(); ++s)
-                if (!value.summary.skills.at(s).activeSkill.isEmpty())
-                    skills << value.summary.skills.at(s).activeSkill;
-            m_resultsTable->setItem(row, 1, new QTableWidgetItem(skills.join(QString::fromUtf8("、"))));
-            m_resultsTable->setItem(row, 2, numericItem(remainingSlots(value)));
-            m_resultsTable->setItem(row, 3, numericItem(value.summary.maxDefense));
-            m_resultsTable->setItem(row, 4, numericItem(value.summary.fireRes));
-            m_resultsTable->setItem(row, 5, numericItem(value.summary.waterRes));
-            m_resultsTable->setItem(row, 6, numericItem(value.summary.thunderRes));
-            m_resultsTable->setItem(row, 7, numericItem(value.summary.iceRes));
-            m_resultsTable->setItem(row, 8, numericItem(value.summary.dragonRes));
+            m_resultsTable->setItem(row, 1, numericItem(remainingSlots(value)));
+            m_resultsTable->setItem(row, 2, numericItem(value.summary.maxDefense));
+            m_resultsTable->setItem(row, 3, numericItem(value.summary.fireRes));
+            m_resultsTable->setItem(row, 4, numericItem(value.summary.waterRes));
+            m_resultsTable->setItem(row, 5, numericItem(value.summary.thunderRes));
+            m_resultsTable->setItem(row, 6, numericItem(value.summary.iceRes));
+            m_resultsTable->setItem(row, 7, numericItem(value.summary.dragonRes));
             QWidget *actionCell = new QWidget(m_resultsTable);
             QHBoxLayout *actionLayout = new QHBoxLayout(actionCell); actionLayout->setContentsMargins(3, 2, 3, 2);
             QPushButton *apply = new QPushButton(QString::fromUtf8("添加到配装器"), actionCell);
             apply->setStyleSheet("QPushButton{padding:1px 8px;min-height:0px;}");
             apply->setFixedHeight(26); actionLayout->addWidget(apply);
             connect(apply, &QPushButton::clicked, [this, value]() { m_applyResult(value.model); });
-            m_resultsTable->setCellWidget(row, 9, actionCell);
+            m_resultsTable->setCellWidget(row, 8, actionCell);
         }
         const bool any = !m_results.isEmpty(); m_resultsTable->setVisible(any); m_empty->setVisible(!any);
         if (!any && !m_running) m_empty->setText(QString::fromUtf8("搜索结果会显示在这里。"));
@@ -1302,15 +1297,17 @@ bool QLoadout::smokeTestLayout(QString *error) const
         QSplitter *splitter = dialog->findChild<QSplitter *>("autoLoadoutSplitter");
         QTimer *countdown = dialog->findChild<QTimer *>("autoLoadoutCountdownTimer");
         QTableWidget *results = dialog->findChild<QTableWidget *>("autoLoadoutResults");
-        if (!splitter || splitter->sizes().size() != 2)
+        if (!(dialog->windowFlags() & Qt::WindowMaximizeButtonHint))
+            dynamicFormError = QString::fromUtf8("自动配装弹窗缺少最大化按钮。");
+        else if (!splitter || splitter->sizes().size() != 2)
             dynamicFormError = QString::fromUtf8("自动配装左右分栏未建立。");
         else if (!countdown || countdown->timerType() != Qt::PreciseTimer)
             dynamicFormError = QString::fromUtf8("自动配装倒计时未使用独立的每秒定时器。");
-        else if (!results || results->columnCount() != 10 ||
-            results->horizontalHeaderItem(2)->text() != QString::fromUtf8("空余孔数") ||
-            results->horizontalHeaderItem(3)->text() != QString::fromUtf8("防御力") ||
-            results->horizontalHeaderItem(8)->text() != QString::fromUtf8("龙抗") ||
-            results->horizontalHeader()->sortIndicatorSection() != 3 ||
+        else if (!results || results->columnCount() != 9 ||
+            results->horizontalHeaderItem(1)->text() != QString::fromUtf8("空余孔数") ||
+            results->horizontalHeaderItem(2)->text() != QString::fromUtf8("防御力") ||
+            results->horizontalHeaderItem(7)->text() != QString::fromUtf8("龙抗") ||
+            results->horizontalHeader()->sortIndicatorSection() != 2 ||
             results->horizontalHeader()->sortIndicatorOrder() != Qt::DescendingOrder)
             dynamicFormError = QString::fromUtf8("自动配装结果列或默认排序不正确。");
         if (!dynamicFormError.isEmpty()) { dynamicFormChecked = true; dialog->reject(); return; }

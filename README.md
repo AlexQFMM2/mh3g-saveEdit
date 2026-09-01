@@ -14,7 +14,7 @@ does not create a backup. A successful save is confirmed by a message box.
 
 ## 项目状态
 
-截至 2026-09-01，MH3G 修改器的计划内功能阶段性完成，当前版本为 `v1.3.0-beta.3`，项目进入
+截至 2026-09-01，MH3G 修改器的计划内功能阶段性完成，当前版本为 `v1.3.0-beta.4`，项目进入
 缺陷修复、数据确证和兼容性维护阶段。桌面存档编辑、本地配装器、配装广场、一键加入装备箱、
 账号与举报治理的完成范围、验证门禁、明确不做项及 MH4G 交接顺序见
 [MH3G 修改器阶段完成记录](docs/MH3G_COMPLETION_RECORD.md)。
@@ -51,7 +51,8 @@ does not create a backup. A successful save is confirmed by a message box.
 公开配装大厅、筛选、只读详情、一键加入装备箱、个人信息、发布查重、点赞和举报已经上线；
 大厅只显示公开昵称与数字 ID，服务器不会接收完整存档或角色信息。邮箱注册、邮箱登录、绑定
 邮箱、忘记密码和新版蓝白账号中心随 `v1.3.0-beta.2` 发布；`v1.3.0-beta.3` 增加本地自动配装搜索、
-独立倒计时、结果多维排序和更紧凑的结果表。该版本作为 GitHub prerelease 发布，Windows 便携包
+独立倒计时和结果多维排序，`v1.3.0-beta.4` 补齐 Windows 最大化按钮并精简重复的目标技能列。
+该版本作为 GitHub prerelease 发布，Windows 便携包
 通过 SQLite、SSL、主窗口、配装器、账号中心和长列表交互构建门禁。
 
 修改器默认连接 `https://mhed.desk.65h26i.top`，仍可用 `MHED_DESK_API_URL` 覆盖。生产邮件
