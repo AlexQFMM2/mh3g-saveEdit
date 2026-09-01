@@ -17,4 +17,10 @@ if ! command -v "$make_bin" >/dev/null 2>&1; then
     exit 127
 fi
 "$make_bin" -C "$build_dir" -j2
-"$build_dir/test_loadout_search" "$root/data/mh3g.sqlite"
+test_bin="$build_dir/test_loadout_search"
+if [ ! -x "$test_bin" ] && [ -x "$test_bin.exe" ]; then test_bin="$test_bin.exe"; fi
+if [ ! -x "$test_bin" ]; then
+    echo "loadout search test binary not found" >&2
+    exit 127
+fi
+"$test_bin" "$root/data/mh3g.sqlite"
