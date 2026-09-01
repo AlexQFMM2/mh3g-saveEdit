@@ -144,9 +144,11 @@ class EquipmentPickerDialog : public QDialog
 {
 public:
     EquipmentPickerDialog(int expectedSaveType, int combat, int gender, save_format_e platform,
-                          MH3U_SE *saveEditor, QWidget *parent = 0, bool boxMode = false)
+                          MH3U_SE *saveEditor, QWidget *parent = 0, bool boxMode = false,
+                          bool naturalOnlyLocked = false)
         : QDialog(parent), m_expectedSaveType(expectedSaveType), m_combat(combat), m_genderValue(gender),
-          m_platform(platform), m_saveEditor(saveEditor), m_boxMode(boxMode), m_page(0), m_total(0), m_selectedRow(-1)
+          m_platform(platform), m_saveEditor(saveEditor), m_boxMode(boxMode), m_naturalOnlyLocked(naturalOnlyLocked),
+          m_page(0), m_total(0), m_selectedRow(-1)
     {
         const bool armor = expectedSaveType >= 1 && expectedSaveType <= 5;
         const bool charm = expectedSaveType == MH3U_Type::CharmType;
@@ -172,8 +174,10 @@ public:
         m_slotsMin = new QSpinBox(this); m_slotsMin->setRange(-1, 3); m_slotsMin->setSpecialValueText(QString::fromUtf8("孔数不限"));
         m_slotsMin->setValue(-1); baseFilters->addWidget(m_slotsMin);
         m_confirmedOnly = new QCheckBox(QString::fromUtf8("只显示已确认自然装备"), this); m_confirmedOnly->setChecked(true);
+        m_confirmedOnly->setEnabled(!naturalOnlyLocked);
         m_confirmedOnly->setVisible(!charm); baseFilters->addWidget(m_confirmedOnly);
         m_showIncompatible = new QCheckBox(QString::fromUtf8("显示不适用装备"), this);
+        m_showIncompatible->setEnabled(!naturalOnlyLocked);
         m_showIncompatible->setVisible(armor); baseFilters->addWidget(m_showIncompatible);
         root->addLayout(baseFilters);
 
@@ -223,7 +227,7 @@ public:
         connect(m_weaponType, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this]() { scheduleRefresh(); });
         connect(m_boxButton, &QPushButton::clicked, [this]() {
             EquipmentPickerDialog boxDialog(m_expectedSaveType, m_combat, m_genderValue, m_platform,
-                m_saveEditor, this, true);
+                m_saveEditor, this, true, m_naturalOnlyLocked);
             if (boxDialog.exec() != QDialog::Accepted) return;
             m_selected = boxDialog.selectedCandidate();
             accept();
@@ -248,7 +252,7 @@ private:
     int m_expectedSaveType, m_combat, m_genderValue;
     save_format_e m_platform;
     MH3U_SE *m_saveEditor;
-    bool m_boxMode;
+    bool m_boxMode, m_naturalOnlyLocked;
     int m_page, m_total, m_selectedRow;
     QLineEdit *m_search; QComboBox *m_weaponType; QSpinBox *m_rarityMin; QSpinBox *m_slotsMin;
     QCheckBox *m_confirmedOnly; QCheckBox *m_showIncompatible; QGroupBox *m_skillBox;
@@ -350,6 +354,8 @@ private:
                 else
                     value = GameDataRepository::instance().candidate(type, id);
                 if (!value.found) continue;
+                if (query.confirmedOnly && (value.placeholder || !value.confirmed)) continue;
+                if (m_platform == SAVE_FORMAT_WIIU && value.mh3gOnly) continue;
                 if (query.rarityMin >= 0 && value.rarity < query.rarityMin) continue;
                 if (query.slotsMin >= 0 && value.slotCount < query.slotsMin) continue;
                 if (type >= 1 && type <= 5)
@@ -624,8 +630,9 @@ private:
 class DecorationEditorDialog : public QDialog
 {
 public:
-    DecorationEditorDialog(const QList<int> &current, int capacity, QWidget *parent = 0)
-        : QDialog(parent), m_values(current), m_capacity(capacity)
+    DecorationEditorDialog(const QList<int> &current, int capacity, QWidget *parent = 0,
+                           bool confirmedOnly = false)
+        : QDialog(parent), m_values(current), m_capacity(capacity), m_confirmedOnly(confirmedOnly)
     {
         setWindowTitle(QString::fromUtf8("配置装饰珠")); resize(1120, 620);
         QVBoxLayout *root = new QVBoxLayout(this); m_usage = new QLabel(this); root->addWidget(m_usage);
@@ -657,7 +664,7 @@ public:
     }
     QList<int> values() const { return m_values; }
 private:
-    QList<int> m_values; int m_capacity; QLabel *m_usage; QLineEdit *m_search; QComboBox *m_skill;
+    QList<int> m_values; int m_capacity; bool m_confirmedOnly; QLabel *m_usage; QLineEdit *m_search; QComboBox *m_skill;
     QSpinBox *m_points; QTableWidget *m_candidates; QTableWidget *m_installed; QList<loadout_candidate_t> m_rows;
     void refreshCandidates()
     {
@@ -666,6 +673,7 @@ private:
         for (int i = 0; i < all.size(); ++i)
         {
             const loadout_candidate_t &row = all.at(i);
+            if (m_confirmedOnly && !row.confirmed) continue;
             if (!search.isEmpty() && !row.name.contains(search, Qt::CaseInsensitive) && !row.english.contains(search, Qt::CaseInsensitive)) continue;
             if (skill > 0 && row.skillPoints.value(skill, 0) < m_points->value()) continue;
             m_rows.append(row);
@@ -720,8 +728,9 @@ public:
     AutoLoadoutDialog(const loadout_model_t &current, MH3U_SE *saveEditor,
                       const std::function<void(const loadout_model_t &)> &applyResult,
                       QWidget *parent = 0)
-        : QDialog(parent), m_saveEditor(saveEditor), m_applyResult(applyResult), m_thread(0), m_worker(0),
-          m_running(false), m_paused(false), m_closeWhenFinished(false), m_sortColumn(2), m_sortOrder(Qt::DescendingOrder)
+        : QDialog(parent), m_saveEditor(saveEditor), m_applyResult(applyResult), m_fixedArmor(5),
+          m_thread(0), m_worker(0), m_running(false), m_paused(false), m_closeWhenFinished(false),
+          m_sortColumn(2), m_sortOrder(Qt::DescendingOrder)
     {
         qRegisterMetaType<loadout_search_result_t>("loadout_search_result_t");
         qRegisterMetaType<loadout_search_progress_t>("loadout_search_progress_t");
@@ -737,12 +746,17 @@ public:
         QVBoxLayout *formRoot = new QVBoxLayout(formPanel);
         QLabel *formTitle = new QLabel(QString::fromUtf8("搜索条件"), formPanel);
         formTitle->setStyleSheet("font-size:18px;font-weight:700;"); formRoot->addWidget(formTitle);
-        QLabel *legalHint = new QLabel(QString::fromUtf8("只计算已确认的自然合法装备、护石和孔位。"), formPanel);
-        legalHint->setWordWrap(true); legalHint->setStyleSheet("color:#17643a;background:#eaf8f0;padding:8px;border-radius:6px;");
+        QLabel *legalHint = new QLabel(QString::fromUtf8("自动部分只使用自然合法装备；手动珠子允许超孔，固定护石允许非自然技能组合。"), formPanel);
+        legalHint->setWordWrap(true); legalHint->setStyleSheet("color:#8a4b08;background:#fff3cd;padding:8px;border-radius:6px;");
         formRoot->addWidget(legalHint);
         QFormLayout *form = new QFormLayout;
-        m_weaponButton = new QPushButton(QString::fromUtf8("选择武器…"), formPanel);
-        m_weaponButton->setMinimumHeight(36); form->addRow(QString::fromUtf8("武器"), m_weaponButton);
+        QWidget *weaponField = new QWidget(formPanel); QHBoxLayout *weaponLayout = new QHBoxLayout(weaponField);
+        weaponLayout->setContentsMargins(0, 0, 0, 0);
+        m_weaponButton = new QPushButton(QString::fromUtf8("选择武器…"), weaponField);
+        m_weaponDecorations = new QPushButton(QString::fromUtf8("珠子"), weaponField);
+        m_weaponDecorations->setObjectName("autoLoadoutWeaponDecorations");
+        m_weaponButton->setMinimumHeight(36); weaponLayout->addWidget(m_weaponButton, 1); weaponLayout->addWidget(m_weaponDecorations);
+        form->addRow(QString::fromUtf8("武器"), weaponField);
         m_gender = new QComboBox(formPanel); m_gender->addItem(QString::fromUtf8("不限（分别计算男/女）"), -1);
         m_gender->addItem(QString::fromUtf8("男性"), 0); m_gender->addItem(QString::fromUtf8("女性"), 1);
         m_gender->setCurrentIndex(m_gender->findData(current.gender)); form->addRow(QString::fromUtf8("性别"), m_gender);
@@ -770,6 +784,30 @@ public:
         m_minutes = new QSpinBox(formPanel); m_minutes->setRange(1, 60); m_minutes->setValue(1);
         m_minutes->setSuffix(QString::fromUtf8(" 分钟")); form->addRow(QString::fromUtf8("最大时间"), m_minutes);
         formRoot->addLayout(form);
+        QGroupBox *fixedBox = new QGroupBox(QString::fromUtf8("固定装备（可选）"), formPanel);
+        QGridLayout *fixedLayout = new QGridLayout(fixedBox);
+        const QString fixedLabels[] = {QString::fromUtf8("头部"), QString::fromUtf8("胸部"),
+            QString::fromUtf8("腕部"), QString::fromUtf8("腰部"), QString::fromUtf8("腿部"), QString::fromUtf8("护石")};
+        for (int i = 0; i < 6; ++i)
+        {
+            m_fixedSelect[i] = new QPushButton(QString::fromUtf8("任意"), fixedBox);
+            m_fixedSelect[i]->setObjectName(QString("autoLoadoutFixedSelect%1").arg(i));
+            m_fixedClear[i] = new QPushButton(QString::fromUtf8("清除"), fixedBox);
+            m_fixedClear[i]->setObjectName(QString("autoLoadoutFixedClear%1").arg(i));
+            fixedLayout->addWidget(new QLabel(fixedLabels[i], fixedBox), i, 0);
+            m_fixedJewels[i] = new QPushButton(QString::fromUtf8("珠子"), fixedBox);
+            m_fixedJewels[i]->setObjectName(QString("autoLoadoutFixedJewels%1").arg(i));
+            fixedLayout->addWidget(m_fixedSelect[i], i, 1); fixedLayout->addWidget(m_fixedJewels[i], i, 2);
+            fixedLayout->addWidget(m_fixedClear[i], i, 3);
+            connect(m_fixedClear[i], &QPushButton::clicked, [this, i]() { clearFixed(i); });
+            connect(m_fixedSelect[i], &QPushButton::clicked, [this, i]() { chooseFixed(i); });
+            connect(m_fixedJewels[i], &QPushButton::clicked, [this, i]() { editFixedDecorations(i); });
+        }
+        m_clearFixed = new QPushButton(QString::fromUtf8("清空固定装备"), fixedBox);
+        m_clearFixed->setObjectName("autoLoadoutClearFixed");
+        fixedLayout->addWidget(m_clearFixed, 6, 0, 1, 4);
+        connect(m_clearFixed, &QPushButton::clicked, [this]() { clearFixed(); });
+        formRoot->addWidget(fixedBox);
         QHBoxLayout *formActions = new QHBoxLayout;
         m_clear = new QPushButton(QString::fromUtf8("清空"), formPanel);
         m_start = new QPushButton(QString::fromUtf8("开始搜索"), formPanel); m_start->setObjectName("primaryButton");
@@ -823,12 +861,16 @@ public:
         m_countdownTimer->setTimerType(Qt::PreciseTimer);
         connect(m_countdownTimer, &QTimer::timeout, [this]() { updateCountdown(); });
 
+        m_weaponDecorations->setEnabled(false);
+        for (int i = 0; i < 6; ++i) refreshFixed(i);
         if (current.weapon.selected)
         {
             m_weapon = GameDataRepository::instance().candidate(current.weapon.saveType, current.weapon.saveId);
+            m_weapon.decorations = current.weapon.decorations;
             refreshWeapon();
         }
         connect(m_weaponButton, &QPushButton::clicked, [this]() { chooseWeapon(); });
+        connect(m_weaponDecorations, &QPushButton::clicked, [this]() { editWeaponDecorations(); });
         connect(m_clear, &QPushButton::clicked, [this]() { clearForm(); });
         connect(m_start, &QPushButton::clicked, [this]() { startSearch(); });
         connect(m_pause, &QPushButton::clicked, [this]() { togglePause(); });
@@ -865,7 +907,10 @@ private:
     QMap<int, loadout_search_skill_t> m_skillValues;
     struct skill_row_t { QWidget *field; QLabel *label; QComboBox *combo; QPushButton *remove; };
     QComboBox *m_gender; QList<skill_row_t *> m_skills; QFormLayout *m_form; QPushButton *m_addSkill; QSpinBox *m_minutes;
-    QPushButton *m_weaponButton; QPushButton *m_clear; QPushButton *m_start;
+    QPushButton *m_weaponButton; QPushButton *m_weaponDecorations; QPushButton *m_clear; QPushButton *m_start;
+    QVector<loadout_candidate_t> m_fixedArmor;
+    loadout_candidate_t m_fixedCharm;
+    QPushButton *m_fixedSelect[6]; QPushButton *m_fixedJewels[6]; QPushButton *m_fixedClear[6]; QPushButton *m_clearFixed;
     QPushButton *m_pause; QPushButton *m_cancel; QLabel *m_stage; QLabel *m_counts; QLabel *m_empty;
     QProgressBar *m_progress; QTableWidget *m_resultsTable;
     QTimer *m_resultRefreshTimer; QTimer *m_countdownTimer;
@@ -943,9 +988,42 @@ private:
 
     void refreshWeapon()
     {
-        if (!m_weapon.found) { m_weaponButton->setText(QString::fromUtf8("选择武器…")); m_weaponButton->setToolTip(QString()); return; }
+        if (!m_weapon.found) { m_weaponButton->setText(QString::fromUtf8("选择武器…")); m_weaponButton->setToolTip(QString());
+            m_weaponDecorations->setText(QString::fromUtf8("珠子")); m_weaponDecorations->setEnabled(false); return; }
         m_weaponButton->setText(QString("%1 · %2 孔").arg(m_weapon.name).arg(qMax(0, m_weapon.slotCount)));
         m_weaponButton->setToolTip(QString("%1 (%2)\nType %3 / ID %4").arg(m_weapon.name, m_weapon.english).arg(m_weapon.saveType).arg(m_weapon.saveId));
+        m_weaponDecorations->setText(QString::fromUtf8("珠子 %1/%2").arg(m_weapon.decorations.size()).arg(decorationUsed(m_weapon.decorations)));
+        m_weaponDecorations->setEnabled(true);
+    }
+    static int decorationUsed(const QList<int> &ids)
+    {
+        int used = 0;
+        for (int i = 0; i < ids.size(); ++i)
+            used += qMax(0, GameDataRepository::instance().decoration(ids.at(i)).slotCount);
+        return used;
+    }
+    void editWeaponDecorations()
+    {
+        if (!m_weapon.found || m_running) return;
+        DecorationEditorDialog dialog(m_weapon.decorations, qMax(0, m_weapon.slotCount), this, true);
+        if (dialog.exec() == QDialog::Accepted) { m_weapon.decorations = dialog.values(); refreshWeapon(); }
+    }
+    void editFixedDecorations(int index)
+    {
+        if (m_running) return;
+        if (index == 5)
+        {
+            if (!m_fixedCharm.found) return;
+            DecorationEditorDialog dialog(m_fixedCharm.decorations, qMax(0, m_fixedCharm.slotCount), this, true);
+            if (dialog.exec() == QDialog::Accepted) m_fixedCharm.decorations = dialog.values();
+        }
+        else
+        {
+            if (!m_fixedArmor[index].found) return;
+            DecorationEditorDialog dialog(m_fixedArmor[index].decorations, qMax(0, m_fixedArmor[index].slotCount), this, true);
+            if (dialog.exec() == QDialog::Accepted) m_fixedArmor[index].decorations = dialog.values();
+        }
+        refreshFixed(index);
     }
     void chooseWeapon()
     {
@@ -954,10 +1032,70 @@ private:
         if (picker.exec() != QDialog::Accepted) return;
         m_weapon = picker.selectedCandidate(); refreshWeapon();
     }
+    void refreshFixed(int index)
+    {
+        if (index == 5)
+        {
+            if (!m_fixedCharm.found) m_fixedSelect[index]->setText(QString::fromUtf8("任意"));
+            else m_fixedSelect[index]->setText(QString("%1 · %2孔").arg(m_fixedCharm.name).arg(m_fixedCharm.slotCount));
+            m_fixedJewels[index]->setText(m_fixedCharm.found ? QString::fromUtf8("珠子 %1/%2")
+                .arg(m_fixedCharm.decorations.size()).arg(decorationUsed(m_fixedCharm.decorations)) : QString::fromUtf8("珠子"));
+            m_fixedJewels[index]->setEnabled(m_fixedCharm.found && !m_running); return;
+        }
+        const loadout_candidate_t &candidate = m_fixedArmor[index];
+        m_fixedSelect[index]->setText(candidate.found ? candidate.name : QString::fromUtf8("任意"));
+        m_fixedSelect[index]->setToolTip(candidate.found ? QString("Type %1 / ID %2").arg(candidate.saveType).arg(candidate.saveId) : QString());
+        m_fixedJewels[index]->setText(candidate.found ? QString::fromUtf8("珠子 %1/%2")
+            .arg(candidate.decorations.size()).arg(decorationUsed(candidate.decorations)) : QString::fromUtf8("珠子"));
+        m_fixedJewels[index]->setEnabled(candidate.found && !m_running);
+    }
+    void chooseFixed(int index)
+    {
+        const save_format_e platform = m_saveEditor && m_saveEditor->loaded() ? m_saveEditor->format() : SAVE_FORMAT_UNKNOWN;
+        if (index == 5)
+        {
+            loadout_charm_t current;
+            current.selected = m_fixedCharm.found; current.classId = m_fixedCharm.classId;
+            current.slotCount = m_fixedCharm.slotCount; current.skill1Id = m_fixedCharm.skill1Id;
+            current.skill1Points = m_fixedCharm.skill1Points; current.skill2Id = m_fixedCharm.skill2Id;
+            current.skill2Points = m_fixedCharm.skill2Points;
+            CharmPickerDialog dialog(current, platform, m_saveEditor, this);
+            if (dialog.exec() != QDialog::Accepted) return;
+            m_fixedCharm = dialog.selectedCandidate();
+            DecorationEditorDialog decorations(m_fixedCharm.decorations, qMax(0, m_fixedCharm.slotCount), this, true);
+            if (decorations.exec() == QDialog::Accepted) m_fixedCharm.decorations = decorations.values();
+            refreshFixed(index); return;
+        }
+        const int types[] = {MH3U_Type::HeadType, MH3U_Type::ChestType, MH3U_Type::ArmsType,
+            MH3U_Type::WaistType, MH3U_Type::LegsType};
+        const int combat = !m_weapon.found ? -1 : LoadoutCalculator::isRangedWeapon(m_weapon.saveType) ? 2 : 1;
+        EquipmentPickerDialog picker(types[index], combat, m_gender->currentData().toInt(), platform,
+            m_saveEditor, this, false, true);
+        if (picker.exec() != QDialog::Accepted) return;
+        m_fixedArmor[index] = picker.selectedCandidate();
+        DecorationEditorDialog decorations(m_fixedArmor[index].decorations,
+            qMax(0, m_fixedArmor[index].slotCount), this, true);
+        if (decorations.exec() == QDialog::Accepted)
+            m_fixedArmor[index].decorations = decorations.values();
+        refreshFixed(index);
+    }
+    void clearFixed(int index = -1)
+    {
+        if (m_running) return;
+        if (index < 0)
+        {
+            m_fixedArmor = QVector<loadout_candidate_t>(5); m_fixedCharm = loadout_candidate_t();
+            for (int i = 0; i < 6; ++i) refreshFixed(i);
+            return;
+        }
+        if (index == 5) m_fixedCharm = loadout_candidate_t(); else m_fixedArmor[index] = loadout_candidate_t();
+        refreshFixed(index);
+    }
     void clearForm()
     {
         if (m_running) return;
         m_weapon = loadout_candidate_t(); refreshWeapon(); m_gender->setCurrentIndex(0);
+        clearFixed();
         while (m_skills.size() > 1) removeSkillRow(m_skills.last());
         if (!m_skills.isEmpty()) m_skills.first()->combo->setCurrentIndex(0);
         m_minutes->setValue(1); m_results.clear(); refreshResults();
@@ -966,8 +1104,12 @@ private:
     }
     void setFormEnabled(bool enabled)
     {
-        m_weaponButton->setEnabled(enabled); m_gender->setEnabled(enabled); m_minutes->setEnabled(enabled);
+        m_weaponButton->setEnabled(enabled); m_weaponDecorations->setEnabled(enabled && m_weapon.found);
+        m_gender->setEnabled(enabled); m_minutes->setEnabled(enabled);
         m_clear->setEnabled(enabled); m_start->setEnabled(enabled); m_addSkill->setEnabled(enabled);
+        m_clearFixed->setEnabled(enabled);
+        for (int i = 0; i < 6; ++i) { m_fixedSelect[i]->setEnabled(enabled); m_fixedClear[i]->setEnabled(enabled);
+            m_fixedJewels[i]->setEnabled(enabled && (i == 5 ? m_fixedCharm.found : m_fixedArmor[i].found)); }
         for (int i = 0; i < m_skills.size(); ++i)
         {
             m_skills.at(i)->combo->setEnabled(enabled);
@@ -980,6 +1122,9 @@ private:
         if (!m_weapon.found) { QMessageBox::information(this, windowTitle(), QString::fromUtf8("请先选择具体武器。")); return; }
         loadout_search_request_t request; request.weaponSaveType = m_weapon.saveType; request.weaponSaveId = m_weapon.saveId;
         request.gender = m_gender->currentData().toInt(); request.maxSeconds = m_minutes->value() * 60;
+        request.fixedWeaponDecorations = m_weapon.decorations;
+        request.fixedArmor = m_fixedArmor; request.fixedCharm = m_fixedCharm;
+        request.fixedCharmSelected = m_fixedCharm.found;
         request.platform = m_saveEditor && m_saveEditor->loaded() ? m_saveEditor->format() : SAVE_FORMAT_UNKNOWN;
         QSet<int> trees;
         for (int i = 0; i < m_skills.size(); ++i)
@@ -1297,6 +1442,8 @@ bool QLoadout::smokeTestLayout(QString *error) const
         QSplitter *splitter = dialog->findChild<QSplitter *>("autoLoadoutSplitter");
         QTimer *countdown = dialog->findChild<QTimer *>("autoLoadoutCountdownTimer");
         QTableWidget *results = dialog->findChild<QTableWidget *>("autoLoadoutResults");
+        QPushButton *clearFixed = dialog->findChild<QPushButton *>("autoLoadoutClearFixed");
+        QPushButton *weaponJewels = dialog->findChild<QPushButton *>("autoLoadoutWeaponDecorations");
         if (!(dialog->windowFlags() & Qt::WindowMaximizeButtonHint))
             dynamicFormError = QString::fromUtf8("自动配装弹窗缺少最大化按钮。");
         else if (!splitter || splitter->sizes().size() != 2)
@@ -1311,9 +1458,19 @@ bool QLoadout::smokeTestLayout(QString *error) const
             results->horizontalHeader()->sortIndicatorOrder() != Qt::DescendingOrder)
             dynamicFormError = QString::fromUtf8("自动配装结果列或默认排序不正确。");
         if (!dynamicFormError.isEmpty()) { dynamicFormChecked = true; dialog->reject(); return; }
-        if (!addSkill)
-            dynamicFormError = QString::fromUtf8("自动配装缺少添加技能按钮。");
+        if (!weaponJewels)
+            dynamicFormError = QString::fromUtf8("自动配装缺少武器珠子入口。");
+        else if (!clearFixed)
+            dynamicFormError = QString::fromUtf8("自动配装缺少清空固定装备按钮。");
         else
+            for (int i = 0; i < 6; ++i)
+                if (!dialog->findChild<QPushButton *>(QString("autoLoadoutFixedSelect%1").arg(i)))
+                { dynamicFormError = QString::fromUtf8("自动配装缺少固定装备入口。"); break; }
+                else if (!dialog->findChild<QPushButton *>(QString("autoLoadoutFixedJewels%1").arg(i)))
+                { dynamicFormError = QString::fromUtf8("自动配装缺少固定装备珠子入口。"); break; }
+        if (dynamicFormError.isEmpty() && !addSkill)
+            dynamicFormError = QString::fromUtf8("自动配装缺少添加技能按钮。");
+        else if (dynamicFormError.isEmpty())
         {
             for (int i = 0; i < 4; ++i) addSkill->click();
             if (dialog->findChildren<QComboBox *>("autoLoadoutSkill").size() != 5)

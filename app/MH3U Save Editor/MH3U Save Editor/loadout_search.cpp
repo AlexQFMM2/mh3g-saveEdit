@@ -90,8 +90,6 @@ QString decorationKey(const decoration_state_t &state, const loadout_search_snap
 {
     QString key;
     for (int i = 0; i < state.points.size(); ++i) key += QString::number(state.points.at(i)) + ",";
-    key += ":";
-    for (int i = 0; i < LoadoutSlotCount; ++i) key += QString::number(state.used[i]) + "/" + QString::number(state.counts[i]) + ",";
     Q_UNUSED(snapshot);
     return key;
 }
@@ -127,6 +125,21 @@ QString fingerprint(const loadout_model_t &model)
     values << QString("%1:%2:%3:%4:%5:%6:%7").arg(model.charm.classId).arg(model.charm.slotCount)
         .arg(model.charm.skill1Id).arg(model.charm.skill1Points).arg(model.charm.skill2Id)
         .arg(model.charm.skill2Points).arg(joinDecorations(model.charm.decorations));
+    return values.join("|");
+}
+
+QString equipmentFingerprint(const loadout_model_t &model)
+{
+    QStringList values;
+    values << QString::number(model.gender);
+    for (int slot = LoadoutWeapon; slot <= LoadoutLegs; ++slot)
+    {
+        const loadout_piece_t *piece = model.piece((loadout_slot_e)slot);
+        values << QString("%1:%2").arg(piece->saveType).arg(piece->saveId);
+    }
+    values << QString("%1:%2:%3:%4:%5:%6:%7").arg(model.charm.classId).arg(model.charm.slotCount)
+        .arg(model.charm.skill1Id).arg(model.charm.skill1Points).arg(model.charm.skill2Id)
+        .arg(model.charm.skill2Points).arg(model.charm.selected ? 1 : 0);
     return values.join("|");
 }
 
@@ -263,6 +276,22 @@ QVector<decoration_pattern_t> decorationPatterns(const loadout_search_snapshot_t
     return result;
 }
 
+decoration_pattern_t fixedDecorationPattern(const QList<int> &ids,
+                                            const loadout_search_snapshot_t &snapshot)
+{
+    decoration_pattern_t pattern;
+    pattern.ids = ids;
+    pattern.points = QVector<int>(snapshot.targetTrees.size(), 0);
+    for (int i = 0; i < ids.size(); ++i)
+    {
+        const loadout_candidate_t detail = snapshot.decorationDetails.value(ids.at(i));
+        pattern.used += qMax(0, detail.slotCount);
+        for (int skill = 0; skill < snapshot.targetTrees.size(); ++skill)
+            pattern.points[skill] += detail.skillPoints.value(snapshot.targetTrees.at(skill), 0);
+    }
+    return pattern;
+}
+
 void trimArmorStates(QVector<armor_state_t> &states, const loadout_search_snapshot_t &snapshot, int limit)
 {
     QMap<QString, int> positions;
@@ -328,6 +357,7 @@ bool buildLoadoutSearchSnapshot(const loadout_search_request_t &request,
     value.request = request;
     value.request.dataVersion = repository.dataVersion();
     value.weapon = repository.candidate(request.weaponSaveType, request.weaponSaveId);
+    value.weapon.decorations = request.fixedWeaponDecorations;
     if (!value.weapon.found || value.weapon.placeholder || !value.weapon.confirmed ||
         (request.platform == SAVE_FORMAT_WIIU && value.weapon.mh3gOnly))
     { if (error) *error = QString::fromUtf8("所选武器不是已确认的自然装备。"); return false; }
@@ -349,13 +379,34 @@ bool buildLoadoutSearchSnapshot(const loadout_search_request_t &request,
     const int combat = LoadoutCalculator::isRangedWeapon(request.weaponSaveType) ? 2 : 1;
     for (int part = 0; part < 5; ++part)
     {
+        const int expectedType = LoadoutCalculator::expectedSaveType((loadout_slot_e)(part + 1));
+        if (request.fixedArmor.value(part).found)
+        {
+            const loadout_candidate_t supplied = request.fixedArmor.at(part);
+            loadout_candidate_t fixed = repository.candidate(supplied.saveType, supplied.saveId);
+            fixed.decorations = supplied.decorations;
+            if (!fixed.found || fixed.saveType != expectedType || fixed.saveId <= 0 || fixed.placeholder ||
+                !fixed.confirmed || (request.platform == SAVE_FORMAT_WIIU && fixed.mh3gOnly) ||
+                (fixed.combat > 0 && fixed.combat != combat) ||
+                (request.gender >= 0 && fixed.gender > 0 && fixed.gender != request.gender + 1))
+            {
+                if (error) *error = QString::fromUtf8("固定的%1防具不是适用的自然装备。").arg(
+                    part == 0 ? QString::fromUtf8("头部") : part == 1 ? QString::fromUtf8("胸部") :
+                    part == 2 ? QString::fromUtf8("腕部") : part == 3 ? QString::fromUtf8("腰部") :
+                    QString::fromUtf8("腿部"));
+                return false;
+            }
+            value.request.fixedArmor[part] = fixed;
+            value.armor[part].append(fixed);
+            continue;
+        }
         equipment_query_t query;
         query.combat = combat;
         query.gender = -1;
         query.confirmedOnly = true;
         query.limit = 10000;
         const QList<loadout_candidate_t> rows = repository.queryCandidates(
-            LoadoutCalculator::expectedSaveType((loadout_slot_e)(part + 1)), query);
+            expectedType, query);
         QMap<QString, loadout_candidate_t> representatives;
         for (int row = 0; row < rows.size(); ++row)
         {
@@ -379,13 +430,30 @@ bool buildLoadoutSearchSnapshot(const loadout_search_request_t &request,
         if (value.armor[part].isEmpty())
         { if (error) *error = QString::fromUtf8("没有找到可用的%1防具候选。").arg(part == 0 ? QString::fromUtf8("头部") : part == 1 ? QString::fromUtf8("胸部") : part == 2 ? QString::fromUtf8("腕部") : part == 3 ? QString::fromUtf8("腰部") : QString::fromUtf8("腿部")); return false; }
     }
-    value.charms = QVector<loadout_candidate_t>::fromList(
-        repository.naturalCharmCandidates(value.targetTrees.toList()));
+    if (request.fixedCharmSelected)
+    {
+        loadout_candidate_t fixed = repository.charmCandidate(request.fixedCharm.classId,
+            request.fixedCharm.slotCount, request.fixedCharm.skill1Id, request.fixedCharm.skill1Points,
+            request.fixedCharm.skill2Id, request.fixedCharm.skill2Points);
+        fixed.decorations = request.fixedCharm.decorations;
+        if (!fixed.found || fixed.saveType != MH3U_Type::CharmType || fixed.classId <= 0 ||
+            fixed.slotCount < 0 || fixed.slotCount > 3)
+        {
+            if (error) *error = QString::fromUtf8("固定的护石数据无效。");
+            return false;
+        }
+        value.request.fixedCharm = fixed;
+        value.charms.append(fixed);
+    }
+    else
+        value.charms = QVector<loadout_candidate_t>::fromList(
+            repository.naturalCharmCandidates(value.targetTrees.toList()));
     const QList<loadout_candidate_t> decorations = repository.decorationCandidates();
     QMap<QString, loadout_candidate_t> decorationRepresentatives;
     for (int i = 0; i < decorations.size(); ++i)
     {
         const loadout_candidate_t &decoration = decorations.at(i);
+        value.decorationDetails.insert(decoration.saveId, decoration);
         if (!decoration.confirmed || decoration.slotCount <= 0 || decoration.slotCount > 3) continue;
         bool useful = false;
         for (int target = 0; target < value.targetTrees.size(); ++target)
@@ -396,6 +464,21 @@ bool buildLoadoutSearchSnapshot(const loadout_search_request_t &request,
             decoration.saveId < decorationRepresentatives.value(key).saveId)
             decorationRepresentatives.insert(key, decoration);
     }
+    const auto validFixedDecorations = [&value](const QList<int> &ids) {
+        if (ids.size() > 3) return false;
+        for (int i = 0; i < ids.size(); ++i)
+            if (!value.decorationDetails.contains(ids.at(i)) ||
+                !value.decorationDetails.value(ids.at(i)).confirmed)
+                return false;
+        return true;
+    };
+    if (!validFixedDecorations(value.weapon.decorations))
+    { if (error) *error = QString::fromUtf8("武器包含无效的手动装饰珠。"); return false; }
+    for (int part = 0; part < 5; ++part)
+        if (!value.armor[part].isEmpty() && !validFixedDecorations(value.armor[part].first().decorations))
+        { if (error) *error = QString::fromUtf8("固定防具包含无效的手动装饰珠。"); return false; }
+    if (request.fixedCharmSelected && !validFixedDecorations(value.charms.first().decorations))
+    { if (error) *error = QString::fromUtf8("固定护石包含无效的手动装饰珠。"); return false; }
     value.decorations = QVector<loadout_candidate_t>::fromList(decorationRepresentatives.values());
     std::sort(value.decorations.begin(), value.decorations.end(), [&value](const loadout_candidate_t &a,
                                                                           const loadout_candidate_t &b) {
@@ -502,6 +585,7 @@ void LoadoutSearchWorker::run()
     initial.model.weapon.selected = true;
     initial.model.weapon.saveType = m_snapshot.weapon.saveType;
     initial.model.weapon.saveId = m_snapshot.weapon.saveId;
+    initial.model.weapon.decorations = m_snapshot.weapon.decorations;
     initial.points = QVector<int>(m_snapshot.targetTrees.size(), 0);
     initial.chestPoints = initial.points;
     initial.capacities = QVector<int>(LoadoutSlotCount, 0);
@@ -532,6 +616,7 @@ void LoadoutSearchWorker::run()
                     armor_state_t state = base;
                     loadout_piece_t *piece = state.model.piece(slot);
                     piece->selected = true; piece->saveType = candidate.saveType; piece->saveId = candidate.saveId;
+                    piece->decorations = candidate.decorations;
                     state.capacities[(int)slot] = qMax(0, candidate.slotCount);
                     const bool torso = slot != LoadoutChest && candidate.skillPoints.value(1, 0) > 0;
                     if (torso) ++state.torsoCount;
@@ -567,6 +652,7 @@ void LoadoutSearchWorker::run()
                 base.model.charm.selected = true; base.model.charm.classId = charm.classId; base.model.charm.slotCount = charm.slotCount;
                 base.model.charm.skill1Id = charm.skill1Id; base.model.charm.skill1Points = charm.skill1Points;
                 base.model.charm.skill2Id = charm.skill2Id; base.model.charm.skill2Points = charm.skill2Points;
+                base.model.charm.decorations = charm.decorations;
                 base.points = armor.points;
                 addPoints(m_snapshot, base.points, charm.skillPoints, false, armor.chestPoints);
                 base.used[LoadoutWeapon] = 0;
@@ -575,13 +661,26 @@ void LoadoutSearchWorker::run()
                 int availableSlots = qMax(0, m_snapshot.weapon.slotCount) + qMax(0, charm.slotCount);
                 for (int i = LoadoutHead; i <= LoadoutLegs; ++i) availableSlots += armor.capacities.value(i);
                 base.totalCapacity = availableSlots;
-                base.score = stateScore(base.points, m_snapshot, availableSlots,
-                    armor.maxDefense + qMax(0, m_snapshot.weapon.maxDefense)) + armor.resistance;
+                for (int manualSlot = 0; manualSlot < LoadoutSlotCount; ++manualSlot)
+                {
+                    const QList<int> manualIds = manualSlot == LoadoutCharm ? base.model.charm.decorations :
+                        base.model.piece((loadout_slot_e)manualSlot)->decorations;
+                    if (manualIds.isEmpty()) continue;
+                    const decoration_pattern_t manual = fixedDecorationPattern(manualIds, m_snapshot);
+                    base.used[manualSlot] = manual.used; base.counts[manualSlot] = manual.ids.size();
+                    base.totalUsed += manual.used; base.totalCount += manual.ids.size();
+                    const int multiplier = manualSlot == LoadoutChest ? chestDecorationMultiplier(m_snapshot, base.model) : 1;
+                    addProjectedPoints(m_snapshot, base.points, manual.points, multiplier);
+                }
+                base.score = stateScore(base.points, m_snapshot, availableSlots - base.totalUsed,
+                    armor.maxDefense + qMax(0, m_snapshot.weapon.maxDefense), base.totalCount) + armor.resistance;
                 QVector<decoration_state_t> beam; beam.append(base);
                 for (int pieceIndex = 0; pieceIndex < LoadoutSlotCount && !shouldStop() && !timeExpired(); ++pieceIndex)
                 {
-                    const int capacity = pieceIndex == LoadoutWeapon ? qMax(0, m_snapshot.weapon.slotCount) :
+                    const int naturalCapacity = pieceIndex == LoadoutWeapon ? qMax(0, m_snapshot.weapon.slotCount) :
                         pieceIndex == LoadoutCharm ? charm.slotCount : armor.capacities.value(pieceIndex);
+                    const int capacity = qMax(0, naturalCapacity - base.used[pieceIndex]);
+                    const int remainingRecords = qMax(0, 3 - base.counts[pieceIndex]);
                     const QVector<decoration_pattern_t> &patterns = patternsByCapacity[qBound(0, capacity, 3)];
                     QVector<decoration_state_t> next;
                     for (int b = 0; b < beam.size(); ++b)
@@ -593,13 +692,14 @@ void LoadoutSearchWorker::run()
                                 if (!waitIfPaused() || shouldStop() || timeExpired()) break;
                             }
                             const decoration_pattern_t &pattern = patterns.at(p);
+                            if (pattern.ids.size() > remainingRecords) continue;
                             decoration_state_t state = beam.at(b);
-                            state.used[pieceIndex] = pattern.used;
-                            state.counts[pieceIndex] = pattern.ids.size();
+                            state.used[pieceIndex] += pattern.used;
+                            state.counts[pieceIndex] += pattern.ids.size();
                             state.totalUsed += pattern.used;
                             state.totalCount += pattern.ids.size();
-                            if (pieceIndex == LoadoutCharm) state.model.charm.decorations = pattern.ids;
-                            else state.model.piece((loadout_slot_e)pieceIndex)->decorations = pattern.ids;
+                            if (pieceIndex == LoadoutCharm) state.model.charm.decorations += pattern.ids;
+                            else state.model.piece((loadout_slot_e)pieceIndex)->decorations += pattern.ids;
                             const int multiplier = pieceIndex == LoadoutChest ? chestDecorationMultiplier(m_snapshot, state.model) : 1;
                             addProjectedPoints(m_snapshot, state.points, pattern.points, multiplier);
                             state.score = stateScore(state.points, m_snapshot,
@@ -613,17 +713,29 @@ void LoadoutSearchWorker::run()
                     beam = next;
                     emitProgress(QString::fromUtf8("补足装饰珠"), checked, m_clock.elapsed() - m_pausedMs, qMax<qint64>(0, (qint64)m_snapshot.request.maxSeconds * 1000 - (m_clock.elapsed() - m_pausedMs)));
                 }
+                // Keep one best decoration solution per seven-piece equipment
+                // combination. Different jewel placements that reach the same
+                // target are not useful as separate results.
+                QMap<QString, decoration_state_t> bestForEquipment;
                 for (int b = 0; b < beam.size() && !shouldStop(); ++b)
                 {
                     if (!meetsTargets(beam.at(b).points, m_snapshot)) continue;
+                    const QString baseKey = equipmentFingerprint(beam.at(b).model);
+                    if (!bestForEquipment.contains(baseKey) ||
+                        beam.at(b).score > bestForEquipment.value(baseKey).score)
+                        bestForEquipment.insert(baseKey, beam.at(b));
+                }
+                const QVector<decoration_state_t> bestBeam = QVector<decoration_state_t>::fromList(bestForEquipment.values());
+                for (int b = 0; b < bestBeam.size() && !shouldStop(); ++b)
+                {
                     loadout_search_result_t result;
-                    result.model = beam.at(b).model;
-                    result.summary = makeSummary(beam.at(b), m_snapshot);
+                    result.model = bestBeam.at(b).model;
+                    result.summary = makeSummary(bestBeam.at(b), m_snapshot);
                     result.equipmentNames << m_snapshot.weapon.name;
                     result.naturalSlots = QVector<int>(LoadoutSlotCount, 0);
                     result.usedSlots = QVector<int>(LoadoutSlotCount, 0);
                     result.naturalSlots[LoadoutWeapon] = qMax(0, m_snapshot.weapon.slotCount);
-                    result.usedSlots[LoadoutWeapon] = beam.at(b).used[LoadoutWeapon];
+                    result.usedSlots[LoadoutWeapon] = bestBeam.at(b).used[LoadoutWeapon];
                     for (int armorSlot = LoadoutHead; armorSlot <= LoadoutLegs; ++armorSlot)
                     {
                         const loadout_piece_t *piece = result.model.piece((loadout_slot_e)armorSlot);
@@ -631,13 +743,13 @@ void LoadoutSearchWorker::run()
                                                                         piece ? piece->saveId : 0);
                         result.equipmentNames << (detail ? detail->name : QString());
                         result.naturalSlots[armorSlot] = detail ? qMax(0, detail->slotCount) : 0;
-                        result.usedSlots[armorSlot] = beam.at(b).used[armorSlot];
+                        result.usedSlots[armorSlot] = bestBeam.at(b).used[armorSlot];
                     }
                     result.equipmentNames << charm.name;
                     result.naturalSlots[LoadoutCharm] = qMax(0, charm.slotCount);
-                    result.usedSlots[LoadoutCharm] = beam.at(b).used[LoadoutCharm];
+                    result.usedSlots[LoadoutCharm] = bestBeam.at(b).used[LoadoutCharm];
                     result.fingerprint = fingerprint(result.model);
-                    result.score = beam.at(b).score + (result.summary.totalSlots - result.summary.usedSlots);
+                    result.score = bestBeam.at(b).score + (result.summary.totalSlots - result.summary.usedSlots);
                     if (m_seen.contains(result.fingerprint)) continue;
                     m_seen.insert(result.fingerprint); found = true;
                     bestResults.append(result);

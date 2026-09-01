@@ -73,6 +73,63 @@ int main(int argc, char **argv)
         for (int i = 0; i < snapshot.decorations.size(); ++i)
             require(snapshot.decorations.at(i).confirmed, "unconfirmed decoration entered snapshot");
         {
+            loadout_search_request_t fixedRequest = request;
+            loadout_candidate_t illegalArmor;
+            for (int row = 0; row < snapshot.armor[0].size(); ++row)
+                if (snapshot.armor[0].at(row).slotCount == 0) { illegalArmor = snapshot.armor[0].at(row); break; }
+            require(illegalArmor.found, "test database has no zero-slot fixed armor candidate");
+            loadout_candidate_t manualJewel;
+            const QList<loadout_candidate_t> allJewels = repository.decorationCandidates();
+            for (int row = 0; row < allJewels.size(); ++row)
+                if (allJewels.at(row).confirmed && allJewels.at(row).slotCount > manualJewel.slotCount)
+                    manualJewel = allJewels.at(row);
+            require(manualJewel.found && manualJewel.slotCount > 0, "test database has no confirmed jewel");
+            illegalArmor.decorations << manualJewel.saveId << manualJewel.saveId << manualJewel.saveId;
+            fixedRequest.fixedWeaponDecorations << manualJewel.saveId << manualJewel.saveId << manualJewel.saveId;
+            fixedRequest.fixedArmor[0] = illegalArmor;
+            loadout_candidate_t illegalCharm = snapshot.charms.first();
+            illegalCharm.skill1Id = 11; illegalCharm.skill1Points = 127;
+            illegalCharm.skillPoints[11] = 127; illegalCharm.decorations << manualJewel.saveId;
+            fixedRequest.fixedCharm = illegalCharm; fixedRequest.fixedCharmSelected = true;
+            loadout_search_snapshot_t fixedSnapshot;
+            require(buildLoadoutSearchSnapshot(fixedRequest, &fixedSnapshot, &error),
+                    "explicit illegal fixed equipment was rejected");
+            require(fixedSnapshot.armor[0].size() == 1 &&
+                    fixedSnapshot.armor[0].first().saveId == illegalArmor.saveId,
+                    "fixed armor did not become the only candidate");
+            require(fixedSnapshot.armor[0].first().decorations.size() == 3,
+                    "fixed armor decorations were discarded");
+            require(fixedSnapshot.weapon.decorations.size() == 3,
+                    "manual weapon decorations were discarded");
+            require(fixedSnapshot.charms.size() == 1 && !fixedSnapshot.charms.first().confirmed &&
+                    fixedSnapshot.charms.first().skill1Points == 127 &&
+                    fixedSnapshot.charms.first().decorations.size() == 1,
+                    "fixed illegal charm or decorations did not enter the snapshot unchanged");
+            for (int part = 1; part < 5; ++part)
+                for (int row = 0; row < fixedSnapshot.armor[part].size(); ++row)
+                    require(fixedSnapshot.armor[part].at(row).confirmed,
+                            "an unfixed armor part admitted an illegal automatic candidate");
+            LoadoutSearchWorker fixedWorker(fixedSnapshot);
+            QVector<loadout_search_result_t> fixedResults;
+            QObject::connect(&fixedWorker, &LoadoutSearchWorker::result,
+                             [&](const loadout_search_result_t &result) { fixedResults.append(result); });
+            fixedWorker.run();
+            require(!fixedResults.isEmpty(), "fixed equipment search returned no result");
+            for (int row = 0; row < fixedResults.size(); ++row)
+            {
+                require(fixedResults.at(row).model.head.saveId == illegalArmor.saveId,
+                        "worker changed the fixed armor");
+                require(fixedResults.at(row).model.charm.skill1Points == 127,
+                        "worker changed the fixed illegal charm");
+                require(fixedResults.at(row).model.head.decorations.size() == 3 &&
+                        fixedResults.at(row).model.charm.decorations.size() == 1 &&
+                        fixedResults.at(row).model.weapon.decorations.size() == 3,
+                        "worker dropped manually selected decorations");
+            }
+            require(LoadoutCalculator::calculate(fixedResults.first().model, SAVE_FORMAT_N3DS).invalidCount > 0,
+                    "fixed illegal input was incorrectly relabelled as legal after search");
+        }
+        {
             loadout_search_request_t manySkills = request;
             manySkills.maxSeconds = 1;
             manySkills.skills.append(loadout_search_skill_t{24, 12, 10, QString::fromUtf8("防御力UP【小】")});

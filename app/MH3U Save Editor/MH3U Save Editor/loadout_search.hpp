@@ -28,8 +28,13 @@ struct loadout_search_request_t
     save_format_e platform;
     QString dataVersion;
     QVector<loadout_search_skill_t> skills;
+    QList<int> fixedWeaponDecorations;
+    QVector<loadout_candidate_t> fixedArmor;
+    loadout_candidate_t fixedCharm;
+    bool fixedCharmSelected;
 
-    loadout_search_request_t() : weaponSaveType(0), weaponSaveId(0), gender(-1), maxSeconds(60), platform(SAVE_FORMAT_UNKNOWN) {}
+    loadout_search_request_t() : weaponSaveType(0), weaponSaveId(0), gender(-1), maxSeconds(60), platform(SAVE_FORMAT_UNKNOWN),
+        fixedArmor(5), fixedCharmSelected(false) {}
 };
 
 struct loadout_search_snapshot_t
@@ -39,6 +44,7 @@ struct loadout_search_snapshot_t
     QVector<loadout_candidate_t> armor[5];
     QVector<loadout_candidate_t> charms;
     QVector<loadout_candidate_t> decorations;
+    QMap<int, loadout_candidate_t> decorationDetails;
     QVector<int> targetTrees;
     QVector<int> targetThresholds;
 };
