@@ -169,6 +169,7 @@ public:
     loadout_candidate_t charmCandidate(int classId, int slotCount, int skill1Id, int skill1Points,
                                        int skill2Id, int skill2Points) const;
     QList<loadout_candidate_t> decorationCandidates() const;
+    QList<loadout_candidate_t> naturalCharmCandidates(const QList<int> &targetSkillIds = QList<int>()) const;
     QString dataVersion() const;
     bool skillExists(int skillId) const;
     bool charmClassExists(int classId) const;

@@ -76,6 +76,10 @@ jobs:
         shell: msys2 {0}
         run: ./tests/run-searchable-combo-tests.sh
 
+      - name: Test MH3G loadout search
+        shell: msys2 {0}
+        run: ./tests/run-loadout-search-tests.sh
+
       - name: Create zip
         shell: pwsh
         run: |

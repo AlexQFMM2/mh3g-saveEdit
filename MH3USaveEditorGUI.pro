@@ -21,6 +21,7 @@ SOURCES += "$$CORE_DIR/mh3u_ds.cpp" \
            "$$CORE_DIR/game_data_repository.cpp" \
            "$$CORE_DIR/equipment_validator.cpp" \
            "$$CORE_DIR/loadout.cpp" \
+           "$$CORE_DIR/loadout_search.cpp" \
            "$$CORE_DIR/mh3u_se.cpp" \
            "$$CORE_DIR/mh3u_transfer.cpp" \
            "$$GUI_DIR/main.cpp" \
@@ -44,6 +45,7 @@ HEADERS += "$$CORE_DIR/main.hpp" \
            "$$CORE_DIR/game_data_repository.hpp" \
            "$$CORE_DIR/equipment_validator.hpp" \
            "$$CORE_DIR/loadout.hpp" \
+           "$$CORE_DIR/loadout_search.hpp" \
            "$$CORE_DIR/mh3u_ds.hpp" \
            "$$CORE_DIR/mh3u_se.hpp" \
            "$$CORE_DIR/mh3u_transfer.hpp" \

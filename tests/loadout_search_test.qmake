@@ -1,0 +1,14 @@
+QT += core sql
+TEMPLATE = app
+CONFIG += c++11 console
+CORE_DIR = "$$ROOT/app/MH3U Save Editor/MH3U Save Editor"
+INCLUDEPATH += $$CORE_DIR
+SOURCES += "$$ROOT/tests/test_loadout_search.cpp" \
+           "$$CORE_DIR/mh3u_ds.cpp" \
+           "$$CORE_DIR/game_data_repository.cpp" \
+           "$$CORE_DIR/equipment_validator.cpp" \
+           "$$CORE_DIR/loadout.cpp" \
+           "$$CORE_DIR/loadout_search.cpp" \
+           "$$CORE_DIR/mh3u_se.cpp"
+HEADERS += "$$CORE_DIR/loadout_search.hpp"
+TARGET = test_loadout_search

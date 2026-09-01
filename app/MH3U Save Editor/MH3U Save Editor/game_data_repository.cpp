@@ -570,6 +570,41 @@ QList<loadout_candidate_t> GameDataRepository::decorationCandidates() const
     return result;
 }
 
+QList<loadout_candidate_t> GameDataRepository::naturalCharmCandidates(const QList<int> &targetSkillIds) const
+{
+    QList<loadout_candidate_t> result;
+    if (!isOpen()) return result;
+    QSqlQuery query(QSqlDatabase::database(m_connectionName));
+    if (!query.exec("SELECT class_id,slots,skill1_id,skill1_points,skill2_id,skill2_points "
+                    "FROM charm_combinations ORDER BY class_id,slots,skill1_id,skill1_points,skill2_id,skill2_points"))
+        return result;
+    QMap<QString, loadout_candidate_t> unique;
+    while (query.next())
+    {
+        loadout_candidate_t row;
+        row.found = true; row.confirmed = true; row.saveType = MH3U_Type::CharmType;
+        row.classId = query.value(0).toInt(); row.saveId = row.classId;
+        row.slotCount = query.value(1).toInt(); row.skill1Id = query.value(2).toInt();
+        row.skill1Points = query.value(3).toInt(); row.skill2Id = query.value(4).toInt();
+        row.skill2Points = query.value(5).toInt(); row.name = charmClassName(row.classId);
+        if (row.skill1Id > 0) row.skillPoints[row.skill1Id] += row.skill1Points;
+        if (row.skill2Id > 0) row.skillPoints[row.skill2Id] += row.skill2Points;
+        if (targetSkillIds.isEmpty())
+        {
+            result.append(row);
+            continue;
+        }
+        QString key = QString::number(row.slotCount);
+        for (int i = 0; i < targetSkillIds.size(); ++i)
+            key += QString("/%1").arg(row.skillPoints.value(targetSkillIds.at(i), 0));
+        // The query order is stable; retaining its first natural representative makes
+        // equivalent target vectors deterministic without materialising 120k rich rows.
+        if (!unique.contains(key)) unique.insert(key, row);
+    }
+    if (!targetSkillIds.isEmpty()) result = unique.values();
+    return result;
+}
+
 QString GameDataRepository::dataVersion() const
 {
     QFile file(m_path);

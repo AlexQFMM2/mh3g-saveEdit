@@ -7,11 +7,15 @@
 
 #include <QAbstractButton>
 #include <QCheckBox>
+#include <QCloseEvent>
 #include <QComboBox>
 #include <QDialog>
 #include <QDialogButtonBox>
+#include <QEvent>
+#include <QElapsedTimer>
 #include <QFileDialog>
 #include <QFrame>
+#include <QFormLayout>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QHBoxLayout>
@@ -21,6 +25,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QMessageBox>
+#include <QProgressBar>
 #include <QPushButton>
 #include <QResizeEvent>
 #include <QScrollArea>
@@ -28,10 +33,13 @@
 #include <QSplitter>
 #include <QTableWidget>
 #include <QTableWidgetItem>
+#include <QThread>
+#include <QApplication>
 #include <QTimer>
 #include <QVBoxLayout>
 
 #include <algorithm>
+#include <functional>
 
 namespace
 {
@@ -706,6 +714,462 @@ private:
     }
 };
 
+class AutoLoadoutDialog : public QDialog
+{
+public:
+    AutoLoadoutDialog(const loadout_model_t &current, MH3U_SE *saveEditor,
+                      const std::function<void(const loadout_model_t &)> &applyResult,
+                      QWidget *parent = 0)
+        : QDialog(parent), m_saveEditor(saveEditor), m_applyResult(applyResult), m_thread(0), m_worker(0),
+          m_running(false), m_paused(false), m_closeWhenFinished(false), m_sortColumn(3), m_sortOrder(Qt::DescendingOrder)
+    {
+        qRegisterMetaType<loadout_search_result_t>("loadout_search_result_t");
+        qRegisterMetaType<loadout_search_progress_t>("loadout_search_progress_t");
+        setObjectName("autoLoadoutDialog");
+        setWindowTitle(QString::fromUtf8("自动配装 · MH3G"));
+        resize(1180, 720); setMinimumSize(980, 620);
+        QHBoxLayout *root = new QHBoxLayout(this);
+        QSplitter *splitter = new QSplitter(this); splitter->setObjectName("autoLoadoutSplitter"); root->addWidget(splitter);
+        QScrollArea *formScroll = new QScrollArea(splitter); formScroll->setWidgetResizable(true);
+        formScroll->setFrameShape(QFrame::NoFrame); formScroll->setMinimumWidth(240);
+        QWidget *formPanel = new QWidget; formScroll->setWidget(formPanel);
+        QVBoxLayout *formRoot = new QVBoxLayout(formPanel);
+        QLabel *formTitle = new QLabel(QString::fromUtf8("搜索条件"), formPanel);
+        formTitle->setStyleSheet("font-size:18px;font-weight:700;"); formRoot->addWidget(formTitle);
+        QLabel *legalHint = new QLabel(QString::fromUtf8("只计算已确认的自然合法装备、护石和孔位。"), formPanel);
+        legalHint->setWordWrap(true); legalHint->setStyleSheet("color:#17643a;background:#eaf8f0;padding:8px;border-radius:6px;");
+        formRoot->addWidget(legalHint);
+        QFormLayout *form = new QFormLayout;
+        m_weaponButton = new QPushButton(QString::fromUtf8("选择武器…"), formPanel);
+        m_weaponButton->setMinimumHeight(36); form->addRow(QString::fromUtf8("武器"), m_weaponButton);
+        m_gender = new QComboBox(formPanel); m_gender->addItem(QString::fromUtf8("不限（分别计算男/女）"), -1);
+        m_gender->addItem(QString::fromUtf8("男性"), 0); m_gender->addItem(QString::fromUtf8("女性"), 1);
+        m_gender->setCurrentIndex(m_gender->findData(current.gender)); form->addRow(QString::fromUtf8("性别"), m_gender);
+        const QList<skill_tree_data_t> trees = GameDataRepository::instance().skillTreesDetailed();
+        for (int t = 0; t < trees.size(); ++t)
+        {
+            const QList<active_skill_data_t> active = GameDataRepository::instance().activeSkills(trees.at(t).id);
+            for (int a = 0; a < active.size(); ++a)
+            {
+                if (active.at(a).points <= 0) continue;
+                loadout_search_skill_t value = {active.at(a).id, trees.at(t).id, active.at(a).points,
+                    active.at(a).name};
+                m_skillValues.insert(value.activeSkillId, value);
+            }
+        }
+        m_form = form;
+        m_addSkill = new QPushButton(QString::fromUtf8("＋ 添加技能"), formPanel);
+        m_addSkill->setObjectName("autoLoadoutAddSkill");
+        m_form->addRow(QString(), m_addSkill);
+        addSkillRow(formPanel);
+        connect(m_addSkill, &QPushButton::clicked, [this, formPanel]() {
+            addSkillRow(formPanel);
+            if (!m_skills.isEmpty()) m_skills.last()->combo->setFocus();
+        });
+        m_minutes = new QSpinBox(formPanel); m_minutes->setRange(1, 60); m_minutes->setValue(1);
+        m_minutes->setSuffix(QString::fromUtf8(" 分钟")); form->addRow(QString::fromUtf8("最大时间"), m_minutes);
+        formRoot->addLayout(form);
+        QHBoxLayout *formActions = new QHBoxLayout;
+        m_clear = new QPushButton(QString::fromUtf8("清空"), formPanel);
+        m_start = new QPushButton(QString::fromUtf8("开始搜索"), formPanel); m_start->setObjectName("primaryButton");
+        formActions->addWidget(m_clear); formActions->addWidget(m_start); formRoot->addLayout(formActions); formRoot->addStretch();
+
+        QWidget *resultPanel = new QWidget(splitter); QVBoxLayout *resultsRoot = new QVBoxLayout(resultPanel);
+        m_stage = new QLabel(QString::fromUtf8("设置条件后开始搜索。"), resultPanel); m_stage->setStyleSheet("font-size:16px;font-weight:700;");
+        m_stage->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        resultsRoot->addWidget(m_stage);
+        m_progress = new QProgressBar(resultPanel); m_progress->setRange(0, 1000); m_progress->setValue(0);
+        m_progress->setFormat(QString::fromUtf8("尚未开始")); resultsRoot->addWidget(m_progress);
+        QHBoxLayout *taskRow = new QHBoxLayout;
+        m_counts = new QLabel(QString::fromUtf8("已检查 0 个状态"), resultPanel); taskRow->addWidget(m_counts); taskRow->addStretch();
+        m_pause = new QPushButton(QString::fromUtf8("暂停"), resultPanel); m_cancel = new QPushButton(QString::fromUtf8("取消任务"), resultPanel);
+        m_pause->setEnabled(false); m_cancel->setEnabled(false); taskRow->addWidget(m_pause); taskRow->addWidget(m_cancel);
+        resultsRoot->addLayout(taskRow);
+        m_empty = new QLabel(QString::fromUtf8("搜索结果会显示在这里。"), resultPanel); m_empty->setAlignment(Qt::AlignCenter);
+        m_empty->setStyleSheet("color:#69758a;background:#eef2f7;border:1px solid #dce3ed;border-radius:8px;padding:20px;");
+        m_empty->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        resultsRoot->addWidget(m_empty, 1);
+        m_resultsTable = new QTableWidget(resultPanel); m_resultsTable->setObjectName("autoLoadoutResults");
+        m_resultsTable->setColumnCount(10);
+        m_resultsTable->setHorizontalHeaderLabels(QStringList() << QString::fromUtf8("装备组合") << QString::fromUtf8("目标技能")
+            << QString::fromUtf8("空余孔数") << QString::fromUtf8("防御力") << QString::fromUtf8("火抗")
+            << QString::fromUtf8("水抗") << QString::fromUtf8("雷抗") << QString::fromUtf8("冰抗")
+            << QString::fromUtf8("龙抗") << QString::fromUtf8("操作"));
+        m_resultsTable->setEditTriggers(QAbstractItemView::NoEditTriggers); m_resultsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+        m_resultsTable->setAlternatingRowColors(true); m_resultsTable->verticalHeader()->setVisible(false);
+        m_resultsTable->verticalHeader()->setMinimumSectionSize(32); m_resultsTable->verticalHeader()->setDefaultSectionSize(32);
+        m_resultsTable->horizontalHeader()->setSectionsClickable(true); m_resultsTable->horizontalHeader()->setSortIndicatorShown(true);
+        m_resultsTable->horizontalHeader()->setSortIndicator(m_sortColumn, m_sortOrder); m_resultsTable->hide();
+        m_resultsTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+        m_resultsTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+        for (int c = 2; c < 9; ++c)
+        {
+            m_resultsTable->horizontalHeader()->setSectionResizeMode(c, QHeaderView::ResizeToContents);
+            m_resultsTable->horizontalHeaderItem(c)->setToolTip(QString::fromUtf8("点击按此数值排序"));
+        }
+        m_resultsTable->horizontalHeader()->setSectionResizeMode(9, QHeaderView::Fixed);
+        m_resultsTable->setColumnWidth(9, 116);
+        resultsRoot->addWidget(m_resultsTable, 1);
+        // Equal stretch factors preserve the explicit 2:8 initial sizes when the
+        // window grows (Qt multiplies each factor by that pane's initial size).
+        splitter->setStretchFactor(0, 1); splitter->setStretchFactor(1, 1);
+        splitter->setCollapsible(0, false); splitter->setCollapsible(1, false);
+        splitter->setSizes(QList<int>() << 236 << 944);
+        m_resultRefreshTimer = new QTimer(this); m_resultRefreshTimer->setSingleShot(true);
+        m_resultRefreshTimer->setInterval(500);
+        connect(m_resultRefreshTimer, &QTimer::timeout, [this]() { refreshResults(); });
+        m_countdownTimer = new QTimer(this); m_countdownTimer->setObjectName("autoLoadoutCountdownTimer");
+        m_countdownTimer->setInterval(1000);
+        m_countdownTimer->setTimerType(Qt::PreciseTimer);
+        connect(m_countdownTimer, &QTimer::timeout, [this]() { updateCountdown(); });
+
+        if (current.weapon.selected)
+        {
+            m_weapon = GameDataRepository::instance().candidate(current.weapon.saveType, current.weapon.saveId);
+            refreshWeapon();
+        }
+        connect(m_weaponButton, &QPushButton::clicked, [this]() { chooseWeapon(); });
+        connect(m_clear, &QPushButton::clicked, [this]() { clearForm(); });
+        connect(m_start, &QPushButton::clicked, [this]() { startSearch(); });
+        connect(m_pause, &QPushButton::clicked, [this]() { togglePause(); });
+        connect(m_cancel, &QPushButton::clicked, [this]() { requestCancel(false); });
+        connect(m_resultsTable->horizontalHeader(), &QHeaderView::sectionClicked, [this](int section) { sortResultsBy(section); });
+    }
+
+    ~AutoLoadoutDialog() override
+    {
+        if (m_worker) m_worker->cancel();
+        if (m_thread && m_thread->isRunning()) m_thread->wait();
+        qDeleteAll(m_skills); m_skills.clear();
+    }
+
+protected:
+    void reject() override
+    {
+        if (!m_running) { QDialog::reject(); return; }
+        if (!confirmRunningClose()) return;
+        m_closeWhenFinished = true; requestCancel(true);
+    }
+    void closeEvent(QCloseEvent *event) override
+    {
+        if (!m_running) { event->accept(); return; }
+        if (!confirmRunningClose())
+        { event->ignore(); return; }
+        event->ignore(); m_closeWhenFinished = true; requestCancel(true);
+    }
+
+private:
+    MH3U_SE *m_saveEditor;
+    std::function<void(const loadout_model_t &)> m_applyResult;
+    loadout_candidate_t m_weapon;
+    QMap<int, loadout_search_skill_t> m_skillValues;
+    struct skill_row_t { QWidget *field; QLabel *label; QComboBox *combo; QPushButton *remove; };
+    QComboBox *m_gender; QList<skill_row_t *> m_skills; QFormLayout *m_form; QPushButton *m_addSkill; QSpinBox *m_minutes;
+    QPushButton *m_weaponButton; QPushButton *m_clear; QPushButton *m_start;
+    QPushButton *m_pause; QPushButton *m_cancel; QLabel *m_stage; QLabel *m_counts; QLabel *m_empty;
+    QProgressBar *m_progress; QTableWidget *m_resultsTable;
+    QTimer *m_resultRefreshTimer; QTimer *m_countdownTimer;
+    QThread *m_thread; LoadoutSearchWorker *m_worker;
+    bool m_running, m_paused, m_closeWhenFinished;
+    int m_sortColumn;
+    Qt::SortOrder m_sortOrder;
+    int m_searchMaxSeconds;
+    qint64 m_uiPausedMs, m_uiPauseStartedMs;
+    QElapsedTimer m_uiClock;
+    QVector<loadout_search_result_t> m_results;
+
+    bool confirmRunningClose()
+    {
+        return QMessageBox::question(this, QString::fromUtf8("结束自动配装？"),
+            QString::fromUtf8("关闭弹窗将结束本次搜索。已添加到配装器的结果不受影响。"),
+            QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes;
+    }
+
+    void updateCountdown()
+    {
+        if (!m_uiClock.isValid() || m_searchMaxSeconds <= 0) return;
+        const qint64 clockNow = m_paused ? m_uiPauseStartedMs : m_uiClock.elapsed();
+        const qint64 elapsed = qMax<qint64>(0, clockNow - m_uiPausedMs);
+        const qint64 total = (qint64)m_searchMaxSeconds * 1000;
+        const qint64 remaining = qMax<qint64>(0, total - elapsed);
+        m_progress->setValue(total > 0 ? (int)qBound<qint64>(0, elapsed * 1000 / total, 1000) : 0);
+        m_progress->setFormat(QString::fromUtf8("已用 %1 · 剩余 %2")
+            .arg(formatTime(elapsed, false), formatTime(remaining, true)));
+    }
+
+    void addSkillRow(QWidget *parent)
+    {
+        skill_row_t *row = new skill_row_t;
+        row->field = new QWidget(parent); row->label = new QLabel(parent);
+        QHBoxLayout *layout = new QHBoxLayout(row->field); layout->setContentsMargins(0, 0, 0, 0);
+        row->combo = new QComboBox(row->field); row->combo->setObjectName("autoLoadoutSkill");
+        row->combo->addItem(QString::fromUtf8("请选择发动技能"), 0);
+        QMap<int, loadout_search_skill_t>::const_iterator item = m_skillValues.constBegin();
+        for (; item != m_skillValues.constEnd(); ++item)
+            row->combo->addItem(QString("%1（%2 点）").arg(item.value().name).arg(item.value().threshold), item.key());
+        configureSearchableComboBox(row->combo); row->combo->setMinimumWidth(180);
+        row->label->setBuddy(row->combo);
+        row->remove = new QPushButton(QString::fromUtf8("删除"), row->field);
+        row->remove->setObjectName("autoLoadoutRemoveSkill");
+        row->remove->setMinimumWidth(52); layout->addWidget(row->combo, 1); layout->addWidget(row->remove);
+        int insertAt = m_form->rowCount(); QFormLayout::ItemRole role;
+        m_form->getWidgetPosition(m_addSkill, &insertAt, &role);
+        m_form->insertRow(insertAt, row->label, row->field);
+        m_skills.append(row); renumberSkillRows();
+        connect(row->remove, &QPushButton::clicked, [this, row]() {
+            if (m_skills.size() <= 1 || m_running) return;
+            removeSkillRow(row);
+        });
+    }
+
+    void removeSkillRow(skill_row_t *row)
+    {
+        if (!row || !m_skills.contains(row)) return;
+        QFormLayout::TakeRowResult taken = m_form->takeRow(row->field);
+        delete taken.labelItem; delete taken.fieldItem;
+        m_skills.removeOne(row);
+        row->label->deleteLater(); row->field->deleteLater(); delete row; renumberSkillRows();
+    }
+
+    void renumberSkillRows()
+    {
+        for (int i = 0; i < m_skills.size(); ++i)
+        {
+            skill_row_t *row = m_skills.at(i);
+            row->label->setText(QString::fromUtf8("技能 %1").arg(i + 1));
+            row->remove->setEnabled(m_skills.size() > 1 && !m_running);
+        }
+    }
+
+    void refreshWeapon()
+    {
+        if (!m_weapon.found) { m_weaponButton->setText(QString::fromUtf8("选择武器…")); m_weaponButton->setToolTip(QString()); return; }
+        m_weaponButton->setText(QString("%1 · %2 孔").arg(m_weapon.name).arg(qMax(0, m_weapon.slotCount)));
+        m_weaponButton->setToolTip(QString("%1 (%2)\nType %3 / ID %4").arg(m_weapon.name, m_weapon.english).arg(m_weapon.saveType).arg(m_weapon.saveId));
+    }
+    void chooseWeapon()
+    {
+        const save_format_e platform = m_saveEditor && m_saveEditor->loaded() ? m_saveEditor->format() : SAVE_FORMAT_UNKNOWN;
+        EquipmentPickerDialog picker(-1, -1, m_gender->currentData().toInt(), platform, m_saveEditor, this);
+        if (picker.exec() != QDialog::Accepted) return;
+        m_weapon = picker.selectedCandidate(); refreshWeapon();
+    }
+    void clearForm()
+    {
+        if (m_running) return;
+        m_weapon = loadout_candidate_t(); refreshWeapon(); m_gender->setCurrentIndex(0);
+        while (m_skills.size() > 1) removeSkillRow(m_skills.last());
+        if (!m_skills.isEmpty()) m_skills.first()->combo->setCurrentIndex(0);
+        m_minutes->setValue(1); m_results.clear(); refreshResults();
+        m_stage->setText(QString::fromUtf8("设置条件后开始搜索。")); m_progress->setValue(0); m_progress->setFormat(QString::fromUtf8("尚未开始"));
+        m_counts->setText(QString::fromUtf8("已检查 0 个状态"));
+    }
+    void setFormEnabled(bool enabled)
+    {
+        m_weaponButton->setEnabled(enabled); m_gender->setEnabled(enabled); m_minutes->setEnabled(enabled);
+        m_clear->setEnabled(enabled); m_start->setEnabled(enabled); m_addSkill->setEnabled(enabled);
+        for (int i = 0; i < m_skills.size(); ++i)
+        {
+            m_skills.at(i)->combo->setEnabled(enabled);
+            m_skills.at(i)->remove->setEnabled(enabled && m_skills.size() > 1);
+        }
+    }
+    void startSearch()
+    {
+        if (m_running) return;
+        if (!m_weapon.found) { QMessageBox::information(this, windowTitle(), QString::fromUtf8("请先选择具体武器。")); return; }
+        loadout_search_request_t request; request.weaponSaveType = m_weapon.saveType; request.weaponSaveId = m_weapon.saveId;
+        request.gender = m_gender->currentData().toInt(); request.maxSeconds = m_minutes->value() * 60;
+        request.platform = m_saveEditor && m_saveEditor->loaded() ? m_saveEditor->format() : SAVE_FORMAT_UNKNOWN;
+        QSet<int> trees;
+        for (int i = 0; i < m_skills.size(); ++i)
+        {
+            const int id = searchableComboBoxCurrentData(m_skills.at(i)->combo).toInt();
+            if (!id) continue;
+            const loadout_search_skill_t value = m_skillValues.value(id);
+            if (trees.contains(value.skillTreeId))
+            { QMessageBox::information(this, windowTitle(), QString::fromUtf8("同一技能系只能选择一个发动等级。")); return; }
+            trees.insert(value.skillTreeId); request.skills.append(value);
+        }
+        if (request.skills.isEmpty()) { QMessageBox::information(this, windowTitle(), QString::fromUtf8("请至少选择一个需要发动的技能。")); return; }
+        loadout_search_snapshot_t snapshot; QString error;
+        setFormEnabled(false); m_stage->setText(QString::fromUtf8("正在准备本地候选数据…")); QApplication::setOverrideCursor(Qt::WaitCursor);
+        const bool ready = buildLoadoutSearchSnapshot(request, &snapshot, &error);
+        QApplication::restoreOverrideCursor();
+        if (!ready) { setFormEnabled(true); QMessageBox::critical(this, windowTitle(), error); return; }
+        m_results.clear(); refreshResults(); m_running = true; m_paused = false;
+        m_searchMaxSeconds = request.maxSeconds; m_uiPausedMs = 0; m_uiPauseStartedMs = 0;
+        m_uiClock.start(); updateCountdown(); m_countdownTimer->start();
+        m_start->setText(QString::fromUtf8("搜索进行中…"));
+        m_pause->setText(QString::fromUtf8("暂停")); m_pause->setEnabled(true); m_cancel->setEnabled(true);
+        m_thread = new QThread(this); m_worker = new LoadoutSearchWorker(snapshot); m_worker->moveToThread(m_thread);
+        connect(m_thread, &QThread::started, m_worker, &LoadoutSearchWorker::run);
+        connect(m_worker, &LoadoutSearchWorker::progress, this, [this, request](const loadout_search_progress_t &value) {
+            m_stage->setText(value.stage); m_counts->setText(QString::fromUtf8("已检查 %1 个状态 · 已找到 %2 条结果").arg(value.checked).arg(m_results.size()));
+            Q_UNUSED(request);
+        });
+        connect(m_worker, &LoadoutSearchWorker::result, this, [this](const loadout_search_result_t &value) { addResult(value); });
+        connect(m_worker, &LoadoutSearchWorker::finished, this, [this](bool cancelled, bool found) {
+            if (m_resultRefreshTimer->isActive()) m_resultRefreshTimer->stop();
+            m_countdownTimer->stop(); updateCountdown();
+            refreshResults();
+            m_running = false; m_pause->setEnabled(false); m_cancel->setEnabled(false); setFormEnabled(true);
+            m_start->setText(QString::fromUtf8("开始搜索"));
+            if (cancelled) m_stage->setText(QString::fromUtf8("搜索已取消"));
+            else if (!found || m_results.isEmpty()) { m_stage->setText(QString::fromUtf8("暂无找到合适的配装")); m_empty->setText(QString::fromUtf8("暂无找到合适的配装。可减少目标技能、降低技能等级或增加计算时间。")); m_empty->show(); }
+            else m_stage->setText(QString::fromUtf8("搜索完成 · 共保留 %1 条结果").arg(m_results.size()));
+            if (m_thread) m_thread->quit();
+        });
+        connect(m_worker, &LoadoutSearchWorker::finished, m_worker, &QObject::deleteLater);
+        connect(m_worker, &QObject::destroyed, this, [this]() { m_worker = 0; });
+        QThread *thread = m_thread;
+        connect(thread, &QThread::finished, this, [this, thread]() {
+            if (m_thread == thread) { m_thread = 0; m_worker = 0; }
+            thread->deleteLater();
+            if (m_closeWhenFinished) { m_closeWhenFinished = false; QTimer::singleShot(0, this, &QDialog::accept); }
+        });
+        m_thread->start();
+    }
+    static QString formatTime(qint64 milliseconds, bool roundUp)
+    {
+        const qint64 seconds = qMax<qint64>(0, (milliseconds + (roundUp ? 999 : 0)) / 1000);
+        return QString("%1:%2").arg(seconds / 60, 2, 10, QLatin1Char('0')).arg(seconds % 60, 2, 10, QLatin1Char('0'));
+    }
+    void togglePause()
+    {
+        if (!m_worker || !m_running) return;
+        m_paused = !m_paused;
+        if (m_paused)
+        {
+            m_uiPauseStartedMs = m_uiClock.elapsed(); m_worker->pause();
+            m_pause->setText(QString::fromUtf8("继续")); m_stage->setText(QString::fromUtf8("搜索已暂停"));
+        }
+        else
+        {
+            m_uiPausedMs += m_uiClock.elapsed() - m_uiPauseStartedMs; m_worker->resume();
+            m_pause->setText(QString::fromUtf8("暂停"));
+        }
+        updateCountdown();
+    }
+    void requestCancel(bool closing)
+    {
+        if (!m_worker || !m_running) { if (closing) accept(); return; }
+        m_stage->setText(QString::fromUtf8("正在安全结束搜索…")); m_pause->setEnabled(false); m_cancel->setEnabled(false);
+        m_countdownTimer->stop();
+        m_worker->cancel();
+    }
+    void addResult(const loadout_search_result_t &value)
+    {
+        loadout_search_result_t evaluated = value;
+        for (int i = 0; i < m_results.size(); ++i)
+            if (m_results.at(i).fingerprint == evaluated.fingerprint) return;
+        m_results.append(evaluated);
+        std::sort(m_results.begin(), m_results.end(), [](const loadout_search_result_t &a, const loadout_search_result_t &b) {
+            if (a.score != b.score) return a.score > b.score;
+            return a.fingerprint < b.fingerprint;
+        });
+        if (m_results.size() > 100) m_results.resize(100);
+        sortResults();
+        if (!m_resultRefreshTimer->isActive()) m_resultRefreshTimer->start();
+    }
+    QString equipmentNames(const loadout_search_result_t &result) const
+    {
+        return result.equipmentNames.join(QString::fromUtf8(" / "));
+    }
+    static int remainingSlots(const loadout_search_result_t &result)
+    {
+        return result.summary.totalSlots - result.summary.usedSlots;
+    }
+    static int totalResistance(const loadout_search_result_t &result)
+    {
+        return result.summary.fireRes + result.summary.waterRes + result.summary.thunderRes +
+            result.summary.iceRes + result.summary.dragonRes;
+    }
+    static int resultValue(const loadout_search_result_t &result, int column)
+    {
+        switch (column)
+        {
+        case 2: return remainingSlots(result);
+        case 3: return result.summary.maxDefense;
+        case 4: return result.summary.fireRes;
+        case 5: return result.summary.waterRes;
+        case 6: return result.summary.thunderRes;
+        case 7: return result.summary.iceRes;
+        case 8: return result.summary.dragonRes;
+        default: return 0;
+        }
+    }
+    void sortResults()
+    {
+        const int column = m_sortColumn; const Qt::SortOrder order = m_sortOrder;
+        std::sort(m_results.begin(), m_results.end(), [column, order](const loadout_search_result_t &a, const loadout_search_result_t &b) {
+            const int aPrimary = resultValue(a, column), bPrimary = resultValue(b, column);
+            if (aPrimary != bPrimary) return order == Qt::DescendingOrder ? aPrimary > bPrimary : aPrimary < bPrimary;
+            if (a.summary.maxDefense != b.summary.maxDefense) return a.summary.maxDefense > b.summary.maxDefense;
+            if (remainingSlots(a) != remainingSlots(b)) return remainingSlots(a) > remainingSlots(b);
+            if (totalResistance(a) != totalResistance(b)) return totalResistance(a) > totalResistance(b);
+            if (a.summary.fireRes != b.summary.fireRes) return a.summary.fireRes > b.summary.fireRes;
+            if (a.summary.waterRes != b.summary.waterRes) return a.summary.waterRes > b.summary.waterRes;
+            if (a.summary.thunderRes != b.summary.thunderRes) return a.summary.thunderRes > b.summary.thunderRes;
+            if (a.summary.iceRes != b.summary.iceRes) return a.summary.iceRes > b.summary.iceRes;
+            if (a.summary.dragonRes != b.summary.dragonRes) return a.summary.dragonRes > b.summary.dragonRes;
+            return a.fingerprint < b.fingerprint;
+        });
+    }
+    void sortResultsBy(int column)
+    {
+        if (column < 2 || column > 8) return;
+        if (m_sortColumn == column)
+            m_sortOrder = m_sortOrder == Qt::DescendingOrder ? Qt::AscendingOrder : Qt::DescendingOrder;
+        else
+        {
+            m_sortColumn = column;
+            m_sortOrder = Qt::DescendingOrder;
+        }
+        m_resultsTable->horizontalHeader()->setSortIndicator(m_sortColumn, m_sortOrder);
+        sortResults(); refreshResults();
+    }
+    static QTableWidgetItem *numericItem(int value)
+    {
+        QTableWidgetItem *item = new QTableWidgetItem(QString::number(value));
+        item->setTextAlignment(Qt::AlignCenter);
+        return item;
+    }
+    void refreshResults()
+    {
+        m_resultsTable->setUpdatesEnabled(false);
+        m_resultsTable->clearContents(); m_resultsTable->setRowCount(m_results.size());
+        for (int row = 0; row < m_results.size(); ++row)
+        {
+            const loadout_search_result_t value = m_results.at(row);
+            QTableWidgetItem *equipment = new QTableWidgetItem(equipmentNames(value)); equipment->setToolTip(equipment->text());
+            m_resultsTable->setItem(row, 0, equipment);
+            QStringList skills;
+            for (int s = 0; s < value.summary.skills.size(); ++s)
+                if (!value.summary.skills.at(s).activeSkill.isEmpty())
+                    skills << value.summary.skills.at(s).activeSkill;
+            m_resultsTable->setItem(row, 1, new QTableWidgetItem(skills.join(QString::fromUtf8("、"))));
+            m_resultsTable->setItem(row, 2, numericItem(remainingSlots(value)));
+            m_resultsTable->setItem(row, 3, numericItem(value.summary.maxDefense));
+            m_resultsTable->setItem(row, 4, numericItem(value.summary.fireRes));
+            m_resultsTable->setItem(row, 5, numericItem(value.summary.waterRes));
+            m_resultsTable->setItem(row, 6, numericItem(value.summary.thunderRes));
+            m_resultsTable->setItem(row, 7, numericItem(value.summary.iceRes));
+            m_resultsTable->setItem(row, 8, numericItem(value.summary.dragonRes));
+            QWidget *actionCell = new QWidget(m_resultsTable);
+            QHBoxLayout *actionLayout = new QHBoxLayout(actionCell); actionLayout->setContentsMargins(3, 2, 3, 2);
+            QPushButton *apply = new QPushButton(QString::fromUtf8("添加到配装器"), actionCell);
+            apply->setStyleSheet("QPushButton{padding:1px 8px;min-height:0px;}");
+            apply->setFixedHeight(26); actionLayout->addWidget(apply);
+            connect(apply, &QPushButton::clicked, [this, value]() { m_applyResult(value.model); });
+            m_resultsTable->setCellWidget(row, 9, actionCell);
+        }
+        const bool any = !m_results.isEmpty(); m_resultsTable->setVisible(any); m_empty->setVisible(!any);
+        if (!any && !m_running) m_empty->setText(QString::fromUtf8("搜索结果会显示在这里。"));
+        m_resultsTable->setUpdatesEnabled(true); m_resultsTable->viewport()->update();
+    }
+};
+
 bool skillRowLess(const loadout_skill_row_t &left, const loadout_skill_row_t &right)
 {
     int leftGroup = left.positiveActive ? 0 : left.negativeActive ? 1 : 2;
@@ -724,11 +1188,14 @@ QLoadout::QLoadout(MH3U_SE *saveEditor, QWidget *parent)
     m_gender = new QComboBox(this); m_gender->addItem(QString::fromUtf8("男性"), 0); m_gender->addItem(QString::fromUtf8("女性"), 1);
     QPushButton *newButton = new QPushButton(QString::fromUtf8("新建配装"), this); QPushButton *openButton = new QPushButton(QString::fromUtf8("打开配装"), this);
     QPushButton *saveButton = new QPushButton(QString::fromUtf8("导出配装"), this);
+    QPushButton *automaticButton = new QPushButton(QString::fromUtf8("自动配装"), this);
+    automaticButton->setObjectName("primaryButton");
+    automaticButton->setAccessibleName(QString::fromUtf8("打开 MH3G 自动配装"));
     m_publish = new QPushButton(QString::fromUtf8("发布到广场"), this);
     m_apply = new QPushButton(QString::fromUtf8("一键加入装备箱"), this);
     m_apply->setObjectName("saveButton"); m_localState = new QLabel(this);
-    m_detailEditControls << m_name << m_gender << newButton << openButton << saveButton << m_publish;
-    toolbar->addWidget(m_name, 1); toolbar->addWidget(m_gender); toolbar->addWidget(newButton); toolbar->addWidget(openButton); toolbar->addWidget(saveButton); toolbar->addWidget(m_publish); toolbar->addWidget(m_apply);
+    m_detailEditControls << m_name << m_gender << newButton << openButton << saveButton << automaticButton << m_publish;
+    toolbar->addWidget(m_name, 1); toolbar->addWidget(m_gender); toolbar->addWidget(newButton); toolbar->addWidget(openButton); toolbar->addWidget(saveButton); toolbar->addWidget(automaticButton); toolbar->addWidget(m_publish); toolbar->addWidget(m_apply);
     root->addLayout(toolbar); root->addWidget(m_localState);
     QHBoxLayout *cards = new QHBoxLayout; cards->setSpacing(4);
     for (int index = 0; index < LoadoutSlotCount; ++index)
@@ -762,6 +1229,7 @@ QLoadout::QLoadout(MH3U_SE *saveEditor, QWidget *parent)
     bottom->setStretchFactor(0, 3); bottom->setStretchFactor(1, 1); root->addWidget(bottom, 1);
     connect(newButton, &QPushButton::clicked, this, &QLoadout::newLoadout); connect(openButton, &QPushButton::clicked, this, &QLoadout::openLoadout);
     connect(saveButton, &QPushButton::clicked, this, &QLoadout::saveLoadout); connect(m_apply, &QPushButton::clicked, this, &QLoadout::applyToEquipmentBox);
+    connect(automaticButton, &QPushButton::clicked, this, &QLoadout::automaticLoadout);
     connect(m_publish, &QPushButton::clicked, this, &QLoadout::publishRequested);
     connect(m_name, &QLineEdit::textChanged, this, &QLoadout::nameChanged);
     connect(m_gender, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &QLoadout::genderChanged);
@@ -775,9 +1243,36 @@ bool QLoadout::hasSelections() const
            m_model.waist.selected || m_model.legs.selected || m_model.charm.selected;
 }
 
+void QLoadout::automaticLoadout()
+{
+    AutoLoadoutDialog dialog(m_model, m_saveEditor,
+        [this](const loadout_model_t &model) { applyAutomaticResult(model); }, this);
+    dialog.exec();
+}
+
+void QLoadout::applyAutomaticResult(const loadout_model_t &model)
+{
+    if (m_dirty && QMessageBox::question(this, QString::fromUtf8("覆盖当前配装？"),
+        QString::fromUtf8("当前配装有尚未导出的修改。是否用这条自动搜索结果替换七个装备？\n配装名称和导出路径会保留。"),
+        QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes) return;
+    const QString name = m_model.name;
+    m_model = model;
+    m_model.name = name;
+    m_loading = true;
+    m_gender->setCurrentIndex(m_gender->findData(m_model.gender));
+    m_loading = false;
+    setDirty(true);
+    refresh();
+}
+
 bool QLoadout::smokeTestLayout(QString *error) const
 {
-    if (!isVisible() || !m_skillTable->isVisible() || !m_summary->isVisible() || !m_apply->isVisible())
+    QPushButton *automaticButton = 0;
+    const QList<QPushButton *> buttons = findChildren<QPushButton *>();
+    for (int i = 0; i < buttons.size(); ++i)
+        if (buttons.at(i)->text() == QString::fromUtf8("自动配装")) { automaticButton = buttons.at(i); break; }
+    if (!isVisible() || !m_skillTable->isVisible() || !m_summary->isVisible() || !m_apply->isVisible() ||
+        !automaticButton || !automaticButton->isVisible())
     {
         if (error) *error = QString::fromUtf8("配装器主要区域未显示。");
         return false;
@@ -795,6 +1290,57 @@ bool QLoadout::smokeTestLayout(QString *error) const
     if (m_skillTable->height() < 100 || m_summary->height() < 100)
     {
         if (error) *error = QString::fromUtf8("技能矩阵或汇总区域高度不足。");
+        return false;
+    }
+    bool dynamicFormChecked = false;
+    QString dynamicFormError;
+    QTimer::singleShot(0, [&dynamicFormChecked, &dynamicFormError]() {
+        QDialog *dialog = qobject_cast<QDialog *>(QApplication::activeModalWidget());
+        if (!dialog || dialog->objectName() != "autoLoadoutDialog")
+        { dynamicFormError = QString::fromUtf8("自动配装弹窗未打开。"); dynamicFormChecked = true; return; }
+        QPushButton *addSkill = dialog->findChild<QPushButton *>("autoLoadoutAddSkill");
+        QSplitter *splitter = dialog->findChild<QSplitter *>("autoLoadoutSplitter");
+        QTimer *countdown = dialog->findChild<QTimer *>("autoLoadoutCountdownTimer");
+        QTableWidget *results = dialog->findChild<QTableWidget *>("autoLoadoutResults");
+        if (!splitter || splitter->sizes().size() != 2 || splitter->sizes().at(0) * 100 > splitter->sizes().at(1) * 30)
+            dynamicFormError = QString::fromUtf8("自动配装左右栏比例应接近 2:8。");
+        else if (!countdown || countdown->timerType() != Qt::PreciseTimer)
+            dynamicFormError = QString::fromUtf8("自动配装倒计时未使用独立的每秒定时器。");
+        else if (!results || results->columnCount() != 10 ||
+            results->horizontalHeaderItem(2)->text() != QString::fromUtf8("空余孔数") ||
+            results->horizontalHeaderItem(3)->text() != QString::fromUtf8("防御力") ||
+            results->horizontalHeaderItem(8)->text() != QString::fromUtf8("龙抗") ||
+            results->horizontalHeader()->sortIndicatorSection() != 3 ||
+            results->horizontalHeader()->sortIndicatorOrder() != Qt::DescendingOrder)
+            dynamicFormError = QString::fromUtf8("自动配装结果列或默认排序不正确。");
+        else
+        {
+            QMetaObject::invokeMethod(results->horizontalHeader(), "sectionClicked", Q_ARG(int, 2));
+            if (results->horizontalHeader()->sortIndicatorSection() != 2 ||
+                results->horizontalHeader()->sortIndicatorOrder() != Qt::DescendingOrder)
+                dynamicFormError = QString::fromUtf8("自动配装数值列不能切换为降序排列。");
+        }
+        if (!dynamicFormError.isEmpty()) { dynamicFormChecked = true; dialog->reject(); return; }
+        if (!addSkill)
+            dynamicFormError = QString::fromUtf8("自动配装缺少添加技能按钮。");
+        else
+        {
+            for (int i = 0; i < 4; ++i) addSkill->click();
+            if (dialog->findChildren<QComboBox *>("autoLoadoutSkill").size() != 5)
+                dynamicFormError = QString::fromUtf8("自动配装技能条件不能持续添加。");
+            const QList<QPushButton *> removeButtons = dialog->findChildren<QPushButton *>("autoLoadoutRemoveSkill");
+            if (dynamicFormError.isEmpty() && !removeButtons.isEmpty()) removeButtons.last()->click();
+            QCoreApplication::sendPostedEvents(0, QEvent::DeferredDelete);
+            if (dynamicFormError.isEmpty() && dialog->findChildren<QComboBox *>("autoLoadoutSkill").size() != 4)
+                dynamicFormError = QString::fromUtf8("自动配装技能条件不能逐行删除。");
+        }
+        dynamicFormChecked = true; dialog->reject();
+    });
+    automaticButton->click();
+    if (!dynamicFormChecked || !dynamicFormError.isEmpty())
+    {
+        if (error) *error = dynamicFormError.isEmpty()
+            ? QString::fromUtf8("自动配装动态技能表单未完成检查。") : dynamicFormError;
         return false;
     }
     return true;

@@ -2,6 +2,7 @@
 #define QLOADOUT_HPP
 
 #include "loadout.hpp"
+#include "loadout_search.hpp"
 
 #include <QList>
 #include <QWidget>
@@ -32,6 +33,7 @@ signals:
     void publishRequested();
 
 private slots:
+    void automaticLoadout();
     void newLoadout();
     void openLoadout();
     bool saveLoadout();
@@ -76,6 +78,7 @@ private:
     bool writeLoadout(const QString &path);
     bool hasSelections() const;
     void setDetailReadOnlyMode();
+    void applyAutomaticResult(const loadout_model_t &model);
 };
 
 #endif
