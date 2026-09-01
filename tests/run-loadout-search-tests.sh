@@ -10,5 +10,11 @@ if ! command -v "$qmake_bin" >/dev/null 2>&1; then
     exit 127
 fi
 "$qmake_bin" ROOT="$root" "$root/tests/loadout_search_test.qmake" -o "$build_dir/Makefile"
-make -C "$build_dir" -j2
+make_bin="make"
+if ! command -v "$make_bin" >/dev/null 2>&1; then make_bin="mingw32-make"; fi
+if ! command -v "$make_bin" >/dev/null 2>&1; then
+    echo "make/mingw32-make not found" >&2
+    exit 127
+fi
+"$make_bin" -C "$build_dir" -j2
 "$build_dir/test_loadout_search" "$root/data/mh3g.sqlite"
