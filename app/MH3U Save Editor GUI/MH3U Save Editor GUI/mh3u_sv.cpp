@@ -76,13 +76,19 @@ MH3U_SV::MH3U_SV(QWidget *parent)
     QVBoxLayout *heading = new QVBoxLayout;
     pageTitle = new QLabel(QString::fromUtf8("存档管理"), workspace);
     pageTitle->setObjectName("pageTitle");
-    QLabel *subtitle = new QLabel(QString::fromUtf8("Nintendo 3DS / Wii U · 中文界面"), workspace);
+    QLabel *subtitle = new QLabel(QString::fromUtf8("Citra（3DS 模拟器）/ Cemu（Wii U 模拟器）· 中文界面"), workspace);
     subtitle->setObjectName("appSubtitle");
     heading->addWidget(pageTitle);
     heading->addWidget(subtitle);
     header->addLayout(heading);
     header->addStretch();
     workspaceLayout->addLayout(header);
+
+    saveContextLabel = new QLabel(workspace);
+    saveContextLabel->setObjectName("statusLabel");
+    saveContextLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    saveContextLabel->setWordWrap(true);
+    workspaceLayout->addWidget(saveContextLabel);
 
     pageStack = new QStackedWidget(workspace);
     emptyPage = new QWidget(pageStack);
@@ -299,6 +305,9 @@ void MH3U_SV::loadFile()
     loadoutPage->updateSaveContext();
     showCharacter();
     updateState();
+    QMessageBox::information(this, QString::fromUtf8("已识别存档"),
+        QString::fromUtf8("当前读取：%1\n\n修改器将按此游戏和模拟器格式读取、校验并保存。")
+            .arg(QString::fromStdString(mh3u->formatName())));
 }
 
 bool MH3U_SV::saveFile()
@@ -335,15 +344,22 @@ void MH3U_SV::updateState()
     saveButton->setEnabled(loaded);
     loadButton->setEnabled(dataReady);
     loadButton->setText(loaded ? QString::fromUtf8("读取其他存档") : QString::fromUtf8("读取存档"));
+    QString contextText;
     if (loaded) {
         const QString name = QFileInfo(QString::fromStdString(mh3u->currentFilename())).fileName();
-        statusLabel->setText(QString::fromUtf8("%1 · %2 · %3")
-            .arg(name, QString::fromStdString(mh3u->formatName()), dirty ? QString::fromUtf8("未保存") : QString::fromUtf8("已保存")));
+        contextText = QString::fromUtf8("当前：%1 · %2 · %3")
+            .arg(name, QString::fromStdString(mh3u->formatName()), dirty ? QString::fromUtf8("未保存") : QString::fromUtf8("已保存"));
     } else {
-        statusLabel->setText(QString::fromUtf8("尚未读取存档"));
+        contextText = QString::fromUtf8("尚未读取存档 · 支持 Citra（3DS 模拟器）或 Cemu（Wii U 模拟器）");
         pageStack->setCurrentWidget(emptyPage);
         pageTitle->setText(QString::fromUtf8("存档管理"));
     }
+    saveContextLabel->setText(contextText);
+    statusLabel->setText(contextText);
+    saveContextLabel->setProperty("loaded", loaded);
+    saveContextLabel->setProperty("dirty", dirty);
+    saveContextLabel->style()->unpolish(saveContextLabel);
+    saveContextLabel->style()->polish(saveContextLabel);
     statusLabel->setProperty("loaded", loaded);
     statusLabel->setProperty("dirty", dirty);
     statusLabel->style()->unpolish(statusLabel);

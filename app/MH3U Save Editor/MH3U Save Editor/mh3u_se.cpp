@@ -57,9 +57,9 @@ std::string MH3U_SE::formatName() const
 	switch (saveFormat)
 	{
 		case SAVE_FORMAT_N3DS:
-			return "Nintendo 3DS";
+			return "MH3G（3DS 模拟器 · Citra）";
 		case SAVE_FORMAT_WIIU:
-			return "Wii U";
+			return "MH3U（Wii U 模拟器 · Cemu）";
 		case SAVE_FORMAT_UNKNOWN:
 		default:
 			return "Unknown";

@@ -1,10 +1,12 @@
 # mh3g-saveEdit
 
 Qt 5 save viewer/editor for Monster Hunter 3G / Monster Hunter 3 Ultimate.
-The editor automatically detects both supported character-file formats:
+The editor automatically detects both supported emulator character-file formats:
 
-- Nintendo 3DS `user1`/`user2`/`user3`: 35,328 bytes (`0x8A00`), little-endian.
-- Wii U `user1`/`user2`/`user3`: 35,364 bytes (`0x8A24`), a 36-byte header followed by big-endian character data.
+- Citra 3DS emulator `user1`/`user2`/`user3`: 35,328 bytes (`0x8A00`), little-endian.
+- Cemu Wii U emulator `user1`/`user2`/`user3`: 35,364 bytes (`0x8A24`), a 36-byte header followed by big-endian character data.
+
+实体机原始存档不在支持范围内。读取存档后，主界面顶部会持续显示当前文件对应的模拟器和格式。
 
 Always keep an untouched backup of the complete save directory before editing.
 
@@ -14,7 +16,7 @@ does not create a backup. A successful save is confirmed by a message box.
 
 ## 项目状态
 
-截至 2026-09-01，MH3G 修改器的计划内功能阶段性完成，当前版本为 `v1.3.0-beta.6`，项目进入
+截至 2026-09-04，MH3G 修改器的计划内功能阶段性完成，当前版本为 `v1.3.0-beta.7`，项目进入
 缺陷修复、数据确证和兼容性维护阶段。桌面存档编辑、本地配装器、配装广场、一键加入装备箱、
 账号与举报治理的完成范围、验证门禁、明确不做项及 MH4G 交接顺序见
 [MH3G 修改器阶段完成记录](docs/MH3G_COMPLETION_RECORD.md)。
@@ -53,7 +55,8 @@ does not create a backup. A successful save is confirmed by a message box.
 邮箱、忘记密码和新版蓝白账号中心随 `v1.3.0-beta.2` 发布；`v1.3.0-beta.3` 增加本地自动配装搜索、
 独立倒计时和结果多维排序，`v1.3.0-beta.4` 补齐 Windows 最大化按钮并精简重复的目标技能列；
 `v1.3.0-beta.5` 增加固定装备/护石、手动超孔珠子与重复装珠解剪枝。
-`v1.3.0-beta.6` 优化非模态自动配装窗口、孔位圆点状态显示，以及装饰珠选择器的左右加入/移除交互。
+`v1.3.0-beta.6` 优化非模态自动配装窗口、孔位圆点状态显示，以及装饰珠选择器的左右加入/移除交互；
+`v1.3.0-beta.7` 增加 Citra/Cemu 模拟器格式常驻标识和读取确认提示。
 该版本作为 GitHub prerelease 发布，Windows 便携包
 通过 SQLite、SSL、主窗口、配装器、账号中心和长列表交互构建门禁。
 

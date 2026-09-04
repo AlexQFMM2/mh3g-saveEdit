@@ -47,6 +47,8 @@ static void testSave(const std::string &path, save_format_e expectedFormat)
         MH3U_SE editor;
         require(editor.load(path), editor.lastError());
         require(editor.format() == expectedFormat, "wrong format detected for " + path);
+        require(editor.formatName().find(expectedFormat == SAVE_FORMAT_WIIU ? "Cemu" : "Citra") != std::string::npos,
+            "emulator name is missing from detected format label");
         require(editor.save(output), editor.lastError());
         require(readFile(output) == original, "unchanged round trip differs for " + path);
 

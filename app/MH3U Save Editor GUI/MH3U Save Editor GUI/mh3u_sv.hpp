@@ -39,6 +39,7 @@ private:
     QPushButton *loadButton;
     QPushButton *saveButton;
     QLabel *statusLabel;
+    QLabel *saveContextLabel;
     QLabel *pageTitle;
     QStackedWidget *pageStack;
     QWidget *emptyPage;
